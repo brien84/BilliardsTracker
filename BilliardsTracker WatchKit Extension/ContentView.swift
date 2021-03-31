@@ -18,19 +18,19 @@ struct ContentView: View {
 
             HStack {
                 Button {
-                    runner.addPot()
+                    runner.add(.pot)
                 } label: {
                     Text(String(runner.potCount))
                         .foregroundColor(.green)
                 }
 
                 Button {
-                    runner.addMiss()
+                    runner.add(.miss)
                 } label: {
                     Text(String(runner.missCount))
                         .foregroundColor(.red)
                 }
-            }
+            }.disabled(runner.isCompleted)
         }
     }
 }
