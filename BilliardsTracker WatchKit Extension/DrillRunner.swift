@@ -8,6 +8,12 @@
 import Foundation
 
 final class DrillRunner: ObservableObject {
+    private let attempts = 100
+
+    var remainingAttempts: Int {
+        attempts - potCount - missCount
+    }
+
     @Published private(set) var potCount = 0
     @Published private(set) var missCount = 0
 
