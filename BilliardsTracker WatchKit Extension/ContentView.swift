@@ -16,21 +16,31 @@ struct ContentView: View {
                 .padding()
                 .font(.title2)
 
-            HStack {
-                Button {
-                    runner.add(.pot)
-                } label: {
-                    Text(String(runner.potCount))
-                        .foregroundColor(.green)
-                }
+            VStack {
+                HStack {
+                    Button {
+                        runner.add(.pot)
+                    } label: {
+                        Text(String(runner.potCount))
+                            .foregroundColor(.green)
+                    }
+
+                    Button {
+                        runner.add(.miss)
+                    } label: {
+                        Text(String(runner.missCount))
+                            .foregroundColor(.red)
+                    }
+                }.disabled(runner.isCompleted)
 
                 Button {
-                    runner.add(.miss)
+                    runner.restart()
                 } label: {
-                    Text(String(runner.missCount))
-                        .foregroundColor(.red)
+                    Text("Restart")
+                        .foregroundColor(.purple)
                 }
-            }.disabled(runner.isCompleted)
+            }
+
         }
     }
 }
