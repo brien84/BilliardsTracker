@@ -21,6 +21,7 @@
 		2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E12E26150FE600E95DBB /* ComplicationController.swift */; };
 		2926E13126150FE600E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E13026150FE600E95DBB /* Assets.xcassets */; };
 		2926E13426150FE600E95DBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E13326150FE600E95DBB /* Preview Assets.xcassets */; };
+		29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* DrillRunner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		2926E13026150FE600E95DBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2926E13326150FE600E95DBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2926E13526150FE600E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29FAD65D2615112A00310DA9 /* DrillRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRunner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 		2926E12926150FE600E95DBB /* BilliardsTracker WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				29FAD65D2615112A00310DA9 /* DrillRunner.swift */,
 				2926E12A26150FE600E95DBB /* ContentView.swift */,
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				2926E12E26150FE600E95DBB /* ComplicationController.swift */,
@@ -444,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2926E12B26150FE600E95DBB /* ContentView.swift in Sources */,
+				29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */,
 			);
