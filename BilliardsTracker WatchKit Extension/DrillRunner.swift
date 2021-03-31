@@ -36,4 +36,10 @@ final class DrillRunner: ObservableObject {
             isCompleted = true
         }
     }
+
+    func restart() {
+        potCount = 0
+        missCount = 0
+        isCompleted = false
+    }
 }
