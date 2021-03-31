@@ -1,0 +1,878 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
+		2926E0FA26150FE400E95DBB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F926150FE400E95DBB /* ContentView.swift */; };
+		2926E0FC26150FE500E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E0FB26150FE500E95DBB /* Assets.xcassets */; };
+		2926E0FF26150FE500E95DBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E0FE26150FE500E95DBB /* Preview Assets.xcassets */; };
+		2926E10A26150FE500E95DBB /* BilliardsTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E10926150FE500E95DBB /* BilliardsTrackerTests.swift */; };
+		2926E11526150FE500E95DBB /* BilliardsTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E11426150FE500E95DBB /* BilliardsTrackerUITests.swift */; };
+		2926E11A26150FE500E95DBB /* BilliardsTracker WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2926E11926150FE500E95DBB /* BilliardsTracker WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2926E11F26150FE600E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E11E26150FE600E95DBB /* Assets.xcassets */; };
+		2926E12626150FE600E95DBB /* BilliardsTracker WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2926E12526150FE600E95DBB /* BilliardsTracker WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2926E12B26150FE600E95DBB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E12A26150FE600E95DBB /* ContentView.swift */; };
+		2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */; };
+		2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E12E26150FE600E95DBB /* ComplicationController.swift */; };
+		2926E13126150FE600E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E13026150FE600E95DBB /* Assets.xcassets */; };
+		2926E13426150FE600E95DBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E13326150FE600E95DBB /* Preview Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2926E10626150FE500E95DBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2926E0EC26150FE300E95DBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2926E0F326150FE400E95DBB;
+			remoteInfo = BilliardsTracker;
+		};
+		2926E11126150FE500E95DBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2926E0EC26150FE300E95DBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2926E0F326150FE400E95DBB;
+			remoteInfo = BilliardsTracker;
+		};
+		2926E11B26150FE500E95DBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2926E0EC26150FE300E95DBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2926E11826150FE500E95DBB;
+			remoteInfo = "BilliardsTracker WatchKit App";
+		};
+		2926E12726150FE600E95DBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2926E0EC26150FE300E95DBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2926E12426150FE600E95DBB;
+			remoteInfo = "BilliardsTracker WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2926E13B26150FE600E95DBB /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2926E12626150FE600E95DBB /* BilliardsTracker WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E13F26150FE600E95DBB /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				2926E11A26150FE500E95DBB /* BilliardsTracker WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
+		2926E0F926150FE400E95DBB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2926E0FB26150FE500E95DBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2926E0FE26150FE500E95DBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2926E10026150FE500E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2926E10526150FE500E95DBB /* BilliardsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2926E10926150FE500E95DBB /* BilliardsTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerTests.swift; sourceTree = "<group>"; };
+		2926E10B26150FE500E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2926E11026150FE500E95DBB /* BilliardsTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2926E11426150FE500E95DBB /* BilliardsTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerUITests.swift; sourceTree = "<group>"; };
+		2926E11626150FE500E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2926E11926150FE500E95DBB /* BilliardsTracker WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BilliardsTracker WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2926E11E26150FE600E95DBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2926E12026150FE600E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2926E12526150FE600E95DBB /* BilliardsTracker WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BilliardsTracker WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2926E12A26150FE600E95DBB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
+		2926E12E26150FE600E95DBB /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		2926E13026150FE600E95DBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2926E13326150FE600E95DBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2926E13526150FE600E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2926E0F126150FE400E95DBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E10226150FE500E95DBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E10D26150FE500E95DBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E12226150FE600E95DBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2926E0EB26150FE300E95DBB = {
+			isa = PBXGroup;
+			children = (
+				2926E0F626150FE400E95DBB /* BilliardsTracker */,
+				2926E10826150FE500E95DBB /* BilliardsTrackerTests */,
+				2926E11326150FE500E95DBB /* BilliardsTrackerUITests */,
+				2926E11D26150FE500E95DBB /* BilliardsTracker WatchKit App */,
+				2926E12926150FE600E95DBB /* BilliardsTracker WatchKit Extension */,
+				2926E0F526150FE400E95DBB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2926E0F526150FE400E95DBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2926E0F426150FE400E95DBB /* BilliardsTracker.app */,
+				2926E10526150FE500E95DBB /* BilliardsTrackerTests.xctest */,
+				2926E11026150FE500E95DBB /* BilliardsTrackerUITests.xctest */,
+				2926E11926150FE500E95DBB /* BilliardsTracker WatchKit App.app */,
+				2926E12526150FE600E95DBB /* BilliardsTracker WatchKit Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2926E0F626150FE400E95DBB /* BilliardsTracker */ = {
+			isa = PBXGroup;
+			children = (
+				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
+				2926E0F926150FE400E95DBB /* ContentView.swift */,
+				2926E0FB26150FE500E95DBB /* Assets.xcassets */,
+				2926E10026150FE500E95DBB /* Info.plist */,
+				2926E0FD26150FE500E95DBB /* Preview Content */,
+			);
+			path = BilliardsTracker;
+			sourceTree = "<group>";
+		};
+		2926E0FD26150FE500E95DBB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2926E0FE26150FE500E95DBB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2926E10826150FE500E95DBB /* BilliardsTrackerTests */ = {
+			isa = PBXGroup;
+			children = (
+				2926E10926150FE500E95DBB /* BilliardsTrackerTests.swift */,
+				2926E10B26150FE500E95DBB /* Info.plist */,
+			);
+			path = BilliardsTrackerTests;
+			sourceTree = "<group>";
+		};
+		2926E11326150FE500E95DBB /* BilliardsTrackerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2926E11426150FE500E95DBB /* BilliardsTrackerUITests.swift */,
+				2926E11626150FE500E95DBB /* Info.plist */,
+			);
+			path = BilliardsTrackerUITests;
+			sourceTree = "<group>";
+		};
+		2926E11D26150FE500E95DBB /* BilliardsTracker WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				2926E11E26150FE600E95DBB /* Assets.xcassets */,
+				2926E12026150FE600E95DBB /* Info.plist */,
+			);
+			path = "BilliardsTracker WatchKit App";
+			sourceTree = "<group>";
+		};
+		2926E12926150FE600E95DBB /* BilliardsTracker WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				2926E12A26150FE600E95DBB /* ContentView.swift */,
+				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
+				2926E12E26150FE600E95DBB /* ComplicationController.swift */,
+				2926E13026150FE600E95DBB /* Assets.xcassets */,
+				2926E13526150FE600E95DBB /* Info.plist */,
+				2926E13226150FE600E95DBB /* Preview Content */,
+			);
+			path = "BilliardsTracker WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		2926E13226150FE600E95DBB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2926E13326150FE600E95DBB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2926E0F326150FE400E95DBB /* BilliardsTracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2926E14026150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTracker" */;
+			buildPhases = (
+				2926E0F026150FE400E95DBB /* Sources */,
+				2926E0F126150FE400E95DBB /* Frameworks */,
+				2926E0F226150FE400E95DBB /* Resources */,
+				2926E13F26150FE600E95DBB /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2926E11C26150FE500E95DBB /* PBXTargetDependency */,
+			);
+			name = BilliardsTracker;
+			productName = BilliardsTracker;
+			productReference = 2926E0F426150FE400E95DBB /* BilliardsTracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2926E10426150FE500E95DBB /* BilliardsTrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2926E14326150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTrackerTests" */;
+			buildPhases = (
+				2926E10126150FE500E95DBB /* Sources */,
+				2926E10226150FE500E95DBB /* Frameworks */,
+				2926E10326150FE500E95DBB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2926E10726150FE500E95DBB /* PBXTargetDependency */,
+			);
+			name = BilliardsTrackerTests;
+			productName = BilliardsTrackerTests;
+			productReference = 2926E10526150FE500E95DBB /* BilliardsTrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2926E10F26150FE500E95DBB /* BilliardsTrackerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2926E14626150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTrackerUITests" */;
+			buildPhases = (
+				2926E10C26150FE500E95DBB /* Sources */,
+				2926E10D26150FE500E95DBB /* Frameworks */,
+				2926E10E26150FE500E95DBB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2926E11226150FE500E95DBB /* PBXTargetDependency */,
+			);
+			name = BilliardsTrackerUITests;
+			productName = BilliardsTrackerUITests;
+			productReference = 2926E11026150FE500E95DBB /* BilliardsTrackerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		2926E11826150FE500E95DBB /* BilliardsTracker WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2926E13C26150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTracker WatchKit App" */;
+			buildPhases = (
+				2926E11726150FE500E95DBB /* Resources */,
+				2926E13B26150FE600E95DBB /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2926E12826150FE600E95DBB /* PBXTargetDependency */,
+			);
+			name = "BilliardsTracker WatchKit App";
+			productName = "BilliardsTracker WatchKit App";
+			productReference = 2926E11926150FE500E95DBB /* BilliardsTracker WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		2926E12426150FE600E95DBB /* BilliardsTracker WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2926E13826150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTracker WatchKit Extension" */;
+			buildPhases = (
+				2926E12126150FE600E95DBB /* Sources */,
+				2926E12226150FE600E95DBB /* Frameworks */,
+				2926E12326150FE600E95DBB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BilliardsTracker WatchKit Extension";
+			productName = "BilliardsTracker WatchKit Extension";
+			productReference = 2926E12526150FE600E95DBB /* BilliardsTracker WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2926E0EC26150FE300E95DBB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					2926E0F326150FE400E95DBB = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					2926E10426150FE500E95DBB = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 2926E0F326150FE400E95DBB;
+					};
+					2926E10F26150FE500E95DBB = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 2926E0F326150FE400E95DBB;
+					};
+					2926E11826150FE500E95DBB = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					2926E12426150FE600E95DBB = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 2926E0EF26150FE300E95DBB /* Build configuration list for PBXProject "BilliardsTracker" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2926E0EB26150FE300E95DBB;
+			productRefGroup = 2926E0F526150FE400E95DBB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2926E0F326150FE400E95DBB /* BilliardsTracker */,
+				2926E10426150FE500E95DBB /* BilliardsTrackerTests */,
+				2926E10F26150FE500E95DBB /* BilliardsTrackerUITests */,
+				2926E11826150FE500E95DBB /* BilliardsTracker WatchKit App */,
+				2926E12426150FE600E95DBB /* BilliardsTracker WatchKit Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2926E0F226150FE400E95DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E0FF26150FE500E95DBB /* Preview Assets.xcassets in Resources */,
+				2926E0FC26150FE500E95DBB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E10326150FE500E95DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E10E26150FE500E95DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E11726150FE500E95DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E11F26150FE600E95DBB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E12326150FE600E95DBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E13426150FE600E95DBB /* Preview Assets.xcassets in Resources */,
+				2926E13126150FE600E95DBB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2926E0F026150FE400E95DBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E0FA26150FE400E95DBB /* ContentView.swift in Sources */,
+				2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E10126150FE500E95DBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E10A26150FE500E95DBB /* BilliardsTrackerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E10C26150FE500E95DBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E11526150FE500E95DBB /* BilliardsTrackerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2926E12126150FE600E95DBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2926E12B26150FE600E95DBB /* ContentView.swift in Sources */,
+				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
+				2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2926E10726150FE500E95DBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2926E0F326150FE400E95DBB /* BilliardsTracker */;
+			targetProxy = 2926E10626150FE500E95DBB /* PBXContainerItemProxy */;
+		};
+		2926E11226150FE500E95DBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2926E0F326150FE400E95DBB /* BilliardsTracker */;
+			targetProxy = 2926E11126150FE500E95DBB /* PBXContainerItemProxy */;
+		};
+		2926E11C26150FE500E95DBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2926E11826150FE500E95DBB /* BilliardsTracker WatchKit App */;
+			targetProxy = 2926E11B26150FE500E95DBB /* PBXContainerItemProxy */;
+		};
+		2926E12826150FE600E95DBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2926E12426150FE600E95DBB /* BilliardsTracker WatchKit Extension */;
+			targetProxy = 2926E12726150FE600E95DBB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2926E13626150FE600E95DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2926E13726150FE600E95DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		2926E13926150FE600E95DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BilliardsTracker WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "BilliardsTracker WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTracker.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.2;
+			};
+			name = Debug;
+		};
+		2926E13A26150FE600E95DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BilliardsTracker WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "BilliardsTracker WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTracker.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.2;
+			};
+			name = Release;
+		};
+		2926E13D26150FE600E95DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				IBSC_MODULE = BilliardsTracker_WatchKit_Extension;
+				INFOPLIST_FILE = "BilliardsTracker WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTracker.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.2;
+			};
+			name = Debug;
+		};
+		2926E13E26150FE600E95DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				IBSC_MODULE = BilliardsTracker_WatchKit_Extension;
+				INFOPLIST_FILE = "BilliardsTracker WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTracker.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.2;
+			};
+			name = Release;
+		};
+		2926E14126150FE600E95DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BilliardsTracker/Preview Content\"";
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BilliardsTracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTracker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2926E14226150FE600E95DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BilliardsTracker/Preview Content\"";
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BilliardsTracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTracker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2926E14426150FE600E95DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				INFOPLIST_FILE = BilliardsTrackerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BilliardsTracker.app/BilliardsTracker";
+			};
+			name = Debug;
+		};
+		2926E14526150FE600E95DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				INFOPLIST_FILE = BilliardsTrackerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BilliardsTracker.app/BilliardsTracker";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2926E14726150FE600E95DBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				INFOPLIST_FILE = BilliardsTrackerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BilliardsTracker;
+			};
+			name = Debug;
+		};
+		2926E14826150FE600E95DBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LZTF7R47SK;
+				INFOPLIST_FILE = BilliardsTrackerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BilliardsTracker;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2926E0EF26150FE300E95DBB /* Build configuration list for PBXProject "BilliardsTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2926E13626150FE600E95DBB /* Debug */,
+				2926E13726150FE600E95DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2926E13826150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTracker WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2926E13926150FE600E95DBB /* Debug */,
+				2926E13A26150FE600E95DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2926E13C26150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTracker WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2926E13D26150FE600E95DBB /* Debug */,
+				2926E13E26150FE600E95DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2926E14026150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2926E14126150FE600E95DBB /* Debug */,
+				2926E14226150FE600E95DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2926E14326150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2926E14426150FE600E95DBB /* Debug */,
+				2926E14526150FE600E95DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2926E14626150FE600E95DBB /* Build configuration list for PBXNativeTarget "BilliardsTrackerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2926E14726150FE600E95DBB /* Debug */,
+				2926E14826150FE600E95DBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2926E0EC26150FE300E95DBB /* Project object */;
+}
