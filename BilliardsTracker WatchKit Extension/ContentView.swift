@@ -8,9 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject private var runner = DrillRunner()
+
     var body: some View {
-        Text("Hello, World!")
-            .padding()
+        HStack {
+            Button {
+                runner.addPot()
+            } label: {
+                Text(String(runner.potCount))
+                    .foregroundColor(.green)
+            }
+
+            Button {
+                runner.addMiss()
+            } label: {
+                Text(String(runner.missCount))
+                    .foregroundColor(.red)
+            }
+        }
     }
 }
 
