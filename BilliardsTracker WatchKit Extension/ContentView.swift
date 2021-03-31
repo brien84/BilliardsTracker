@@ -11,19 +11,25 @@ struct ContentView: View {
     @ObservedObject private var runner = DrillRunner()
 
     var body: some View {
-        HStack {
-            Button {
-                runner.addPot()
-            } label: {
-                Text(String(runner.potCount))
-                    .foregroundColor(.green)
-            }
+        VStack {
+            Text(String(runner.remainingAttempts))
+                .padding()
+                .font(.title2)
 
-            Button {
-                runner.addMiss()
-            } label: {
-                Text(String(runner.missCount))
-                    .foregroundColor(.red)
+            HStack {
+                Button {
+                    runner.addPot()
+                } label: {
+                    Text(String(runner.potCount))
+                        .foregroundColor(.green)
+                }
+
+                Button {
+                    runner.addMiss()
+                } label: {
+                    Text(String(runner.missCount))
+                        .foregroundColor(.red)
+                }
             }
         }
     }
