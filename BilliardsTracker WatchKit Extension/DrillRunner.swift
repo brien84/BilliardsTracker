@@ -5,6 +5,7 @@
 //  Created by Marius on 2021-03-31.
 //
 
+import Combine
 import Foundation
 
 enum HitType {
@@ -13,6 +14,8 @@ enum HitType {
 }
 
 final class DrillRunner: ObservableObject {
+    private let motion = MotionTracker()
+
     private let attempts = 10
 
     var remainingAttempts: Int {
@@ -23,6 +26,24 @@ final class DrillRunner: ObservableObject {
     @Published private(set) var missCount = 0
 
     @Published private(set) var isCompleted = false
+
+    private var cancellables = Set<AnyCancellable>()
+
+    init() {
+        motion.start()
+
+        motion.gesturePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] gesture in
+                switch gesture {
+                case .axisX:
+                    self?.add(.pot)
+                case .axisY:
+                    self?.add(.miss)
+                }
+            }
+            .store(in: &cancellables)
+    }
 
     func add(_ hit: HitType) {
         switch hit {
