@@ -33,11 +33,20 @@ struct ContentView: View {
                     }
                 }.disabled(runner.isCompleted)
 
-                Button {
-                    runner.restart()
-                } label: {
-                    Text("Restart")
-                        .foregroundColor(.purple)
+                HStack {
+                    Button {
+                        runner.restart()
+                    } label: {
+                        Text("Restart")
+                            .foregroundColor(.orange)
+                    }
+
+                    Button {
+                        runner.toggleRun()
+                    } label: {
+                        Text(runner.isRunning ? "Pause" : "Resume")
+                            .foregroundColor(.yellow)
+                    }.disabled(runner.isCompleted)
                 }
             }
 
