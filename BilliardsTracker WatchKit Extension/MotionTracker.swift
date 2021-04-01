@@ -5,7 +5,13 @@
 //  Created by Marius on 2021-04-01.
 //
 
+import Combine
 import CoreMotion
+
+enum Gesture {
+    case axisX
+    case axisY
+}
 
 final class MotionTracker {
     private lazy var motionManager: CMMotionManager = {
@@ -36,6 +42,8 @@ final class MotionTracker {
         motionManager.stopDeviceMotionUpdates()
     }
 
+    let gesturePublisher = PassthroughSubject<Gesture, Never>()
+
     private var rotationsX = [Double](repeating: 0.0, count: 30)
     private var rotationsZ = [Double](repeating: 0.0, count: 40)
 
@@ -65,7 +73,7 @@ final class MotionTracker {
         }
 
         if recognizeGesture(in: rotationsX) {
-            print("Gesture X!")
+            gesturePublisher.send(.axisX)
             rotationsX = [Double](repeating: 0.0, count: 30)
         }
     }
@@ -78,7 +86,7 @@ final class MotionTracker {
         }
 
         if recognizeGesture(in: rotationsZ) {
-            print("Gesture Z!")
+            gesturePublisher.send(.axisY)
             rotationsZ = [Double](repeating: 0.0, count: 30)
         }
     }
