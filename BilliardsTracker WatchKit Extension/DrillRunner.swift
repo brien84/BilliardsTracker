@@ -25,13 +25,27 @@ final class DrillRunner: ObservableObject {
     @Published private(set) var potCount = 0
     @Published private(set) var missCount = 0
 
-    @Published private(set) var isCompleted = false
+    @Published private(set) var isCompleted = false {
+        didSet {
+            if isCompleted {
+                isRunning = false
+            }
+        }
+    }
+
+    @Published private(set) var isRunning = false {
+        didSet {
+            if isRunning {
+                motion.start()
+            } else {
+                motion.stop()
+            }
+        }
+    }
 
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        motion.start()
-
         motion.gesturePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] gesture in
@@ -62,5 +76,10 @@ final class DrillRunner: ObservableObject {
         potCount = 0
         missCount = 0
         isCompleted = false
+        isRunning = true
+    }
+
+    func toggleRun() {
+        isRunning = !isRunning
     }
 }
