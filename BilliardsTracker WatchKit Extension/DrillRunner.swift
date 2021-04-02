@@ -21,7 +21,6 @@ final class DrillRunner: ObservableObject {
             if isActive {
                 potCount = 0
                 missCount = 0
-                isCompleted = false
                 isPaused = false
             } else {
                 isPaused = true
@@ -39,25 +38,15 @@ final class DrillRunner: ObservableObject {
         }
     }
 
-    @Published private(set) var isCompleted = false {
-        didSet {
-            if isCompleted {
-                isPaused = true
-            }
-        }
-    }
-
     @Published private(set) var potCount = 0
     @Published private(set) var missCount = 0
 
     var remainingAttempts: Int {
-        let remainingAttempts = attempts - potCount - missCount
+        attempts - potCount - missCount
+    }
 
-        if remainingAttempts <= 0 {
-            isCompleted = true
-        }
-
-        return remainingAttempts
+    var isCompleted: Bool {
+        remainingAttempts <= 0
     }
 
     private var attempts = 1
