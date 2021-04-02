@@ -21,6 +21,7 @@
 		2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E12E26150FE600E95DBB /* ComplicationController.swift */; };
 		2926E13126150FE600E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E13026150FE600E95DBB /* Assets.xcassets */; };
 		2926E13426150FE600E95DBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E13326150FE600E95DBB /* Preview Assets.xcassets */; };
+		29F37DEC2617717C00DD4A9C /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* StartView.swift */; };
 		29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* DrillRunner.swift */; };
 		29FAD66A2616066900310DA9 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionTracker.swift */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		2926E13026150FE600E95DBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2926E13326150FE600E95DBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2926E13526150FE600E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29F37DEB2617717C00DD4A9C /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		29FAD65D2615112A00310DA9 /* DrillRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRunner.swift; sourceTree = "<group>"; };
 		29FAD6692616066800310DA9 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -214,6 +216,7 @@
 		2926E12926150FE600E95DBB /* BilliardsTracker WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				29F37DEA2617716A00DD4A9C /* Views */,
 				29FAD65D2615112A00310DA9 /* DrillRunner.swift */,
 				29FAD6692616066800310DA9 /* MotionTracker.swift */,
 				2926E12A26150FE600E95DBB /* ContentView.swift */,
@@ -232,6 +235,14 @@
 				2926E13326150FE600E95DBB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		29F37DEA2617716A00DD4A9C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				29F37DEB2617717C00DD4A9C /* StartView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,6 +463,7 @@
 				29FAD66A2616066900310DA9 /* MotionTracker.swift in Sources */,
 				2926E12B26150FE600E95DBB /* ContentView.swift in Sources */,
 				29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */,
+				29F37DEC2617717C00DD4A9C /* StartView.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */,
 			);
