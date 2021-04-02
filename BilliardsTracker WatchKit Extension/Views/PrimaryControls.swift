@@ -16,39 +16,22 @@ struct PrimaryControls: View {
                 .padding()
                 .font(.title2)
 
-            VStack {
-                HStack {
-                    Button {
-                        runner.add(.pot)
-                    } label: {
-                        Text(String(runner.potCount))
-                            .foregroundColor(.green)
-                    }
-
-                    Button {
-                        runner.add(.miss)
-                    } label: {
-                        Text(String(runner.missCount))
-                            .foregroundColor(.red)
-                    }
-                }.disabled(runner.isCompleted)
-
-                HStack {
-                    Button {
-                        runner.restart()
-                    } label: {
-                        Text("Restart")
-                            .foregroundColor(.orange)
-                    }
-
-                    Button {
-                        runner.toggleRun()
-                    } label: {
-                        Text(runner.isRunning ? "Pause" : "Resume")
-                            .foregroundColor(.yellow)
-                    }.disabled(runner.isCompleted)
+            HStack {
+                Button {
+                    runner.add(.pot)
+                } label: {
+                    Text(String(runner.potCount))
+                        .foregroundColor(.green)
                 }
-            }
+
+                Button {
+                    runner.add(.miss)
+                } label: {
+                    Text(String(runner.missCount))
+                        .foregroundColor(.red)
+                }
+            }.disabled(runner.isCompleted)
+
         }
     }
 }

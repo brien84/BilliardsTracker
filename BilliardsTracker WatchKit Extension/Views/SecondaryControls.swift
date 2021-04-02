@@ -11,7 +11,21 @@ struct SecondaryControls: View {
     @EnvironmentObject var runner: DrillRunner
 
     var body: some View {
-        EmptyView()
+        VStack {
+            Button {
+                runner.restart()
+            } label: {
+                Text("Restart")
+                    .foregroundColor(.orange)
+            }
+
+            Button {
+                runner.toggleRun()
+            } label: {
+                Text(runner.isRunning ? "Pause" : "Resume")
+                    .foregroundColor(.yellow)
+            }.disabled(runner.isCompleted)
+        }
     }
 }
 
