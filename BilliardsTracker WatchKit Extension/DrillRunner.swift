@@ -16,7 +16,11 @@ enum HitType {
 final class DrillRunner: ObservableObject {
     private let motion = MotionTracker()
 
-    private let attempts = 10
+    private var attempts = 1
+
+    func setAttempts(_ attempts: Int) {
+        self.attempts = attempts
+    }
 
     var remainingAttempts: Int {
         attempts - potCount - missCount
@@ -33,7 +37,7 @@ final class DrillRunner: ObservableObject {
         }
     }
 
-    @Published private(set) var isRunning = false {
+    @Published var isRunning = false {
         didSet {
             if isRunning {
                 motion.start()
