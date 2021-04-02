@@ -22,7 +22,7 @@ struct SecondaryControls: View {
             Button {
                 runner.toggleRun()
             } label: {
-                Text(runner.isRunning ? "Pause" : "Resume")
+                Text(runner.isActive ? "Pause" : "Resume")
                     .foregroundColor(.yellow)
             }.disabled(runner.isCompleted)
         }

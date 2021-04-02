@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var currentTab: Int = 0
 
     var body: some View {
-        if runner.isRunning {
+        if runner.isActive {
             TabView(selection: $currentTab) {
                 PrimaryControls().tag(0)
                 SecondaryControls().tag(1)

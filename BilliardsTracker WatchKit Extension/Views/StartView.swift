@@ -23,7 +23,7 @@ struct StartView: View {
 
             Button("Start") {
                 runner.setAttempts(attempts)
-                runner.isRunning = true
+                runner.isActive = true
             }
         }
     }

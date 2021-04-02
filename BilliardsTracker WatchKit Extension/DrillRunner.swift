@@ -32,14 +32,14 @@ final class DrillRunner: ObservableObject {
     @Published private(set) var isCompleted = false {
         didSet {
             if isCompleted {
-                isRunning = false
+                isActive = false
             }
         }
     }
 
-    @Published var isRunning = false {
+    @Published var isActive = false {
         didSet {
-            if isRunning {
+            if isActive {
                 motion.start()
             } else {
                 motion.stop()
@@ -80,10 +80,10 @@ final class DrillRunner: ObservableObject {
         potCount = 0
         missCount = 0
         isCompleted = false
-        isRunning = true
+        isActive = true
     }
 
     func toggleRun() {
-        isRunning = !isRunning
+        isActive = !isActive
     }
 }
