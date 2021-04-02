@@ -13,6 +13,7 @@ struct BilliardsTrackerApp: App {
         WindowGroup {
             NavigationView {
                 ContentView()
+                    .environmentObject(DrillRunner())
             }
         }
     }
