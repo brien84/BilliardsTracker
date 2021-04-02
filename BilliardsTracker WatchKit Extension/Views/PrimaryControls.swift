@@ -18,14 +18,14 @@ struct PrimaryControls: View {
 
             HStack {
                 Button {
-                    runner.add(.pot)
+                    runner.potCount += 1
                 } label: {
                     Text(String(runner.potCount))
                         .foregroundColor(.green)
                 }
 
                 Button {
-                    runner.add(.miss)
+                    runner.missCount += 1
                 } label: {
                     Text(String(runner.missCount))
                         .foregroundColor(.red)
