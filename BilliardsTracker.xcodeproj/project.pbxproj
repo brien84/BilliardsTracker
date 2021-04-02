@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		290C01152617794900A82A6C /* PrimaryControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C01142617794900A82A6C /* PrimaryControls.swift */; };
+		290C0121261799D900A82A6C /* SecondaryControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C0120261799D900A82A6C /* SecondaryControls.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
 		2926E0FA26150FE400E95DBB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F926150FE400E95DBB /* ContentView.swift */; };
 		2926E0FC26150FE500E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E0FB26150FE500E95DBB /* Assets.xcassets */; };
@@ -85,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		290C01142617794900A82A6C /* PrimaryControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryControls.swift; sourceTree = "<group>"; };
+		290C0120261799D900A82A6C /* SecondaryControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryControls.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
 		2926E0F926150FE400E95DBB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			children = (
 				29F37DEB2617717C00DD4A9C /* StartView.swift */,
 				290C01142617794900A82A6C /* PrimaryControls.swift */,
+				290C0120261799D900A82A6C /* SecondaryControls.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */,
 				29F37DEC2617717C00DD4A9C /* StartView.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
+				290C0121261799D900A82A6C /* SecondaryControls.swift in Sources */,
 				2926E12F26150FE600E95DBB /* ComplicationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
