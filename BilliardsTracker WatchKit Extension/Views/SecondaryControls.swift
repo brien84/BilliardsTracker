@@ -25,6 +25,13 @@ struct SecondaryControls: View {
                 Text(runner.isPaused ? "Resume" : "Pause")
                     .foregroundColor(.yellow)
             }
+
+            Button {
+                runner.isActive = false
+            } label: {
+                Text("Stop")
+                    .foregroundColor(.red)
+            }
         }
     }
 }
