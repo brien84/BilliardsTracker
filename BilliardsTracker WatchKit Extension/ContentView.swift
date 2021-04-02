@@ -8,48 +8,52 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject private var runner = DrillRunner()
+    @EnvironmentObject var runner: DrillRunner
 
     var body: some View {
-        VStack {
-            Text(String(runner.remainingAttempts))
-                .padding()
-                .font(.title2)
-
+        if runner.isRunning {
             VStack {
-                HStack {
-                    Button {
-                        runner.add(.pot)
-                    } label: {
-                        Text(String(runner.potCount))
-                            .foregroundColor(.green)
-                    }
+                Text(String(runner.remainingAttempts))
+                    .padding()
+                    .font(.title2)
 
-                    Button {
-                        runner.add(.miss)
-                    } label: {
-                        Text(String(runner.missCount))
-                            .foregroundColor(.red)
-                    }
-                }.disabled(runner.isCompleted)
+                VStack {
+                    HStack {
+                        Button {
+                            runner.add(.pot)
+                        } label: {
+                            Text(String(runner.potCount))
+                                .foregroundColor(.green)
+                        }
 
-                HStack {
-                    Button {
-                        runner.restart()
-                    } label: {
-                        Text("Restart")
-                            .foregroundColor(.orange)
-                    }
-
-                    Button {
-                        runner.toggleRun()
-                    } label: {
-                        Text(runner.isRunning ? "Pause" : "Resume")
-                            .foregroundColor(.yellow)
+                        Button {
+                            runner.add(.miss)
+                        } label: {
+                            Text(String(runner.missCount))
+                                .foregroundColor(.red)
+                        }
                     }.disabled(runner.isCompleted)
+
+                    HStack {
+                        Button {
+                            runner.restart()
+                        } label: {
+                            Text("Restart")
+                                .foregroundColor(.orange)
+                        }
+
+                        Button {
+                            runner.toggleRun()
+                        } label: {
+                            Text(runner.isRunning ? "Pause" : "Resume")
+                                .foregroundColor(.yellow)
+                        }.disabled(runner.isCompleted)
+                    }
                 }
             }
 
+        } else {
+            StartView()
         }
     }
 }
@@ -57,5 +61,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(DrillRunner())
     }
 }
