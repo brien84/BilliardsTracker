@@ -10,9 +10,14 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var runner: DrillRunner
 
+    @State private var currentTab: Int = 0
+
     var body: some View {
         if runner.isRunning {
-            PrimaryControls()
+            TabView(selection: $currentTab) {
+                PrimaryControls().tag(0)
+                SecondaryControls().tag(1)
+            }
         } else {
             StartView()
         }
