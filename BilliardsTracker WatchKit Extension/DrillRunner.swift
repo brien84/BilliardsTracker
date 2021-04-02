@@ -47,6 +47,16 @@ final class DrillRunner: ObservableObject {
         }
     }
 
+    @Published var isPaused = false {
+        didSet {
+            if isPaused {
+                motion.stop()
+            } else {
+                motion.start()
+            }
+        }
+    }
+
     private var cancellables = Set<AnyCancellable>()
 
     init() {
@@ -81,9 +91,5 @@ final class DrillRunner: ObservableObject {
         missCount = 0
         isCompleted = false
         isActive = true
-    }
-
-    func toggleRun() {
-        isActive = !isActive
     }
 }
