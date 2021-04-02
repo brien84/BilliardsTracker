@@ -10,12 +10,22 @@ import SwiftUI
 struct StartView: View {
     @EnvironmentObject var runner: DrillRunner
 
+    @State private var attempts = 15
+
     var body: some View {
+        VStack {
+            Picker(selection: $attempts, label: EmptyView()) {
+                ForEach(1..<101, id: \.self) { int in
+                    Text(String(int))
+                        .font(int == attempts ? .title2 : .title3)
+                }
+            }
 
-        Button("Start") {
-            runner.isRunning = true
+            Button("Start") {
+                runner.setAttempts(attempts)
+                runner.isRunning = true
+            }
         }
-
     }
 }
 
