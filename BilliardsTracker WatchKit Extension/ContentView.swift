@@ -14,9 +14,13 @@ struct ContentView: View {
 
     var body: some View {
         if runner.isActive {
-            TabView(selection: $currentTab) {
-                PrimaryControls().tag(0)
-                SecondaryControls().tag(1)
+            if runner.isCompleted {
+                CompletionView()
+            } else {
+                TabView(selection: $currentTab) {
+                    PrimaryControls().tag(0)
+                    SecondaryControls().tag(1)
+                }
             }
         } else {
             StartView()
