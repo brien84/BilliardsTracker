@@ -8,11 +8,6 @@
 import Combine
 import Foundation
 
-enum HitType {
-    case pot
-    case miss
-}
-
 final class DrillRunner: ObservableObject {
     private let motion = MotionTracker()
 
@@ -38,8 +33,8 @@ final class DrillRunner: ObservableObject {
         }
     }
 
-    @Published private(set) var potCount = 0
-    @Published private(set) var missCount = 0
+    @Published var potCount = 0
+    @Published var missCount = 0
 
     var remainingAttempts: Int {
         attempts - potCount - missCount
@@ -63,20 +58,11 @@ final class DrillRunner: ObservableObject {
             .sink { [weak self] gesture in
                 switch gesture {
                 case .axisX:
-                    self?.add(.pot)
+                    self?.potCount += 1
                 case .axisY:
-                    self?.add(.miss)
+                    self?.missCount += 1
                 }
             }
             .store(in: &cancellables)
-    }
-
-    func add(_ hit: HitType) {
-        switch hit {
-        case .pot:
-            potCount += 1
-        case .miss:
-            missCount += 1
-        }
     }
 }
