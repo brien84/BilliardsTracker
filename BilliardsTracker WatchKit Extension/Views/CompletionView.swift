@@ -11,7 +11,22 @@ struct CompletionView: View {
     @EnvironmentObject var runner: DrillRunner
 
     var body: some View {
-        Text("Drill completed!")
+        VStack {
+            Text("Drill completed!")
+                .padding()
+
+            Button {
+                runner.isActive = false
+            } label: {
+                Text("Done")
+            }
+
+            Button {
+                runner.isActive = true
+            } label: {
+                Text("Restart")
+            }
+        }
     }
 }
 
