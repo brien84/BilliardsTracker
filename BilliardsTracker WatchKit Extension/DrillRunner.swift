@@ -16,33 +16,15 @@ enum HitType {
 final class DrillRunner: ObservableObject {
     private let motion = MotionTracker()
 
-    private var attempts = 1
-
-    func setAttempts(_ attempts: Int) {
-        self.attempts = attempts
-    }
-
-    var remainingAttempts: Int {
-        attempts - potCount - missCount
-    }
-
-    @Published private(set) var potCount = 0
-    @Published private(set) var missCount = 0
-
-    @Published private(set) var isCompleted = false {
-        didSet {
-            if isCompleted {
-                isActive = false
-            }
-        }
-    }
-
     @Published var isActive = false {
         didSet {
             if isActive {
-                motion.start()
+                potCount = 0
+                missCount = 0
+                isCompleted = false
+                isPaused = false
             } else {
-                motion.stop()
+                isPaused = true
             }
         }
     }
@@ -55,6 +37,33 @@ final class DrillRunner: ObservableObject {
                 motion.start()
             }
         }
+    }
+
+    @Published private(set) var isCompleted = false {
+        didSet {
+            if isCompleted {
+                isPaused = true
+            }
+        }
+    }
+
+    @Published private(set) var potCount = 0
+    @Published private(set) var missCount = 0
+
+    var remainingAttempts: Int {
+        let remainingAttempts = attempts - potCount - missCount
+
+        if remainingAttempts <= 0 {
+            isCompleted = true
+        }
+
+        return remainingAttempts
+    }
+
+    private var attempts = 1
+
+    func setAttempts(_ attempts: Int) {
+        self.attempts = attempts
     }
 
     private var cancellables = Set<AnyCancellable>()
@@ -80,16 +89,5 @@ final class DrillRunner: ObservableObject {
         case .miss:
             missCount += 1
         }
-
-        if remainingAttempts == 0 {
-            isCompleted = true
-        }
-    }
-
-    func restart() {
-        potCount = 0
-        missCount = 0
-        isCompleted = false
-        isActive = true
     }
 }
