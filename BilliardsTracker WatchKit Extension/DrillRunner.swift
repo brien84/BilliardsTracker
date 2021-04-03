@@ -10,6 +10,7 @@ import Foundation
 
 final class DrillRunner: ObservableObject {
     private let motion = MotionTracker()
+    private let extendedRuntime = ExtendedRuntimeManager()
 
     @Published var isActive = false {
         didSet {
@@ -27,8 +28,10 @@ final class DrillRunner: ObservableObject {
         didSet {
             if isPaused {
                 motion.stop()
+                extendedRuntime.stop()
             } else {
                 motion.start()
+                extendedRuntime.start()
             }
         }
     }
