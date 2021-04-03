@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Foundation
+import WatchKit
 
 final class DrillRunner: ObservableObject {
     private let motion = MotionTracker()
@@ -15,10 +15,12 @@ final class DrillRunner: ObservableObject {
     @Published var isActive = false {
         didSet {
             if isActive {
+                WKInterfaceDevice().play(.start)
                 potCount = 0
                 missCount = 0
                 isPaused = false
             } else {
+                WKInterfaceDevice().play(.stop)
                 isPaused = true
             }
         }
@@ -27,17 +29,38 @@ final class DrillRunner: ObservableObject {
     @Published var isPaused = false {
         didSet {
             if isPaused {
+                WKInterfaceDevice().play(.directionDown)
                 motion.stop()
                 extendedRuntime.stop()
             } else {
+                WKInterfaceDevice().play(.directionUp)
                 motion.start()
                 extendedRuntime.start()
             }
         }
     }
 
-    @Published var potCount = 0
-    @Published var missCount = 0
+    @Published var potCount = 0 {
+        didSet {
+            if isCompleted {
+                WKInterfaceDevice().play(.success)
+                isPaused = true
+            } else {
+                WKInterfaceDevice().play(.notification)
+            }
+        }
+    }
+
+    @Published var missCount = 0 {
+        didSet {
+            if isCompleted {
+                WKInterfaceDevice().play(.success)
+                isPaused = true
+            } else {
+                WKInterfaceDevice().play(.failure)
+            }
+        }
+    }
 
     var remainingAttempts: Int {
         attempts - potCount - missCount
