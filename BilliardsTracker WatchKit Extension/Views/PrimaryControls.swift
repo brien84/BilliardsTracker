@@ -30,7 +30,8 @@ struct PrimaryControls: View {
                     Text(String(runner.missCount))
                         .foregroundColor(.red)
                 }
-            }.disabled(runner.isCompleted)
+            }
+            .disabled(runner.isPaused)
 
         }
     }
