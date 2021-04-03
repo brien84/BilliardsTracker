@@ -13,18 +13,28 @@ struct CompletionView: View {
     var body: some View {
         VStack {
             Text("Drill completed!")
-                .padding()
 
-            Button {
-                runner.isActive = false
-            } label: {
-                Text("Done")
+            HStack {
+                Text(String(runner.potCount))
+                    .foregroundColor(.green)
+                    .frame(maxWidth: .infinity)
+                Text(String(runner.missCount))
+                    .foregroundColor(.red)
+                    .frame(maxWidth: .infinity)
             }
+            .padding()
+            .font(.title3)
 
             Button {
                 runner.isActive = true
             } label: {
                 Text("Restart")
+            }
+
+            Button {
+                runner.isActive = false
+            } label: {
+                Text("Done")
             }
         }
     }
