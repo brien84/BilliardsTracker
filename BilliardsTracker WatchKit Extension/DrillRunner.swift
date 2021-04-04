@@ -7,10 +7,20 @@
 
 import Combine
 import WatchKit
+import WatchConnectivity
 
-final class DrillRunner: ObservableObject {
+extension DrillRunner: WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("activationDidCompleteWith: \(activationState.rawValue)")
+        if let error = error { print(error) }
+    }
+}
+
+final class DrillRunner: NSObject, ObservableObject {
     private let motion = MotionTracker()
     private let extendedRuntime = ExtendedRuntimeManager()
+
+    private let session = WCSession.default
 
     @Published var isActive = false {
         didSet {
@@ -78,7 +88,12 @@ final class DrillRunner: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init() {
+    override init() {
+        super.init()
+
+        session.delegate = self
+        session.activate()
+
         motion.gesturePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] gesture in
