@@ -8,9 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject private var manager = DrillManager()
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        List(manager.contexts) { context in
+            HStack {
+                Text(String(context.potCount))
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.green)
+                Text(String(context.missCount))
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.red)
+            }.padding().font(.title)
+        }
     }
 }
 
