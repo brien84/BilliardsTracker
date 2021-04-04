@@ -22,8 +22,29 @@ final class DrillRunner: NSObject, ObservableObject {
 
     private let session = WCSession.default
 
+    private func sendContext() {
+        print("Sending context!")
+
+        let context = DrillContext(id: UUID(), attempts: attempts, potCount: potCount, missCount: missCount)
+        guard let data = try? JSONEncoder().encode(context) else { return }
+
+        session.sendMessageData(data) { reply in
+            print("Reply data received!")
+        } errorHandler: { error in
+            print(error)
+        }
+    }
+
     @Published var isActive = false {
         didSet {
+            // if not starting
+            if oldValue != false {
+                // if restart or stopping with more than 0 tries
+                if isActive || potCount + missCount > 0 {
+                    sendContext()
+                }
+            }
+
             if isActive {
                 WKInterfaceDevice().play(.start)
                 potCount = 0
