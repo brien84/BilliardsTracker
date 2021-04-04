@@ -11,16 +11,26 @@ import WatchConnectivity
 final class DrillManager: NSObject, ObservableObject {
     private let session = WCSession.default
 
+    @Published var contexts = [DrillContext]()
+
     override init() {
         super.init()
 
         session.delegate = self
         session.activate()
     }
-
 }
 
 extension DrillManager: WCSessionDelegate {
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
+
+        DispatchQueue.main.async {
+            self.contexts.append(context)
+            replyHandler(messageData)
+        }
+    }
+
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("activationDidCompleteWith: \(activationState.rawValue)")
         if let error = error { print(error) }
