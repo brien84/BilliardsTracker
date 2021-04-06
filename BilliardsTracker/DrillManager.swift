@@ -5,19 +5,35 @@
 //  Created by Marius on 2021-04-04.
 //
 
-import Foundation
+import Combine
 import WatchConnectivity
 
 final class DrillManager: NSObject, ObservableObject {
     private let session = WCSession.default
 
+    private let drillStore = CoreDataManager()
+
+    @Published var drills = [Drill]()
     @Published var contexts = [DrillContext]()
+
+    private var cancellables = Set<AnyCancellable>()
 
     override init() {
         super.init()
 
         session.delegate = self
         session.activate()
+
+        drillStore.didSaveContext.sink { [weak self] in
+            self?.drills = self?.drillStore.getAllDrills() ?? []
+        }
+        .store(in: &cancellables)
+
+        drills = drillStore.getAllDrills()
+    }
+
+    func addDrill(title: String, attempts: Int) {
+        drillStore.createDrill(title: title, attempts: attempts)
     }
 }
 
