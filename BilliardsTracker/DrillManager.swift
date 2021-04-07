@@ -14,7 +14,7 @@ final class DrillManager: NSObject, ObservableObject {
     private let drillStore = CoreDataManager()
 
     @Published var drills = [Drill]()
-    @Published var contexts = [DrillContext]()
+    @Published var contexts = [ResultContext]()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -39,7 +39,7 @@ final class DrillManager: NSObject, ObservableObject {
 
 extension DrillManager: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
+        guard let context = try? JSONDecoder().decode(ResultContext.self, from: messageData) else { return }
 
         DispatchQueue.main.async {
             self.contexts.append(context)
