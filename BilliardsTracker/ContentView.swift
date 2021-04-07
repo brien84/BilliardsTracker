@@ -14,33 +14,49 @@ struct ContentView: View {
     @State private var attempts = 1.0
 
     var body: some View {
-        VStack {
-            TextField("Drill Title", text: $title)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+        NavigationView {
+            VStack {
+                TextField("Drill Title", text: $title)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
 
-            Slider(value: $attempts, in: 1...100, step: 1.0)
-                .padding(.horizontal)
+                Slider(value: $attempts, in: 1...100, step: 1.0)
+                    .padding(.horizontal)
 
-            Text(String(Int(attempts)))
+                Text(String(Int(attempts)))
 
-            Button("Save") {
-                manager.addDrill(title: title, attempts: Int(attempts))
-                title = ""
-                attempts = 1.0
-            }.padding()
+                Button("Save") {
+                    manager.addDrill(title: title, attempts: Int(attempts))
+                    title = ""
+                    attempts = 1.0
+                }.padding()
 
-            Spacer()
+                Spacer()
 
-            List {
-                ForEach(manager.drills, id: \.self) { drill in
-                    HStack {
-                        Text(drill.title ?? "")
-                        Spacer()
-                        Text(String(drill.attempts))
+                List {
+                    ForEach(manager.drills, id: \.self) { drill in
+                        NavigationLink(destination: ResultsView(manager: manager)) {
+                            HStack {
+                                Text(drill.title ?? "")
+                                Spacer()
+                                Text(String(drill.attempts))
+                            }
+                        }
                     }
                 }
             }
+            .navigationBarTitle("Drills")
+        }.navigationViewStyle(StackNavigationViewStyle())
+
+    }
+}
+
+struct ResultsView: View {
+    @ObservedObject var manager: DrillManager
+
+    var body: some View {
+        VStack {
+            Text("Running drill!")
 
             List(manager.contexts) { context in
                 HStack {
