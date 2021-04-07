@@ -10,16 +10,38 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject private var manager = DrillManager()
 
+    @State private var title = ""
+    @State private var attempts = 1.0
+
     var body: some View {
-        List(manager.contexts) { context in
-            HStack {
-                Text(String(context.potCount))
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(.green)
-                Text(String(context.missCount))
-                    .frame(maxWidth: .infinity)
-                    .foregroundColor(.red)
-            }.padding().font(.title)
+        VStack {
+            TextField("Drill Title", text: $title)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+
+            Slider(value: $attempts, in: 1...100, step: 1.0)
+                .padding(.horizontal)
+
+            Text(String(Int(attempts)))
+
+            Button("Save") {
+                manager.addDrill(title: title, attempts: Int(attempts))
+                title = ""
+                attempts = 1.0
+            }.padding()
+
+            Spacer()
+
+            List(manager.contexts) { context in
+                HStack {
+                    Text(String(context.potCount))
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.green)
+                    Text(String(context.missCount))
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.red)
+                }.padding().font(.title)
+            }
         }
     }
 }
