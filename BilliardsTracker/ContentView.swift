@@ -32,6 +32,16 @@ struct ContentView: View {
 
             Spacer()
 
+            List {
+                ForEach(manager.drills, id: \.self) { drill in
+                    HStack {
+                        Text(drill.title ?? "")
+                        Spacer()
+                        Text(String(drill.attempts))
+                    }
+                }
+            }
+
             List(manager.contexts) { context in
                 HStack {
                     Text(String(context.potCount))
