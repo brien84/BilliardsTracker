@@ -8,6 +8,6 @@
 import Foundation
 
 struct ResultContext: Codable {
-    let hitCount: Int
+    let potCount: Int
     let missCount: Int
 }
