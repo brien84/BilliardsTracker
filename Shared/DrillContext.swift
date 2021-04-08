@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct DrillContext: Codable, Identifiable {
-    var id: UUID
-    var attempts: Int
-    var potCount: Int
-    var missCount: Int
+struct DrillContext: Codable {
+    let title: String
+    let attempts: Int
 }
