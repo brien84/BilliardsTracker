@@ -36,7 +36,17 @@ final class CoreDataManager {
     func createDrill(title: String, attempts: Int) {
         let drill = Drill(context: persistentContainer.viewContext)
         drill.title = title
-        drill.attempts = Int16(attempts)
+        drill.attempts = attempts
+
+        save()
+    }
+
+    func createResult(from context: ResultContext, in drill: Drill) {
+        let result = DrillResult(context: persistentContainer.viewContext)
+        result.potCount = context.potCount
+        result.missCount = context.missCount
+        result.date = context.date
+        result.drill = drill
 
         save()
     }
