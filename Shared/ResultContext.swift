@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ResultContext: Codable, Identifiable {
-    let id: UUID
+struct ResultContext: Codable {
     let potCount: Int
     let missCount: Int
+    let date: Date
 }

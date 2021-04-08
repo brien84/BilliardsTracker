@@ -25,7 +25,7 @@ final class DrillRunner: NSObject, ObservableObject {
     private func sendContext() {
         print("Sending context!")
 
-        let context = ResultContext(id: UUID(), potCount: potCount, missCount: missCount)
+        let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
         guard let data = try? JSONEncoder().encode(context) else { return }
 
         session.sendMessageData(data) { reply in
