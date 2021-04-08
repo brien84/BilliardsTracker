@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Drill" representedClassName="Drill" syncable="YES" codeGenerationType="class">
-        <attribute name="attempts" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="title" attributeType="String"/>
+        <attribute name="attemptsValue" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="titleValue" attributeType="String" defaultValueString=""/>
+        <relationship name="results" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DrillResult" inverseName="drill" inverseEntity="DrillResult"/>
+    </entity>
+    <entity name="DrillResult" representedClassName="DrillResult" syncable="YES" codeGenerationType="class">
+        <attribute name="dateValue" attributeType="Date" defaultDateTimeInterval="-31629600" usesScalarValueType="NO"/>
+        <attribute name="missCountValue" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="potCountValue" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="drill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Drill" inverseName="results" inverseEntity="Drill"/>
     </entity>
     <elements>
-        <element name="Drill" positionX="-45" positionY="0" width="128" height="73"/>
+        <element name="Drill" positionX="-2685.5859375" positionY="125.1484375" width="128" height="88"/>
+        <element name="DrillResult" positionX="-2345.8203125" positionY="125.16796875" width="128" height="103"/>
     </elements>
 </model>
