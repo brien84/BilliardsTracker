@@ -28,6 +28,7 @@ final class MotionTracker {
     }()
 
     func start() {
+        // IMPORTANT: `isDeviceMotionActive` always returns false in simulator.
         guard !motionManager.isDeviceMotionActive else { return }
 
         motionManager.startDeviceMotionUpdates(to: queue) { [weak self] motion, error in
