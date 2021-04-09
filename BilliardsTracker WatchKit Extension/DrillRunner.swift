@@ -14,6 +14,15 @@ extension DrillRunner: WCSessionDelegate {
         print("activationDidCompleteWith: \(activationState.rawValue)")
         if let error = error { print(error) }
     }
+
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
+
+        DispatchQueue.main.async { [self] in
+            attempts = context.attempts
+            isActive = true
+        }
+    }
 }
 
 final class DrillRunner: NSObject, ObservableObject {
