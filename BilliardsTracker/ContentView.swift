@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject private var manager = DrillManager()
+    @EnvironmentObject var manager: DrillManager
 
     @State private var title = ""
     @State private var attempts = 1.0
@@ -29,15 +29,16 @@ struct ContentView: View {
                     manager.addDrill(title: title, attempts: Int(attempts))
                     title = ""
                     attempts = 1.0
-                }.padding()
+                }
+                .padding()
 
                 Spacer()
 
                 List {
-                    ForEach(manager.drills, id: \.self) { drill in
-                        NavigationLink(destination: ResultsView(manager: manager)) {
+                    ForEach(manager.drills) { drill in
+                        NavigationLink(destination: RunningView(drill: drill)) {
                             HStack {
-                                Text(drill.title ?? "")
+                                Text(drill.title)
                                 Spacer()
                                 Text(String(drill.attempts))
                             }
@@ -51,23 +52,40 @@ struct ContentView: View {
     }
 }
 
-struct ResultsView: View {
-    @ObservedObject var manager: DrillManager
+struct RunningView: View {
+    @EnvironmentObject var manager: DrillManager
+    private let drill: Drill
+
+    init(drill: Drill) {
+        self.drill = drill
+    }
 
     var body: some View {
         VStack {
-            Text("Running drill!")
+            Text("Running \(drill.title)")
 
-            List(manager.contexts) { context in
-                HStack {
-                    Text(String(context.potCount))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.green)
-                    Text(String(context.missCount))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.red)
-                }.padding().font(.title)
+            List(drill.results) { result in
+                VStack {
+                    HStack {
+                        Text(String(result.potCount))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.green)
+                        Text(String(result.missCount))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.red)
+                    }.padding().font(.title)
+                    Text(String("\(result.date)"))
+                        .font(.body)
+                }
+
             }
+        }
+        .onAppear {
+            print("Start!")
+            manager.start(drill: drill)
+        }
+        .onDisappear {
+            print("Stop!")
         }
     }
 }
