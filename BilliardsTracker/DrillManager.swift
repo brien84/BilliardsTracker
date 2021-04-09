@@ -35,6 +35,21 @@ final class DrillManager: NSObject, ObservableObject {
     func addDrill(title: String, attempts: Int) {
         drillStore.createDrill(title: title, attempts: attempts)
     }
+
+    private var currentDrill: Drill?
+
+    func start(drill: Drill) {
+        currentDrill = drill
+
+        let context = DrillContext(title: drill.title, attempts: drill.attempts)
+        guard let data = try? JSONEncoder().encode(context) else { return }
+
+        session.sendMessageData(data) { reply in
+
+        } errorHandler: { error in
+            print(error)
+        }
+    }
 }
 
 extension DrillManager: WCSessionDelegate {
