@@ -12,6 +12,7 @@ struct BilliardsTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(DrillManager())
         }
     }
 }
