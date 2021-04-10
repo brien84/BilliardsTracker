@@ -9,12 +9,13 @@ import SwiftUI
 
 @main
 struct BilliardsTrackerApp: App {
+    @ObservedObject var runner = DrillRunner()
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
-                    .environmentObject(DrillRunner())
-            }
+                MenuView()
+            }.environmentObject(runner)
         }
     }
 }
