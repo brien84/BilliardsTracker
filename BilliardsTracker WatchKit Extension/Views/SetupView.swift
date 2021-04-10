@@ -1,5 +1,5 @@
 //
-//  StartView.swift
+//  SetupView.swift
 //  BilliardsTracker WatchKit Extension
 //
 //  Created by Marius on 2021-04-02.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StartView: View {
+struct SetupView: View {
     @EnvironmentObject var runner: DrillRunner
 
     @State private var attempts = 15
@@ -37,7 +37,7 @@ struct StartView: View {
 
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {
-        StartView()
+        SetupView()
             .environmentObject(DrillRunner())
     }
 }

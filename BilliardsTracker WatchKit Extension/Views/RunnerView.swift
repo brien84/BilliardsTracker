@@ -34,7 +34,7 @@ struct RunnerView: View {
                 }
                 .navigationBarBackButtonHidden(true)
             } else {
-                StartView()
+                SetupView()
                     .navigationBarBackButtonHidden(false)
             }
         }
