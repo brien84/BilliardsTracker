@@ -12,14 +12,14 @@ struct MenuView: View {
 
     var body: some View {
         TabView(selection: $currentTab) {
-            NavigationLink(destination: Color.green) {
+            NavigationLink(destination: RunnerView(.standalone)) {
                 Text("Standalone")
                     .font(.title3)
                     .foregroundColor(.green)
                     .tag(0)
             }
 
-            NavigationLink(destination: Color.red) {
+            NavigationLink(destination: RunnerView(.paired)) {
                 Text("Paired")
                     .font(.title3)
                     .foregroundColor(.red)
