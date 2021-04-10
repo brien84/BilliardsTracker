@@ -13,18 +13,24 @@ struct StartView: View {
     @State private var attempts = 15
 
     var body: some View {
-        VStack {
-            Picker(selection: $attempts, label: EmptyView()) {
-                ForEach(1..<101, id: \.self) { int in
-                    Text(String(int))
-                        .font(int == attempts ? .title2 : .title3)
+        if runner.mode == .standalone {
+            VStack {
+                Picker(selection: $attempts, label: EmptyView()) {
+                    ForEach(1..<101, id: \.self) { int in
+                        Text(String(int))
+                            .font(int == attempts ? .title2 : .title3)
+                    }
+                }
+
+                Button("Start") {
+                    runner.setAttempts(attempts)
+                    runner.isActive = true
                 }
             }
+        }
 
-            Button("Start") {
-                runner.setAttempts(attempts)
-                runner.isActive = true
-            }
+        if runner.mode == .paired {
+            Text("Select drill on a paired iOS device.")
         }
     }
 }
