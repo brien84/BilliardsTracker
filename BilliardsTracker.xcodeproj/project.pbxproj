@@ -37,6 +37,7 @@
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
+		29C87169262210680064C592 /* RunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* RunnerView.swift */; };
 		29F37DEC2617717C00DD4A9C /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* StartView.swift */; };
 		29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* DrillRunner.swift */; };
 		29FAD66A2616066900310DA9 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionTracker.swift */; };
@@ -135,6 +136,7 @@
 		29A64529261CF3D200C42E41 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		29C87168262210680064C592 /* RunnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerView.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		29FAD65D2615112A00310DA9 /* DrillRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillRunner.swift; sourceTree = "<group>"; };
 		29FAD6692616066800310DA9 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				290C01142617794900A82A6C /* PrimaryControls.swift */,
 				290C0120261799D900A82A6C /* SecondaryControls.swift */,
 				29C8716126220E060064C592 /* MenuView.swift */,
+				29C87168262210680064C592 /* RunnerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				290C01152617794900A82A6C /* PrimaryControls.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				2926E12B26150FE600E95DBB /* ContentView.swift in Sources */,
+				29C87169262210680064C592 /* RunnerView.swift in Sources */,
 				290C01392618899E00A82A6C /* ExtendedRuntimeManager.swift in Sources */,
 				29FAD65E2615112A00310DA9 /* DrillRunner.swift in Sources */,
 				29F37DEC2617717C00DD4A9C /* StartView.swift in Sources */,
