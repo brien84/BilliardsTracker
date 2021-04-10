@@ -9,6 +9,11 @@ import Combine
 import WatchKit
 import WatchConnectivity
 
+enum Mode {
+    case standalone
+    case paired
+}
+
 extension DrillRunner: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("activationDidCompleteWith: \(activationState.rawValue)")
@@ -26,6 +31,8 @@ extension DrillRunner: WCSessionDelegate {
 }
 
 final class DrillRunner: NSObject, ObservableObject {
+    @Published var mode: Mode?
+
     private let motion = MotionTracker()
     private let extendedRuntime = ExtendedRuntimeManager()
 
