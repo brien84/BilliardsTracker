@@ -61,23 +61,29 @@ struct RunningView: View {
     }
 
     var body: some View {
-        VStack {
-            Text("Running \(drill.title)")
-
-            List(drill.results) { result in
+        Group {
+            if manager.isRunning {
                 VStack {
-                    HStack {
-                        Text(String(result.potCount))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.green)
-                        Text(String(result.missCount))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.red)
-                    }.padding().font(.title)
-                    Text(String("\(result.date)"))
-                        .font(.body)
-                }
+                    Text("Running \(drill.title)")
 
+                    List(drill.results) { result in
+                        VStack {
+                            HStack {
+                                Text(String(result.potCount))
+                                    .frame(maxWidth: .infinity)
+                                    .foregroundColor(.green)
+                                Text(String(result.missCount))
+                                    .frame(maxWidth: .infinity)
+                                    .foregroundColor(.red)
+                            }.padding().font(.title)
+                            Text(String("\(result.date)"))
+                                .font(.body)
+                        }
+
+                    }
+                }
+            } else {
+                Text("Make sure watch is paired and app is in paired mode.")
             }
         }
         .onAppear {
