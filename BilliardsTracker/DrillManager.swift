@@ -37,6 +37,8 @@ final class DrillManager: NSObject, ObservableObject {
 
     private var currentDrill: Drill?
 
+    @Published var isRunning = false
+
     func start(drill: Drill) {
         currentDrill = drill
 
@@ -44,7 +46,7 @@ final class DrillManager: NSObject, ObservableObject {
         guard let data = try? JSONEncoder().encode(context) else { return }
 
         session.sendMessageData(data) { reply in
-
+            self.isRunning = true
         } errorHandler: { error in
             print(error)
         }
@@ -52,6 +54,7 @@ final class DrillManager: NSObject, ObservableObject {
 
     func stop() {
         currentDrill = nil
+        isRunning = false
 
         let context = DrillContext(title: "", attempts: 0, isActive: false)
         guard let data = try? JSONEncoder().encode(context) else { return }
