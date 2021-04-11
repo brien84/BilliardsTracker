@@ -10,4 +10,5 @@ import Foundation
 struct DrillContext: Codable {
     let title: String
     let attempts: Int
+    let isActive: Bool
 }
