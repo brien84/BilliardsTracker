@@ -46,7 +46,9 @@ final class DrillManager: NSObject, ObservableObject {
         guard let data = try? JSONEncoder().encode(context) else { return }
 
         session.sendMessageData(data) { reply in
-            self.isRunning = true
+            DispatchQueue.main.async {
+                self.isRunning = true
+            }
         } errorHandler: { error in
             print(error)
         }
