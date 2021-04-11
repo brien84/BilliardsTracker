@@ -21,11 +21,17 @@ extension DrillRunner: WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard mode == .paired else { return }
+
         guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
 
         DispatchQueue.main.async { [self] in
-            attempts = context.attempts
-            isActive = true
+            if context.isActive {
+                attempts = context.attempts
+                isActive = true
+            } else {
+                isActive = false
+            }
         }
     }
 }
@@ -39,7 +45,7 @@ final class DrillRunner: NSObject, ObservableObject {
     private let session = WCSession.default
 
     private func sendContext() {
-        print("Sending context!")
+        guard mode == .paired else { return }
 
         let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
         guard let data = try? JSONEncoder().encode(context) else { return }
@@ -55,7 +61,7 @@ final class DrillRunner: NSObject, ObservableObject {
         didSet {
             // if not starting
             if oldValue != false {
-                // if restart or stopping with more than 0 tries
+                // if restarting or stopping with more than 0 tries
                 if isActive || potCount + missCount > 0 {
                     sendContext()
                 }
