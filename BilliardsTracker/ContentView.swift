@@ -81,11 +81,10 @@ struct RunningView: View {
             }
         }
         .onAppear {
-            print("Start!")
             manager.start(drill: drill)
         }
         .onDisappear {
-            print("Stop!")
+            manager.stop()
         }
     }
 }
