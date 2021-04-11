@@ -29,6 +29,7 @@ extension DrillRunner: WCSessionDelegate {
             if context.isActive {
                 attempts = context.attempts
                 isActive = true
+                replyHandler(messageData)
             } else {
                 isActive = false
             }
