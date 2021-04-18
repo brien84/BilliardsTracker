@@ -5,6 +5,7 @@
 //  Created by Marius on 2021-04-12.
 //
 
+import Combine
 import WatchConnectivity
 
 final class ConnectivityManager: NSObject {
@@ -22,6 +23,8 @@ final class ConnectivityManager: NSObject {
         }
     }
 
+    var didReceiveDrillContext = PassthroughSubject<DrillContext, Never>()
+
     override init() {
         super.init()
 
@@ -35,6 +38,8 @@ extension ConnectivityManager: WCSessionDelegate {
         guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
 
         if isReadyForCommunication {
+            didReceiveDrillContext.send(context)
+
             if context.isActive {
                 guard let data = try? JSONEncoder().encode(true) else { return }
                 replyHandler(data)
