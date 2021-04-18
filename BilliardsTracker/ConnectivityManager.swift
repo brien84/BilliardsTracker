@@ -5,8 +5,15 @@
 //  Created by Marius on 2021-04-13.
 //
 
-import Foundation
+import Combine
 import WatchConnectivity
+
+enum ConnectivityError: Error, Identifiable {
+    var id: ConnectivityError { self }
+
+    case notReachable
+    case notReady
+}
 
 final class ConnectivityManager: NSObject {
     private let session = WCSession.default
@@ -22,6 +29,35 @@ final class ConnectivityManager: NSObject {
 
         session.delegate = self
         session.activate()
+    }
+
+    func sendDrillContext(_ context: DrillContext) -> AnyPublisher<Void, ConnectivityError> {
+        Future<Void, ConnectivityError> { [weak self] promise in
+            guard let isCounterpartReachable = self?.isCounterpartReachable, isCounterpartReachable else {
+                promise(.failure(.notReachable))
+                return
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                promise(.failure(.notReachable))
+            }
+
+            guard let data = try? JSONEncoder().encode(context) else { return }
+
+            self?.session.sendMessageData(data) { replyData in
+                guard let reply = try? JSONDecoder().decode(Bool.self, from: replyData) else { return }
+
+                if reply {
+                    promise(.success(()))
+                } else {
+                    promise(.failure(.notReady))
+                }
+            } errorHandler: { error in
+                print("\(type(of: self)) \(#function): \(error.localizedDescription)")
+                promise(.failure(.notReachable))
+            }
+        }
+        .eraseToAnyPublisher()
     }
 }
 
