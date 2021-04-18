@@ -31,6 +31,13 @@ final class ConnectivityManager: NSObject {
         session.delegate = self
         session.activate()
     }
+
+    func sendResultContext(_ context: ResultContext) {
+        guard isCounterpartReachable, isReadyForCommunication else { return }
+        guard let data = try? JSONEncoder().encode(context) else { return }
+
+        session.sendMessageData(data, replyHandler: nil, errorHandler: nil)
+    }
 }
 
 extension ConnectivityManager: WCSessionDelegate {
