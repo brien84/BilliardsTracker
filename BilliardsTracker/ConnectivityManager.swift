@@ -24,6 +24,8 @@ final class ConnectivityManager: NSObject {
         }
     }
 
+    var didReceiveResultContext = PassthroughSubject<ResultContext, Never>()
+
     override init() {
         super.init()
 
@@ -62,6 +64,12 @@ final class ConnectivityManager: NSObject {
 }
 
 extension ConnectivityManager: WCSessionDelegate {
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
+        guard let context = try? JSONDecoder().decode(ResultContext.self, from: messageData) else { return }
+
+        didReceiveResultContext.send(context)
+    }
+
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if activationState == .activated, session.isReachable {
             isCounterpartReachable = true
