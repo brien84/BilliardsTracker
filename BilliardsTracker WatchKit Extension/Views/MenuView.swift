@@ -19,8 +19,8 @@ struct MenuView: View {
                     .tag(0)
             }
 
-            NavigationLink(destination: RunnerView(.paired)) {
-                Text("Paired")
+            NavigationLink(destination: RunnerView(.tracked)) {
+                Text("Tracked")
                     .font(.title3)
                     .foregroundColor(.red)
                     .tag(1)

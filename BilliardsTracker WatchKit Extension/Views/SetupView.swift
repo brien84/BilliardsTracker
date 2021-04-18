@@ -29,7 +29,7 @@ struct SetupView: View {
             }
         }
 
-        if runner.mode == .paired {
+        if runner.mode == .tracked {
             Text("Select drill on a paired iOS device.")
         }
     }

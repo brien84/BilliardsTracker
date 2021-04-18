@@ -11,7 +11,7 @@ import WatchConnectivity
 
 enum Mode {
     case standalone
-    case paired
+    case tracked
 }
 
 extension DrillRunner: WCSessionDelegate {
@@ -21,7 +21,7 @@ extension DrillRunner: WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        guard mode == .paired else { return }
+        guard mode == .tracked else { return }
 
         guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
 
@@ -46,7 +46,7 @@ final class DrillRunner: NSObject, ObservableObject {
     private let session = WCSession.default
 
     private func sendContext() {
-        guard mode == .paired else { return }
+        guard mode == .tracked else { return }
 
         let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
         guard let data = try? JSONEncoder().encode(context) else { return }

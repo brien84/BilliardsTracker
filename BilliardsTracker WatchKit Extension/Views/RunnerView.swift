@@ -49,7 +49,7 @@ struct RunnerView: View {
 
 struct RunnerView_Previews: PreviewProvider {
     static var previews: some View {
-        RunnerView(.paired)
+        RunnerView(.tracked)
             .environmentObject(DrillRunner())
     }
 }
