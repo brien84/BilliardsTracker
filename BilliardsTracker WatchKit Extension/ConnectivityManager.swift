@@ -17,6 +17,12 @@ final class ConnectivityManager: NSObject {
         }
     }
 
+    var isReadyForCommunication = false {
+        didSet {
+            print("isReadyForCommunication: \(isReadyForCommunication)")
+        }
+    }
+
     override init() {
         super.init()
 
