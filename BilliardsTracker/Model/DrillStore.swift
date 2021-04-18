@@ -1,5 +1,5 @@
 //
-//  CoreDataManager.swift
+//  DrillStore.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-04-06.
@@ -8,7 +8,7 @@
 import Combine
 import CoreData
 
-final class CoreDataManager {
+final class DrillStore {
     private let persistentContainer: NSPersistentContainer
 
     var didSaveContext = PassthroughSubject<Void, Never>()

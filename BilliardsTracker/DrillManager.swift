@@ -11,7 +11,7 @@ import WatchConnectivity
 final class DrillManager: NSObject, ObservableObject {
     private let session = WCSession.default
 
-    private let drillStore = CoreDataManager()
+    private let drillStore = DrillStore()
 
     @Published var drills = [Drill]()
 
