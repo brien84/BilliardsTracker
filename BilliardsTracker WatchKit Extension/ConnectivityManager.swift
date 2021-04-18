@@ -5,7 +5,6 @@
 //  Created by Marius on 2021-04-12.
 //
 
-import Foundation
 import WatchConnectivity
 
 final class ConnectivityManager: NSObject {
@@ -32,15 +31,33 @@ final class ConnectivityManager: NSObject {
 }
 
 extension ConnectivityManager: WCSessionDelegate {
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
+
+        if isReadyForCommunication {
+            if context.isActive {
+                guard let data = try? JSONEncoder().encode(true) else { return }
+                replyHandler(data)
+            }
+        } else {
+            guard let data = try? JSONEncoder().encode(false) else { return }
+            replyHandler(data)
+        }
+    }
+
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if activationState == .activated, session.isReachable {
             isCounterpartReachable = true
+        } else {
+            isCounterpartReachable = false
         }
     }
 
     func sessionReachabilityDidChange(_ session: WCSession) {
         if session.activationState == .activated, session.isReachable {
             isCounterpartReachable = true
+        } else {
+            isCounterpartReachable = false
         }
     }
 }
