@@ -13,12 +13,27 @@ final class DrillStore {
 
     var didSaveContext = PassthroughSubject<Void, Never>()
 
-    init() {
+    init(inMemory: Bool = false) {
         persistentContainer = NSPersistentContainer(name: "BilliardsTrackerModel")
+
+        if inMemory {
+            persistentContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        }
+
         persistentContainer.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("\(type(of: self)) \(#function): \(error.localizedDescription)")
             }
+        }
+
+        if inMemory {
+            for i in 1..<10 {
+                let drill = Drill(context: persistentContainer.viewContext)
+                drill.title = "Title \(i)"
+                drill.attempts = i
+            }
+
+            try! persistentContainer.viewContext.save()
         }
     }
 
