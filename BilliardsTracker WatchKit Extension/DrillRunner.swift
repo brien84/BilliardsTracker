@@ -6,57 +6,28 @@
 //
 
 import Combine
-import WatchKit
 import WatchConnectivity
+import WatchKit
 
 enum Mode {
     case standalone
     case tracked
 }
 
-extension DrillRunner: WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("activationDidCompleteWith: \(activationState.rawValue)")
-        if let error = error { print(error) }
-    }
-
-    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        guard mode == .tracked else { return }
-
-        guard let context = try? JSONDecoder().decode(DrillContext.self, from: messageData) else { return }
-
-        DispatchQueue.main.async { [self] in
-            if context.isActive {
-                attempts = context.attempts
-                isActive = true
-                replyHandler(messageData)
+final class DrillRunner: ObservableObject {
+    @Published var mode: Mode? {
+        didSet {
+            if mode == .tracked {
+                connectivity.isReadyForCommunication = true
             } else {
-                isActive = false
+                connectivity.isReadyForCommunication = false
             }
         }
     }
-}
-
-final class DrillRunner: NSObject, ObservableObject {
-    @Published var mode: Mode?
 
     private let motion = MotionTracker()
     private let extendedRuntime = ExtendedRuntimeManager()
-
-    private let session = WCSession.default
-
-    private func sendContext() {
-        guard mode == .tracked else { return }
-
-        let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
-        guard let data = try? JSONEncoder().encode(context) else { return }
-
-        session.sendMessageData(data) { reply in
-            print("Reply data received!")
-        } errorHandler: { error in
-            print(error)
-        }
-    }
+    private let connectivity = ConnectivityManager()
 
     @Published var isActive = false {
         didSet {
@@ -64,7 +35,8 @@ final class DrillRunner: NSObject, ObservableObject {
             if oldValue != false {
                 // if restarting or stopping with more than 0 tries
                 if isActive || potCount + missCount > 0 {
-                    sendContext()
+                    let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
+                    connectivity.sendResultContext(context)
                 }
             }
 
@@ -132,14 +104,21 @@ final class DrillRunner: NSObject, ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    override init() {
-        super.init()
-
-        session.delegate = self
-        session.activate()
+    init() {
+        connectivity.didReceiveDrillContext
+            .receive(on: RunLoop.main)
+            .sink { [weak self] context in
+                if context.isActive {
+                    self?.attempts = context.attempts
+                    self?.isActive = true
+                } else {
+                    self?.isActive = false
+                }
+            }
+            .store(in: &cancellables)
 
         motion.gesturePublisher
-            .receive(on: DispatchQueue.main)
+            .receive(on: RunLoop.main)
             .sink { [weak self] gesture in
                 switch gesture {
                 case .axisX:
