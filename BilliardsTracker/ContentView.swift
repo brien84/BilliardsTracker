@@ -39,6 +39,11 @@ struct ContentView: View {
                     ForEach(manager.drills) { drill in
                         DrillView(drill: drill)
                     }
+                    .onDelete { indexSet in
+                        withAnimation {
+                            manager.deleteDrills(offsets: indexSet)
+                        }
+                    }
                 }
             }
             .navigationBarTitle("Drills")

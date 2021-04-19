@@ -59,6 +59,10 @@ final class DrillManager: ObservableObject {
         store.createDrill(title: title, attempts: attempts)
     }
 
+    func deleteDrills(offsets: IndexSet) {
+        offsets.map { drills[$0] }.forEach { store.delete(drill: $0) }
+    }
+
     func addResult(_ context: ResultContext, to drill: Drill) {
         store.createResult(from: context, in: drill)
     }
