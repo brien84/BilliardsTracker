@@ -16,14 +16,13 @@ enum RunState: Identifiable {
     case loading
 }
 
-final class DrillManager: NSObject, ObservableObject {
-    private let session = WCSession.default
+final class DrillManager: ObservableObject {
+    private let connectivity = ConnectivityManager()
+    @Published var connectivityError: ConnectivityError?
 
-    private let drillStore = DrillStore()
-
+    private let store: DrillStore
     @Published var drills = [Drill]()
-
-    private var cancellables = Set<AnyCancellable>()
+    private var selectedDrill: Drill?
 
     @Published var runState: RunState = .stopped {
         didSet {
@@ -33,85 +32,74 @@ final class DrillManager: NSObject, ObservableObject {
         }
     }
 
-    override init() {
-        super.init()
+    private var cancellables = Set<AnyCancellable>()
 
-        session.delegate = self
-        session.activate()
+    init(store: DrillStore = DrillStore()) {
+        self.store = store
 
-        drillStore.didSaveContext.sink { [weak self] in
-            self?.drills = self?.drillStore.getAllDrills() ?? []
-        }
-        .store(in: &cancellables)
+        connectivity.didReceiveResultContext
+            .receive(on: RunLoop.main)
+            .sink { [weak self] context in
+                if let drill = self?.selectedDrill {
+                    self?.addResult(context, to: drill)
+                }
+            }
+            .store(in: &cancellables)
 
-        drills = drillStore.getAllDrills()
+        store.didSaveContext
+            .sink { [weak self] in
+                self?.drills = self?.store.getAllDrills() ?? []
+            }
+            .store(in: &cancellables)
+
+        drills = store.getAllDrills()
     }
 
     func addDrill(title: String, attempts: Int) {
-        drillStore.createDrill(title: title, attempts: attempts)
-    }
-
-    private var currentDrill: Drill?
-
-    @Published var isRunning = false
-
-    func start(drill: Drill) {
-        currentDrill = drill
-
-        let context = DrillContext(title: drill.title, attempts: drill.attempts, isActive: true)
-        guard let data = try? JSONEncoder().encode(context) else { return }
-
-        session.sendMessageData(data) { reply in
-            DispatchQueue.main.async {
-                self.isRunning = true
-            }
-        } errorHandler: { error in
-            print(error)
-        }
-    }
-
-    func stop() {
-        currentDrill = nil
-        isRunning = false
-
-        let context = DrillContext(title: "", attempts: 0, isActive: false)
-        guard let data = try? JSONEncoder().encode(context) else { return }
-
-        session.sendMessageData(data) { reply in
-
-        } errorHandler: { error in
-            print(error)
-        }
+        store.createDrill(title: title, attempts: attempts)
     }
 
     func addResult(_ context: ResultContext, to drill: Drill) {
-        drillStore.createResult(from: context, in: drill)
-    }
-}
-
-extension DrillManager: WCSessionDelegate {
-    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        guard let context = try? JSONDecoder().decode(ResultContext.self, from: messageData) else { return }
-
-        DispatchQueue.main.async { [self] in
-            if let drill = currentDrill {
-                addResult(context, to: drill)
-            }
-
-            replyHandler(messageData)
-        }
+        store.createResult(from: context, in: drill)
     }
 
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("activationDidCompleteWith: \(activationState.rawValue)")
-        if let error = error { print(error) }
+    func start(drill: Drill) {
+        guard runState == .stopped else { return }
+
+        runState = .loading
+
+        selectedDrill = drill
+
+        let context = DrillContext(title: drill.title, attempts: drill.attempts, isActive: true)
+
+        connectivity.sendDrillContext(context)
+            .receive(on: RunLoop.main)
+            .subscribe(
+                Subscribers.Sink(
+                    receiveCompletion: { [weak self] completion in
+                        if completion == .finished {
+                            self?.runState = .running
+                        }
+
+                        if completion == .failure(.notReachable) {
+                            self?.runState = .stopped
+                            self?.connectivityError = .notReachable
+                        }
+
+                        if completion == .failure(.notReady) {
+                            self?.runState = .stopped
+                            self?.connectivityError = .notReady
+                        }
+                    },
+                    receiveValue: { }
+                )
+        )
     }
 
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        print("sessionDidBecomeInactive")
-    }
+    func stop() {
+        selectedDrill = nil
 
-    func sessionDidDeactivate(_ session: WCSession) {
-        print("sessionDidDeactivate")
+        let context = DrillContext(title: "", attempts: 0, isActive: false)
+        _ = connectivity.sendDrillContext(context)
     }
 }
