@@ -8,6 +8,14 @@
 import Combine
 import WatchConnectivity
 
+enum RunState: Identifiable {
+    var id: RunState { self }
+
+    case running
+    case stopped
+    case loading
+}
+
 final class DrillManager: NSObject, ObservableObject {
     private let session = WCSession.default
 
@@ -16,6 +24,14 @@ final class DrillManager: NSObject, ObservableObject {
     @Published var drills = [Drill]()
 
     private var cancellables = Set<AnyCancellable>()
+
+    @Published var runState: RunState = .stopped {
+        didSet {
+            if runState == .stopped {
+                stop()
+            }
+        }
+    }
 
     override init() {
         super.init()
