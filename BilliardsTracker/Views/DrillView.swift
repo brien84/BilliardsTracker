@@ -15,23 +15,40 @@ struct DrillView: View {
         self.drill = drill
     }
 
+    private var navigationLink: some View {
+        let navigationBinding = Binding<Bool>(
+                                    get: { manager.runState == .running },
+                                    set: { manager.runState = $0 ? .running : .stopped }
+                                ).removeDuplictates()
+
+        return NavigationLink(destination: RunningView(drill: drill),
+                              isActive: navigationBinding) { EmptyView() }.disabled(true)
+    }
+
     var body: some View {
         Button {
             manager.start(drill: drill)
         } label: {
-            VStack(spacing: 16) {
-                Text(drill.title)
-                    .font(.title)
-                HStack {
-                    Image(systemName: "arrow.left.arrow.right")
-                        .imageScale(.small)
-                    Text(String(drill.attempts))
+
+            ZStack {
+                navigationLink
+
+                VStack(spacing: 16) {
+                    Text(drill.title)
+                        .font(.title)
+                    HStack {
+                        Image(systemName: "arrow.left.arrow.right")
+                            .imageScale(.small)
+                        Text(String(drill.attempts))
+                    }
                 }
+                .padding()
+                .frame(maxWidth: .infinity)
             }
-            .padding()
-            .frame(maxWidth: .infinity)
+
         }
     }
+
 }
 
 struct DrillView_Previews: PreviewProvider {
@@ -41,5 +58,23 @@ struct DrillView_Previews: PreviewProvider {
     static var previews: some View {
         DrillView(drill: drill)
             .environmentObject(manager)
+    }
+}
+
+extension Binding where Value: Equatable {
+    /// Workaround for `NavigationLink's `isActive = false` called multiple times per dismissal.
+    public func removeDuplictates() -> Binding<Value> {
+        var previous: Value? = nil
+
+        return Binding<Value>(
+            get: { self.wrappedValue },
+            set: { newValue in
+                guard newValue != previous else {
+                    return
+                }
+                previous = newValue
+                self.wrappedValue = newValue
+            }
+        )
     }
 }
