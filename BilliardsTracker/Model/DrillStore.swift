@@ -31,6 +31,14 @@ final class DrillStore {
                 let drill = Drill(context: persistentContainer.viewContext)
                 drill.title = "Title \(i)"
                 drill.attempts = i
+
+                for _ in 1...i {
+                    let result = DrillResult(context: persistentContainer.viewContext)
+                    result.potCount = Int.random(in: 0...50)
+                    result.missCount = Int.random(in: 0...50)
+                    result.date = Date()
+                    result.drill = drill
+                }
             }
 
             try! persistentContainer.viewContext.save()
