@@ -52,49 +52,6 @@ struct ContentView: View {
     }
 }
 
-struct RunningView: View {
-    @EnvironmentObject var manager: DrillManager
-    private let drill: Drill
-
-    init(drill: Drill) {
-        self.drill = drill
-    }
-
-    var body: some View {
-        Group {
-            if manager.isRunning {
-                VStack {
-                    Text("Running \(drill.title)")
-
-                    List(drill.results) { result in
-                        VStack {
-                            HStack {
-                                Text(String(result.potCount))
-                                    .frame(maxWidth: .infinity)
-                                    .foregroundColor(.green)
-                                Text(String(result.missCount))
-                                    .frame(maxWidth: .infinity)
-                                    .foregroundColor(.red)
-                            }.padding().font(.title)
-                            Text(String("\(result.date)"))
-                                .font(.body)
-                        }
-
-                    }
-                }
-            } else {
-                Text("Make sure watch is paired and app is in paired mode.")
-            }
-        }
-        .onAppear {
-            manager.start(drill: drill)
-        }
-        .onDisappear {
-            manager.stop()
-        }
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
