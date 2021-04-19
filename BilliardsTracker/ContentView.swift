@@ -15,6 +15,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
+
             VStack {
                 TextField("Drill Title", text: $title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -32,28 +33,24 @@ struct ContentView: View {
                 }
                 .padding()
 
-                Spacer()
+                Divider()
 
                 List {
                     ForEach(manager.drills) { drill in
-                        NavigationLink(destination: RunningView(drill: drill)) {
-                            HStack {
-                                Text(drill.title)
-                                Spacer()
-                                Text(String(drill.attempts))
-                            }
-                        }
+                        DrillView(drill: drill)
                     }
                 }
             }
             .navigationBarTitle("Drills")
         }.navigationViewStyle(StackNavigationViewStyle())
-
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    static var manager = DrillManager(store: DrillStore(inMemory: true))
+
     static var previews: some View {
         ContentView()
+            .environmentObject(manager)
     }
 }
