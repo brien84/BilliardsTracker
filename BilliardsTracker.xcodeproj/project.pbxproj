@@ -37,6 +37,7 @@
 		29A6452A261CF3D200C42E41 /* DrillStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64529261CF3D200C42E41 /* DrillStore.swift */; };
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
+		29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB85FB262E26AB0055A8BB /* StatisticsView.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
 		29C87169262210680064C592 /* RunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* RunnerView.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
@@ -139,6 +140,7 @@
 		29A64522261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BilliardsTrackerModel.xcdatamodel; sourceTree = "<group>"; };
 		29A64529261CF3D200C42E41 /* DrillStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillStore.swift; sourceTree = "<group>"; };
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
+		29BB85FB262E26AB0055A8BB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		29C87168262210680064C592 /* RunnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerView.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			children = (
 				29642E43262CD7DE00A967D6 /* DrillView.swift */,
 				29642E4A262E058C00A967D6 /* RunningView.swift */,
+				29BB85FB262E26AB0055A8BB /* StatisticsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */,
+				29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */,
 				29A6452A261CF3D200C42E41 /* DrillStore.swift in Sources */,
 				2926E0FA26150FE400E95DBB /* ContentView.swift in Sources */,
 				298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
