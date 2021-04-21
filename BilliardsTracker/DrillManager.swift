@@ -22,7 +22,7 @@ final class DrillManager: ObservableObject {
 
     private let store: DrillStore
     @Published var drills = [Drill]()
-    private var selectedDrill: Drill?
+    var selectedDrill: Drill?
 
     @Published var runState: RunState = .stopped {
         didSet {
