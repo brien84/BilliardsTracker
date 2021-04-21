@@ -17,7 +17,7 @@ struct DrillView: View {
 
     private var navigationLink: some View {
         let navigationBinding = Binding<Bool>(
-                                    get: { manager.runState == .running },
+                                    get: { manager.runState == .running && manager.selectedDrill == drill },
                                     set: { manager.runState = $0 ? .running : .stopped }
                                 ).removeDuplictates()
 
