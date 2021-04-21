@@ -18,6 +18,13 @@ struct ContentView: View {
         )
     }
 
+    private var loadingView: some View {
+        ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: .red))
+            .padding()
+            .background(Color.primary)
+    }
+
     var body: some View {
         NavigationView {
 
@@ -39,8 +46,11 @@ struct ContentView: View {
                 CreateDrillView(isCreatingDrill: $isCreatingDrill)
             }
 
+
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
+        .disabled(manager.runState == .loading)
     }
 }
 

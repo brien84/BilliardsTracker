@@ -25,13 +25,6 @@ struct DrillView: View {
                               isActive: navigationBinding) { EmptyView() }.disabled(true)
     }
 
-    private var loadingView: some View {
-        ProgressView()
-            .padding()
-            .background(Color.white)
-            .border(Color.black)
-    }
-
     var body: some View {
         Button {
             manager.start(drill: drill)
@@ -66,8 +59,6 @@ struct DrillView: View {
                       dismissButton: .default(Text("OK")))
             }
         }
-        .disabled(manager.runState == .loading)
-        .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
     }
 
 }
