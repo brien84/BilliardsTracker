@@ -19,7 +19,7 @@ struct RunningView: View {
         VStack {
             Text("Running: \(drill.title)")
 
-            List(drill.results) { result in
+            List(manager.currentSessionResults) { result in
 
                 VStack {
                     HStack {
