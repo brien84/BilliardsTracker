@@ -23,6 +23,12 @@ final class DrillManager: ObservableObject {
     private let store: DrillStore
     @Published var drills = [Drill]()
     var selectedDrill: Drill?
+    private var startDate = Date()
+
+    var currentSessionResults: [DrillResult] {
+        guard let drill = selectedDrill else { return [] }
+        return drill.results.filter { $0.date > startDate }
+    }
 
     @Published var runState: RunState = .stopped {
         didSet {
@@ -72,6 +78,7 @@ final class DrillManager: ObservableObject {
 
         runState = .loading
 
+        startDate = Date()
         selectedDrill = drill
 
         let context = DrillContext(title: drill.title, attempts: drill.attempts, isActive: true)
