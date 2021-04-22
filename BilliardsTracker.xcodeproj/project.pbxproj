@@ -39,6 +39,7 @@
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB85FB262E26AB0055A8BB /* StatisticsView.swift */; };
 		29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* CreateDrillView.swift */; };
+		29BB860F2631F2BA0055A8BB /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
 		29C87169262210680064C592 /* RunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* RunnerView.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
@@ -143,6 +144,7 @@
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29BB85FB262E26AB0055A8BB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		29BB8602262EECE00055A8BB /* CreateDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDrillView.swift; sourceTree = "<group>"; };
+		29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		29C87168262210680064C592 /* RunnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerView.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
 				29FD3DDF262604A000322371 /* ConnectivityManager.swift */,
 				298E3544261A206500CCDDEE /* DrillManager.swift */,
+				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
 				2926E0F926150FE400E95DBB /* ContentView.swift */,
 				29642E3D262CD7BB00A967D6 /* Views */,
 				2926E0FB26150FE500E95DBB /* Assets.xcassets */,
@@ -532,6 +535,7 @@
 				29FD3DE0262604A000322371 /* ConnectivityManager.swift in Sources */,
 				294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */,
 				29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */,
+				29BB860F2631F2BA0055A8BB /* StatisticsManager.swift in Sources */,
 				294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */,
 				29642E44262CD7DE00A967D6 /* DrillView.swift in Sources */,
 				298E3545261A206500CCDDEE /* DrillManager.swift in Sources */,
