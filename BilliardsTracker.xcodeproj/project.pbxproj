@@ -28,6 +28,7 @@
 		294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35A261F74340086E808 /* Drill+CoreDataProperties.swift */; };
 		294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */; };
 		294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */; };
+		29558FD626432F46006BA300 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29558FD526432F46006BA300 /* Extensions.swift */; };
 		29642E44262CD7DE00A967D6 /* DrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E43262CD7DE00A967D6 /* DrillView.swift */; };
 		29642E4B262E058C00A967D6 /* RunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E4A262E058C00A967D6 /* RunningView.swift */; };
 		298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
@@ -136,6 +137,7 @@
 		294AD35A261F74340086E808 /* Drill+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drill+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrillResult+CoreDataClass.swift"; sourceTree = "<group>"; };
 		294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrillResult+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		29558FD526432F46006BA300 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		29642E43262CD7DE00A967D6 /* DrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillView.swift; sourceTree = "<group>"; };
 		29642E4A262E058C00A967D6 /* RunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningView.swift; sourceTree = "<group>"; };
 		298E3537261A1C4F00CCDDEE /* DrillContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillContext.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				29558FCE2642F78C006BA300 /* Managers */,
 				294AD366261F74C40086E808 /* Model */,
 				29642E3D262CD7BB00A967D6 /* Views */,
+				29558FD426432F26006BA300 /* Supporting Files */,
 				2926E0FB26150FE500E95DBB /* Assets.xcassets */,
 				2926E10026150FE500E95DBB /* Info.plist */,
 				2926E0FD26150FE500E95DBB /* Preview Content */,
@@ -308,6 +311,14 @@
 				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		29558FD426432F26006BA300 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				29558FD526432F46006BA300 /* Extensions.swift */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		29642E3D262CD7BB00A967D6 /* Views */ = {
@@ -542,6 +553,7 @@
 				298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */,
 				2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */,
+				29558FD626432F46006BA300 /* Extensions.swift in Sources */,
 				29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */,
 				29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				29FD3DE0262604A000322371 /* ConnectivityManager.swift in Sources */,
