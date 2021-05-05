@@ -28,7 +28,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
 
-            List {
+            ScrollView {
                 ForEach(manager.drills) { drill in
                     HStack {
                         DrillView(drill: drill)
@@ -45,7 +45,6 @@ struct ContentView: View {
             .sheet(isPresented: $isCreatingDrill) {
                 CreateDrillView(isCreatingDrill: $isCreatingDrill)
             }
-
 
         }
         .navigationViewStyle(StackNavigationViewStyle())
