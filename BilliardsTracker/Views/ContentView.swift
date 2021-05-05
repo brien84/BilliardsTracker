@@ -34,11 +34,6 @@ struct ContentView: View {
                         DrillView(drill: drill)
                     }
                 }
-                .onDelete { indexSet in
-                    withAnimation {
-                        manager.deleteDrills(offsets: indexSet)
-                    }
-                }
             }
             .navigationBarTitle("Drills")
             .navigationBarItems(trailing: createDrillButton)
