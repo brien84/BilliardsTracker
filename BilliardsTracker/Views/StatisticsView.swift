@@ -9,14 +9,61 @@ import SwiftUI
 
 struct StatisticsView: View {
     private let drill: Drill
+    private let statistics: StatisticsManager
 
     init(drill: Drill) {
         self.drill = drill
+        self.statistics = StatisticsManager(drill: drill)
     }
 
     var body: some View {
-        Text(drill.title)
-            .font(.title)
+        VStack(spacing: 0) {
+
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("\(statistics.results.count) sessions")
+                        .font(.callout)
+                        .fontWeight(.light)
+                    Spacer()
+                    Text("\(statistics.totalAttempts) attempts")
+                        .font(.callout)
+                        .fontWeight(.light)
+                }
+
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(Color.red)
+
+            HStack {
+                VStack {
+                    Text("\(statistics.totalPotCount)")
+                        .font(.title2)
+                    Text("Pots")
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack {
+                    Text("\(statistics.totalMissCount)")
+                        .font(.title2)
+                    Text("Misses")
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack {
+                    Text("\(statistics.pottingPercentage)%")
+                        .font(.title2)
+                    Text("Average")
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
+
+            Spacer()
+        }
+        .navigationBarTitle(drill.title)
     }
 }
 
