@@ -26,26 +26,29 @@ struct DrillView: View {
     }
 
     var body: some View {
-        Button {
-            manager.start(drill: drill)
-        } label: {
+        VStack {
+            Button {
+                manager.start(drill: drill)
+            } label: {
+                ZStack {
+                    navigationLink
 
-            ZStack {
-                navigationLink
+                    VStack(spacing: 16) {
+                        Text(drill.title)
+                            .font(.title)
 
-                VStack(spacing: 16) {
-                    Text(drill.title)
-                        .font(.title)
-                    HStack {
-                        Image(systemName: "arrow.left.arrow.right")
-                            .imageScale(.small)
-                        Text(String(drill.attempts))
+                        HStack {
+                            Image(systemName: "arrow.left.arrow.right")
+                                .imageScale(.small)
+                            Text(String(drill.attempts))
+                        }
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
             }
 
+            NavigationLink("Statistics", destination: StatisticsView(drill: drill))
         }
     }
 
