@@ -216,12 +216,9 @@
 		2926E0F626150FE400E95DBB /* BilliardsTracker */ = {
 			isa = PBXGroup;
 			children = (
-				294AD366261F74C40086E808 /* Model */,
 				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
-				29FD3DDF262604A000322371 /* ConnectivityManager.swift */,
-				298E3544261A206500CCDDEE /* DrillManager.swift */,
-				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
-				2926E0F926150FE400E95DBB /* ContentView.swift */,
+				29558FCE2642F78C006BA300 /* Managers */,
+				294AD366261F74C40086E808 /* Model */,
 				29642E3D262CD7BB00A967D6 /* Views */,
 				2926E0FB26150FE500E95DBB /* Assets.xcassets */,
 				2926E10026150FE500E95DBB /* Info.plist */,
@@ -303,14 +300,25 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		29558FCE2642F78C006BA300 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				29FD3DDF262604A000322371 /* ConnectivityManager.swift */,
+				298E3544261A206500CCDDEE /* DrillManager.swift */,
+				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		29642E3D262CD7BB00A967D6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2994521B26407CAD0051F4A7 /* ChartView.swift */,
+				2926E0F926150FE400E95DBB /* ContentView.swift */,
 				29BB8602262EECE00055A8BB /* CreateDrillView.swift */,
 				29642E43262CD7DE00A967D6 /* DrillView.swift */,
 				29642E4A262E058C00A967D6 /* RunningView.swift */,
 				29BB85FB262E26AB0055A8BB /* StatisticsView.swift */,
-				2994521B26407CAD0051F4A7 /* ChartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
