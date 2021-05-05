@@ -30,12 +30,12 @@ final class DrillStore {
             for i in 1..<10 {
                 let drill = Drill(context: persistentContainer.viewContext)
                 drill.title = "Title \(i)"
-                drill.attempts = i
+                drill.attempts = i * 10
 
                 for _ in 1...i {
                     let result = DrillResult(context: persistentContainer.viewContext)
-                    result.potCount = Int.random(in: 0...50)
-                    result.missCount = Int.random(in: 0...50)
+                    result.potCount = Int.random(in: 0...drill.attempts)
+                    result.missCount = drill.attempts - result.potCount
                     result.date = Date()
                     result.drill = drill
                 }
