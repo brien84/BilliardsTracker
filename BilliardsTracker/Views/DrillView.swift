@@ -48,8 +48,34 @@ struct DrillView: View {
                 }
             }
 
-            NavigationLink("Statistics", destination: StatisticsView(drill: drill))
+            HStack {
+                NavigationLink("Statistics", destination: StatisticsView(drill: drill))
+                    .padding()
+
+                deleteButton
+                    .padding()
+            }
         }
+    }
+
+    @State private var shouldDelete = false
+
+    private var deleteButton: some View {
+        Button {
+            shouldDelete = true
+        } label: {
+            Text("Delete")
+        }
+        .alert(isPresented: $shouldDelete, content: {
+            Alert(
+                title: Text("Confirmation"),
+                message: Text("Are you sure you want to delete this drill?"),
+                primaryButton: .destructive(Text("Delete")) {
+                    manager.delete(drill: drill)
+                },
+                secondaryButton: .cancel()
+            )
+        })
     }
 
 }
