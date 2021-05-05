@@ -24,6 +24,10 @@ struct ChartView: View {
                         .offset(x: 0, y: -labelHeight / 2)
                 }
             }
+
+            Graph(dataPoints: makeDataPoints())
+                .stroke(Color.black, style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
+                .padding(.leading, 30)
         }
         .onAppear {
             isReady = true
@@ -33,6 +37,10 @@ struct ChartView: View {
     init(results: [DrillResult], maxValue: Int) {
         self.results = results
         self.maxValue = maxValue
+    }
+
+    private func makeDataPoints() -> [CGFloat] {
+        results.map { CGFloat($0.potCount) / CGFloat(maxValue) }
     }
 
     private func calculateLabelValues(in size: CGSize) -> [Int] {
@@ -90,11 +98,36 @@ private struct Label: View {
     }
 }
 
-struct LabelLine: Shape {
+private struct LabelLine: Shape {
     func path(in rect: CGRect) -> Path {
         Path { p in
             p.move(to: CGPoint(x: 0, y: 0))
             p.addLine(to: CGPoint(x: rect.maxX, y: 0))
+        }
+    }
+}
+
+private struct Graph: Shape {
+    var dataPoints: [CGFloat]
+
+    func path(in rect: CGRect) -> Path {
+        func point(at ix: Int) -> CGPoint {
+            let point = dataPoints[ix]
+            let x = rect.width * CGFloat(ix) / CGFloat(dataPoints.count - 1)
+            let y = (1 - point) * rect.height
+
+            return CGPoint(x: x, y: y)
+        }
+
+        return Path { p in
+            guard dataPoints.count > 1 else { return }
+
+            let start = dataPoints[0]
+            p.move(to: CGPoint(x: 0, y: (1 - start) * rect.height))
+
+            for idx in dataPoints.indices {
+                p.addLine(to: point(at: idx))
+            }
         }
     }
 }
