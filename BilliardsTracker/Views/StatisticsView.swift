@@ -61,7 +61,17 @@ struct StatisticsView: View {
             .padding()
             .background(Color.blue)
 
-            Spacer()
+            Text("Last results")
+                .font(.title)
+                .bold()
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Divider()
+
+            ChartView(results: drill.results, maxValue: drill.attempts)
+                .padding()
+                .background(Color.yellow)
         }
         .navigationBarTitle(drill.title)
     }
