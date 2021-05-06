@@ -9,46 +9,30 @@ import SwiftUI
 
 struct RunningView: View {
     @EnvironmentObject var manager: DrillManager
-    private let drill: Drill
-
-    init(drill: Drill) {
-        self.drill = drill
-    }
 
     var body: some View {
         VStack {
-            Text("Running: \(drill.title)")
+            Text("Running: \(manager.selectedDrill?.title ?? "")")
 
-            List(manager.currentSessionResults) { result in
-
-                VStack {
-                    HStack {
-                        Text(String(result.potCount))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.green)
-
-                        Text(String(result.missCount))
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.red)
-                    }
-                    .padding()
-                    .font(.title)
-
-                    Text(String("\(result.date)"))
-                        .font(.body)
-                }
-
+            List {
+                ForEach(manager.currentSessionResults) { result in
+                    ResultView(result: result)
+                }.listRowBackground(Color.blue)
             }
+
         }
     }
 }
 
 struct RunningView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: DrillStore(inMemory: true))
-    static var drill = manager.drills.first!
+    static var manager: DrillManager = {
+        let manager = DrillManager(store: DrillStore(inMemory: true))
+        manager.selectedDrill = manager.drills.first!
+        return manager
+    }()
 
     static var previews: some View {
-        RunningView(drill: drill)
+        RunningView()
             .environmentObject(manager)
     }
 }
