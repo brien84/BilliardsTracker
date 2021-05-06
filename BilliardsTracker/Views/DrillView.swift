@@ -15,16 +15,6 @@ struct DrillView: View {
         self.drill = drill
     }
 
-    private var navigationLink: some View {
-        let navigationBinding = Binding<Bool>(
-                                    get: { manager.runState == .running && manager.selectedDrill == drill },
-                                    set: { manager.runState = $0 ? .running : .stopped }
-                                ).removeDuplictates()
-
-        return NavigationLink(destination: RunningView(drill: drill),
-                              isActive: navigationBinding) { EmptyView() }.disabled(true)
-    }
-
     var body: some View {
         VStack {
             Button {
@@ -56,6 +46,16 @@ struct DrillView: View {
                     .padding()
             }
         }
+    }
+
+    private var navigationLink: some View {
+        let navigationBinding = Binding<Bool>(
+                                    get: { manager.runState == .running && manager.selectedDrill == drill },
+                                    set: { manager.runState = $0 ? .running : .stopped }
+                                ).removeDuplictates()
+
+        return NavigationLink(destination: RunningView(),
+                              isActive: navigationBinding) { EmptyView() }.disabled(true)
     }
 
     @State private var shouldDelete = false
