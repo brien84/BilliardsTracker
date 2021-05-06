@@ -56,6 +56,12 @@ extension DrillResult {
         }
     }
 
+    var pottingPercentage: Int {
+        guard let drill = drill else { return 0 }
+
+        return Int(Double(potCount) / Double(drill.attempts) * 100)
+    }
+
 }
 
 extension DrillResult: Identifiable {
