@@ -110,7 +110,7 @@ private struct StatisticsPanel: View {
                 .frame(maxWidth: .infinity)
 
                 VStack {
-                    Text("\(statistics.pottingPercentage)%")
+                    Text("\(statistics.totalPottingPercentage)%")
                         .font(.title2)
                     Text("Average")
                         .font(.body)

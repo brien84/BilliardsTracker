@@ -26,10 +26,10 @@ struct StatisticsManager {
         results.reduce(0, { $0 + $1.missCount })
     }
 
-    var pottingPercentage: Int {
-        guard totalAttempts > 0 else { return 0 }
+    var totalPottingPercentage: Int {
+        guard results.count > 0 else { return 0 }
 
-        return Int(Double(totalPotCount) / Double(totalAttempts) * 100)
+        return results.reduce(0, { $0 + $1.pottingPercentage }) / results.count
     }
 
     init(drill: Drill) {
