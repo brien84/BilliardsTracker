@@ -33,8 +33,7 @@ final class DrillRunner: ObservableObject {
         didSet {
             // if not starting
             if oldValue != false {
-                // if restarting or stopping with more than 0 tries
-                if isActive || potCount + missCount > 0 {
+                if potCount + missCount > 0 {
                     let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
                     connectivity.sendResultContext(context)
                 }
