@@ -11,6 +11,8 @@ struct StatisticsView: View {
     private let drill: Drill
     private let statistics: StatisticsManager
 
+    @State private var showHistory = false
+
     init(drill: Drill) {
         self.drill = drill
         self.statistics = StatisticsManager(drill: drill)
@@ -18,50 +20,9 @@ struct StatisticsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            StatisticsPanel(statistics: statistics)
 
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("\(statistics.results.count) sessions")
-                        .font(.callout)
-                        .fontWeight(.light)
-                    Spacer()
-                    Text("\(statistics.totalAttempts) attempts")
-                        .font(.callout)
-                        .fontWeight(.light)
-                }
-
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .background(Color.red)
-
-            HStack {
-                VStack {
-                    Text("\(statistics.totalPotCount)")
-                        .font(.title2)
-                    Text("Pots")
-                }
-                .frame(maxWidth: .infinity)
-
-                VStack {
-                    Text("\(statistics.totalMissCount)")
-                        .font(.title2)
-                    Text("Misses")
-                }
-                .frame(maxWidth: .infinity)
-
-                VStack {
-                    Text("\(statistics.pottingPercentage)%")
-                        .font(.title2)
-                    Text("Average")
-                }
-                .frame(maxWidth: .infinity)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue)
-
-            Text("Last results")
+            Text(showHistory ? "History" : "Last results")
                 .font(.title)
                 .bold()
                 .padding()
@@ -69,11 +30,96 @@ struct StatisticsView: View {
 
             Divider()
 
-            ChartView(results: drill.results, maxValue: drill.attempts)
-                .padding()
-                .background(Color.yellow)
+            if showHistory {
+                HistoryView(results: drill.results)
+
+            } else {
+                ChartView(results: drill.results, maxValue: drill.attempts)
+                    .padding()
+                    .background(Color.yellow)
+            }
         }
+        .navigationBarItems(trailing: toggleHistoryButton)
         .navigationBarTitle(drill.title)
+    }
+
+    private var toggleHistoryButton: some View {
+        Button {
+            showHistory.toggle()
+        } label: {
+            Text(showHistory ? "Chart" : "History")
+        }
+    }
+}
+
+private struct HistoryView: View {
+    private let results: [DrillResult]
+
+    init(results: [DrillResult]) {
+        self.results = results
+    }
+
+    var body: some View {
+        ScrollView {
+            ForEach(results) { result in
+                ResultView(result: result)
+            }
+        }
+    }
+}
+
+private struct StatisticsPanel: View {
+    private let statistics: StatisticsManager
+
+    init(statistics: StatisticsManager) {
+        self.statistics = statistics
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+
+            HStack {
+                Text("\(statistics.results.count) sessions")
+                    .font(.callout)
+                    .fontWeight(.light)
+                Spacer()
+                Text("\(statistics.totalAttempts) attempts")
+                    .font(.callout)
+                    .fontWeight(.light)
+
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(Color.red)
+
+            HStack(spacing: 0) {
+                VStack {
+                    Text("\(statistics.totalPotCount)")
+                        .font(.title2)
+                    Text("Pots")
+                        .font(.body)
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack {
+                    Text("\(statistics.totalMissCount)")
+                        .font(.title2)
+                    Text("Misses")
+                        .font(.body)
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack {
+                    Text("\(statistics.pottingPercentage)%")
+                        .font(.title2)
+                    Text("Average")
+                        .font(.body)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .padding()
+            .background(Color.blue)
+        }
     }
 }
 
@@ -82,6 +128,8 @@ struct StatisticsView_Previews: PreviewProvider {
     static var drill = manager.drills.first!
 
     static var previews: some View {
-        StatisticsView(drill: drill)
+        NavigationView {
+            StatisticsView(drill: drill)
+        }
     }
 }
