@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    private let drill: Drill
     private let statistics: StatisticsManager
 
     @State private var showHistory = false
 
     init(drill: Drill) {
-        self.drill = drill
         self.statistics = StatisticsManager(drill: drill)
     }
 
@@ -31,16 +29,15 @@ struct StatisticsView: View {
             Divider()
 
             if showHistory {
-                HistoryView(results: drill.results)
-
+                HistoryView(results: statistics.results)
             } else {
-                ChartView(results: drill.results, maxValue: drill.attempts)
+                ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
                     .padding()
                     .background(Color.yellow)
             }
         }
         .navigationBarItems(trailing: toggleHistoryButton)
-        .navigationBarTitle(drill.title)
+        .navigationBarTitle(statistics.drill.title)
     }
 
     private var toggleHistoryButton: some View {
