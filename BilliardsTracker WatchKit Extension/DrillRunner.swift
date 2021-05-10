@@ -31,22 +31,16 @@ final class DrillRunner: ObservableObject {
 
     @Published var isActive = false {
         didSet {
-            // if not starting
-            if oldValue != false {
-                if potCount + missCount > 0 {
-                    let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
-                    connectivity.sendResultContext(context)
-                }
-            }
-
             if isActive {
                 WKInterfaceDevice().play(.start)
                 potCount = 0
                 missCount = 0
                 isPaused = false
             } else {
-                WKInterfaceDevice().play(.stop)
-                isPaused = true
+                if oldValue != false {
+                    WKInterfaceDevice().play(.stop)
+                    isPaused = true
+                }
             }
         }
     }
@@ -68,6 +62,8 @@ final class DrillRunner: ObservableObject {
     @Published var potCount = 0 {
         didSet {
             if isCompleted {
+                let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
+                connectivity.sendResultContext(context)
                 WKInterfaceDevice().play(.success)
                 isPaused = true
             } else {
@@ -79,6 +75,8 @@ final class DrillRunner: ObservableObject {
     @Published var missCount = 0 {
         didSet {
             if isCompleted {
+                let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
+                connectivity.sendResultContext(context)
                 WKInterfaceDevice().play(.success)
                 isPaused = true
             } else {
