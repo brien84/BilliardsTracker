@@ -5,10 +5,10 @@
 //  Created by Marius on 2021-04-22.
 //
 
-import Foundation
+import SwiftUI
 
 struct StatisticsManager {
-    private let drill: Drill
+    let drill: Drill
     
     var results: [DrillResult] {
         drill.results
@@ -30,6 +30,10 @@ struct StatisticsManager {
         guard results.count > 0 else { return 0 }
 
         return results.reduce(0, { $0 + $1.pottingPercentage }) / results.count
+    }
+
+    var chartDataPoints: [CGFloat] {
+        results.reversed().map { CGFloat($0.potCount) / CGFloat(drill.attempts) }
     }
 
     init(drill: Drill) {
