@@ -13,13 +13,6 @@ struct SecondaryControls: View {
     var body: some View {
         VStack {
             Button {
-                runner.isActive = true
-            } label: {
-                Text("Restart")
-                    .foregroundColor(.orange)
-            }
-
-            Button {
                 runner.isPaused = !runner.isPaused
             } label: {
                 Text(runner.isPaused ? "Resume" : "Pause")
