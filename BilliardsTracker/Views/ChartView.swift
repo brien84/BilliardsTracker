@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChartView: View {
     private let maxValue: Int
-    private let results: [DrillResult]
+    private let dataPoints: [CGFloat]
 
     private let labelHeight = UIFont.preferredFont(forTextStyle: .caption1).lineHeight
 
@@ -25,7 +25,7 @@ struct ChartView: View {
                 }
             }
 
-            Graph(dataPoints: makeDataPoints())
+            Graph(dataPoints: dataPoints)
                 .stroke(Color.black, style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                 .padding(.leading, 30)
         }
@@ -34,13 +34,9 @@ struct ChartView: View {
         }
     }
 
-    init(results: [DrillResult], maxValue: Int) {
-        self.results = results
+    init(dataPoints: [CGFloat], maxValue: Int) {
+        self.dataPoints = dataPoints
         self.maxValue = maxValue
-    }
-
-    private func makeDataPoints() -> [CGFloat] {
-        results.map { CGFloat($0.potCount) / CGFloat(maxValue) }
     }
 
     private func calculateLabelValues(in size: CGSize) -> [Int] {
@@ -72,9 +68,10 @@ struct ChartView: View {
 struct ChartView_Previews: PreviewProvider {
     static var manager = DrillManager(store: DrillStore(inMemory: true))
     static var drill = manager.drills.first!
+    static var statistics = StatisticsManager(drill: drill)
 
     static var previews: some View {
-        ChartView(results: drill.results, maxValue: drill.attempts)
+        ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
     }
 }
 
