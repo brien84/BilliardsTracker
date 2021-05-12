@@ -25,6 +25,13 @@ struct SecondaryControls: View {
                 Text("Stop")
                     .foregroundColor(.red)
             }
+
+            Button {
+                runner.undo()
+            } label: {
+                Text("Undo")
+                    .foregroundColor(.orange)
+            }
         }
     }
 }
