@@ -14,6 +14,7 @@ struct CreateDrillView: View {
 
     @State private var title = ""
     @State private var attempts = 1.0
+    @State private var isFailable = false
 
     private var cancelButton: some View {
         Button("Cancel") {
@@ -23,7 +24,7 @@ struct CreateDrillView: View {
 
     private var saveButton: some View {
         Button("Save") {
-            manager.addDrill(title: title, attempts: Int(attempts))
+            manager.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
             isCreatingDrill = false
         }
     }
@@ -39,6 +40,9 @@ struct CreateDrillView: View {
                     .padding(.horizontal)
 
                 Text(String(Int(attempts)))
+
+                Toggle("Failable", isOn: $isFailable)
+                    .padding(.horizontal)
 
                 Spacer()
             }
