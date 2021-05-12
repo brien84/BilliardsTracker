@@ -33,8 +33,8 @@ final class DrillRunner: ObservableObject {
         didSet {
             if isActive {
                 WKInterfaceDevice().play(.start)
-                potCount = 0
                 missCount = 0
+                potCount = 0
                 isPaused = false
             } else {
                 if oldValue != false {
@@ -89,8 +89,14 @@ final class DrillRunner: ObservableObject {
         attempts - potCount - missCount
     }
 
+    private var isFailable = false
+
     var isCompleted: Bool {
-        remainingAttempts <= 0
+        if isFailable {
+            return missCount > 0 || remainingAttempts <= 0
+        } else {
+            return remainingAttempts <= 0
+        }
     }
 
     private var attempts = 1
@@ -107,6 +113,7 @@ final class DrillRunner: ObservableObject {
             .sink { [weak self] context in
                 if context.isActive {
                     self?.attempts = context.attempts
+                    self?.isFailable = context.isFailable
                     self?.isActive = true
                 } else {
                     self?.isActive = false
