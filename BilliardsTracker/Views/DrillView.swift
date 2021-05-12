@@ -31,6 +31,11 @@ struct DrillView: View {
                             Image(systemName: "arrow.left.arrow.right")
                                 .imageScale(.small)
                             Text(String(drill.attempts))
+
+                            if drill.isFailable {
+                                Image(systemName: "xmark.seal")
+                                    .imageScale(.small)
+                            }
                         }
                     }
                     .padding()
