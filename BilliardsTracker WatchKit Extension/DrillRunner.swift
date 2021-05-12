@@ -61,6 +61,8 @@ final class DrillRunner: ObservableObject {
 
     @Published var potCount = 0 {
         didSet {
+            didPotLastAttempt = true
+
             if isCompleted {
                 let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
                 connectivity.sendResultContext(context)
@@ -74,6 +76,8 @@ final class DrillRunner: ObservableObject {
 
     @Published var missCount = 0 {
         didSet {
+            didPotLastAttempt = false
+
             if isCompleted {
                 let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
                 connectivity.sendResultContext(context)
@@ -132,5 +136,19 @@ final class DrillRunner: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+
+    private var didPotLastAttempt: Bool?
+
+    func undo() {
+        guard let didPotLastAttempt = didPotLastAttempt else { return }
+
+        if didPotLastAttempt {
+            potCount -= 1
+        } else {
+            missCount -= 1
+        }
+
+        self.didPotLastAttempt = nil
     }
 }
