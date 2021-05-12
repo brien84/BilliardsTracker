@@ -6,17 +6,17 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension Drill {
-    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Drill> {
         return NSFetchRequest<Drill>(entityName: "Drill")
     }
 
     @NSManaged private var attemptsValue: Int64
     @NSManaged private var titleValue: String?
+    @NSManaged private var isFailableValue: Bool
     @NSManaged private var resultsValue: NSSet?
 
     var attempts: Int {
@@ -34,6 +34,15 @@ extension Drill {
         }
         set {
             titleValue = newValue
+        }
+    }
+
+    var isFailable: Bool {
+        get {
+            isFailableValue
+        }
+        set {
+            isFailableValue = newValue
         }
     }
 

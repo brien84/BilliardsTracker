@@ -27,21 +27,7 @@ final class DrillStore {
         }
 
         if inMemory {
-            for i in 1..<10 {
-                let drill = Drill(context: persistentContainer.viewContext)
-                drill.title = "Title \(i)"
-                drill.attempts = i * 10
-
-                for _ in 1...i {
-                    let result = DrillResult(context: persistentContainer.viewContext)
-                    result.potCount = Int.random(in: 0...drill.attempts)
-                    result.missCount = drill.attempts - result.potCount
-                    result.date = Date()
-                    result.drill = drill
-                }
-            }
-
-            try! persistentContainer.viewContext.save()
+            generateDummyData()
         }
     }
 
@@ -56,10 +42,11 @@ final class DrillStore {
         }
     }
 
-    func createDrill(title: String, attempts: Int) {
+    func createDrill(title: String, attempts: Int, isFailable: Bool) {
         let drill = Drill(context: persistentContainer.viewContext)
         drill.title = title
         drill.attempts = attempts
+        drill.isFailable = isFailable
 
         save()
     }
@@ -90,4 +77,28 @@ final class DrillStore {
         }
     }
 
+    private func generateDummyData() {
+        for i in 1..<10 {
+            let drill = Drill(context: persistentContainer.viewContext)
+            drill.title = "Title \(i)"
+            drill.attempts = i * 10
+            drill.isFailable = Bool.random()
+
+            for _ in 1...i {
+                let result = DrillResult(context: persistentContainer.viewContext)
+                result.potCount = Int.random(in: 0...drill.attempts)
+
+                if drill.isFailable {
+                    result.missCount = (drill.attempts - result.potCount > 0) ? 1 : 0
+                } else {
+                    result.missCount = drill.attempts - result.potCount
+                }
+
+                result.date = Date(timeIntervalSinceNow: Double.random(in: 3600...7200))
+                result.drill = drill
+            }
+        }
+
+        try! persistentContainer.viewContext.save()
+    }
 }

@@ -61,8 +61,8 @@ final class DrillManager: ObservableObject {
         drills = store.getAllDrills()
     }
 
-    func addDrill(title: String, attempts: Int) {
-        store.createDrill(title: title, attempts: attempts)
+    func addDrill(title: String, attempts: Int, isFailable: Bool) {
+        store.createDrill(title: title, attempts: attempts, isFailable: isFailable)
     }
 
     func delete(drill: Drill) {
@@ -81,7 +81,7 @@ final class DrillManager: ObservableObject {
         startDate = Date()
         selectedDrill = drill
 
-        let context = DrillContext(title: drill.title, attempts: drill.attempts, isActive: true)
+        let context = DrillContext(title: drill.title, attempts: drill.attempts, isFailable: drill.isFailable, isActive: true)
 
         connectivity.sendDrillContext(context)
             .receive(on: RunLoop.main)
@@ -110,7 +110,7 @@ final class DrillManager: ObservableObject {
     func stop() {
         selectedDrill = nil
 
-        let context = DrillContext(title: "", attempts: 0, isActive: false)
+        let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
         _ = connectivity.sendDrillContext(context)
     }
 }
