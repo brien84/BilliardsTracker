@@ -32,6 +32,7 @@ struct ContentView: View {
                 ForEach(manager.drills) { drill in
                     HStack {
                         DrillView(drill: drill)
+                            .padding(8)
                     }
                 }
             }
