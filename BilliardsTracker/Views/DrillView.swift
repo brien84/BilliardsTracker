@@ -16,51 +16,53 @@ struct DrillView: View {
     }
 
     var body: some View {
-        VStack {
-            Button {
-                manager.start(drill: drill)
-            } label: {
-                ZStack {
-                    navigationLink
-
-                    VStack(spacing: 16) {
-                        Text(drill.title)
-                            .font(.title)
-
-                        HStack {
-                            Image(systemName: "arrow.left.arrow.right")
-                                .imageScale(.small)
-                            Text(String(drill.attempts))
-
-                            if drill.isFailable {
-                                Image(systemName: "xmark.seal")
-                                    .imageScale(.small)
-                            }
-                        }
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                }
-            }
-
-            HStack {
-                NavigationLink("Statistics", destination: StatisticsView(drill: drill))
-                    .padding()
-
-                deleteButton
-                    .padding()
-            }
-        }
-    }
-
-    private var navigationLink: some View {
         let navigationBinding = Binding<Bool>(
                                     get: { manager.runState == .running && manager.selectedDrill == drill },
                                     set: { manager.runState = $0 ? .running : .stopped }
                                 ).removeDuplictates()
 
-        return NavigationLink(destination: RunningView(),
-                              isActive: navigationBinding) { EmptyView() }.disabled(true)
+        ZStack {
+            NavigationLink(destination: RunningView(),
+                           isActive: navigationBinding) { EmptyView() }.disabled(true)
+
+            Color(red: 0/255.0, green: 184/255.0, blue: 148/255.0)
+                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+
+            VStack {
+                Text(drill.title)
+                    .foregroundColor(.white)
+                    .font(Font.largeTitle.weight(.semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                HStack {
+                    Image(systemName: "arrow.left.arrow.right")
+                        .imageScale(.medium)
+                    Text("\(drill.attempts)")
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .foregroundColor(.white)
+                .padding(4)
+
+                Image(systemName: "xmark.seal")
+                    .font(Font.title3.weight(.black))
+                    .foregroundColor(.red)
+                    .isHidden(!drill.isFailable)
+
+                HStack {
+                    deleteButton
+                    Spacer()
+                    statisticsButton
+                }
+                .padding(.top)
+                .foregroundColor(.white)
+            }
+            .padding()
+
+        }.onTapGesture {
+            manager.start(drill: drill)
+        }
     }
 
     @State private var shouldDelete = false
@@ -69,7 +71,8 @@ struct DrillView: View {
         Button {
             shouldDelete = true
         } label: {
-            Text("Delete")
+            Image(systemName: "trash")
+                .imageScale(.large)
         }
         .alert(isPresented: $shouldDelete, content: {
             Alert(
@@ -83,6 +86,28 @@ struct DrillView: View {
         })
     }
 
+    private var statisticsButton: some View {
+        NavigationLink(
+            destination: StatisticsView(drill: drill),
+            label: {
+                Image(systemName: "chart.bar.doc.horizontal")
+                    .imageScale(.large)
+            }
+        )
+    }
+
+}
+
+extension View {
+    /// Hide or show the view based on a boolean value.
+    @ViewBuilder
+    func isHidden(_ hidden: Bool) -> some View {
+        if hidden {
+            self.hidden()
+        } else {
+            self
+        }
+    }
 }
 
 struct DrillView_Previews: PreviewProvider {
@@ -92,5 +117,7 @@ struct DrillView_Previews: PreviewProvider {
     static var previews: some View {
         DrillView(drill: drill)
             .environmentObject(manager)
+            .aspectRatio(1.2, contentMode: .fit)
+            .padding()
     }
 }
