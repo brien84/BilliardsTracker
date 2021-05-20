@@ -22,13 +22,9 @@ final class DrillManager: ObservableObject {
 
     private let store: DrillStore
     @Published var drills = [Drill]()
-    var selectedDrill: Drill?
-    private var startDate = Date()
 
-    var currentSessionResults: [DrillResult] {
-        guard let drill = selectedDrill else { return [] }
-        return drill.results.filter { $0.date > startDate }
-    }
+    var selectedDrill: Drill?
+    var startDate = Date()
 
     @Published var runState: RunState = .stopped {
         didSet {
