@@ -7,11 +7,21 @@
 
 import SwiftUI
 
-struct StatisticsManager {
+final class StatisticsManager: ObservableObject {
     let drill: Drill
+    private var afterDate: Date?
+
+    init(drill: Drill, afterDate: Date? = nil) {
+        self.drill = drill
+        self.afterDate = afterDate
+    }
     
     var results: [DrillResult] {
-        drill.results
+        if let afterDate = afterDate {
+            return drill.results.filter { $0.date > afterDate }
+        } else {
+            return drill.results
+        }
     }
 
     var totalAttempts: Int {
@@ -34,9 +44,5 @@ struct StatisticsManager {
 
     var chartDataPoints: [CGFloat] {
         results.reversed().map { CGFloat($0.potCount) / CGFloat(drill.attempts) }
-    }
-
-    init(drill: Drill) {
-        self.drill = drill
     }
 }
