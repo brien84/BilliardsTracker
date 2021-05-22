@@ -121,7 +121,7 @@ private struct StatisticsPanel: View {
 }
 
 struct StatisticsView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: DrillStore(inMemory: true))
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
     static var drill = manager.drills.first!
 
     static var previews: some View {

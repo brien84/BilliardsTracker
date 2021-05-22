@@ -53,7 +53,7 @@ struct CreateDrillView: View {
 }
 
 struct CreateDrillView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: DrillStore(inMemory: true))
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var previews: some View {
         CreateDrillView(isCreatingDrill: .constant(true))

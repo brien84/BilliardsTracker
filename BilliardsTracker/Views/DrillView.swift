@@ -22,7 +22,7 @@ struct DrillView: View {
                                 ).removeDuplictates()
 
         ZStack {
-            NavigationLink(destination: RunningView(),
+            NavigationLink(destination: RunningView(drill: drill, startDate: manager.startDate),
                            isActive: navigationBinding) { EmptyView() }.disabled(true)
 
             Color(red: 0/255.0, green: 184/255.0, blue: 148/255.0)
@@ -111,13 +111,13 @@ extension View {
 }
 
 struct DrillView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: DrillStore(inMemory: true))
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
     static var drill = manager.drills.first!
 
     static var previews: some View {
         DrillView(drill: drill)
             .environmentObject(manager)
-            .aspectRatio(1.2, contentMode: .fit)
+            .aspectRatio(2.0, contentMode: .fit)
             .padding()
     }
 }

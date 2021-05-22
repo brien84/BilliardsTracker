@@ -62,7 +62,7 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: DrillStore(inMemory: true))
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var previews: some View {
         ContentView()
