@@ -8,26 +8,60 @@
 import Combine
 import CoreData
 
+enum DrillStoreError: Error {
+    case initialization
+}
+
 final class DrillStore {
-    private let persistentContainer: NSPersistentContainer
+    let persistentContainer: NSPersistentContainer
+    private static var model: NSManagedObjectModel?
+
+    private static func loadModel(name: String) throws -> NSManagedObjectModel {
+        if model == nil {
+            guard let modelURL = Bundle.main.url(forResource: name, withExtension: "momd") else {
+                print("Could not find `\(name)` url.")
+                throw DrillStoreError.initialization
+            }
+
+            guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
+                print("Could not initialize `\(name)`.")
+                throw DrillStoreError.initialization
+            }
+
+            self.model = model
+        }
+
+        return model!
+    }
+
+    private static func loadContainer(name: String) throws -> NSPersistentContainer {
+        NSPersistentContainer(name: name, managedObjectModel: try loadModel(name: name))
+    }
 
     var didSaveContext = PassthroughSubject<Void, Never>()
 
-    init(inMemory: Bool = false) {
-        persistentContainer = NSPersistentContainer(name: "BilliardsTrackerModel")
+    init(inMemory: Bool = false, isPreview: Bool = false) throws {
+        persistentContainer = try DrillStore.loadContainer(name: "BilliardsTrackerModel")
 
         if inMemory {
             persistentContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
 
+        var loadPersistentStoresError: Error?
+
         persistentContainer.loadPersistentStores { description, error in
             if let error = error {
-                fatalError("\(type(of: self)) \(#function): \(error.localizedDescription)")
+                loadPersistentStoresError = error
             }
         }
 
-        if inMemory {
-            generateDummyData()
+        if let error = loadPersistentStoresError {
+            print("\(type(of: self)) \(#function): \(error.localizedDescription)")
+            throw DrillStoreError.initialization
+        }
+
+        if inMemory && isPreview {
+            generatePreviewData()
         }
     }
 
@@ -77,7 +111,7 @@ final class DrillStore {
         }
     }
 
-    private func generateDummyData() {
+    private func generatePreviewData() {
         for i in 1..<10 {
             let drill = Drill(context: persistentContainer.viewContext)
             drill.title = "Title \(i)"
