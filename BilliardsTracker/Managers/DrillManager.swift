@@ -36,7 +36,7 @@ final class DrillManager: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(store: DrillStore = DrillStore()) {
+    init(store: DrillStore) {
         self.store = store
 
         connectivity.didReceiveResultContext
