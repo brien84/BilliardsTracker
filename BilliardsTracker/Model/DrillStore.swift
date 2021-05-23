@@ -10,10 +10,13 @@ import CoreData
 
 enum DrillStoreError: Error {
     case initialization
+    case saving
 }
 
 final class DrillStore {
-    let persistentContainer: NSPersistentContainer
+    var didSaveContext = PassthroughSubject<Result<Void, DrillStoreError>, Never>()
+
+    private let persistentContainer: NSPersistentContainer
     private static var model: NSManagedObjectModel?
 
     private static func loadModel(name: String) throws -> NSManagedObjectModel {
@@ -37,8 +40,6 @@ final class DrillStore {
     private static func loadContainer(name: String) throws -> NSPersistentContainer {
         NSPersistentContainer(name: name, managedObjectModel: try loadModel(name: name))
     }
-
-    var didSaveContext = PassthroughSubject<Void, Never>()
 
     init(inMemory: Bool = false, isPreview: Bool = false) throws {
         persistentContainer = try DrillStore.loadContainer(name: "BilliardsTrackerModel")
@@ -65,7 +66,7 @@ final class DrillStore {
         }
     }
 
-    func getAllDrills() -> [Drill] {
+    func loadDrills() -> [Drill] {
         let fetchRequest: NSFetchRequest<Drill> = Drill.fetchRequest()
 
         do {
@@ -82,15 +83,33 @@ final class DrillStore {
         drill.attempts = attempts
         drill.isFailable = isFailable
 
+        do {
+            try drill.validateForInsert()
+        } catch {
+            print("\(type(of: self)) \(#function): \(error.localizedDescription)")
+            persistentContainer.viewContext.rollback()
+            didSaveContext.send(.failure(.saving))
+            return
+        }
+
         save()
     }
 
-    func createResult(from context: ResultContext, in drill: Drill) {
+    func addResult(from context: ResultContext, to drill: Drill) {
         let result = DrillResult(context: persistentContainer.viewContext)
         result.potCount = context.potCount
         result.missCount = context.missCount
         result.date = context.date
         result.drill = drill
+
+        do {
+            try result.validateForInsert()
+        } catch {
+            print("\(type(of: self)) \(#function): \(error.localizedDescription)")
+            persistentContainer.viewContext.rollback()
+            didSaveContext.send(.failure(.saving))
+            return
+        }
 
         save()
     }
@@ -101,13 +120,14 @@ final class DrillStore {
         save()
     }
 
-    func save() {
+    private func save() {
         do {
             try persistentContainer.viewContext.save()
-            didSaveContext.send()
+            didSaveContext.send(.success(()))
         } catch {
             print("\(type(of: self)) \(#function): \(error)")
             persistentContainer.viewContext.rollback()
+            didSaveContext.send(.failure(.saving))
         }
     }
 
