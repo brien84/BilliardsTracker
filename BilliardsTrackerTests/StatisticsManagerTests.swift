@@ -13,7 +13,7 @@ final class StatisticsManagerTests: XCTestCase {
     var store: DrillStore!
 
     override func setUpWithError() throws {
-        store = DrillStore(inMemory: true)
+        store = try! DrillStore(inMemory: true)
     }
 
     override func tearDownWithError() throws {
@@ -24,15 +24,9 @@ final class StatisticsManagerTests: XCTestCase {
     func testAfterDateNilCountsAllResults() throws {
         let testDate = Date()
 
-        let drill = Drill(context: store.persistentContainer.viewContext)
-
-        let result0 = DrillResult(context: store.persistentContainer.viewContext)
-        result0.date = Date(timeInterval: -3600, since: testDate)
-        result0.drill = drill
-
-        let result1 = DrillResult(context: store.persistentContainer.viewContext)
-        result1.date = Date(timeInterval: 3600, since: testDate)
-        result1.drill = drill
+        let drill = createDrill(attempts: 1)
+        store.addResult(from: createResultContext(date: Date(timeInterval: -3600, since: testDate)), to: drill)
+        store.addResult(from: createResultContext(date: Date(timeInterval: 3600, since: testDate)), to: drill)
 
         sut = StatisticsManager(drill: drill)
 
@@ -42,15 +36,9 @@ final class StatisticsManagerTests: XCTestCase {
     func testResultsAreCountedOnlyAfterDate() throws {
         let testDate = Date()
 
-        let drill = Drill(context: store.persistentContainer.viewContext)
-
-        let result0 = DrillResult(context: store.persistentContainer.viewContext)
-        result0.date = Date(timeInterval: -3600, since: testDate)
-        result0.drill = drill
-
-        let result1 = DrillResult(context: store.persistentContainer.viewContext)
-        result1.date = Date(timeInterval: 3600, since: testDate)
-        result1.drill = drill
+        let drill = createDrill(attempts: 1)
+        store.addResult(from: createResultContext(date: Date(timeInterval: -3600, since: testDate)), to: drill)
+        store.addResult(from: createResultContext(date: Date(timeInterval: 3600, since: testDate)), to: drill)
 
         sut = StatisticsManager(drill: drill, afterDate: testDate)
 
@@ -58,18 +46,9 @@ final class StatisticsManagerTests: XCTestCase {
     }
 
     func testStatisticsCalculation() throws {
-        let drill = Drill(context: store.persistentContainer.viewContext)
-        drill.attempts = 10
-
-        let result0 = DrillResult(context: store.persistentContainer.viewContext)
-        result0.potCount = 5
-        result0.missCount = 5
-        result0.drill = drill
-
-        let result1 = DrillResult(context: store.persistentContainer.viewContext)
-        result1.potCount = 5
-        result1.missCount = 5
-        result1.drill = drill
+        let drill = createDrill(attempts: 10)
+        store.addResult(from: createResultContext(potCount: 5, missCount: 5), to: drill)
+        store.addResult(from: createResultContext(potCount: 5, missCount: 5), to: drill)
 
         sut = StatisticsManager(drill: drill)
 
@@ -80,23 +59,24 @@ final class StatisticsManagerTests: XCTestCase {
     }
 
     func testChartDataPoints() throws {
-        let drill = Drill(context: store.persistentContainer.viewContext)
-        drill.attempts = 10
+        let drill = createDrill(attempts: 10)
 
-        let result0 = DrillResult(context: store.persistentContainer.viewContext)
-        result0.date = Date(timeIntervalSinceReferenceDate: 1)
-        result0.potCount = 8
-        result0.missCount = 2
-        result0.drill = drill
-
-        let result1 = DrillResult(context: store.persistentContainer.viewContext)
-        result1.date = Date(timeIntervalSinceReferenceDate: 50)
-        result1.potCount = 2
-        result1.missCount = 8
-        result1.drill = drill
+        store.addResult(from: createResultContext(potCount: 8, missCount: 2), to: drill)
+        store.addResult(from: createResultContext(potCount: 2, missCount: 8), to: drill)
 
         sut = StatisticsManager(drill: drill)
 
         XCTAssertEqual(sut.chartDataPoints, [0.8, 0.2])
+    }
+
+    // MARK: - Helpers
+
+    private func createDrill(attempts: Int) -> Drill {
+        store.createDrill(title: "", attempts: attempts, isFailable: false)
+        return store.loadDrills().first!
+    }
+
+    private func createResultContext(potCount: Int = 1, missCount: Int = 1, date: Date = Date()) -> ResultContext {
+        ResultContext(potCount: potCount, missCount: missCount, date: date)
     }
 }
