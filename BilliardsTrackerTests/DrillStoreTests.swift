@@ -141,4 +141,27 @@ final class DrillStoreTests: XCTestCase {
 
         XCTAssertEqual(drill.results.count, initialCount)
     }
+
+    func testDeletingDrill() throws {
+        let initialCount = sut.loadDrills().count
+        let drill = sut.loadDrills().first!
+
+        let expectation = self.expectation(description: "didSaveContext")
+
+        sut.didSaveContext.sink { result in
+            switch result {
+            case .success():
+                expectation.fulfill()
+            case .failure(_):
+                XCTFail()
+            }
+        }
+        .store(in: &cancellables)
+
+        sut.delete(drill: drill)
+
+        waitForExpectations(timeout: 1)
+
+        XCTAssertLessThan(sut.loadDrills().count, initialCount)
+    }
 }
