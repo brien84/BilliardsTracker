@@ -23,6 +23,12 @@ final class DrillStoreTests: XCTestCase {
         sut = nil
     }
 
+    func testLoadingDrills() throws {
+        let drills = sut.loadDrills()
+
+        XCTAssertGreaterThan(drills.count, 0)
+    }
+
     func testCreatingDrill() throws {
         let initialCount = sut.loadDrills().count
 
@@ -66,5 +72,4 @@ final class DrillStoreTests: XCTestCase {
 
         XCTAssertEqual(sut.loadDrills().count, initialCount)
     }
-
 }
