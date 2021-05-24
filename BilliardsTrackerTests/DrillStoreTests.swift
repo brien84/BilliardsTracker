@@ -72,4 +72,73 @@ final class DrillStoreTests: XCTestCase {
 
         XCTAssertEqual(sut.loadDrills().count, initialCount)
     }
+
+    func testAddingDrillResult() throws {
+        let drill = sut.loadDrills().first!
+        let initialCount = drill.results.count
+
+        let expectation = self.expectation(description: "didSaveContext")
+
+        sut.didSaveContext.sink { result in
+            switch result {
+            case .success():
+                expectation.fulfill()
+            case .failure(_):
+                XCTFail()
+            }
+        }
+        .store(in: &cancellables)
+
+        sut.addResult(from: ResultContext(potCount: 1, missCount: 1, date: Date()), to: drill)
+
+        waitForExpectations(timeout: 1)
+
+        XCTAssertGreaterThan(drill.results.count, initialCount)
+    }
+
+    func testAddingDrillResultPotCountValidation() throws {
+        let drill = sut.loadDrills().first!
+        let initialCount = drill.results.count
+
+        let expectation = self.expectation(description: "didSaveContext")
+
+        sut.didSaveContext.sink { result in
+            switch result {
+            case .success():
+                XCTFail()
+            case .failure(_):
+                expectation.fulfill()
+            }
+        }
+        .store(in: &cancellables)
+
+        sut.addResult(from: ResultContext(potCount: -1, missCount: 1, date: Date()), to: drill)
+
+        waitForExpectations(timeout: 1)
+
+        XCTAssertEqual(drill.results.count, initialCount)
+    }
+
+    func testAddingDrillResultMissCountValidation() throws {
+        let drill = sut.loadDrills().first!
+        let initialCount = drill.results.count
+
+        let expectation = self.expectation(description: "didSaveContext")
+
+        sut.didSaveContext.sink { result in
+            switch result {
+            case .success():
+                XCTFail()
+            case .failure(_):
+                expectation.fulfill()
+            }
+        }
+        .store(in: &cancellables)
+
+        sut.addResult(from: ResultContext(potCount: 1, missCount: -1, date: Date()), to: drill)
+
+        waitForExpectations(timeout: 1)
+
+        XCTAssertEqual(drill.results.count, initialCount)
+    }
 }
