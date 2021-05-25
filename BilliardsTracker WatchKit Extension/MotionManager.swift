@@ -1,5 +1,5 @@
 //
-//  MotionTracker.swift
+//  MotionManager.swift
 //  BilliardsTracker WatchKit Extension
 //
 //  Created by Marius on 2021-04-01.
@@ -13,7 +13,7 @@ enum Gesture {
     case axisY
 }
 
-final class MotionTracker {
+final class MotionManager {
     private lazy var motionManager: CMMotionManager = {
         let manager = CMMotionManager()
         manager.deviceMotionUpdateInterval = 1/40

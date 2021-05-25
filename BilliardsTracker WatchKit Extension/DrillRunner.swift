@@ -16,7 +16,7 @@ enum Mode {
 final class DrillRunner: ObservableObject {
     private let connectivity = ConnectivityManager()
     private let extendedRuntime = ExtendedRuntimeManager()
-    private let motion = MotionTracker()
+    private let motion = MotionManager()
 
     @Published var mode: Mode? {
         didSet {
