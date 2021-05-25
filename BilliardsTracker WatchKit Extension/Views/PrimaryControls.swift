@@ -18,14 +18,14 @@ struct PrimaryControls: View {
 
             HStack {
                 Button {
-                    runner.potCount += 1
+                    runner.addAttempt(isSuccess: true)
                 } label: {
                     Text(String(runner.potCount))
                         .foregroundColor(.green)
                 }
 
                 Button {
-                    runner.missCount += 1
+                    runner.addAttempt(isSuccess: false)
                 } label: {
                     Text(String(runner.missCount))
                         .foregroundColor(.red)

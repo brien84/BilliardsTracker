@@ -6,7 +6,6 @@
 //
 
 import Combine
-import WatchConnectivity
 import WatchKit
 
 enum Mode {
@@ -15,6 +14,10 @@ enum Mode {
 }
 
 final class DrillRunner: ObservableObject {
+    private let connectivity = ConnectivityManager()
+    private let extendedRuntime = ExtendedRuntimeManager()
+    private let motion = MotionTracker()
+
     @Published var mode: Mode? {
         didSet {
             if mode == .tracked {
@@ -25,16 +28,18 @@ final class DrillRunner: ObservableObject {
         }
     }
 
-    private let motion = MotionTracker()
-    private let extendedRuntime = ExtendedRuntimeManager()
-    private let connectivity = ConnectivityManager()
-
     @Published var isActive = false {
         didSet {
+            if isCompleted {
+                let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
+                connectivity.sendResultContext(context)
+            }
+
+            potCount = 0
+            missCount = 0
+
             if isActive {
                 WKInterfaceDevice().play(.start)
-                missCount = 0
-                potCount = 0
                 isPaused = false
             } else {
                 if oldValue != false {
@@ -59,42 +64,6 @@ final class DrillRunner: ObservableObject {
         }
     }
 
-    @Published var potCount = 0 {
-        didSet {
-            didPotLastAttempt = true
-
-            if isCompleted {
-                let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
-                connectivity.sendResultContext(context)
-                WKInterfaceDevice().play(.success)
-                isPaused = true
-            } else {
-                WKInterfaceDevice().play(.notification)
-            }
-        }
-    }
-
-    @Published var missCount = 0 {
-        didSet {
-            didPotLastAttempt = false
-
-            if isCompleted {
-                let context = ResultContext(potCount: potCount, missCount: missCount, date: Date())
-                connectivity.sendResultContext(context)
-                WKInterfaceDevice().play(.success)
-                isPaused = true
-            } else {
-                WKInterfaceDevice().play(.failure)
-            }
-        }
-    }
-
-    var remainingAttempts: Int {
-        attempts - potCount - missCount
-    }
-
-    private var isFailable = false
-
     var isCompleted: Bool {
         if isFailable {
             return missCount > 0 || remainingAttempts <= 0
@@ -103,10 +72,15 @@ final class DrillRunner: ObservableObject {
         }
     }
 
-    private var attempts = 1
+    private var isFailable = false
 
-    func setAttempts(_ attempts: Int) {
-        self.attempts = attempts
+    private var attempts = 1
+    private var didPotLastAttempt: Bool?
+    @Published var potCount = 0
+    @Published var missCount = 0
+
+    var remainingAttempts: Int {
+        attempts - potCount - missCount
     }
 
     private var cancellables = Set<AnyCancellable>()
@@ -130,15 +104,35 @@ final class DrillRunner: ObservableObject {
             .sink { [weak self] gesture in
                 switch gesture {
                 case .axisX:
-                    self?.potCount += 1
+                    self?.addAttempt(isSuccess: true)
                 case .axisY:
-                    self?.missCount += 1
+                    self?.addAttempt(isSuccess: false)
                 }
             }
             .store(in: &cancellables)
     }
 
-    private var didPotLastAttempt: Bool?
+    func setAttempts(_ attempts: Int) {
+        self.attempts = attempts
+    }
+
+    func addAttempt(isSuccess: Bool) {
+        if isSuccess {
+            potCount += 1
+        } else {
+            missCount += 1
+        }
+
+        if isCompleted {
+            WKInterfaceDevice().play(.success)
+            isPaused = true
+            didPotLastAttempt = nil
+            return
+        }
+
+        WKInterfaceDevice().play(isSuccess ? .notification : .failure)
+        didPotLastAttempt = isSuccess
+    }
 
     func undo() {
         guard let didPotLastAttempt = didPotLastAttempt else { return }
@@ -150,5 +144,6 @@ final class DrillRunner: ObservableObject {
         }
 
         self.didPotLastAttempt = nil
+        WKInterfaceDevice().play(.directionDown)
     }
 }
