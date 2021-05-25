@@ -130,6 +130,10 @@ final class SessionManager: ObservableObject {
             return
         }
 
+        if extendedRuntime.isExpiring {
+            extendedRuntime.start()
+        }
+
         WKInterfaceDevice().play(isSuccess ? .notification : .failure)
         didPotLastAttempt = isSuccess
     }
