@@ -10,8 +10,12 @@ import WatchKit
 final class ExtendedRuntimeManager: NSObject {
     private var session: WKExtendedRuntimeSession?
 
-    var isRunning: Bool {
-        session?.state == .running
+    private var startDate: Date?
+
+    /// `session` is considered expiring if it has less than 5 minutes of run time remaining.
+    var isExpiring: Bool {
+        guard let startDate = startDate else { return false }
+        return startDate.distance(to: Date()) > 3300
     }
 
     func start() {
@@ -32,10 +36,12 @@ extension ExtendedRuntimeManager: WKExtendedRuntimeSessionDelegate {
                                 didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason,
                                 error: Error?) {
         print("extendedRuntimeSession didInvalidateWith: \(reason.rawValue)")
+        startDate = nil
     }
 
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("extendedRuntimeSessionDidStart")
+        startDate = Date()
     }
 
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
