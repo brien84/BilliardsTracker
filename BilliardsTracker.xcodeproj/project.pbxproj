@@ -275,10 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
-				29FAD65D2615112A00310DA9 /* SessionManager.swift */,
-				290C01382618899E00A82A6C /* ExtendedRuntimeManager.swift */,
-				29FAD6692616066800310DA9 /* MotionManager.swift */,
-				29FD3DD32624DAF500322371 /* ConnectivityManager.swift */,
+				292D80A1265D88FC0058CAB2 /* Managers */,
 				29F37DEA2617716A00DD4A9C /* Views */,
 				2926E13026150FE600E95DBB /* Assets.xcassets */,
 				2926E13526150FE600E95DBB /* Info.plist */,
@@ -293,6 +290,17 @@
 				2926E13326150FE600E95DBB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		292D80A1265D88FC0058CAB2 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				29FD3DD32624DAF500322371 /* ConnectivityManager.swift */,
+				290C01382618899E00A82A6C /* ExtendedRuntimeManager.swift */,
+				29FAD6692616066800310DA9 /* MotionManager.swift */,
+				29FAD65D2615112A00310DA9 /* SessionManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		294AD366261F74C40086E808 /* Model */ = {
