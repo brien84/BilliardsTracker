@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CompletionView: View {
-    @EnvironmentObject var runner: DrillRunner
+    @EnvironmentObject var runner: SessionManager
 
     var body: some View {
         VStack {
@@ -43,6 +43,6 @@ struct CompletionView: View {
 struct CompletionView_Previews: PreviewProvider {
     static var previews: some View {
         CompletionView()
-            .environmentObject(DrillRunner())
+            .environmentObject(SessionManager())
     }
 }

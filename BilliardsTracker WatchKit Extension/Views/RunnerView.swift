@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct RunnerView: View {
-    @EnvironmentObject var runner: DrillRunner
+    @EnvironmentObject var runner: SessionManager
 
     private var mode: Mode
 
@@ -50,6 +50,6 @@ struct RunnerView: View {
 struct RunnerView_Previews: PreviewProvider {
     static var previews: some View {
         RunnerView(.tracked)
-            .environmentObject(DrillRunner())
+            .environmentObject(SessionManager())
     }
 }

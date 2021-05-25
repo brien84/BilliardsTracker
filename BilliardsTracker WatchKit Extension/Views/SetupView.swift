@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SetupView: View {
-    @EnvironmentObject var runner: DrillRunner
+    @EnvironmentObject var runner: SessionManager
 
     @State private var attempts = 15
 
@@ -38,6 +38,6 @@ struct SetupView: View {
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {
         SetupView()
-            .environmentObject(DrillRunner())
+            .environmentObject(SessionManager())
     }
 }

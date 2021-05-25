@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SecondaryControls: View {
-    @EnvironmentObject var runner: DrillRunner
+    @EnvironmentObject var runner: SessionManager
 
     var body: some View {
         VStack {
@@ -39,6 +39,6 @@ struct SecondaryControls: View {
 struct SecondaryControls_Previews: PreviewProvider {
     static var previews: some View {
         SecondaryControls()
-            .environmentObject(DrillRunner())
+            .environmentObject(SessionManager())
     }
 }

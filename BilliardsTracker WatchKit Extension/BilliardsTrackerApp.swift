@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct BilliardsTrackerApp: App {
-    @ObservedObject var runner = DrillRunner()
+    @ObservedObject var runner = SessionManager()
 
     var body: some Scene {
         WindowGroup {

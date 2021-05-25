@@ -1,5 +1,5 @@
 //
-//  DrillRunner.swift
+//  SessionManager.swift
 //  BilliardsTracker WatchKit Extension
 //
 //  Created by Marius on 2021-03-31.
@@ -13,7 +13,7 @@ enum Mode {
     case tracked
 }
 
-final class DrillRunner: ObservableObject {
+final class SessionManager: ObservableObject {
     private let connectivity = ConnectivityManager()
     private let extendedRuntime = ExtendedRuntimeManager()
     private let motion = MotionManager()

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PrimaryControls: View {
-    @EnvironmentObject var runner: DrillRunner
+    @EnvironmentObject var runner: SessionManager
 
     var body: some View {
         VStack {
@@ -40,6 +40,6 @@ struct PrimaryControls: View {
 struct PrimaryControls_Previews: PreviewProvider {
     static var previews: some View {
         PrimaryControls()
-            .environmentObject(DrillRunner())
+            .environmentObject(SessionManager())
     }
 }
