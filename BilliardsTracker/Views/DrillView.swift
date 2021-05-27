@@ -67,6 +67,7 @@ struct DrillView: View {
     private var failableIcon: some View {
         Image(systemName: "xmark.seal")
             .font(Font.title3.weight(.regular))
+            .imageScale(.small)
     }
 
     private var statisticsButton: some View {
