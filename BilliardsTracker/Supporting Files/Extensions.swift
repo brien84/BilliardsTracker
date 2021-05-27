@@ -25,6 +25,27 @@ extension Binding where Value: Equatable {
     }
 }
 
+extension Color {
+    static var primaryBackground: Color {
+        Color("primaryBackground")
+    }
+
+    static var secondaryBackground: Color {
+        Color("secondaryBackground")
+    }
+
+    static var primaryText: Color {
+        Color("primaryText")
+    }
+
+    static var secondaryText: Color {
+        Color("secondaryText")
+    }
+
+    static var customRed: Color {
+        Color("customRed")
+    }
+}
 
 extension Date {
     var asString: String {
