@@ -35,13 +35,13 @@ struct DrillView: View {
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal)
                 .font(Font.title.weight(.semibold))
-                .foregroundColor(.primaryText)
+                .foregroundColor(.primaryElement)
 
                 Text(drill.title.uppercased())
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .padding()
                     .font(Font.headline.weight(.bold))
-                    .foregroundColor(.secondaryText)
+                    .foregroundColor(.secondaryElement)
 
                 VStack(spacing: 4) {
                     failableIcon
@@ -53,7 +53,7 @@ struct DrillView: View {
 
                     statisticsButton
                         .frame(maxHeight: .infinity, alignment: .bottom)
-                        .foregroundColor(.secondaryText)
+                        .foregroundColor(.secondaryElement)
                 }
                 .padding()
             }

@@ -34,12 +34,12 @@ extension Color {
         Color("secondaryBackground")
     }
 
-    static var primaryText: Color {
-        Color("primaryText")
+    static var primaryElement: Color {
+        Color("primaryElement")
     }
 
-    static var secondaryText: Color {
-        Color("secondaryText")
+    static var secondaryElement: Color {
+        Color("secondaryElement")
     }
 
     static var customRed: Color {
