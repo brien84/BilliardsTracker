@@ -42,6 +42,10 @@ extension Color {
         Color("secondaryElement")
     }
 
+    static var customGreen: Color {
+        Color("customGreen")
+    }
+
     static var customRed: Color {
         Color("customRed")
     }
