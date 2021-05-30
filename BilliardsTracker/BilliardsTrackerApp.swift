@@ -11,6 +11,10 @@ import SwiftUI
 struct BilliardsTrackerApp: App {
     private let store: DrillStore? = try? DrillStore()
 
+    init() {
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .label
+    }
+
     var body: some Scene {
         WindowGroup {
             if store == nil {
