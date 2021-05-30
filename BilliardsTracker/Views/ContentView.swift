@@ -10,21 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var manager: DrillManager
 
-    @State private var isCreatingDrill = false
-
-    private var createDrillButton: some View {
-        Button(action: { isCreatingDrill = true },
-               label: { Image(systemName: "plus").imageScale(.large) }
-        )
-    }
-
-    private var loadingView: some View {
-        ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .red))
-            .padding()
-            .background(Color.primary)
-    }
-
     var body: some View {
         NavigationView {
 
@@ -32,7 +17,7 @@ struct ContentView: View {
                 ForEach(manager.drills) { drill in
                     HStack {
                         DrillView(drill: drill)
-                            .padding(8)
+                            .padding(.drillViewPadding)
                     }
                 }
             }
@@ -59,13 +44,50 @@ struct ContentView: View {
             }
         }
     }
+
+    @State private var isCreatingDrill = false
+
+    private var createDrillButton: some View {
+        Button(action: { isCreatingDrill = true },
+               label: { Image(systemName: "plus").imageScale(.large) }
+        )
+    }
+
+    private var loadingView: some View {
+        ProgressView()
+            .padding()
+            .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
+            .background(Color.secondaryBackground)
+            .cornerRadius(.loadingViewCornerRadius)
+            .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
+                        .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
-    static var previews: some View {
+    static var view: some View {
         ContentView()
             .environmentObject(manager)
+    }
+
+    static var previews: some View {
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
+    }
+}
+
+private extension CGFloat {
+    static var drillViewPadding: CGFloat {
+        8
+    }
+
+    static var loadingViewCornerRadius: CGFloat {
+        10
+    }
+
+    static var loadingViewLineWidth: CGFloat {
+        1
     }
 }
