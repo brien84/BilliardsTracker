@@ -11,7 +11,7 @@ import SwiftUI
 struct BilliardsTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DrillsView()
                 .environmentObject(DrillManager())
         }
     }

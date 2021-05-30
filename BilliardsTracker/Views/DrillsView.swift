@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DrillsView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-03-31.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct DrillsView: View {
     @EnvironmentObject var manager: DrillManager
 
     var body: some View {
@@ -79,7 +79,7 @@ struct ContentView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var view: some View {
-        ContentView()
+        DrillsView()
             .environmentObject(manager)
     }
 
