@@ -9,10 +9,22 @@ import SwiftUI
 
 @main
 struct BilliardsTrackerApp: App {
+    private let store: DrillStore? = try? DrillStore()
+
     var body: some Scene {
         WindowGroup {
-            DrillsView()
-                .environmentObject(DrillManager())
+            if store == nil {
+                Color.clear
+                    .alert(isPresented: .constant(true)) {
+                        Alert(title: Text("Something went terribly wrong!"),
+                              message: Text("Please restart BilliardsTracker. If the error persists reinstall the application."),
+                              dismissButton: .default(Text("OK"), action: { fatalError() })
+                        )
+                    }
+            } else {
+                DrillsView()
+                    .environmentObject(DrillManager(store: store!))
+            }
         }
     }
 }
