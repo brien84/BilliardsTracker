@@ -16,29 +16,30 @@ struct ResultView: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 15.0)
-                .foregroundColor(.white)
+            RoundedRectangle(cornerRadius: .cornerRadius)
+                .foregroundColor(.secondaryBackground)
 
             VStack {
-                Text(String(result.date.asString))
-                    .foregroundColor(.gray)
+                Text("\(result.date.asString)")
                     .font(.caption)
+                    .foregroundColor(.secondaryElement)
+                    .padding([.horizontal, .top])
 
                 HStack {
-                    Text(String(result.potCount))
+                    Text("\(result.potCount)")
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(.green)
                         .font(.title)
+                        .foregroundColor(.customGreen)
 
                     Text("\(result.pottingPercentage)%")
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(.black)
                         .font(.title3)
+                        .foregroundColor(.secondaryElement)
 
-                    Text(String(result.missCount))
+                    Text("\(result.missCount)")
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(.red)
-                        .font(.title)
+                        .font(Font.title)
+                        .foregroundColor(.customRed)
                 }
                 .padding()
             }
@@ -50,10 +51,25 @@ struct ResultView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
     static var result = manager.drills.first!.results.first!
 
-    static var previews: some View {
-        List {
+    static var view: some View {
+        ZStack {
+            Color.primaryBackground
+                .ignoresSafeArea()
+
             ResultView(result: result)
-                .listRowBackground(Color.blue)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding()
         }
+    }
+
+    static var previews: some View {
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
+    }
+}
+
+private extension CGFloat {
+    static var cornerRadius: CGFloat {
+        10
     }
 }
