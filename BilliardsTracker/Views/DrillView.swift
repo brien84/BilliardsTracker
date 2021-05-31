@@ -27,7 +27,7 @@ struct DrillView: View {
 
             Color.secondaryBackground
 
-            HStack(spacing: 0) {
+            HStack(spacing: .zero) {
                 ZStack {
                     Text("100").opacity(0)
                     Text("\(drill.attempts)")
@@ -43,7 +43,7 @@ struct DrillView: View {
                     .font(Font.headline.weight(.bold))
                     .foregroundColor(.secondaryElement)
 
-                VStack(spacing: 4) {
+                VStack(spacing: .iconsSpacing) {
                     failableIcon
                         .frame(maxHeight: .infinity, alignment: .top)
                         .foregroundColor(.customRed)
@@ -53,12 +53,12 @@ struct DrillView: View {
 
                     statisticsButton
                         .frame(maxHeight: .infinity, alignment: .bottom)
-                        .foregroundColor(.secondaryElement)
+                        .foregroundColor(.customGreen)
                 }
                 .padding()
             }
         }
-        .cornerRadius(10)
+        .cornerRadius(.cornerRadius)
         .onTapGesture {
             manager.start(drill: drill)
         }
@@ -78,6 +78,16 @@ struct DrillView: View {
                     .imageScale(.large)
             }
         )
+    }
+}
+
+private extension CGFloat {
+    static var cornerRadius: CGFloat {
+        10
+    }
+
+    static var iconsSpacing: CGFloat {
+        4
     }
 }
 
