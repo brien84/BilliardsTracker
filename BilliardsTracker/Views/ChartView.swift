@@ -11,23 +11,20 @@ struct ChartView: View {
     private let maxValue: Int
     private let dataPoints: [CGFloat]
 
-    private let labelHeight = UIFont.preferredFont(forTextStyle: .caption1).lineHeight
-
     @State private var isReady = false
 
     var body: some View {
         ZStack {
             GeometryReader { proxy in
-                ForEach(isReady ? calculateLabelValues(in: proxy.size) : [], id: \.self) { i in
-                    ChartLabel(value: i)
-                        .offset(x: 0, y: proxy.size.height * (1 - CGFloat(i) / CGFloat(maxValue)))
-                        .offset(x: 0, y: -labelHeight / 2)
+                ForEach(calculateLabelValues(in: proxy.size), id: \.self) { value in
+                    ChartLabel(value: value)
+                        .offset(calculateOffset(for: value, in: proxy.size.height))
                 }
             }
 
             Chart(dataPoints: dataPoints)
-                .stroke(Color.black, style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
-                .padding(.leading, 30)
+                .stroke(Color.customGreen, style: StrokeStyle(lineWidth: .lineWidth(for: dataPoints.count), lineCap: .round, lineJoin: .round))
+                .padding(.leading, .chartPadding)
         }
         .onAppear {
             isReady = true
@@ -39,8 +36,18 @@ struct ChartView: View {
         self.maxValue = maxValue
     }
 
+    private func calculateOffset(for label: Int, in height: CGFloat) -> CGSize {
+        guard maxValue > 0 else { return .zero }
+
+        let height = height * (1 - CGFloat(label) / CGFloat(maxValue))
+
+        return CGSize(width: 0, height: height - .labelHeight / 2)
+    }
+
     private func calculateLabelValues(in size: CGSize) -> [Int] {
-        let maxLabelCount = Int(size.height / (2 * labelHeight))
+        guard isReady else { return [] }
+
+        let maxLabelCount = Int(size.height / (2 * .labelHeight))
 
         let values = Array(0...maxValue)
 
@@ -65,25 +72,17 @@ struct ChartView: View {
     }
 }
 
-struct ChartView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
-    static var drill = manager.drills.first!
-    static var statistics = StatisticsManager(drill: drill)
-
-    static var view: some View {
-        ZStack {
-            Color.primaryBackground
-                .ignoresSafeArea()
-
-            ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
-                .aspectRatio(1, contentMode: .fit)
-                .padding()
-        }
+private extension CGFloat {
+    static var chartPadding: CGFloat {
+        30
     }
 
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
+    static var labelHeight: CGFloat {
+        UIFont.preferredFont(forTextStyle: .caption1).lineHeight
+    }
+
+    static func lineWidth(for dataPointsCount: Int) -> CGFloat {
+        5 - 0.04 * CGFloat(dataPointsCount)
     }
 }
 
@@ -118,25 +117,47 @@ private struct ChartLabel: View {
     var body: some View {
         HStack {
             ZStack {
-                Text("100").hidden()
+                Text("100").opacity(0)
                 Text("\(value)")
             }
             .font(Font.caption.bold())
             .foregroundColor(.primaryElement)
 
-            Line()
+            LabelLine()
                 .stroke(Color.secondaryElement, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [5, 10]))
                 .frame(height: 1)
                 .offset(x: 0, y: 0.5)
         }
     }
 
-    struct Line: Shape {
+    struct LabelLine: Shape {
         func path(in rect: CGRect) -> Path {
             Path { p in
                 p.move(to: CGPoint(x: 0, y: 0))
                 p.addLine(to: CGPoint(x: rect.maxX, y: 0))
             }
         }
+    }
+}
+
+struct ChartView_Previews: PreviewProvider {
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+    static var drill = manager.drills.first!
+    static var statistics = StatisticsManager(drill: drill)
+
+    static var view: some View {
+        ZStack {
+            Color.primaryBackground
+                .ignoresSafeArea()
+
+            ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
+                .aspectRatio(1, contentMode: .fit)
+                .padding()
+        }
+    }
+
+    static var previews: some View {
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
     }
 }
