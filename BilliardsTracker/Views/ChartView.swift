@@ -19,13 +19,13 @@ struct ChartView: View {
         ZStack {
             GeometryReader { proxy in
                 ForEach(isReady ? calculateLabelValues(in: proxy.size) : [], id: \.self) { i in
-                    Label(value: i)
+                    ChartLabel(value: i)
                         .offset(x: 0, y: proxy.size.height * (1 - CGFloat(i) / CGFloat(maxValue)))
                         .offset(x: 0, y: -labelHeight / 2)
                 }
             }
 
-            Graph(dataPoints: dataPoints)
+            Chart(dataPoints: dataPoints)
                 .stroke(Color.black, style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                 .padding(.leading, 30)
         }
@@ -70,43 +70,24 @@ struct ChartView_Previews: PreviewProvider {
     static var drill = manager.drills.first!
     static var statistics = StatisticsManager(drill: drill)
 
+    static var view: some View {
+        ZStack {
+            Color.primaryBackground
+                .ignoresSafeArea()
+
+            ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
+                .aspectRatio(1, contentMode: .fit)
+                .padding()
+        }
+    }
+
     static var previews: some View {
-        ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
-            .aspectRatio(1, contentMode: .fit)
-            .padding()
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
     }
 }
 
-private struct Label: View {
-    var value: Int
-
-    var body: some View {
-        HStack(alignment: .center, spacing: 10) {
-            ZStack {
-                Text("\(value)")
-                Text("100")
-                    .hidden()
-            }
-            .font(Font.caption.bold())
-
-            LabelLine()
-                .stroke(Color.gray, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [5, 10]))
-                .frame(height: 1)
-                .offset(x: 0, y: 0.5)
-        }
-    }
-}
-
-private struct LabelLine: Shape {
-    func path(in rect: CGRect) -> Path {
-        Path { p in
-            p.move(to: CGPoint(x: 0, y: 0))
-            p.addLine(to: CGPoint(x: rect.maxX, y: 0))
-        }
-    }
-}
-
-private struct Graph: Shape {
+private struct Chart: Shape {
     var dataPoints: [CGFloat]
 
     func path(in rect: CGRect) -> Path {
@@ -126,6 +107,35 @@ private struct Graph: Shape {
 
             for idx in dataPoints.indices {
                 p.addLine(to: point(at: idx))
+            }
+        }
+    }
+}
+
+private struct ChartLabel: View {
+    var value: Int
+
+    var body: some View {
+        HStack {
+            ZStack {
+                Text("100").hidden()
+                Text("\(value)")
+            }
+            .font(Font.caption.bold())
+            .foregroundColor(.primaryElement)
+
+            Line()
+                .stroke(Color.secondaryElement, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [5, 10]))
+                .frame(height: 1)
+                .offset(x: 0, y: 0.5)
+        }
+    }
+
+    struct Line: Shape {
+        func path(in rect: CGRect) -> Path {
+            Path { p in
+                p.move(to: CGPoint(x: 0, y: 0))
+                p.addLine(to: CGPoint(x: rect.maxX, y: 0))
             }
         }
     }
