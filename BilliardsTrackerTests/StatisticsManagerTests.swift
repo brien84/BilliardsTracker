@@ -71,7 +71,7 @@ final class StatisticsManagerTests: XCTestCase {
         XCTAssertEqual(sut.averagePots, 4.6)
     }
 
-    func testChartDataPoints() throws {
+    func testChartDataPointsCalculation() throws {
         let drill = createDrill(attempts: 10)
         store.addResult(from: createResultContext(potCount: 8, missCount: 2), to: drill)
         store.addResult(from: createResultContext(potCount: 2, missCount: 8), to: drill)
@@ -81,6 +81,21 @@ final class StatisticsManagerTests: XCTestCase {
         XCTAssertEqual(sut.chartDataPoints, [0.8, 0.2])
     }
 
+    func testOnlyFirst100DataPointsAreReturned() throws {
+        let drill = createDrill(attempts: 10)
+
+        for _ in 0..<150 {
+            store.addResult(from: createResultContext(potCount: 5, missCount: 5), to: drill)
+        }
+
+        store.addResult(from: createResultContext(potCount: 10, missCount: 0), to: drill)
+
+        sut = StatisticsManager(drill: drill)
+
+        XCTAssertEqual(sut.chartDataPoints.count, 100)
+        XCTAssertEqual(sut.chartDataPoints.last!, 1.0)
+    }
+    
     // MARK: - Helpers
 
     private func createDrill(attempts: Int, isFailable: Bool = false) -> Drill {
