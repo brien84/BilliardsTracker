@@ -64,6 +64,15 @@ final class StatisticsManager: ObservableObject {
     }
 
     var chartDataPoints: [CGFloat] {
-        results.reversed().map { CGFloat($0.potCount) / CGFloat(drill.attempts) }
+        guard drill.attempts > 0 else { return [] }
+
+        var dataPoints = results.map { CGFloat($0.potCount) / CGFloat(drill.attempts) }
+
+        if dataPoints.count > 100 {
+            dataPoints = dataPoints[0..<100].map { $0 }
+        }
+
+        // Reverse latest points to the end of array.
+        return dataPoints.reversed()
     }
 }
