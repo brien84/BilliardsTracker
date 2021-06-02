@@ -24,22 +24,43 @@ final class StatisticsManager: ObservableObject {
         }
     }
 
-    var totalAttempts: Int {
+    var attemptsCount: Int {
         results.reduce(0, { $0 + $1.potCount + $1.missCount })
     }
 
-    var totalPotCount: Int {
+    var potCount: Int {
         results.reduce(0, { $0 + $1.potCount })
     }
 
-    var totalMissCount: Int {
+    var missCount: Int {
         results.reduce(0, { $0 + $1.missCount })
     }
 
-    var totalPottingPercentage: Int {
+    var averagePots: Double {
+        guard results.count > 0 else { return 0 }
+
+        let result = Double(potCount) / Double(results.count)
+
+        return floor(result * 10) / 10.0
+    }
+
+    var pottingPercentage: Int {
         guard results.count > 0 else { return 0 }
 
         return results.reduce(0, { $0 + $1.pottingPercentage }) / results.count
+    }
+
+    var failableCompletedCount: Int {
+        guard drill.isFailable else { return 0 }
+
+        return results.filter { $0.missCount == 0 }.count
+    }
+
+    var failableCompletionPercentage: Int {
+        guard drill.isFailable else { return 0 }
+        guard results.count > 0 else { return 0 }
+
+        return failableCompletedCount * 100 / results.count
     }
 
     var chartDataPoints: [CGFloat] {
