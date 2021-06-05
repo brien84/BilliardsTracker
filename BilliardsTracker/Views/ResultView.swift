@@ -54,8 +54,8 @@ private extension CGFloat {
 }
 
 struct ResultView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
-    static var result = manager.drills.first!.results.first!
+    static var store = try! DrillStore(inMemory: true, isPreview: true)
+    static var result = store.loadDrills().first!.results.first!
 
     static var view: some View {
         ZStack {

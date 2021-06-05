@@ -75,20 +75,6 @@ struct DrillsView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
-
-    static var view: some View {
-        DrillsView()
-            .environmentObject(manager)
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
-    }
-}
-
 private extension CGFloat {
     static var drillViewPadding: CGFloat {
         8
@@ -100,5 +86,19 @@ private extension CGFloat {
 
     static var loadingViewLineWidth: CGFloat {
         1
+    }
+}
+
+struct DrillsView_Previews: PreviewProvider {
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+
+    static var view: some View {
+        DrillsView()
+            .environmentObject(manager)
+    }
+
+    static var previews: some View {
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
     }
 }
