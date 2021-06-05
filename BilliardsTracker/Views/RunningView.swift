@@ -8,31 +8,42 @@
 import SwiftUI
 
 struct RunningView: View {
-    @EnvironmentObject var manager: DrillManager
+    @ObservedObject private var statistics: StatisticsManager
+
+    init(drill: Drill, startDate: Date) {
+        self.statistics = StatisticsManager(drill: drill, afterDate: startDate)
+    }
 
     var body: some View {
-        VStack {
-            Text("Running: \(manager.selectedDrill?.title ?? "")")
+        ZStack {
+            Color.primaryBackground
+                .ignoresSafeArea()
 
-            List {
-                ForEach(manager.currentSessionResults) { result in
-                    ResultView(result: result)
-                }.listRowBackground(Color.blue)
+            VStack(spacing: .zero) {
+                StatisticsPanel(statistics: statistics)
+
+                CardView {
+                    ResultsView(results: statistics.results)
+                }
+                .setTitle("Results")
             }
-
         }
+        .navigationBarTitle(statistics.drill.title)
     }
 }
 
 struct RunningView_Previews: PreviewProvider {
-    static var manager: DrillManager = {
-        let manager = DrillManager(store: DrillStore(inMemory: true))
-        manager.selectedDrill = manager.drills.first!
-        return manager
-    }()
+    static var store = try! DrillStore(inMemory: true, isPreview: true)
+    static var drill = store.loadDrills().first!
+
+    static var view: some View {
+        NavigationView {
+            RunningView(drill: drill, startDate: Date(timeIntervalSince1970: 0))
+        }
+    }
 
     static var previews: some View {
-        RunningView()
-            .environmentObject(manager)
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
     }
 }
