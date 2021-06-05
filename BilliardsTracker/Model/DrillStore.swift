@@ -132,20 +132,21 @@ final class DrillStore {
     }
 
     private func generatePreviewData() {
-        for i in 1..<10 {
+        for i in 2...10 {
             let drill = Drill(context: persistentContainer.viewContext)
             drill.title = "Title \(i)"
             drill.attempts = i * 10
-            drill.isFailable = Bool.random()
+            drill.isFailable = i % 2 == 0
 
             for _ in 1...i {
                 let result = DrillResult(context: persistentContainer.viewContext)
-                result.potCount = Int.random(in: 0...drill.attempts)
 
                 if drill.isFailable {
-                    result.missCount = (drill.attempts - result.potCount > 0) ? 1 : 0
+                    result.missCount = Int.random(in: 0...1)
+                    result.potCount = result.missCount == 0 ? drill.attempts : Int.random(in: 0..<drill.attempts)
                 } else {
-                    result.missCount = drill.attempts - result.potCount
+                    result.missCount = Int.random(in: 0...drill.attempts)
+                    result.potCount = drill.attempts - result.missCount
                 }
 
                 result.date = Date(timeIntervalSinceNow: Double.random(in: 3600...7200))
