@@ -16,6 +16,33 @@ struct CreateDrillView: View {
     @State private var attempts = 1.0
     @State private var isFailable = false
 
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.secondaryBackground
+                    .ignoresSafeArea()
+
+                VStack {
+                    TextField("Drill Title", text: $title)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+
+                    Slider(value: $attempts, in: 1...100, step: 1.0)
+                        .padding(.horizontal)
+
+                    Text(String(Int(attempts)))
+
+                    Toggle("Failable", isOn: $isFailable)
+                        .padding(.horizontal)
+
+                    Spacer()
+                }
+            }
+            .navigationBarTitle("Create Drill", displayMode: .inline)
+            .navigationBarItems(leading: cancelButton, trailing: saveButton)
+        }
+    }
+
     private var cancelButton: some View {
         Button("Cancel") {
             isCreatingDrill = false
@@ -28,35 +55,18 @@ struct CreateDrillView: View {
             isCreatingDrill = false
         }
     }
-
-    var body: some View {
-        NavigationView {
-            VStack {
-                TextField("Drill Title", text: $title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-
-                Slider(value: $attempts, in: 1...100, step: 1.0)
-                    .padding(.horizontal)
-
-                Text(String(Int(attempts)))
-
-                Toggle("Failable", isOn: $isFailable)
-                    .padding(.horizontal)
-
-                Spacer()
-            }
-            .navigationBarTitle("Create Drill", displayMode: .inline)
-            .navigationBarItems(leading: cancelButton, trailing: saveButton)
-        }
-    }
 }
 
 struct CreateDrillView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
-    static var previews: some View {
+    static var view: some View {
         CreateDrillView(isCreatingDrill: .constant(true))
             .environmentObject(manager)
+    }
+
+    static var previews: some View {
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
     }
 }
