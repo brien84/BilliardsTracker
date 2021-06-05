@@ -92,7 +92,7 @@ private struct StatisticLabel: View {
     func titleColor(_ color: Color) -> some View {
         var view = self
         view._titleColor = State(initialValue: color)
-        return view
+        return view.id(UUID())
     }
 }
 
