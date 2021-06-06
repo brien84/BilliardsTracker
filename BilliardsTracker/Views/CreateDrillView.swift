@@ -22,18 +22,44 @@ struct CreateDrillView: View {
                 Color.secondaryBackground
                     .ignoresSafeArea()
 
-                VStack {
+                VStack(spacing: .spacing) {
                     TextField("Drill Title", text: $title)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         .padding()
+                        .padding(.top)
+                        .foregroundColor(.primaryElement)
 
                     Slider(value: $attempts, in: 1...100, step: 1.0)
                         .padding(.horizontal)
+                        .accentColor(.customGreen)
 
-                    Text(String(Int(attempts)))
+                    Text("\(Int(attempts))")
+                        .padding(.bottom)
+                        .font(.headline)
+                        .foregroundColor(.primaryElement)
 
-                    Toggle("Failable", isOn: $isFailable)
-                        .padding(.horizontal)
+                    Divider()
+                        .padding(.top)
+
+                    Toggle(isOn: $isFailable) {
+                        HStack(alignment: .lastTextBaseline) {
+                            Text("Failable")
+                                .font(Font.body.weight(.semibold))
+
+                            Button(action: {}) {
+                                Image(systemName: "info.circle")
+                                    .imageScale(.large)
+                            }
+                            .padding(.horizontal)
+                            .foregroundColor(.secondaryElement)
+                        }
+                    }
+                    .toggleStyle(SwitchToggleStyle(tint: .customGreen))
+                    .padding(.horizontal)
+
+                    Divider()
 
                     Spacer()
                 }
@@ -54,6 +80,12 @@ struct CreateDrillView: View {
             manager.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
             isCreatingDrill = false
         }
+    }
+}
+
+private extension CGFloat {
+    static var spacing: CGFloat {
+        16
     }
 }
 
