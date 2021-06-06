@@ -77,6 +77,10 @@ struct CreateDrillView: View {
 
     private var saveButton: some View {
         Button("Save") {
+            if title == "" {
+                title = "Drill Title"
+            }
+
             manager.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
             isCreatingDrill = false
         }
