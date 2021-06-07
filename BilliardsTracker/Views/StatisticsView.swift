@@ -25,14 +25,18 @@ struct StatisticsView: View {
 
                 CardView {
                     if showHistory {
-
-                        ResultsView(results: statistics.results)
-
+                        if statistics.results.count < 1 {
+                            notEnoughDataMessage
+                        } else {
+                            ResultsView(results: statistics.results)
+                        }
                     } else {
-
-                        ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
-                            .padding()
-
+                        if statistics.results.count < 2 {
+                            notEnoughDataMessage
+                        } else {
+                            ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
+                                .padding()
+                        }
                     }
                 }
                 .setTitle(showHistory ? "History" : "Performance")
@@ -78,6 +82,15 @@ struct StatisticsView: View {
                 secondaryButton: .cancel()
             )
         })
+    }
+
+    private var notEnoughDataMessage: some View {
+        VStack {
+            Text("Not enough data")
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .font(Font.title3.weight(.semibold))
+        .foregroundColor(.primaryElement)
     }
 }
 
