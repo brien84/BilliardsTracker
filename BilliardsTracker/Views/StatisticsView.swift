@@ -25,18 +25,36 @@ struct StatisticsView: View {
 
                 CardView {
                     if showHistory {
+
                         ResultsView(results: statistics.results)
+
                     } else {
+
                         ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
                             .padding()
+
                     }
                 }
                 .setTitle(showHistory ? "History" : "Performance")
             }
         }
         .navigationBarTitle(statistics.drill.title)
-        .navigationBarItems(trailing: HStack(alignment: .firstTextBaseline, spacing: 30) {
-                                deleteButton; toggleHistoryButton })
+        .navigationBarItems(trailing: HStack(alignment: .firstTextBaseline, spacing: .navigationBarItemWidth) {
+            deleteButton.frame(width: .navigationBarItemWidth)
+            toggleHistoryButton.frame(width: .navigationBarItemWidth)
+        })
+    }
+
+    @State private var showHistory = false
+
+    private var toggleHistoryButton: some View {
+        Button {
+            showHistory.toggle()
+        } label: {
+            Image(systemName: showHistory ? "chart.bar.xaxis" : "tray.full")
+                .font(Font.body)
+                .imageScale(.large)
+        }
     }
 
     @State private var showDeleteAlert = false
@@ -61,17 +79,11 @@ struct StatisticsView: View {
             )
         })
     }
+}
 
-    @State private var showHistory = false
-
-    private var toggleHistoryButton: some View {
-        Button {
-            showHistory.toggle()
-        } label: {
-            Image(systemName: showHistory ? "chart.bar.xaxis" : "tray.full")
-                .font(Font.body)
-                .imageScale(.large)
-        }
+private extension CGFloat {
+    static var navigationBarItemWidth: CGFloat {
+        30
     }
 }
 
