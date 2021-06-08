@@ -45,11 +45,11 @@ struct ChartView: View {
     }
 
     private func calculateLabelValues(in size: CGSize) -> [Int] {
-        guard isReady else { return [] }
+        let values = Array(0...maxValue)
+
+        guard isReady else { return values }
 
         let maxLabelCount = Int(size.height / (2 * .labelHeight))
-
-        let values = Array(0...maxValue)
 
         if maxValue <= maxLabelCount {
             return values
