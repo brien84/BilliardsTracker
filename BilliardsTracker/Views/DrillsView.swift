@@ -21,6 +21,7 @@ struct DrillsView: View {
                         DrillView(drill: drill)
                             .padding([.horizontal], .drillViewPadding * 2)
                             .padding([.vertical], .drillViewPadding)
+                            .transition(.slide)
                     }
                 }
                 .fixFlickering()
