@@ -11,6 +11,8 @@ struct DrillView: View {
     @EnvironmentObject var manager: DrillManager
     private let drill: Drill
 
+    @State private var touchesBegan = false
+
     init(drill: Drill) {
         self.drill = drill
     }
@@ -59,9 +61,15 @@ struct DrillView: View {
             }
         }
         .cornerRadius(.cornerRadius)
+        .scaleEffect(touchesBegan ? .scaleEffectOn : .scaleEffectOff)
         .onTapGesture {
             manager.start(drill: drill)
         }
+        .onLongPressGesture(minimumDuration: .scaleGestureDuration, maximumDistance: .scaleGestureDistance) { isPressing in
+            withAnimation(.easeOut(duration: .scaleAnimationDuration)) {
+                touchesBegan = isPressing
+            }
+        } perform: { }
     }
 
     private var failableIcon: some View {
@@ -88,6 +96,28 @@ private extension CGFloat {
 
     static var iconsSpacing: CGFloat {
         4
+    }
+
+    static var scaleEffectOn: CGFloat {
+        0.95
+    }
+
+    static var scaleEffectOff: CGFloat {
+        1.0
+    }
+
+    static var scaleGestureDistance: CGFloat {
+        1.0
+    }
+}
+
+private extension Double {
+    static var scaleAnimationDuration: Double {
+        0.15
+    }
+
+    static var scaleGestureDuration: Double {
+        0.8
     }
 }
 
