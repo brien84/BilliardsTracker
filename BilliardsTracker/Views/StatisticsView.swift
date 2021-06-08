@@ -40,6 +40,8 @@ struct StatisticsView: View {
                     }
                 }
                 .setTitle(showHistory ? "History" : "Performance")
+                .transition(.asymmetric(insertion: .move(edge: showHistory ? .trailing : .leading),
+                                        removal: .move(edge: showHistory ? .leading : .trailing)))
             }
         }
         .navigationBarTitle(statistics.drill.title)
@@ -53,7 +55,9 @@ struct StatisticsView: View {
 
     private var toggleHistoryButton: some View {
         Button {
-            showHistory.toggle()
+            withAnimation {
+                showHistory.toggle()
+            }
         } label: {
             Image(systemName: showHistory ? "chart.bar.xaxis" : "tray.full")
                 .font(Font.body)
@@ -77,7 +81,9 @@ struct StatisticsView: View {
                 title: Text("Confirmation"),
                 message: Text("Are you sure you want to delete this drill?"),
                 primaryButton: .destructive(Text("Delete")) {
-                    manager.delete(drill: statistics.drill)
+                    withAnimation {
+                        manager.delete(drill: statistics.drill)
+                    }
                 },
                 secondaryButton: .cancel()
             )
