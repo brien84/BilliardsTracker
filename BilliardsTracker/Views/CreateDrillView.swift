@@ -81,7 +81,10 @@ struct CreateDrillView: View {
                 title = "Drill Title"
             }
 
-            manager.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
+            withAnimation {
+                manager.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
+            }
+
             isCreatingDrill = false
         }
     }
