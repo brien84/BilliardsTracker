@@ -32,6 +32,7 @@ struct RunningView: View {
                 .setTitle("Results")
             }
         }
+        .animation(.easeInOut)
         .navigationBarTitle(statistics.drill.title)
     }
 
