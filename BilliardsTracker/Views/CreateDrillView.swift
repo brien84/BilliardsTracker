@@ -24,12 +24,9 @@ struct CreateDrillView: View {
 
                 VStack(spacing: .spacing) {
                     TextField("Drill Title", text: $title)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
+                        .textFieldStyle(CreateDrillTextFieldStyle())
                         .padding()
                         .padding(.top)
-                        .foregroundColor(.primaryElement)
 
                     Slider(value: $attempts, in: 1...100, step: 1.0)
                         .padding(.horizontal)
@@ -93,6 +90,27 @@ struct CreateDrillView: View {
 private extension CGFloat {
     static var spacing: CGFloat {
         16
+    }
+}
+
+private struct CreateDrillTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
+            .padding(padding)
+            .background(Color.primaryBackground)
+            .foregroundColor(.primaryElement)
+            .accentColor(.primaryElement)
+            .cornerRadius(cornerRadius)
+    }
+
+    private var cornerRadius: CGFloat {
+        10
+    }
+
+    private var padding: CGFloat {
+        10
     }
 }
 
