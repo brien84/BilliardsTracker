@@ -40,6 +40,7 @@ struct DrillView: View {
                 .foregroundColor(.primaryElement)
 
                 Text(drill.title.uppercased())
+                    .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .padding()
                     .font(Font.headline.weight(.bold))
