@@ -61,7 +61,7 @@ struct StatisticsPanel: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .font(Font.callout.weight(.light))
+        .font(Font.subheadline.weight(.light))
         .foregroundColor(.primaryElement)
     }
 }
@@ -78,7 +78,7 @@ private struct StatisticLabel: View {
                 .font(.title2)
                 .foregroundColor(titleColor)
             Text(title)
-                .font(Font.body.weight(.light))
+                .font(Font.subheadline.weight(.light))
                 .foregroundColor(.secondaryElement)
         }
         .frame(maxWidth: .infinity)
