@@ -76,7 +76,7 @@ struct CardView<Content: View>: View {
                     .background(Color.primaryBackground)
                     .font(.caption)
                     .foregroundColor(.primaryElement)
-                    .cornerRadius(25)
+                    .cornerRadius(.infoOverlayCornerRadius)
                     .padding()
                     .transition(.opacity)
                     .onTapGesture {
@@ -108,6 +108,10 @@ private extension CGFloat {
 
     static var titlePadding: CGFloat {
         32
+    }
+
+    static var infoOverlayCornerRadius: CGFloat {
+        25
     }
 }
 
