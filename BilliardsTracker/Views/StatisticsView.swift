@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct StatisticsView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var manager: DrillManager
     private let statistics: StatisticsManager
 
@@ -42,9 +43,15 @@ struct StatisticsView: View {
                 .setTitle(showHistory ? "History" : "Performance")
                 .setInfo(showHistory ? nil : statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
                 .id(UUID())
-
                 .transition(.asymmetric(insertion: .move(edge: showHistory ? .trailing : .leading),
                                         removal: .move(edge: showHistory ? .leading : .trailing)))
+            }
+        }
+        .onDisappear {
+            if shouldDelete {
+                withAnimation {
+                    manager.delete(drill: statistics.drill)
+                }
             }
         }
         .navigationBarTitle(statistics.drill.title)
@@ -69,6 +76,7 @@ struct StatisticsView: View {
     }
 
     @State private var showDeleteAlert = false
+    @State private var shouldDelete = false
 
     private var deleteButton: some View {
         Button {
@@ -84,9 +92,8 @@ struct StatisticsView: View {
                 title: Text("Confirmation"),
                 message: Text("Are you sure you want to delete this drill?"),
                 primaryButton: .destructive(Text("Delete")) {
-                    withAnimation {
-                        manager.delete(drill: statistics.drill)
-                    }
+                    shouldDelete = true
+                    presentationMode.wrappedValue.dismiss()
                 },
                 secondaryButton: .cancel()
             )
