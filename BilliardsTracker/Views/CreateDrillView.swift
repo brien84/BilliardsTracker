@@ -87,7 +87,7 @@ struct CreateDrillView: View {
             .background(Color.primaryBackground)
             .font(.caption)
             .foregroundColor(.primaryElement)
-            .cornerRadius(25)
+            .cornerRadius(.failableHelpViewCornerRadius)
             .padding()
             .opacity(showInfo ? 1.0 : 0)
             .onTapGesture {
@@ -121,6 +121,10 @@ struct CreateDrillView: View {
 private extension CGFloat {
     static var spacing: CGFloat {
         16
+    }
+
+    static var failableHelpViewCornerRadius: CGFloat {
+        25
     }
 }
 
