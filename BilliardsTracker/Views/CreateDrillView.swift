@@ -45,12 +45,7 @@ struct CreateDrillView: View {
                             Text("Failable")
                                 .font(Font.body.weight(.semibold))
 
-                            Button(action: {}) {
-                                Image(systemName: "info.circle")
-                                    .imageScale(.large)
-                            }
-                            .padding(.horizontal)
-                            .foregroundColor(.secondaryElement)
+                            infoButton
                         }
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .customGreen))
@@ -58,12 +53,48 @@ struct CreateDrillView: View {
 
                     Divider()
 
+                    failableHelpView
+
                     Spacer()
                 }
             }
             .navigationBarTitle("Create Drill", displayMode: .inline)
             .navigationBarItems(leading: cancelButton, trailing: saveButton)
         }
+    }
+
+    @State private var showInfo = false
+
+    private var infoButton: some View {
+        Button(
+            action: {
+                withAnimation {
+                    showInfo.toggle()
+                }
+            },
+            label: {
+                Image(systemName: "info.circle")
+                    .padding(.horizontal)
+                    .imageScale(.large)
+                    .foregroundColor(.secondaryElement)
+            }
+        )
+    }
+
+    private var failableHelpView: some View {
+        Text("Drill will finish when shot is missed")
+            .padding()
+            .background(Color.primaryBackground)
+            .font(.caption)
+            .foregroundColor(.primaryElement)
+            .cornerRadius(25)
+            .padding()
+            .opacity(showInfo ? 1.0 : 0)
+            .onTapGesture {
+                withAnimation {
+                    showInfo.toggle()
+                }
+            }
     }
 
     private var cancelButton: some View {
@@ -74,7 +105,7 @@ struct CreateDrillView: View {
 
     private var saveButton: some View {
         Button("Save") {
-            if title == "" {
+            if title.isEmpty {
                 title = "Drill Title"
             }
 
