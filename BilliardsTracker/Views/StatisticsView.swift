@@ -27,13 +27,13 @@ struct StatisticsView: View {
                 CardView {
                     if showHistory {
                         if statistics.results.count < 1 {
-                            notEnoughDataMessage
+                            notEnoughDataError
                         } else {
                             ResultsView(results: statistics.results)
                         }
                     } else {
                         if statistics.results.count < 2 {
-                            notEnoughDataMessage
+                            notEnoughDataError
                         } else {
                             ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
                                 .padding()
@@ -100,19 +100,22 @@ struct StatisticsView: View {
         })
     }
 
-    private var notEnoughDataMessage: some View {
-        VStack {
-            Text("Not enough data")
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .font(Font.title3.weight(.semibold))
-        .foregroundColor(.primaryElement)
+    private var notEnoughDataError: some View {
+        Text("Not enough data")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .font(Font.title3.weight(.semibold))
+            .foregroundColor(.primaryElement)
+            .offset(x: 0, y: .notEnoughDataErrorVerticalOffset)
     }
 }
 
 private extension CGFloat {
     static var navigationBarItemWidth: CGFloat {
         30
+    }
+
+    static var notEnoughDataErrorVerticalOffset: CGFloat {
+        -32
     }
 }
 
@@ -122,8 +125,11 @@ struct StatisticsView_Previews: PreviewProvider {
 
     static var view: some View {
         NavigationView {
-            StatisticsView(drill: drill)
-                .environmentObject(manager)
+            NavigationLink(
+                destination: StatisticsView(drill: drill).environmentObject(manager),
+                isActive: .constant(true),
+                label: { Text("Preview") }
+            )
         }
     }
 
@@ -144,8 +150,11 @@ struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
 
     static var view: some View {
         NavigationView {
-            StatisticsView(drill: drill)
-                .environmentObject(manager)
+            NavigationLink(
+                destination: StatisticsView(drill: drill).environmentObject(manager),
+                isActive: .constant(true),
+                label: { Text("Preview") }
+            )
         }
     }
 
