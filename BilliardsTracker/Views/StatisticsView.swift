@@ -40,6 +40,9 @@ struct StatisticsView: View {
                     }
                 }
                 .setTitle(showHistory ? "History" : "Performance")
+                .setInfo(showHistory ? nil : statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
+                .id(UUID())
+
                 .transition(.asymmetric(insertion: .move(edge: showHistory ? .trailing : .leading),
                                         removal: .move(edge: showHistory ? .leading : .trailing)))
             }
