@@ -30,21 +30,25 @@ struct DrillView: View {
             Color.secondaryBackground
 
             HStack(spacing: .zero) {
-                ZStack {
-                    Text("100").opacity(0)
-                    Text("\(drill.attempts)")
+                if drill.attempts > 0 {
+                    ZStack {
+                        Text("100").opacity(0)
+                        Text("\(drill.attempts)")
+                    }
+                    .frame(maxHeight: .infinity)
+                    .padding(.horizontal)
+                    .font(Font.title.weight(.semibold))
+                    .foregroundColor(.primaryElement)
                 }
-                .frame(maxHeight: .infinity)
-                .padding(.horizontal)
-                .font(Font.title.weight(.semibold))
-                .foregroundColor(.primaryElement)
 
-                Text(drill.title.uppercased())
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .padding()
-                    .font(Font.headline.weight(.bold))
-                    .foregroundColor(.secondaryElement)
+                if !drill.title.isEmpty {
+                    Text(drill.title.uppercased())
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding()
+                        .font(Font.headline.weight(.bold))
+                        .foregroundColor(.secondaryElement)
+                }
 
                 VStack(spacing: .iconsSpacing) {
                     failableIcon
