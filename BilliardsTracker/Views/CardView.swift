@@ -11,6 +11,8 @@ struct CardView<Content: View>: View {
     private let content: Content
 
     @State private var title = ""
+    @State private var infoMessage: String?
+    @State private var showInfo = false
 
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
@@ -24,21 +26,77 @@ struct CardView<Content: View>: View {
                 .foregroundColor(.secondaryBackground)
 
             VStack(spacing: .zero) {
-                Text(title)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .font(Font.title.weight(.bold))
-                    .padding(.titlePadding)
-                    .foregroundColor(.primaryElement)
+                HStack {
+                    Text(title)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .font(Font.title.weight(.bold))
+                        .padding(.titlePadding)
+                        .foregroundColor(.primaryElement)
+
+                    if infoMessage != nil {
+                        infoButton
+                    }
+                }
+                .overlay(
+                    Group {
+                        if showInfo {
+                            infoOverlay
+                        }
+                    }
+                )
 
                 content
+            }
+
+        }
+    }
+
+    private var infoButton: some View {
+        Button(
+            action: {
+                withAnimation {
+                    showInfo.toggle()
+                }
+            },
+            label: {
+                Image(systemName: "info.circle")
+                    .imageScale(.small)
+                    .font(Font.title)
+                    .foregroundColor(.secondaryElement)
+            }
+        )
+        .padding(.horizontal, .titlePadding)
+    }
+
+    private var infoOverlay: some View {
+        Group {
+            if let infoMessage = infoMessage {
+                Text(infoMessage)
+                    .padding()
+                    .background(Color.primaryBackground)
+                    .font(.caption)
+                    .cornerRadius(25)
+                    .padding()
+                    .transition(.opacity)
+                    .onTapGesture {
+                        withAnimation {
+                            showInfo.toggle()
+                        }
+                    }
             }
         }
     }
 
-    func setTitle(_ title: String) -> some View {
+    func setTitle(_ title: String) -> CardView {
         var view = self
         view._title = State(initialValue: title)
-        return view.id(UUID())
+        return view
+    }
+
+    func setInfo(_ message: String?) -> CardView {
+        var view = self
+        view._infoMessage = State(initialValue: message)
+        return view
     }
 }
 
