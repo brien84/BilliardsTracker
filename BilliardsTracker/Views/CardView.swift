@@ -75,6 +75,7 @@ struct CardView<Content: View>: View {
                     .padding()
                     .background(Color.primaryBackground)
                     .font(.caption)
+                    .foregroundColor(.primaryElement)
                     .cornerRadius(25)
                     .padding()
                     .transition(.opacity)
