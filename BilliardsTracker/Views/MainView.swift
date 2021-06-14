@@ -15,8 +15,33 @@ struct MainView: View {
                     .ignoresSafeArea()
 
             }
+            .navigationBarItems(leading: settingsButton, trailing: createDrillButton)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    private var settingsButton: some View {
+        Button(
+            action: {
+
+            },
+            label: {
+                Image(systemName: "slider.horizontal.3")
+                    .imageScale(.large)
+            }
+        )
+    }
+
+    private var createDrillButton: some View {
+        Button(
+            action: {
+
+            },
+            label: {
+                Image(systemName: "plus")
+                    .imageScale(.large)
+            }
+        )
     }
 }
 
