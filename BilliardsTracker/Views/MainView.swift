@@ -10,6 +10,8 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var manager: DrillManager
 
+    @State private var isCreatingDrill = false
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -21,6 +23,9 @@ struct MainView: View {
             .navigationBarItems(leading: settingsButton, trailing: createDrillButton)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .sheet(isPresented: $isCreatingDrill) {
+            CreateDrillView(isCreatingDrill: $isCreatingDrill)
+        }
     }
 
     private var settingsButton: some View {
@@ -38,7 +43,7 @@ struct MainView: View {
     private var createDrillButton: some View {
         Button(
             action: {
-
+                isCreatingDrill = true
             },
             label: {
                 Image(systemName: "plus")
