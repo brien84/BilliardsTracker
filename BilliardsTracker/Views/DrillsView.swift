@@ -11,21 +11,17 @@ struct DrillsView: View {
     @EnvironmentObject var manager: DrillManager
 
     var body: some View {
-        ZStack {
-            Color.primaryBackground
-                .ignoresSafeArea()
 
-            ScrollView {
-                ForEach(manager.drills) { drill in
-                    DrillView(drill: drill)
-                        .padding([.horizontal], .drillViewPadding * 2)
-                        .padding([.vertical], .drillViewPadding)
-                        .transition(.slide)
-                }
+        ScrollView {
+            ForEach(manager.drills) { drill in
+                DrillView(drill: drill)
+                    .padding([.horizontal], .drillViewPadding * 2)
+                    .padding([.vertical], .drillViewPadding)
+                    .transition(.slide)
             }
-            .fixFlickering()
         }
-        .navigationBarTitle("Drills")
+        .fixFlickering()
+        
         .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
         .disabled(manager.runState == .loading)
         .alert(item: $manager.connectivityError) { status in
@@ -79,7 +75,10 @@ struct DrillsView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var view: some View {
-        NavigationView {
+        ZStack {
+            Color.primaryBackground
+                .ignoresSafeArea()
+
             DrillsView()
                 .environmentObject(manager)
         }
