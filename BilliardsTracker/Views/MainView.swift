@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var manager: DrillManager
+
     var body: some View {
         NavigationView {
             ZStack {
                 Color.primaryBackground
                     .ignoresSafeArea()
 
+                DrillsView()
             }
             .navigationBarItems(leading: settingsButton, trailing: createDrillButton)
         }
@@ -46,8 +49,11 @@ struct MainView: View {
 }
 
 struct MainView_Previews: PreviewProvider {
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+
     static var view: some View {
         MainView()
+            .environmentObject(manager)
     }
 
     static var previews: some View {
