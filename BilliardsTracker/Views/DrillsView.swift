@@ -10,8 +10,9 @@ import SwiftUI
 struct DrillsView: View {
     @EnvironmentObject var manager: DrillManager
 
-    var body: some View {
+    private var isBlurred = false
 
+    var body: some View {
         ScrollView {
             ForEach(manager.drills) { drill in
                 DrillView(drill: drill)
@@ -19,9 +20,10 @@ struct DrillsView: View {
                     .padding([.vertical], .drillViewPadding)
                     .transition(.slide)
             }
+            .blur(radius: isBlurred ? .blurValue : 0)
         }
         .fixFlickering()
-        
+
         .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
         .disabled(manager.runState == .loading)
         .alert(item: $manager.connectivityError) { status in
@@ -55,6 +57,15 @@ struct DrillsView: View {
               message: Text("Make sure BilliardsTracker Watch app is installed and running."),
               dismissButton: .default(Text("OK")))
     }
+
+
+    /// Applies blur effect to `DrillsView`.
+    /// This function is required, since applying blur directly on `ScrollView` causes `NavigationView` layout bug.
+    func blur(_ isEnabled: Bool) -> some View {
+        var view = self
+        view.isBlurred = isEnabled
+        return view
+    }
 }
 
 private extension CGFloat {
@@ -68,6 +79,10 @@ private extension CGFloat {
 
     static var loadingViewLineWidth: CGFloat {
         1
+    }
+
+    static var blurValue: CGFloat {
+        5
     }
 }
 
