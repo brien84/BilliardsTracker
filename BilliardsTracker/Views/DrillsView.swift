@@ -11,28 +11,21 @@ struct DrillsView: View {
     @EnvironmentObject var manager: DrillManager
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.primaryBackground
-                    .ignoresSafeArea()
+        ZStack {
+            Color.primaryBackground
+                .ignoresSafeArea()
 
-                ScrollView {
-                    ForEach(manager.drills) { drill in
-                        DrillView(drill: drill)
-                            .padding([.horizontal], .drillViewPadding * 2)
-                            .padding([.vertical], .drillViewPadding)
-                            .transition(.slide)
-                    }
+            ScrollView {
+                ForEach(manager.drills) { drill in
+                    DrillView(drill: drill)
+                        .padding([.horizontal], .drillViewPadding * 2)
+                        .padding([.vertical], .drillViewPadding)
+                        .transition(.slide)
                 }
-                .fixFlickering()
             }
-            .navigationBarTitle("Drills")
-            .navigationBarItems(trailing: createDrillButton)
-            .sheet(isPresented: $isCreatingDrill) {
-                CreateDrillView(isCreatingDrill: $isCreatingDrill)
-            }
+            .fixFlickering()
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarTitle("Drills")
         .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
         .disabled(manager.runState == .loading)
         .alert(item: $manager.connectivityError) { status in
@@ -43,14 +36,6 @@ struct DrillsView: View {
                 return notReachableAlert
             }
         }
-    }
-
-    @State private var isCreatingDrill = false
-
-    private var createDrillButton: some View {
-        Button(action: { isCreatingDrill = true },
-               label: { Image(systemName: "plus").imageScale(.large) }
-        )
     }
 
     private var loadingView: some View {
@@ -94,8 +79,10 @@ struct DrillsView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var view: some View {
-        DrillsView()
-            .environmentObject(manager)
+        NavigationView {
+            DrillsView()
+                .environmentObject(manager)
+        }
     }
 
     static var previews: some View {
