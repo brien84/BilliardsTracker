@@ -11,6 +11,7 @@ struct MainView: View {
     @EnvironmentObject var manager: DrillManager
 
     @State private var isCreatingDrill = false
+    @State private var isShowingSettings = false
 
     var body: some View {
         NavigationView {
@@ -19,7 +20,13 @@ struct MainView: View {
                     .ignoresSafeArea()
 
                 DrillsView()
+                    .blur(isShowingSettings)
+                    .disabled(isShowingSettings)
+
+                SettingsView()
+                    .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
             }
+            .navigationBarTitle("Drills")
             .navigationBarItems(leading: settingsButton, trailing: createDrillButton)
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -31,7 +38,9 @@ struct MainView: View {
     private var settingsButton: some View {
         Button(
             action: {
-
+                withAnimation(.spring()) {
+                    isShowingSettings.toggle()
+                }
             },
             label: {
                 Image(systemName: "slider.horizontal.3")
@@ -50,6 +59,13 @@ struct MainView: View {
                     .imageScale(.large)
             }
         )
+        .disabled(isShowingSettings)
+    }
+}
+
+private extension CGSize {
+    static var settingsViewHiddenOffset: CGSize {
+        CGSize(width: -500, height: 0)
     }
 }
 
