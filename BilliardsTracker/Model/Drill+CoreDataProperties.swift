@@ -17,6 +17,7 @@ extension Drill {
     @NSManaged private var attemptsValue: Int64
     @NSManaged private var titleValue: String?
     @NSManaged private var isFailableValue: Bool
+    @NSManaged private var dateCreatedValue: Date
     @NSManaged private var resultsValue: NSSet?
 
     var attempts: Int {
@@ -43,6 +44,15 @@ extension Drill {
         }
         set {
             isFailableValue = newValue
+        }
+    }
+
+    var dateCreated: Date {
+        get {
+            dateCreatedValue
+        }
+        set {
+            dateCreatedValue = newValue
         }
     }
 

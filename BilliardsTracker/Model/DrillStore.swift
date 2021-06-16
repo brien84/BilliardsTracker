@@ -82,6 +82,7 @@ final class DrillStore {
         drill.title = title
         drill.attempts = attempts
         drill.isFailable = isFailable
+        drill.dateCreated = Date()
 
         do {
             try drill.validateForInsert()
@@ -137,6 +138,7 @@ final class DrillStore {
             drill.title = "Title \(i)"
             drill.attempts = i * 10
             drill.isFailable = i % 2 == 0
+            drill.dateCreated = Date()
 
             for _ in 1...i {
                 let result = DrillResult(context: persistentContainer.viewContext)
@@ -149,7 +151,7 @@ final class DrillStore {
                     result.potCount = drill.attempts - result.missCount
                 }
 
-                result.date = Date(timeIntervalSinceNow: Double.random(in: 3600...7200))
+                result.date = Date(timeIntervalSinceNow: Double.random(in: 1...10))
                 result.drill = drill
             }
         }

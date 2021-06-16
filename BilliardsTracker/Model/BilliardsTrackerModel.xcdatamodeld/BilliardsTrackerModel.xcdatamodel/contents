@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Drill" representedClassName="Drill" syncable="YES">
         <attribute name="attemptsValue" attributeType="Integer 64" minValueString="1" maxValueString="100" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="dateCreatedValue" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isFailableValue" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="titleValue" attributeType="String" defaultValueString=""/>
         <relationship name="resultsValue" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DrillResult" inverseName="drillValue" inverseEntity="DrillResult"/>
@@ -13,7 +14,7 @@
         <relationship name="drillValue" maxCount="1" deletionRule="Nullify" destinationEntity="Drill" inverseName="resultsValue" inverseEntity="Drill"/>
     </entity>
     <elements>
-        <element name="Drill" positionX="-2685.5859375" positionY="125.1484375" width="128" height="103"/>
+        <element name="Drill" positionX="-2685.5859375" positionY="125.1484375" width="128" height="118"/>
         <element name="DrillResult" positionX="-2345.8203125" positionY="125.16796875" width="128" height="103"/>
     </elements>
 </model>
