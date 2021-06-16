@@ -164,4 +164,47 @@ final class DrillStoreTests: XCTestCase {
 
         XCTAssertLessThan(sut.loadDrills().count, initialCount)
     }
+
+    func testSortingByAttempts() throws {
+        sut = try! DrillStore(inMemory: true)
+
+        let attempts = [14, 69, 1]
+
+        attempts.forEach {
+            sut.createDrill(title: "", attempts: $0, isFailable: false)
+        }
+
+        let drills = sut.loadDrills(sortedBy: .attempts)
+
+        XCTAssertEqual(drills.count, 3)
+        XCTAssertEqual([drills[0].attempts, drills[1].attempts, drills[2].attempts], [1, 14, 69])
+    }
+
+    func testSortingByDateCreated() throws {
+        sut = try! DrillStore(inMemory: true)
+
+        sut.createDrill(title: "T", attempts: 1, isFailable: false)
+        sut.createDrill(title: "E", attempts: 1, isFailable: false)
+        sut.createDrill(title: "A", attempts: 1, isFailable: false)
+
+        let drills = sut.loadDrills(sortedBy: .dateCreated)
+
+        XCTAssertEqual(drills.count, 3)
+        XCTAssertEqual([drills[0].title, drills[1].title, drills[2].title], ["A", "E", "T"])
+    }
+
+    func testSortingByTitle() throws {
+        sut = try! DrillStore(inMemory: true)
+
+        let titles = ["B", "Z", "A"]
+
+        titles.forEach {
+            sut.createDrill(title: $0, attempts: 1, isFailable: false)
+        }
+
+        let drills = sut.loadDrills(sortedBy: .title)
+
+        XCTAssertEqual(drills.count, 3)
+        XCTAssertEqual([drills[0].title, drills[1].title, drills[2].title], ["A", "B", "Z"])
+    }
 }

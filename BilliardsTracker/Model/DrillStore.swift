@@ -13,6 +13,14 @@ enum DrillStoreError: Error {
     case saving
 }
 
+enum SortOption: Int, CaseIterable, Identifiable {
+    var id: SortOption { self }
+
+    case attempts
+    case dateCreated
+    case title
+}
+
 final class DrillStore {
     var didSaveContext = PassthroughSubject<Result<Void, DrillStoreError>, Never>()
 
@@ -66,8 +74,17 @@ final class DrillStore {
         }
     }
 
-    func loadDrills() -> [Drill] {
+    func loadDrills(sortedBy: SortOption = .title) -> [Drill] {
         let fetchRequest: NSFetchRequest<Drill> = Drill.fetchRequest()
+
+        switch sortedBy {
+        case .attempts:
+            fetchRequest.sortDescriptors = [Drill.attemptsSortDescriptor()]
+        case .dateCreated:
+            fetchRequest.sortDescriptors = [Drill.dateCreatedSortDescriptor()]
+        case .title:
+            fetchRequest.sortDescriptors = [Drill.titleSortDescriptor()]
+        }
 
         do {
             return try persistentContainer.viewContext.fetch(fetchRequest)
