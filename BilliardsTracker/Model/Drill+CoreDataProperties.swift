@@ -19,7 +19,7 @@ extension Drill {
     }
 
     @nonobjc public class func dateCreatedSortDescriptor() -> NSSortDescriptor {
-        NSSortDescriptor(key: "dateCreatedValue", ascending: true)
+        NSSortDescriptor(key: "dateCreatedValue", ascending: false)
     }
 
     @nonobjc public class func titleSortDescriptor() -> NSSortDescriptor {
