@@ -11,7 +11,19 @@ import Foundation
 
 extension Drill {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Drill> {
-        return NSFetchRequest<Drill>(entityName: "Drill")
+        NSFetchRequest<Drill>(entityName: "Drill")
+    }
+
+    @nonobjc public class func attemptsSortDescriptor() -> NSSortDescriptor {
+        NSSortDescriptor(key: "attemptsValue", ascending: true)
+    }
+
+    @nonobjc public class func dateCreatedSortDescriptor() -> NSSortDescriptor {
+        NSSortDescriptor(key: "dateCreatedValue", ascending: true)
+    }
+
+    @nonobjc public class func titleSortDescriptor() -> NSSortDescriptor {
+        NSSortDescriptor(key: "titleValue", ascending: true)
     }
 
     @NSManaged private var attemptsValue: Int64
