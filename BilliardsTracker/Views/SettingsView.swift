@@ -14,37 +14,44 @@ struct SettingsView: View {
 
     var body: some View {
         GeometryReader { proxy in
+            HStack(spacing: .zero) {
+                ZStack {
+                    Color.primaryBackground
+                        .edgesIgnoringSafeArea(.bottom)
 
-            ZStack {
-                Color.primaryBackground
-                    .edgesIgnoringSafeArea(.bottom)
+                    VStack(alignment: .leading, spacing: .zero) {
+                        SettingsSection(title: "sort by") {
+                            ForEach(SortOption.allCases) { option in
+                                SettingsCell {
+                                    HStack {
+                                        SettingsCellLabel(title: option.title, imageName: option.imageName)
 
-                VStack(alignment: .leading, spacing: .zero) {
+                                        Spacer()
 
-                    SettingsSection(title: "sort by") {
-                        ForEach(SortOption.allCases) { option in
-                            SettingsCell {
-                                HStack {
-                                    SettingsCellLabel(title: option.title, imageName: option.imageName)
-
-                                    Spacer()
-
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.customGreen)
-                                        .opacity(settings.sortOption == option ? 1 : 0)
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.customGreen)
+                                            .opacity(settings.sortOption == option ? 1 : 0)
+                                    }
+                                }
+                                .onTapGesture {
+                                    settings.sortOption = option
                                 }
                             }
-                            .onTapGesture {
-                                settings.sortOption = option
-                            }
+                        }
+
+                        Spacer()
+                    }
+                }
+                .frame(width: proxy.size.width * .widthModifier)
+
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            isShowingSettings = false
                         }
                     }
-
-                    Spacer()
-                }
             }
-            .frame(width: proxy.size.width * .widthModifier)
-
         }
     }
 }
