@@ -34,6 +34,14 @@ final class DrillManager: ObservableObject {
         }
     }
 
+    private var sortOption = SortOption.title {
+        didSet {
+            if sortOption != oldValue {
+                drills = store.loadDrills(sortedBy: sortOption)
+            }
+        }
+    }
+
     private var cancellables = Set<AnyCancellable>()
 
     init(store: DrillStore) {
@@ -41,20 +49,32 @@ final class DrillManager: ObservableObject {
 
         connectivity.didReceiveResultContext
             .receive(on: RunLoop.main)
-            .sink { [weak self] context in
-                if let drill = self?.selectedDrill {
-                    self?.addResult(context, to: drill)
+            .sink { [unowned self] context in
+                if let drill = self.selectedDrill {
+                    self.addResult(context, to: drill)
                 }
             }
             .store(in: &cancellables)
 
         store.didSaveContext
-            .sink { [weak self] in
-                self?.drills = self?.store.getAllDrills() ?? []
+            .sink { [unowned self] result in
+                switch result {
+                case .success():
+                    drills = store.loadDrills(sortedBy: sortOption)
+                case .failure(_):
+                    // TODO: Implement error handling!
+                    print("ERROR!")
+                }
             }
             .store(in: &cancellables)
 
-        drills = store.getAllDrills()
+        UserDefaults.standard.sortOptionPublisher
+            .sink { [unowned self] option in
+                sortOption = option
+            }
+            .store(in: &cancellables)
+
+        drills = store.loadDrills(sortedBy: sortOption)
     }
 
     func addDrill(title: String, attempts: Int, isFailable: Bool) {
@@ -66,7 +86,7 @@ final class DrillManager: ObservableObject {
     }
 
     func addResult(_ context: ResultContext, to drill: Drill) {
-        store.createResult(from: context, in: drill)
+        store.addResult(from: context, to: drill)
     }
 
     func start(drill: Drill) {
