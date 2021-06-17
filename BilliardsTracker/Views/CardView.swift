@@ -74,7 +74,7 @@ struct CardView<Content: View>: View {
                 Text(infoMessage)
                     .padding()
                     .background(Color.primaryBackground)
-                    .font(.caption)
+                    .font(.footnote)
                     .foregroundColor(.primaryElement)
                     .cornerRadius(.infoOverlayCornerRadius)
                     .padding()
