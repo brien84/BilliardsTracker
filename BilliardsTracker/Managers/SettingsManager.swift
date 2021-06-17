@@ -5,18 +5,53 @@
 //  Created by Marius on 2021-06-14.
 //
 
+import Combine
 import Foundation
 
-enum SortOption: Int, CaseIterable, Identifiable {
-    var id: Self { self }
+final class SettingsManager: ObservableObject {
+    private var userDefaults: UserDefaults
 
-    case attempts
-    case date
-    case title
+    @Published var sortOption: SortOption {
+        didSet {
+            userDefaults.sortOption = sortOption
+        }
+    }
+
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+        self.sortOption = userDefaults.sortOption
+    }
 }
 
-final class SettingsManager: ObservableObject {
-    @Published var sortOption: SortOption = .title
-    @Published var isDarkModeAuto = true
-    @Published var isDarkModeOn = false
+extension UserDefaults {
+    enum Keys {
+        static let sortOption = "sortOption"
+    }
+
+    var sortOptionPublisher: AnyPublisher<SortOption, Never> {
+        publisher(for: \.rawSortOption)
+            .compactMap { rawValue -> SortOption in
+                SortOption(rawValue: rawValue) ?? .title
+            }
+            .eraseToAnyPublisher()
+    }
+
+    fileprivate var sortOption: SortOption {
+        get {
+            let rawValue = integer(forKey: Keys.sortOption)
+            return SortOption(rawValue: rawValue) ?? .title
+        }
+        set {
+            rawSortOption = newValue.rawValue
+        }
+    }
+
+    @objc private var rawSortOption: Int {
+        get {
+            integer(forKey: Keys.sortOption)
+        }
+        set {
+            set(newValue, forKey: Keys.sortOption)
+        }
+    }
 }
