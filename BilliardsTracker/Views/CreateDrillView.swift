@@ -82,10 +82,10 @@ struct CreateDrillView: View {
     }
 
     private var failableHelpView: some View {
-        Text("Drill will finish when shot is missed")
+        Text("Drill will finish when first shot is missed")
             .padding()
             .background(Color.primaryBackground)
-            .font(.caption)
+            .font(.footnote)
             .foregroundColor(.primaryElement)
             .cornerRadius(.failableHelpViewCornerRadius)
             .padding()
