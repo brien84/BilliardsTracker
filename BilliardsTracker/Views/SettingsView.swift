@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Binding var isShowingSettings: Bool
 
     var body: some View {
         GeometryReader { proxy in
@@ -34,7 +35,7 @@ struct SettingsView_Previews: PreviewProvider {
             Color.secondaryBackground
                 .ignoresSafeArea()
 
-            SettingsView()
+            SettingsView(isShowingSettings: .constant(true))
         }
     }
 

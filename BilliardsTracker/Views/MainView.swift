@@ -23,7 +23,7 @@ struct MainView: View {
                     .blur(isShowingSettings)
                     .disabled(isShowingSettings)
 
-                SettingsView()
+                SettingsView(isShowingSettings: $isShowingSettings)
                     .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
             }
             .navigationBarTitle("Drills")
