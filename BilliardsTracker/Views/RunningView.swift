@@ -25,6 +25,7 @@ struct RunningView: View {
                 CardView {
                     if statistics.results.isEmpty {
                         waitingMessage
+                            .offset(.waitingMessageOffset)
                     } else {
                         ResultsView(results: statistics.results)
                     }
@@ -43,6 +44,12 @@ struct RunningView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .font(Font.title3.weight(.semibold))
         .foregroundColor(.primaryElement)
+    }
+}
+
+private extension CGSize {
+    static var waitingMessageOffset: CGSize {
+        CGSize(width: 0, height: -32)
     }
 }
 
