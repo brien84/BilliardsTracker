@@ -8,24 +8,154 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @StateObject private var settings = SettingsManager()
+
     @Binding var isShowingSettings: Bool
 
     var body: some View {
         GeometryReader { proxy in
+
             ZStack {
                 Color.primaryBackground
                     .edgesIgnoringSafeArea(.bottom)
 
+                VStack(alignment: .leading, spacing: .zero) {
+
+                    SettingsSection(title: "sort by") {
+                        ForEach(SortOption.allCases) { option in
+                            SettingsCell {
+                                HStack {
+                                    SettingsCellLabel(title: option.title, imageName: option.imageName)
+
+                                    Spacer()
+
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.customGreen)
+                                        .opacity(settings.sortOption == option ? 1 : 0)
+                                }
+                            }
+                            .onTapGesture {
+                                settings.sortOption = option
+                            }
+                        }
+                    }
+
+                    Spacer()
+                }
             }
             .frame(width: proxy.size.width * .widthModifier)
+
         }
     }
+}
 
+private struct SettingsSection<Content: View>: View {
+    private let title: String
+    private let content: Content
+
+    init(title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .sectionSpacing) {
+            Text(title.uppercased())
+                .padding(.horizontal)
+                .padding(.top, .sectionTopPadding)
+                .font(Font.footnote)
+                .foregroundColor(.secondaryElement)
+
+            content
+        }
+    }
+}
+
+private struct SettingsCell<Content: View>: View {
+    private let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .frame(height: .cellHeight)
+            .frame(maxWidth: .infinity)
+            .padding(.cellPadding)
+            .background(Color.secondaryBackground)
+            .cornerRadius(.cellCornerRadius)
+            .padding(.horizontal)
+    }
+}
+
+private struct SettingsCellLabel: View {
+    var title: String
+    var imageName: String
+
+    var body: some View {
+        Label {
+            Text(title)
+                .foregroundColor(.primaryElement)
+        } icon: {
+            Image(systemName: imageName)
+                .frame(width: .cellLabelHeight)
+                .foregroundColor(.secondaryElement)
+        }
+    }
 }
 
 private extension CGFloat {
     static var widthModifier: CGFloat {
         0.75
+    }
+
+    static var sectionSpacing: CGFloat {
+        8
+    }
+
+    static var sectionTopPadding: CGFloat {
+        16
+    }
+
+    static var cellHeight: CGFloat {
+        25
+    }
+
+    static var cellPadding: CGFloat {
+        16
+    }
+
+    static var cellCornerRadius: CGFloat {
+        15
+    }
+
+    static var cellLabelHeight: CGFloat {
+        25
+    }
+}
+
+private extension SortOption {
+    var title: String {
+        switch self {
+        case .attempts:
+            return "Attempts"
+        case .dateCreated:
+            return "Date created"
+        case .title:
+            return "Title"
+        }
+    }
+
+    var imageName: String {
+        switch self {
+        case .attempts:
+            return "repeat"
+        case .dateCreated:
+            return "calendar"
+        case .title:
+            return "textformat"
+        }
     }
 }
 
