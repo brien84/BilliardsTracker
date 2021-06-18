@@ -8,7 +8,9 @@
 import Combine
 import CoreData
 
-enum DrillStoreError: Error {
+enum DrillStoreError: Error, Identifiable {
+    var id: DrillStoreError { self }
+
     case initialization
     case saving
 }
