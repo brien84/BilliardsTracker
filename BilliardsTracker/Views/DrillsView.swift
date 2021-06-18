@@ -26,13 +26,16 @@ struct DrillsView: View {
 
         .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
         .disabled(manager.runState == .loading)
-        .alert(item: $manager.connectivityError) { status in
-            switch status {
+        .alert(item: $manager.connectivityError) { error in
+            switch error {
             case .notReady:
                 return notReadyAlert
             case .notReachable:
                 return notReachableAlert
             }
+        }
+        .alert(item: $manager.savingError) { error in
+            savingAlert
         }
     }
 
@@ -58,6 +61,11 @@ struct DrillsView: View {
               dismissButton: .default(Text("OK")))
     }
 
+    private var savingAlert: Alert {
+        Alert(title: Text("Something went wrong!"),
+              message: Text("Latest changes will not be saved."),
+              dismissButton: .default(Text("OK")))
+    }
 
     /// Applies blur effect to `DrillsView`.
     /// This function is required, since applying blur directly on `ScrollView` causes `NavigationView` layout bug.
