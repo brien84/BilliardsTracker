@@ -21,6 +21,8 @@ final class DrillManager: ObservableObject {
     @Published var connectivityError: ConnectivityError?
 
     private let store: DrillStore
+    @Published var savingError: DrillStoreError?
+
     @Published var drills = [Drill]()
 
     var selectedDrill: Drill?
@@ -61,9 +63,10 @@ final class DrillManager: ObservableObject {
                 switch result {
                 case .success():
                     drills = store.loadDrills(sortedBy: sortOption)
-                case .failure(_):
-                    // TODO: Implement error handling!
-                    print("ERROR!")
+                case .failure(let error):
+                    if error == .saving {
+                        savingError = error
+                    }
                 }
             }
             .store(in: &cancellables)
