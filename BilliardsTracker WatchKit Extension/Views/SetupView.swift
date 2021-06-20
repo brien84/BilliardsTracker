@@ -22,6 +22,7 @@ struct SetupView: View {
                             .foregroundColor(i == attempts ? .primaryElement : .secondaryElement)
                     }
                 }
+                .hideBorder()
 
                 Button("Start") {
                     session.setAttempts(attempts)
@@ -39,6 +40,15 @@ struct SetupView: View {
                 .font(.caption)
                 .foregroundColor(.primaryElement)
         }
+    }
+}
+
+private extension Picker {
+    func hideBorder() -> some View {
+        self.overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.black, lineWidth: 4)
+        )
     }
 }
 
