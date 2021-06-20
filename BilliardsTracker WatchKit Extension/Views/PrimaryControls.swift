@@ -8,38 +8,50 @@
 import SwiftUI
 
 struct PrimaryControls: View {
-    @EnvironmentObject var runner: SessionManager
+    @EnvironmentObject var session: SessionManager
 
     var body: some View {
         VStack {
-            Text(String(runner.remainingAttempts))
+            Text(String(session.remainingAttempts))
                 .padding()
                 .font(.title2)
 
             HStack {
                 Button {
-                    runner.addAttempt(isSuccess: true)
+                    withAnimation {
+                        session.addAttempt(isSuccess: true)
+                    }
                 } label: {
-                    Text(String(runner.potCount))
-                        .foregroundColor(.green)
+                    Text("\(session.potCount)")
+                        .foregroundColor(.customGreen)
                 }
+                .buttonStyle(BorderedButtonStyle(tint: .customGreen))
 
                 Button {
-                    runner.addAttempt(isSuccess: false)
+                    withAnimation {
+                        session.addAttempt(isSuccess: false)
+                    }
                 } label: {
-                    Text(String(runner.missCount))
-                        .foregroundColor(.red)
+                    Text("\(session.missCount)")
+                        .foregroundColor(.customRed)
                 }
+                .buttonStyle(BorderedButtonStyle(tint: .customRed))
             }
-            .disabled(runner.isPaused)
+            .disabled(session.isPaused)
 
         }
     }
 }
 
 struct PrimaryControls_Previews: PreviewProvider {
+    static var session: SessionManager = {
+        let session = SessionManager()
+        session.setAttempts(69)
+        return session
+    }()
+
     static var previews: some View {
         PrimaryControls()
-            .environmentObject(SessionManager())
+            .environmentObject(session)
     }
 }
