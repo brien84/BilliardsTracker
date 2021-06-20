@@ -12,26 +12,63 @@ struct SecondaryControls: View {
 
     var body: some View {
         VStack {
-            Button {
-                runner.isPaused = !runner.isPaused
-            } label: {
-                Text(runner.isPaused ? "Resume" : "Pause")
-                    .foregroundColor(.yellow)
+            HStack {
+                SecondaryControlButton(title: "Stop", imageName: "multiply", color: .customRed) {
+                    runner.isActive = false
+                }
+
+                SecondaryControlButton(title: "Undo", imageName: "arrow.uturn.backward", color: .customBlue) {
+                    runner.undo()
+                }
+                .disabled(runner.didPotLastAttempt == nil)
             }
 
-            Button {
-                runner.isActive = false
-            } label: {
-                Text("Stop")
-                    .foregroundColor(.red)
-            }
+            HStack {
+                SecondaryControlButton(title: "Pause", imageName: "pause", color: .customYellow) {
+                    runner.isPaused = true
+                }
+                .disabled(runner.isPaused)
 
-            Button {
-                runner.undo()
-            } label: {
-                Text("Undo")
-                    .foregroundColor(.orange)
+                SecondaryControlButton(title: "Resume", imageName: "play", color: .customGreen) {
+                    runner.isPaused = false
+                }
+                .disabled(!runner.isPaused)
             }
+            
+        }
+    }
+}
+
+private struct SecondaryControlButton: View {
+    @Environment(\.isEnabled) private var isEnabled
+
+    private let title: String
+    private let imageName: String
+    private let color: Color
+    private let action: () -> ()
+
+    init(title: String, imageName: String, color: Color, action: @escaping () -> ()) {
+        self.title = title
+        self.imageName = imageName
+        self.color = color
+        self.action = action
+    }
+
+    var body: some View {
+        VStack {
+            Button {
+                action()
+            } label: {
+                Image(systemName: imageName)
+                    .frame(width: 25, height: 25)
+                    .font(Font.title2.weight(.semibold))
+                    .foregroundColor(color)
+            }
+            .buttonStyle(BorderedButtonStyle(tint: color))
+
+            Text(title)
+                .font(.footnote)
+                .foregroundColor(isEnabled ? .primaryElement : .secondaryElement)
         }
     }
 }
