@@ -10,12 +10,27 @@ import SwiftUI
 struct PrimaryControls: View {
     @EnvironmentObject var session: SessionManager
 
+    private var progressViewValue: CGFloat {
+        guard session.attempts > 0 else { return 0 }
+
+        return CGFloat(session.remainingAttempts) / CGFloat(session.attempts)
+    }
+
     var body: some View {
         VStack {
             Text(session.title ?? "Standalone")
                 .padding(.top)
                 .font(.headline)
                 .foregroundColor(.primaryElement)
+
+            Spacer()
+
+            ProgressView(value: progressViewValue) {
+                Text("\(session.remainingAttempts)")
+                    .bold()
+                    .foregroundColor(.primaryElement)
+            }
+            .progressViewStyle(CircularProgressViewStyle(tint: session.isPaused ? .secondaryElement : .customGreen))
 
             Spacer()
 
