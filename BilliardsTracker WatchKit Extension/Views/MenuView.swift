@@ -12,21 +12,57 @@ struct MenuView: View {
 
     var body: some View {
         TabView(selection: $currentTab) {
-            NavigationLink(destination: RunnerView(.standalone)) {
-                Text("Standalone")
-                    .font(.title3)
-                    .foregroundColor(.green)
-                    .tag(0)
-            }
 
-            NavigationLink(destination: RunnerView(.tracked)) {
-                Text("Tracked")
-                    .font(.title3)
-                    .foregroundColor(.red)
-                    .tag(1)
-            }
+            MenuOption(title: "Standalone", destination: AnyView(RunnerView(.standalone)))
+                .foregroundColor(.customGreen)
+                .tag(0)
+
+            MenuOption(title: "Tracked", destination: AnyView(RunnerView(.tracked)))
+                .foregroundColor(.customRed)
+                .tag(1)
+
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+private struct MenuOption: View {
+    private var title: String
+    private var destination: AnyView
+
+    init(title: String, destination: AnyView) {
+        self.title = title
+        self.destination = destination
+    }
+
+    @State private var scale: CGFloat = 1.0
+
+    var body: some View {
+        NavigationLink(destination: destination) {
+            Text(title)
+                .font(.title3)
+        }
+        .scaleEffect(scale)
+        .onAppear {
+            let animation = Animation.easeInOut(duration: .animationDuration)
+
+            withAnimation(animation.repeatForever(autoreverses: true)) {
+                scale = .animationScaleValue
+            }
+        }
+    }
+
+}
+
+private extension Double {
+    static var animationDuration: Double {
+        1.0
+    }
+}
+
+private extension CGFloat {
+    static var animationScaleValue: CGFloat {
+        0.85
     }
 }
 
