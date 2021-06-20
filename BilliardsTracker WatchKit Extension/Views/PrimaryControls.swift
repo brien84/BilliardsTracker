@@ -12,9 +12,12 @@ struct PrimaryControls: View {
 
     var body: some View {
         VStack {
-            Text(String(session.remainingAttempts))
-                .padding()
-                .font(.title2)
+            Text(session.title ?? "Standalone")
+                .padding(.top)
+                .font(.headline)
+                .foregroundColor(.primaryElement)
+
+            Spacer()
 
             HStack {
                 Button {
