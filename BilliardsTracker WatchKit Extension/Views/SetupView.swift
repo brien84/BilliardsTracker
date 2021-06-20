@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SetupView: View {
-    @EnvironmentObject var runner: SessionManager
+    @EnvironmentObject var session: SessionManager
 
     @State private var attempts = 15
 
     var body: some View {
-        if runner.mode == .standalone {
+        if session.mode == .standalone {
             VStack {
                 Picker(selection: $attempts, label: EmptyView()) {
                     ForEach(1..<101, id: \.self) { int in
@@ -23,21 +23,43 @@ struct SetupView: View {
                 }
 
                 Button("Start") {
-                    runner.setAttempts(attempts)
-                    runner.isActive = true
+                    session.setAttempts(attempts)
+                    session.isActive = true
                 }
             }
         }
 
-        if runner.mode == .tracked {
-            Text("Select drill on a paired iOS device.")
+        if session.mode == .tracked {
+            Text("Select a drill on BilliardsTracker iPhone app.")
+                .multilineTextAlignment(.center)
+                .font(.caption)
+                .foregroundColor(.primaryElement)
         }
     }
 }
 
-struct StartView_Previews: PreviewProvider {
+struct StartViewStandalone_Previews: PreviewProvider {
+    static var session: SessionManager = {
+        let session = SessionManager()
+        session.mode = .standalone
+        return session
+    }()
+
     static var previews: some View {
         SetupView()
-            .environmentObject(SessionManager())
+            .environmentObject(session)
+    }
+}
+
+struct StartViewTracked_Previews: PreviewProvider {
+    static var session: SessionManager = {
+        let session = SessionManager()
+        session.mode = .tracked
+        return session
+    }()
+
+    static var previews: some View {
+        SetupView()
+            .environmentObject(session)
     }
 }
