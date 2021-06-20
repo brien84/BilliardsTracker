@@ -11,6 +11,7 @@
 		290C0121261799D900A82A6C /* SecondaryControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C0120261799D900A82A6C /* SecondaryControls.swift */; };
 		290C01282617AB0200A82A6C /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C01272617AB0200A82A6C /* CompletionView.swift */; };
 		290C01392618899E00A82A6C /* ExtendedRuntimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290C01382618899E00A82A6C /* ExtendedRuntimeManager.swift */; };
+		29200295267FC78500DCA308 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
 		2926E0FA26150FE400E95DBB /* DrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F926150FE400E95DBB /* DrillsView.swift */; };
 		2926E0FC26150FE500E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E0FB26150FE500E95DBB /* Assets.xcassets */; };
@@ -121,6 +122,7 @@
 		290C0120261799D900A82A6C /* SecondaryControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryControls.swift; sourceTree = "<group>"; };
 		290C01272617AB0200A82A6C /* CompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionView.swift; sourceTree = "<group>"; };
 		290C01382618899E00A82A6C /* ExtendedRuntimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedRuntimeManager.swift; sourceTree = "<group>"; };
+		29200294267FC78500DCA308 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
 		2926E0F926150FE400E95DBB /* DrillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillsView.swift; sourceTree = "<group>"; };
@@ -208,6 +210,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29200293267FC76D00DCA308 /* Supporting FIles */ = {
+			isa = PBXGroup;
+			children = (
+				29200294267FC78500DCA308 /* Extensions.swift */,
+			);
+			path = "Supporting FIles";
+			sourceTree = "<group>";
+		};
 		2926E0EB26150FE300E95DBB = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +302,7 @@
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				292D80A1265D88FC0058CAB2 /* Managers */,
 				29F37DEA2617716A00DD4A9C /* Views */,
+				29200293267FC76D00DCA308 /* Supporting FIles */,
 				2926E13026150FE600E95DBB /* Assets.xcassets */,
 				2926E13526150FE600E95DBB /* Info.plist */,
 				2926E13226150FE600E95DBB /* Preview Content */,
@@ -654,6 +665,7 @@
 				290C01282617AB0200A82A6C /* CompletionView.swift in Sources */,
 				290C0121261799D900A82A6C /* SecondaryControls.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
+				29200295267FC78500DCA308 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
