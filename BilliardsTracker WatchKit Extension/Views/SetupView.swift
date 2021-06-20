@@ -16,16 +16,20 @@ struct SetupView: View {
         if session.mode == .standalone {
             VStack {
                 Picker(selection: $attempts, label: EmptyView()) {
-                    ForEach(1..<101, id: \.self) { int in
-                        Text(String(int))
-                            .font(int == attempts ? .title2 : .title3)
+                    ForEach(1..<101, id: \.self) { i in
+                        Text("\(i)")
+                            .font(i == attempts ? .title2 : .title3)
+                            .foregroundColor(i == attempts ? .primaryElement : .secondaryElement)
                     }
                 }
 
                 Button("Start") {
                     session.setAttempts(attempts)
-                    session.isActive = true
+                    withAnimation {
+                        session.isActive = true
+                    }
                 }
+                .buttonStyle(BorderedButtonStyle(tint: .customGreen))
             }
         }
 
