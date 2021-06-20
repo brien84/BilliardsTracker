@@ -74,8 +74,9 @@ final class SessionManager: ObservableObject {
 
     private var isFailable = false
 
-    private var attempts = 1
-    private var didPotLastAttempt: Bool?
+    private(set) var title: String?
+    private(set) var attempts = 1
+    private(set) var didPotLastAttempt: Bool?
     @Published var potCount = 0
     @Published var missCount = 0
 
@@ -90,6 +91,7 @@ final class SessionManager: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] context in
                 if context.isActive {
+                    self?.title = context.title
                     self?.attempts = context.attempts
                     self?.isFailable = context.isFailable
                     self?.isActive = true
