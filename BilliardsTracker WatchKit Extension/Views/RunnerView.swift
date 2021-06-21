@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-
 struct RunnerView: View {
-    @EnvironmentObject var runner: SessionManager
-
-    private var mode: Mode
+    @EnvironmentObject var session: SessionManager
 
     @State private var currentTab: Int = 0
+
+    private var mode: Mode
 
     init(_ mode: Mode) {
         self.mode = mode
@@ -21,35 +20,44 @@ struct RunnerView: View {
 
     var body: some View {
         Group {
-            if runner.isActive {
+            if session.isActive {
                 Group {
-                    if runner.isCompleted {
+                    if session.isCompleted {
                         CompletionView()
+                            .transition(.move(edge: .bottom))
                     } else {
                         TabView(selection: $currentTab) {
                             PrimaryControls().tag(0)
-                            SecondaryControls().tag(1)
+                            SecondaryControls(currentTab: $currentTab).tag(1)
                         }
+                        .transition(.slide)
                     }
                 }
                 .navigationBarBackButtonHidden(true)
             } else {
                 SetupView()
+                    .transition(.move(edge: .bottom))
                     .navigationBarBackButtonHidden(false)
             }
         }
         .onAppear {
-            runner.mode = mode
+            session.mode = mode
         }
         .onDisappear {
-            runner.mode = nil
+            session.mode = nil
         }
     }
 }
 
 struct RunnerView_Previews: PreviewProvider {
+    static var session: SessionManager = {
+        let session = SessionManager()
+        session.isActive = true
+        return session
+    }()
+
     static var previews: some View {
-        RunnerView(.tracked)
-            .environmentObject(SessionManager())
+        RunnerView(.standalone)
+            .environmentObject(session)
     }
 }
