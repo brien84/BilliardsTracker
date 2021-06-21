@@ -37,6 +37,7 @@ final class SessionManager: ObservableObject {
 
             potCount = 0
             missCount = 0
+            didPotLastAttempt = nil
 
             if isActive {
                 WKInterfaceDevice().play(.start)
