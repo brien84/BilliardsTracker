@@ -62,7 +62,7 @@ private extension Double {
 
 private extension CGFloat {
     static var animationScaleValue: CGFloat {
-        0.85
+        1.1
     }
 }
 
