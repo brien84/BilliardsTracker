@@ -31,6 +31,9 @@ struct RunnerView: View {
                             SecondaryControls(currentTab: $currentTab).tag(1)
                         }
                         .transition(.slide)
+                        .onAppear {
+                            currentTab = 0
+                        }
                     }
                 }
                 .navigationBarBackButtonHidden(true)
