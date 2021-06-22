@@ -18,9 +18,8 @@ struct PrimaryControls: View {
 
     var body: some View {
         VStack {
-            Text(session.title ?? "Standalone")
+            MarqueeText(session.title ?? "Standalone", font: .headline)
                 .padding(.top)
-                .font(.headline)
                 .foregroundColor(.primaryElement)
 
             Spacer()
