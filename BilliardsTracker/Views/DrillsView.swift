@@ -23,7 +23,6 @@ struct DrillsView: View {
             .blur(radius: isBlurred ? .blurValue : 0)
         }
         .fixFlickering()
-
         .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
         .disabled(manager.runState == .loading)
         .alert(item: $manager.connectivityError) { error in
@@ -34,9 +33,11 @@ struct DrillsView: View {
                 return notReachableAlert
             }
         }
-        .alert(item: $manager.savingError) { error in
-            savingAlert
-        }
+        .background(
+            Color.clear.alert(item: $manager.savingError) { error in
+                savingAlert
+            }
+        )
     }
 
     private var loadingView: some View {
