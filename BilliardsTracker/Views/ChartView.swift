@@ -23,7 +23,7 @@ struct ChartView: View {
             }
 
             Chart(dataPoints: dataPoints)
-                .stroke(Color.customGreen, style: StrokeStyle(lineWidth: .lineWidth(for: dataPoints.count), lineCap: .round, lineJoin: .round))
+                .stroke(Color.customBlue, style: StrokeStyle(lineWidth: .lineWidth(for: dataPoints.count), lineCap: .round, lineJoin: .round))
                 .padding(.leading, .chartPadding)
         }
         .onAppear {
