@@ -30,7 +30,7 @@ struct CreateDrillView: View {
 
                     Slider(value: $attempts, in: 1...100, step: 1.0)
                         .padding(.horizontal)
-                        .accentColor(.customGreen)
+                        .accentColor(.customBlue)
 
                     Text("\(Int(attempts))")
                         .padding(.bottom)
@@ -48,7 +48,7 @@ struct CreateDrillView: View {
                             infoButton
                         }
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: .customGreen))
+                    .toggleStyle(SwitchToggleStyle(tint: .customBlue))
                     .padding(.horizontal)
 
                     Divider()
