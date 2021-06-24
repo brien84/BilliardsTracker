@@ -102,11 +102,11 @@ struct StatisticsView: View {
     }
 
     private var noDataLabel: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: .noDataLabelSpacing) {
             Image("pocket")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100, alignment: .center)
+                .frame(width: .noDataLabelWidth, height: .noDataLabelHeight)
 
             Text("Not enough data")
                 .font(.title3)
@@ -120,6 +120,18 @@ struct StatisticsView: View {
 private extension CGFloat {
     static var navigationBarItemWidth: CGFloat {
         30
+    }
+
+    static var noDataLabelSpacing: CGFloat {
+        16
+    }
+
+    static var noDataLabelWidth: CGFloat {
+        100
+    }
+
+    static var noDataLabelHeight: CGFloat {
+        100
     }
 }
 
