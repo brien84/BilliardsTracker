@@ -14,7 +14,7 @@ struct MenuView: View {
         TabView(selection: $currentTab) {
 
             MenuOption(title: "Standalone", destination: AnyView(RunnerView(.standalone)))
-                .foregroundColor(.customGreen)
+                .foregroundColor(.customBlue)
                 .tag(0)
 
             MenuOption(title: "Tracked", destination: AnyView(RunnerView(.tracked)))
