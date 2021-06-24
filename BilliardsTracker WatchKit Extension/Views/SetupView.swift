@@ -30,7 +30,7 @@ struct SetupView: View {
                         session.isActive = true
                     }
                 }
-                .buttonStyle(BorderedButtonStyle(tint: .customGreen))
+                .buttonStyle(BorderedButtonStyle(tint: .customBlue))
             }
         }
 
