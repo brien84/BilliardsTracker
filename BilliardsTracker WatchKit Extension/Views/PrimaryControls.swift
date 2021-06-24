@@ -29,7 +29,7 @@ struct PrimaryControls: View {
                     .bold()
                     .foregroundColor(.primaryElement)
             }
-            .progressViewStyle(CircularProgressViewStyle(tint: session.isPaused ? .secondaryElement : .customGreen))
+            .progressViewStyle(CircularProgressViewStyle(tint: session.isPaused ? .secondaryElement : .customBlue))
 
             Spacer()
 
