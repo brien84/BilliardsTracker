@@ -29,7 +29,8 @@ struct SettingsView: View {
                                         Spacer()
 
                                         Image(systemName: "checkmark")
-                                            .foregroundColor(.customGreen)
+                                            .font(Font.body.weight(.bold))
+                                            .foregroundColor(.customBlue)
                                             .opacity(settings.sortOption == option ? 1 : 0)
                                     }
                                 }
