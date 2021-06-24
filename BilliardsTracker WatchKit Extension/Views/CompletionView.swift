@@ -38,7 +38,7 @@ struct CompletionView: View {
                     session.isActive = false
                 }
 
-                CompletionViewButton(imageName: "arrow.counterclockwise", color: .customYellow) {
+                CompletionViewButton(imageName: "arrow.counterclockwise", color: .customBlue) {
                     session.isActive = true
                 }
             }
