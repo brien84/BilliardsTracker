@@ -23,6 +23,9 @@ struct MainView: View {
                     .blur(isShowingSettings)
                     .disabled(isShowingSettings)
 
+                createDrillBackgroundButton
+                    .opacity(manager.drills.count == 0 ? 1 : 0)
+
                 SettingsView(isShowingSettings: $isShowingSettings)
                     .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
             }
@@ -61,6 +64,37 @@ struct MainView: View {
         )
         .disabled(isShowingSettings)
     }
+
+    private var createDrillBackgroundButton: some View {
+        Button(
+            action: {
+                isCreatingDrill = true
+            },
+            label: {
+                VStack {
+                    Image(systemName: "plus")
+                        .font(.largeTitle)
+                        .imageScale(.large)
+                        .scaleEffect(.createDrillBackgroundButtonImageScale)
+
+                    Text("Create drill")
+                        .font(.title)
+                        .padding(.createDrillBackgroundButtonTextPadding)
+                }
+            }
+        )
+        .foregroundColor(.primaryElement)
+    }
+}
+
+private extension CGFloat {
+    static var createDrillBackgroundButtonImageScale: CGFloat {
+        2.0
+    }
+
+    static var createDrillBackgroundButtonTextPadding: CGFloat {
+        32
+    }
 }
 
 private extension CGSize {
@@ -71,6 +105,20 @@ private extension CGSize {
 
 struct MainView_Previews: PreviewProvider {
     static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+
+    static var view: some View {
+        MainView()
+            .environmentObject(manager)
+    }
+
+    static var previews: some View {
+        view.preferredColorScheme(.light)
+        view.preferredColorScheme(.dark)
+    }
+}
+
+struct MainViewAddDrill_Previews: PreviewProvider {
+    static var manager = DrillManager(store: try! DrillStore(inMemory: true))
 
     static var view: some View {
         MainView()
