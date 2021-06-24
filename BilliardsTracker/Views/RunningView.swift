@@ -24,8 +24,8 @@ struct RunningView: View {
 
                 CardView {
                     if statistics.results.isEmpty {
-                        waitingMessage
-                            .offset(.waitingMessageOffset)
+                        waitingForResultsLabel
+                            .offset(.waitingForResultsLabelOffset)
                     } else {
                         ResultsView(results: statistics.results)
                     }
@@ -37,18 +37,38 @@ struct RunningView: View {
         .navigationBarTitle(statistics.drill.title)
     }
 
-    private var waitingMessage: some View {
-        VStack {
+    private var waitingForResultsLabel: some View {
+        VStack(spacing: .waitingForResultsLabelSpacing) {
+            Image("table")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: .waitingForResultsLabelWidth,
+                       height: .waitingForResultsLabelHeight)
+
             Text("Waiting for results...")
+                .font(.title3)
+                .foregroundColor(.primaryElement)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .font(Font.title3.weight(.semibold))
-        .foregroundColor(.primaryElement)
+    }
+}
+
+private extension CGFloat {
+    static var waitingForResultsLabelSpacing: CGFloat {
+        16
+    }
+
+    static var waitingForResultsLabelWidth: CGFloat {
+        100
+    }
+
+    static var waitingForResultsLabelHeight: CGFloat {
+        100
     }
 }
 
 private extension CGSize {
-    static var waitingMessageOffset: CGSize {
+    static var waitingForResultsLabelOffset: CGSize {
         CGSize(width: 0, height: -32)
     }
 }
