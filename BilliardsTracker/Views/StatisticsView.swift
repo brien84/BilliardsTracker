@@ -12,6 +12,10 @@ struct StatisticsView: View {
     @EnvironmentObject var manager: DrillManager
     private let statistics: StatisticsManager
 
+    @State private var showHistory = false
+    @State private var showDeleteAlert = false
+    @State private var shouldDelete = false
+
     init(drill: Drill) {
         self.statistics = StatisticsManager(drill: drill)
     }
@@ -27,13 +31,13 @@ struct StatisticsView: View {
                 CardView {
                     if showHistory {
                         if statistics.results.count < 1 {
-                            notEnoughDataError
+                            noDataLabel
                         } else {
                             ResultsView(results: statistics.results)
                         }
                     } else {
                         if statistics.results.count < 2 {
-                            notEnoughDataError
+                            noDataLabel
                         } else {
                             ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
                                 .padding()
@@ -61,8 +65,6 @@ struct StatisticsView: View {
         })
     }
 
-    @State private var showHistory = false
-
     private var toggleHistoryButton: some View {
         Button {
             withAnimation {
@@ -73,10 +75,9 @@ struct StatisticsView: View {
                 .font(Font.body)
                 .imageScale(.large)
         }
+        .disabled(statistics.results.isEmpty)
+        .foregroundColor(statistics.results.isEmpty ? .secondaryElement : .primaryElement)
     }
-
-    @State private var showDeleteAlert = false
-    @State private var shouldDelete = false
 
     private var deleteButton: some View {
         Button {
@@ -100,12 +101,19 @@ struct StatisticsView: View {
         })
     }
 
-    private var notEnoughDataError: some View {
-        Text("Not enough data")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .font(Font.title3.weight(.semibold))
-            .foregroundColor(.primaryElement)
-            .offset(x: 0, y: .notEnoughDataErrorVerticalOffset)
+    private var noDataLabel: some View {
+        VStack(spacing: 16) {
+            Image("pocket")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 100, alignment: .center)
+
+            Text("Not enough data")
+                .font(.title3)
+                .foregroundColor(.primaryElement)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .offset(.noDataLabelOffset)
     }
 }
 
@@ -113,9 +121,11 @@ private extension CGFloat {
     static var navigationBarItemWidth: CGFloat {
         30
     }
+}
 
-    static var notEnoughDataErrorVerticalOffset: CGFloat {
-        -32
+private extension CGSize {
+    static var noDataLabelOffset: CGSize {
+        CGSize(width: 0, height: -32)
     }
 }
 
