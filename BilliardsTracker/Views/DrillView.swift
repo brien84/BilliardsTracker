@@ -60,7 +60,7 @@ struct DrillView: View {
 
                     statisticsButton
                         .frame(maxHeight: .infinity, alignment: .bottom)
-                        .foregroundColor(.customGreen)
+                        .foregroundColor(.customBlue)
                 }
                 .padding()
             }
