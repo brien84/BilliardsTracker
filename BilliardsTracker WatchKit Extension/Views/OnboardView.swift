@@ -8,8 +8,20 @@
 import SwiftUI
 
 struct OnboardView: View {
+    @State private var currentTab: Int = 0
+
     var body: some View {
-        Text("Onboard")
+        TabView(selection: $currentTab) {
+            OnboardAnimationView(.potGesture,
+                                 duration: 1.5,
+                                 subtitle: "Flick your wrist back and forth to register potted ball")
+                .tag(0)
+
+            OnboardAnimationView(.missGesture,
+                                 duration: 1.1,
+                                 subtitle: "Flick your arm up and down to register missed ball")
+                .tag(1)
+        }
     }
 }
 
