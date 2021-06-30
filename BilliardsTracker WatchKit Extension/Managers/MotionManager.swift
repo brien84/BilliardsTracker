@@ -27,6 +27,12 @@ final class MotionManager {
         return queue
     }()
 
+    let gesturePublisher = PassthroughSubject<Gesture, Never>()
+    private var isLocked = false
+
+    private var rotationsX = [Double](repeating: 0.0, count: 30)
+    private var rotationsZ = [Double](repeating: 0.0, count: 40)
+
     func start() {
         // IMPORTANT: `isDeviceMotionActive` always returns false in simulator.
         guard !motionManager.isDeviceMotionActive else { return }
@@ -42,11 +48,6 @@ final class MotionManager {
     func stop() {
         motionManager.stopDeviceMotionUpdates()
     }
-
-    let gesturePublisher = PassthroughSubject<Gesture, Never>()
-
-    private var rotationsX = [Double](repeating: 0.0, count: 30)
-    private var rotationsZ = [Double](repeating: 0.0, count: 40)
 
     private func registerRotation(_ rotation: CMRotationRate) {
         if rotation.x > 8 || rotation.x < -8 {
@@ -74,8 +75,15 @@ final class MotionManager {
         }
 
         if recognizeGesture(in: rotationsX) {
-            gesturePublisher.send(.axisX)
-            rotationsX = [Double](repeating: 0.0, count: 30)
+            if !isLocked {
+                gesturePublisher.send(.axisX)
+                isLocked = true
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
+                rotationsX = [Double](repeating: 0.0, count: 30)
+                isLocked = false
+            }
         }
     }
 
@@ -87,8 +95,15 @@ final class MotionManager {
         }
 
         if recognizeGesture(in: rotationsZ) {
-            gesturePublisher.send(.axisY)
-            rotationsZ = [Double](repeating: 0.0, count: 30)
+            if !isLocked {
+                gesturePublisher.send(.axisY)
+                isLocked = true
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
+                rotationsZ = [Double](repeating: 0.0, count: 40)
+                isLocked = false
+            }
         }
     }
 
