@@ -15,16 +15,21 @@ enum ConnectivityError: Error, Identifiable {
     case notReady
 }
 
-final class ConnectivityManager: NSObject {
+protocol WatchCommunication: AnyObject {
+    var didReceiveResultContext: PassthroughSubject<ResultContext, Never> { get }
+    func sendDrillContext(_ context: DrillContext) -> AnyPublisher<Void, ConnectivityError>
+}
+
+final class ConnectivityManager: NSObject, WatchCommunication {
     private let session = WCSession.default
 
-    var isCounterpartReachable = false {
+    private(set) var isCounterpartReachable = false {
         didSet {
             print("isCounterpartReachable: \(isCounterpartReachable)")
         }
     }
 
-    var didReceiveResultContext = PassthroughSubject<ResultContext, Never>()
+    let didReceiveResultContext = PassthroughSubject<ResultContext, Never>()
 
     override init() {
         super.init()
