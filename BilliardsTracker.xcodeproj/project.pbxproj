@@ -44,6 +44,7 @@
 		29642E4B262E058C00A967D6 /* RunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E4A262E058C00A967D6 /* RunningView.swift */; };
 		2967D82E26936CA20031C3A7 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2967D82D26936CA20031C3A7 /* SessionManager.swift */; };
 		2967D83F26936DD70031C3A7 /* SessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2967D83E26936DD70031C3A7 /* SessionManagerTests.swift */; };
+		2967D84B26936EB00031C3A7 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2967D84A26936EB00031C3A7 /* StoreManager.swift */; };
 		297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E8FF8268B649C0091F086 /* OnboardView.swift */; };
 		297FD9C2268522EB00DFBFFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */; };
 		298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
@@ -168,6 +169,7 @@
 		29642E4A262E058C00A967D6 /* RunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningView.swift; sourceTree = "<group>"; };
 		2967D82D26936CA20031C3A7 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		2967D83E26936DD70031C3A7 /* SessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTests.swift; sourceTree = "<group>"; };
+		2967D84A26936EB00031C3A7 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		297E8FF8268B649C0091F086 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		298E3537261A1C4F00CCDDEE /* DrillContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillContext.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				2967D82D26936CA20031C3A7 /* SessionManager.swift */,
 				293433D52677807E00FA4768 /* SettingsManager.swift */,
 				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
+				2967D84A26936EB00031C3A7 /* StoreManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */,
+				2967D84B26936EB00031C3A7 /* StoreManager.swift in Sources */,
 				29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */,
 				29A6452A261CF3D200C42E41 /* DrillStore.swift in Sources */,
 				2926E0FA26150FE400E95DBB /* DrillsView.swift in Sources */,
