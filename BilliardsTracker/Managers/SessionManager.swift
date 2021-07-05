@@ -25,7 +25,13 @@ final class SessionManager: ObservableObject {
     private(set) var selectedDrill: Drill?
     private(set) var startDate = Date()
 
-    @Published var runState: SessionState = .stopped
+    @Published var runState: SessionState = .stopped {
+        didSet {
+            if runState == .stopped {
+                stop()
+            }
+        }
+    }
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -75,6 +81,13 @@ final class SessionManager: ObservableObject {
                     receiveValue: { }
                 )
         )
+    }
+
+    func stop() {
+        selectedDrill = nil
+
+        let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
+        _ = connectivity.sendDrillContext(context)
     }
 
     private func addResult(_ context: ResultContext, to drill: Drill) {
