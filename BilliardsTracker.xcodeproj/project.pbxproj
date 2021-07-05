@@ -17,7 +17,6 @@
 		2926E0FA26150FE400E95DBB /* DrillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F926150FE400E95DBB /* DrillsView.swift */; };
 		2926E0FC26150FE500E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E0FB26150FE500E95DBB /* Assets.xcassets */; };
 		2926E0FF26150FE500E95DBB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E0FE26150FE500E95DBB /* Preview Assets.xcassets */; };
-		2926E10A26150FE500E95DBB /* BilliardsTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E10926150FE500E95DBB /* BilliardsTrackerTests.swift */; };
 		2926E11526150FE500E95DBB /* BilliardsTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E11426150FE500E95DBB /* BilliardsTrackerUITests.swift */; };
 		2926E11A26150FE500E95DBB /* BilliardsTracker WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2926E11926150FE500E95DBB /* BilliardsTracker WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2926E11F26150FE600E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E11E26150FE600E95DBB /* Assets.xcassets */; };
@@ -138,7 +137,6 @@
 		2926E0FE26150FE500E95DBB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2926E10026150FE500E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2926E10526150FE500E95DBB /* BilliardsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2926E10926150FE500E95DBB /* BilliardsTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerTests.swift; sourceTree = "<group>"; };
 		2926E10B26150FE500E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2926E11026150FE500E95DBB /* BilliardsTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2926E11426150FE500E95DBB /* BilliardsTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerUITests.swift; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 		2926E10826150FE500E95DBB /* BilliardsTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
-				2926E10926150FE500E95DBB /* BilliardsTrackerTests.swift */,
 				293C00A8265985320027ADB3 /* DrillStoreTests.swift */,
 				2967D83E26936DD70031C3A7 /* SessionManagerTests.swift */,
 				293433E12677850600FA4768 /* SettingsManagerTests.swift */,
@@ -661,7 +658,6 @@
 				2967D83F26936DD70031C3A7 /* SessionManagerTests.swift in Sources */,
 				293C00A9265985320027ADB3 /* DrillStoreTests.swift in Sources */,
 				2963D2C6264F0F24009BD3C7 /* StatisticsManagerTests.swift in Sources */,
-				2926E10A26150FE500E95DBB /* BilliardsTrackerTests.swift in Sources */,
 				2967D85726936F4C0031C3A7 /* StoreManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
