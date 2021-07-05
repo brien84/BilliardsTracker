@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 final class SettingsManager: ObservableObject {
-    private var userDefaults: UserDefaults
+    private let userDefaults: UserDefaults
 
     @Published var sortOption: SortOption {
         didSet {
