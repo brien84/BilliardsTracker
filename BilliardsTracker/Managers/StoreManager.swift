@@ -14,16 +14,24 @@ final class StoreManager: ObservableObject {
 
     @Published var drills = [Drill]()
 
+    private var sortOption = SortOption.title {
+        didSet {
+            if sortOption != oldValue {
+                drills = store.loadDrills(sortedBy: sortOption)
+            }
+        }
+    }
+
     private var cancellables = Set<AnyCancellable>()
 
-    init(store: DrillStore) {
+    init(store: DrillStore, userDefaults: UserDefaults = .standard) {
         self.store = store
 
         store.didSaveContext
             .sink { [unowned self] result in
                 switch result {
                 case .success():
-                    drills = store.loadDrills()
+                    drills = store.loadDrills(sortedBy: sortOption)
                 case .failure(let error):
                     if error == .saving {
                         savingError = error
@@ -32,7 +40,13 @@ final class StoreManager: ObservableObject {
             }
             .store(in: &cancellables)
 
-        drills = store.loadDrills()
+        userDefaults.sortOptionPublisher
+            .sink { [unowned self] option in
+                sortOption = option
+            }
+            .store(in: &cancellables)
+
+        drills = store.loadDrills(sortedBy: sortOption)
     }
 
     func addDrill(title: String, attempts: Int, isFailable: Bool) {
