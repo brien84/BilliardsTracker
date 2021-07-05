@@ -23,7 +23,7 @@ final class ConnectivityManager: NSObject {
         }
     }
 
-    var didReceiveDrillContext = PassthroughSubject<DrillContext, Never>()
+    let didReceiveDrillContext = PassthroughSubject<DrillContext, Never>()
 
     override init() {
         super.init()
