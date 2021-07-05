@@ -38,4 +38,8 @@ final class StoreManager: ObservableObject {
     func addDrill(title: String, attempts: Int, isFailable: Bool) {
         store.createDrill(title: title, attempts: attempts, isFailable: isFailable)
     }
+
+    func delete(drill: Drill) {
+        store.delete(drill: drill)
+    }
 }
