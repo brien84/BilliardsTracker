@@ -33,4 +33,19 @@ final class StoreManagerTests: XCTestCase {
 
         XCTAssertGreaterThan(sut.drills.count, currentDrillCount)
     }
+
+    func testSavingErrorIsSet() throws {
+        XCTAssertNil(sut.savingError)
+
+        sut.addDrill(title: "", attempts: -1, isFailable: false)
+
+        XCTAssertEqual(sut.savingError, .saving)
+    }
+
+    func testDeletingDrill() throws {
+        let currentDrillCount = sut.drills.count
+        sut.delete(drill: sut.drills.first!)
+
+        XCTAssertLessThan(sut.drills.count, currentDrillCount)
+    }
 }
