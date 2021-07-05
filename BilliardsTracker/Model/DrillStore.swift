@@ -24,7 +24,7 @@ enum SortOption: Int, CaseIterable, Identifiable {
 }
 
 final class DrillStore {
-    var didSaveContext = PassthroughSubject<Result<Void, DrillStoreError>, Never>()
+    let didSaveContext = PassthroughSubject<Result<Void, DrillStoreError>, Never>()
 
     private let persistentContainer: NSPersistentContainer
     private static var model: NSManagedObjectModel?
