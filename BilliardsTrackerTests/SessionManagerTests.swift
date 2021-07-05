@@ -110,6 +110,52 @@ final class SessionManagerTests: XCTestCase {
         XCTAssertEqual(sut.runState, .running)
     }
 
+    func testStoppingSessionSetsSelectedDrillToNil() throws {
+        let drill = drillStore.loadDrills().first!
+        connectivity.sentContextCallback = .success(())
+
+        sut.start(drill: drill)
+        waitForPublisher()
+
+        XCTAssertEqual(sut.runState, .running)
+        XCTAssertEqual(sut.connectivityError, nil)
+
+        sut.stop()
+        XCTAssertEqual(sut.selectedDrill, nil)
+    }
+
+    func testStoppingSessionSendsInactiveDrillContext() throws {
+        let drill = drillStore.loadDrills().first!
+        connectivity.sentContextCallback = .success(())
+
+        sut.start(drill: drill)
+        waitForPublisher()
+
+        XCTAssertEqual(sut.runState, .running)
+        XCTAssertEqual(sut.connectivityError, nil)
+
+        sut.stop()
+        waitForPublisher()
+
+        XCTAssertFalse(connectivity.sentContext!.isActive)
+    }
+
+    func testSettingRunStateToStoppedStopsSession() throws {
+        let drill = drillStore.loadDrills().first!
+        connectivity.sentContextCallback = .success(())
+
+        sut.start(drill: drill)
+        waitForPublisher()
+
+        XCTAssertEqual(sut.runState, .running)
+        XCTAssertEqual(sut.connectivityError, nil)
+
+        sut.runState = .stopped
+
+        XCTAssertEqual(sut.selectedDrill, nil)
+        XCTAssertEqual(sut.runState, .stopped)
+    }
+
     func testReceivingAndSavingResultContext() throws {
         connectivity.sentContextCallback = .success(())
         let drill = drillStore.loadDrills().first!
