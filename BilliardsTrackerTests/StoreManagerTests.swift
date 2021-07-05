@@ -12,14 +12,18 @@ import XCTest
 final class StoreManagerTests: XCTestCase {
     var sut: StoreManager!
     var drillStore: DrillStore!
+    var userDefaults: UserDefaults!
 
     override func setUpWithError() throws {
+        userDefaults = UserDefaults(suiteName: #file)
+        userDefaults.removePersistentDomain(forName: #file)
         drillStore = try! DrillStore(inMemory: true, isPreview: true)
-        sut = StoreManager(store: drillStore)
+        sut = StoreManager(store: drillStore, userDefaults: userDefaults)
     }
 
     override func tearDownWithError() throws {
         drillStore = nil
+        userDefaults = nil
         sut = nil
     }
 
@@ -47,5 +51,17 @@ final class StoreManagerTests: XCTestCase {
         sut.delete(drill: sut.drills.first!)
 
         XCTAssertLessThan(sut.drills.count, currentDrillCount)
+    }
+
+    func testSettingSortOptionSortsDrills() throws {
+        let initialDrills = sut.drills
+
+        XCTAssertEqual(initialDrills, sut.drills)
+
+        let settings = SettingsManager(userDefaults: userDefaults)
+        XCTAssertNotEqual(settings.sortOption, .dateCreated)
+        settings.sortOption = .dateCreated
+
+        XCTAssertNotEqual(initialDrills, sut.drills)
     }
 }
