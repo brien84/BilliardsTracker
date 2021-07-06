@@ -13,11 +13,11 @@ struct MenuView: View {
     var body: some View {
         TabView(selection: $currentTab) {
 
-            MenuOption(title: "Standalone", destination: AnyView(RunnerView(.standalone)))
+            MenuOption(title: "Standalone", destination: AnyView(SessionView(.standalone)))
                 .foregroundColor(.customBlue)
                 .tag(0)
 
-            MenuOption(title: "Tracked", destination: AnyView(RunnerView(.tracked)))
+            MenuOption(title: "Tracked", destination: AnyView(SessionView(.tracked)))
                 .foregroundColor(.customRed)
                 .tag(1)
 

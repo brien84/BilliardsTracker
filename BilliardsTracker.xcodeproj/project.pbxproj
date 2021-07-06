@@ -59,7 +59,7 @@
 		29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* CreateDrillView.swift */; };
 		29BB860F2631F2BA0055A8BB /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
-		29C87169262210680064C592 /* RunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* RunnerView.swift */; };
+		29C87169262210680064C592 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* SessionView.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
 		29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* SessionManager.swift */; };
 		29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionManager.swift */; };
@@ -182,7 +182,7 @@
 		29BB8602262EECE00055A8BB /* CreateDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDrillView.swift; sourceTree = "<group>"; };
 		29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		29C87168262210680064C592 /* RunnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerView.swift; sourceTree = "<group>"; };
+		29C87168262210680064C592 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		29FAD65D2615112A00310DA9 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		29FAD6692616066800310DA9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
@@ -421,7 +421,7 @@
 				290C01142617794900A82A6C /* PrimaryControls.swift */,
 				290C0120261799D900A82A6C /* SecondaryControls.swift */,
 				29C8716126220E060064C592 /* MenuView.swift */,
-				29C87168262210680064C592 /* RunnerView.swift */,
+				29C87168262210680064C592 /* SessionView.swift */,
 				292002D82682572C00DCA308 /* MarqueeText.swift */,
 				297E8FF8268B649C0091F086 /* OnboardView.swift */,
 			);
@@ -677,7 +677,7 @@
 				29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */,
 				290C01152617794900A82A6C /* PrimaryControls.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
-				29C87169262210680064C592 /* RunnerView.swift in Sources */,
+				29C87169262210680064C592 /* SessionView.swift in Sources */,
 				290C01392618899E00A82A6C /* ExtendedRuntimeManager.swift in Sources */,
 				29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */,
 				29FD3DD42624DAF500322371 /* ConnectivityManager.swift in Sources */,

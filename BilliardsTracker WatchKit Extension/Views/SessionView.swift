@@ -1,5 +1,5 @@
 //
-//  RunnerView.swift
+//  SessionView.swift
 //  BilliardsTracker WatchKit Extension
 //
 //  Created by Marius on 2021-04-10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RunnerView: View {
+struct SessionView: View {
     @EnvironmentObject var session: SessionManager
 
     @State private var currentTab: Int = 0
@@ -52,7 +52,7 @@ struct RunnerView: View {
     }
 }
 
-struct RunnerView_Previews: PreviewProvider {
+struct SessionView_Previews: PreviewProvider {
     static var session: SessionManager = {
         let session = SessionManager()
         session.isActive = true
@@ -60,7 +60,7 @@ struct RunnerView_Previews: PreviewProvider {
     }()
 
     static var previews: some View {
-        RunnerView(.standalone)
+        SessionView(.standalone)
             .environmentObject(session)
     }
 }
