@@ -354,14 +354,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		295389D826696C090028E5B8 /* Statistics Views */ = {
-			isa = PBXGroup;
-			children = (
-				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
-			);
-			path = "Statistics Views";
-			sourceTree = "<group>";
-		};
 		29558FCE2642F78C006BA300 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,20 +377,37 @@
 		29642E3D262CD7BB00A967D6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				295389D826696C090028E5B8 /* Statistics Views */,
-				2994521B26407CAD0051F4A7 /* ChartView.swift */,
 				29BB8602262EECE00055A8BB /* CreateDrillView.swift */,
 				2926E0F926150FE400E95DBB /* DrillsView.swift */,
 				29642E43262CD7DE00A967D6 /* DrillView.swift */,
+				293433CE267764FD00FA4768 /* MainView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29558FDC26447C9F006BA300 /* ResultView.swift */,
 				29642E4A262E058C00A967D6 /* SessionView.swift */,
-				29BB85FB262E26AB0055A8BB /* StatisticsView.swift */,
-				292E6F61266BFD1B0078C033 /* CardView.swift */,
 				293433C7267676C000FA4768 /* SettingsView.swift */,
-				293433CE267764FD00FA4768 /* MainView.swift */,
+				29BB85FB262E26AB0055A8BB /* StatisticsView.swift */,
+				2967D8762694DB240031C3A7 /* Misc Views */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2967D8762694DB240031C3A7 /* Misc Views */ = {
+			isa = PBXGroup;
+			children = (
+				292E6F61266BFD1B0078C033 /* CardView.swift */,
+				2994521B26407CAD0051F4A7 /* ChartView.swift */,
+				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
+			);
+			path = "Misc Views";
+			sourceTree = "<group>";
+		};
+		2967D87C2694DBDD0031C3A7 /* Misc Views */ = {
+			isa = PBXGroup;
+			children = (
+				292002D82682572C00DCA308 /* MarqueeText.swift */,
+				297E8FF8268B649C0091F086 /* OnboardView.swift */,
+			);
+			path = "Misc Views";
 			sourceTree = "<group>";
 		};
 		298E3536261A1C3200CCDDEE /* Shared */ = {
@@ -413,14 +422,13 @@
 		29F37DEA2617716A00DD4A9C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				29F37DEB2617717C00DD4A9C /* SetupView.swift */,
 				290C01272617AB0200A82A6C /* CompletionView.swift */,
+				29C8716126220E060064C592 /* MenuView.swift */,
 				290C01142617794900A82A6C /* PrimaryControls.swift */,
 				290C0120261799D900A82A6C /* SecondaryControls.swift */,
-				29C8716126220E060064C592 /* MenuView.swift */,
 				29C87168262210680064C592 /* SessionView.swift */,
-				292002D82682572C00DCA308 /* MarqueeText.swift */,
-				297E8FF8268B649C0091F086 /* OnboardView.swift */,
+				29F37DEB2617717C00DD4A9C /* SetupView.swift */,
+				2967D87C2694DBDD0031C3A7 /* Misc Views */,
 			);
 			path = Views;
 			sourceTree = "<group>";
