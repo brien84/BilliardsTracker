@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct DrillsView: View {
-    @EnvironmentObject var manager: DrillManager
+    @EnvironmentObject var session: SessionManager
+    @EnvironmentObject var store: StoreManager
 
     private var isBlurred = false
 
     var body: some View {
         ScrollView {
-            ForEach(manager.drills) { drill in
+            ForEach(store.drills) { drill in
                 DrillView(drill: drill)
                     .padding([.horizontal], .drillViewPadding * 2)
                     .padding([.vertical], .drillViewPadding)
@@ -23,9 +24,9 @@ struct DrillsView: View {
             .blur(radius: isBlurred ? .blurValue : 0)
         }
         .fixFlickering()
-        .overlay(manager.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
-        .disabled(manager.runState == .loading)
-        .alert(item: $manager.connectivityError) { error in
+        .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
+        .disabled(session.runState == .loading)
+        .alert(item: $session.connectivityError) { error in
             switch error {
             case .notReady:
                 return notReadyAlert
@@ -34,7 +35,7 @@ struct DrillsView: View {
             }
         }
         .background(
-            Color.clear.alert(item: $manager.savingError) { error in
+            Color.clear.alert(item: $store.savingError) { error in
                 savingAlert
             }
         )
@@ -96,7 +97,9 @@ private extension CGFloat {
 }
 
 struct DrillsView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
+    static var session = SessionManager(store: drillStore)
+    static var store = StoreManager(store: drillStore)
 
     static var view: some View {
         ZStack {
@@ -104,7 +107,8 @@ struct DrillsView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             DrillsView()
-                .environmentObject(manager)
+                .environmentObject(session)
+                .environmentObject(store)
         }
     }
 

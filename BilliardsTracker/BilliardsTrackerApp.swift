@@ -27,7 +27,8 @@ struct BilliardsTrackerApp: App {
                     }
             } else {
                 MainView()
-                    .environmentObject(DrillManager(store: store!))
+                    .environmentObject(StoreManager(store: store!))
+                    .environmentObject(SessionManager(store: store!))
             }
         }
     }

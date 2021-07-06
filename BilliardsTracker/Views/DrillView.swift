@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct DrillView: View {
-    @EnvironmentObject var manager: DrillManager
+    @EnvironmentObject var session: SessionManager
+    @EnvironmentObject var store: StoreManager
+
     private let drill: Drill
 
     @State private var touchesBegan = false
@@ -19,12 +21,12 @@ struct DrillView: View {
 
     var body: some View {
         let navigationBinding = Binding<Bool>(
-                                    get: { manager.runState == .running && manager.selectedDrill == drill },
-                                    set: { manager.runState = $0 ? .running : .stopped }
+                                    get: { session.runState == .running && session.selectedDrill == drill },
+                                    set: { session.runState = $0 ? .running : .stopped }
                                 ).removeDuplictates()
 
         ZStack {
-            NavigationLink(destination: RunningView(drill: drill, startDate: manager.startDate),
+            NavigationLink(destination: SessionView(drill: drill, startDate: session.startDate),
                            isActive: navigationBinding) { EmptyView() }.disabled(true)
 
             Color.secondaryBackground
@@ -68,7 +70,7 @@ struct DrillView: View {
         .cornerRadius(.cornerRadius)
         .scaleEffect(touchesBegan ? .scaleEffectOn : .scaleEffectOff)
         .onTapGesture {
-            manager.start(drill: drill)
+            session.start(drill: drill)
         }
         .onLongPressGesture(minimumDuration: .scaleGestureDuration, maximumDistance: .scaleGestureDistance) { isPressing in
             withAnimation(.easeOut(duration: .scaleAnimationDuration)) {
@@ -127,8 +129,10 @@ private extension Double {
 }
 
 struct DrillView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
-    static var drill = manager.drills.first!
+    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
+    static var session = SessionManager(store: drillStore)
+    static var store = StoreManager(store: drillStore)
+    static var drill = store.drills.first!
 
     static var view: some View {
         ZStack {
@@ -136,7 +140,8 @@ struct DrillView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             DrillView(drill: drill)
-                .environmentObject(manager)
+                .environmentObject(session)
+                .environmentObject(store)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding()
         }
