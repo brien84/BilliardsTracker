@@ -108,7 +108,7 @@ final class SessionManager: ObservableObject {
                 switch gesture {
                 case .axisX:
                     self?.addAttempt(isSuccess: true)
-                case .axisY:
+                case .axisZ:
                     self?.addAttempt(isSuccess: false)
                 }
             }

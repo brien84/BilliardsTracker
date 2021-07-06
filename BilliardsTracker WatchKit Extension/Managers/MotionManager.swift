@@ -10,7 +10,7 @@ import CoreMotion
 
 enum Gesture {
     case axisX
-    case axisY
+    case axisZ
 }
 
 final class MotionManager {
@@ -96,7 +96,7 @@ final class MotionManager {
 
         if recognizeGesture(in: rotationsZ) {
             if !isLocked {
-                gesturePublisher.send(.axisY)
+                gesturePublisher.send(.axisZ)
                 isLocked = true
             }
 
