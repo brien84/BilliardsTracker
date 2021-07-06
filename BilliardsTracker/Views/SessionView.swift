@@ -1,5 +1,5 @@
 //
-//  RunningView.swift
+//  SessionView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-04-19.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RunningView: View {
+struct SessionView: View {
     @ObservedObject private var statistics: StatisticsManager
 
     init(drill: Drill, startDate: Date) {
@@ -73,13 +73,13 @@ private extension CGSize {
     }
 }
 
-struct RunningView_Previews: PreviewProvider {
+struct SessionView_Previews: PreviewProvider {
     static var store = try! DrillStore(inMemory: true, isPreview: true)
     static var drill = store.loadDrills().first!
 
     static var view: some View {
         NavigationView {
-            RunningView(drill: drill, startDate: Date(timeIntervalSince1970: 0))
+            SessionView(drill: drill, startDate: Date(timeIntervalSince1970: 0))
         }
     }
 
@@ -89,13 +89,13 @@ struct RunningView_Previews: PreviewProvider {
     }
 }
 
-struct RunningViewWaiting_Previews: PreviewProvider {
+struct SessionViewWaiting_Previews: PreviewProvider {
     static var store = try! DrillStore(inMemory: true, isPreview: true)
     static var drill = store.loadDrills().first!
 
     static var view: some View {
         NavigationView {
-            RunningView(drill: drill, startDate: Date(timeIntervalSinceNow: 10000))
+            SessionView(drill: drill, startDate: Date(timeIntervalSinceNow: 10000))
         }
     }
 
