@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct CreateDrillView: View {
-    @EnvironmentObject var manager: DrillManager
+    @EnvironmentObject var store: StoreManager
 
     @Binding var isCreatingDrill: Bool
 
     @State private var title = ""
     @State private var attempts = 1.0
     @State private var isFailable = false
+
+    @State private var showInfo = false
 
     var body: some View {
         NavigationView {
@@ -63,8 +65,6 @@ struct CreateDrillView: View {
         }
     }
 
-    @State private var showInfo = false
-
     private var infoButton: some View {
         Button(
             action: {
@@ -110,7 +110,7 @@ struct CreateDrillView: View {
             }
 
             withAnimation {
-                manager.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
+                store.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
             }
 
             isCreatingDrill = false
@@ -150,11 +150,11 @@ private struct CreateDrillTextFieldStyle: TextFieldStyle {
 }
 
 struct CreateDrillView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+    static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var view: some View {
         CreateDrillView(isCreatingDrill: .constant(true))
-            .environmentObject(manager)
+            .environmentObject(store)
     }
 
     static var previews: some View {

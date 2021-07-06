@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var manager: DrillManager
+    @EnvironmentObject var store: StoreManager
 
     @State private var isCreatingDrill = false
     @State private var isShowingSettings = false
@@ -24,7 +24,7 @@ struct MainView: View {
                     .disabled(isShowingSettings)
 
                 createDrillBackgroundButton
-                    .opacity(manager.drills.count == 0 ? 1 : 0)
+                    .opacity(store.drills.count == 0 ? 1 : 0)
 
                 SettingsView(isShowingSettings: $isShowingSettings)
                     .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
@@ -104,11 +104,14 @@ private extension CGSize {
 }
 
 struct MainView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
+    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
+    static var session = SessionManager(store: drillStore)
+    static var store = StoreManager(store: drillStore)
 
     static var view: some View {
         MainView()
-            .environmentObject(manager)
+            .environmentObject(session)
+            .environmentObject(store)
     }
 
     static var previews: some View {
@@ -117,12 +120,15 @@ struct MainView_Previews: PreviewProvider {
     }
 }
 
-struct MainViewAddDrill_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true))
+struct MainViewCreateDrillBackground_Previews: PreviewProvider {
+    static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
+    static var session = SessionManager(store: drillStore)
+    static var store = StoreManager(store: drillStore)
 
     static var view: some View {
         MainView()
-            .environmentObject(manager)
+            .environmentObject(session)
+            .environmentObject(store)
     }
 
     static var previews: some View {

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct StatisticsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var manager: DrillManager
+    @EnvironmentObject var store: StoreManager
+
     private let statistics: StatisticsManager
 
     @State private var showHistory = false
@@ -54,7 +55,7 @@ struct StatisticsView: View {
         .onDisappear {
             if shouldDelete {
                 withAnimation {
-                    manager.delete(drill: statistics.drill)
+                    store.delete(drill: statistics.drill)
                 }
             }
         }
@@ -142,13 +143,13 @@ private extension CGSize {
 }
 
 struct StatisticsView_Previews: PreviewProvider {
-    static var manager = DrillManager(store: try! DrillStore(inMemory: true, isPreview: true))
-    static var drill = manager.drills.first!
+    static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
+    static var drill = store.drills.first!
 
     static var view: some View {
         NavigationView {
             NavigationLink(
-                destination: StatisticsView(drill: drill).environmentObject(manager),
+                destination: StatisticsView(drill: drill).environmentObject(store),
                 isActive: .constant(true),
                 label: { Text("Preview") }
             )
@@ -162,18 +163,19 @@ struct StatisticsView_Previews: PreviewProvider {
 }
 
 struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
-    static var store = try! DrillStore(inMemory: true, isPreview: false)
-    static var manager = DrillManager(store: store)
+    static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
 
     static var drill: Drill = {
-        store.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
-        return manager.drills.first!
+        drillStore.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
+        return store.drills.first!
     }()
+
+    static var store = StoreManager(store: drillStore)
 
     static var view: some View {
         NavigationView {
             NavigationLink(
-                destination: StatisticsView(drill: drill).environmentObject(manager),
+                destination: StatisticsView(drill: drill).environmentObject(store),
                 isActive: .constant(true),
                 label: { Text("Preview") }
             )
