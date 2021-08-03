@@ -69,12 +69,10 @@ extension Drill {
     }
 
     var results: [DrillResult] {
-        get {
-            guard let resultsSet = resultsValue as? Set<DrillResult> else { return [] }
-            return Array(resultsSet).sorted { $0.date > $1.date }
-        }
+        guard let resultsSet = resultsValue as? Set<DrillResult> else { return [] }
+        return Array(resultsSet).sorted { $0.date > $1.date }
     }
-    
+
 }
 
 // MARK: Generated accessors for resultsValue

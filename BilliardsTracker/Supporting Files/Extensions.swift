@@ -10,7 +10,7 @@ import SwiftUI
 extension Binding where Value: Equatable {
     /// Workaround for `NavigationLink's `isActive = false` called multiple times per dismissal.
     public func removeDuplictates() -> Binding<Value> {
-        var previous: Value? = nil
+        var previous: Value?
 
         return Binding<Value>(
             get: { self.wrappedValue },
@@ -74,7 +74,7 @@ extension ScrollView {
 
     func fixFlickering<T: View>(@ViewBuilder configurator: @escaping (ScrollView<AnyView>) -> T) -> some View {
         GeometryReader { geometryWithSafeArea in
-            GeometryReader { geometry in
+            GeometryReader { _ in
                 configurator(
                     ScrollView<AnyView>(self.axes, showsIndicators: self.showsIndicators) {
                         AnyView(

@@ -60,7 +60,7 @@ final class DrillStore {
 
         var loadPersistentStoresError: Error?
 
-        persistentContainer.loadPersistentStores { description, error in
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 loadPersistentStoresError = error
             }
@@ -175,6 +175,7 @@ final class DrillStore {
             }
         }
 
+        // swiftlint:disable:next force_try
         try! persistentContainer.viewContext.save()
     }
 }

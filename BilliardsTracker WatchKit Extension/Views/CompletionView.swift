@@ -50,9 +50,9 @@ struct CompletionView: View {
 private struct CompletionViewButton: View {
     private let imageName: String
     private let color: Color
-    private let action: () -> ()
+    private let action: () -> Void
 
-    init(imageName: String, color: Color, action: @escaping () -> ()) {
+    init(imageName: String, color: Color, action: @escaping () -> Void) {
         self.imageName = imageName
         self.color = color
         self.action = action
@@ -61,7 +61,7 @@ private struct CompletionViewButton: View {
     var body: some View {
         VStack {
             Button {
-                withAnimation() { action() }
+                withAnimation { action() }
             } label: {
                 Image(systemName: imageName)
                     .frame(width: 25, height: 25)

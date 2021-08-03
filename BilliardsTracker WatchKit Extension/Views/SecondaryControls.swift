@@ -50,9 +50,9 @@ private struct SecondaryControlButton: View {
     private let title: String
     private let imageName: String
     private let color: Color
-    private let action: () -> ()
+    private let action: () -> Void
 
-    init(title: String, imageName: String, color: Color, action: @escaping () -> ()) {
+    init(title: String, imageName: String, color: Color, action: @escaping () -> Void) {
         self.title = title
         self.imageName = imageName
         self.color = color
@@ -62,7 +62,7 @@ private struct SecondaryControlButton: View {
     var body: some View {
         VStack {
             Button {
-                withAnimation() { action() }
+                withAnimation { action() }
             } label: {
                 Image(systemName: imageName)
                     .frame(width: 25, height: 25)

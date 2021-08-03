@@ -15,7 +15,7 @@ final class StatisticsManager: ObservableObject {
         self.drill = drill
         self.afterDate = afterDate
     }
-    
+
     var results: [DrillResult] {
         if let afterDate = afterDate {
             return drill.results.filter { $0.date > afterDate }
