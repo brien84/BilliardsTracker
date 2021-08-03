@@ -24,6 +24,7 @@ struct ResultsView: View {
     }
 }
 
+// swiftlint:disable force_try
 struct ResultsView_Previews: PreviewProvider {
     static var store = try! DrillStore(inMemory: true, isPreview: true)
     static var results = store.loadDrills().first!.results
@@ -43,3 +44,4 @@ struct ResultsView_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

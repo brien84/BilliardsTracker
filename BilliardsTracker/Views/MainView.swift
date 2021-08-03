@@ -103,6 +103,7 @@ private extension CGSize {
     }
 }
 
+// swiftlint:disable force_try
 struct MainView_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
     static var session = SessionManager(store: drillStore)
@@ -136,3 +137,4 @@ struct MainViewCreateDrillBackground_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

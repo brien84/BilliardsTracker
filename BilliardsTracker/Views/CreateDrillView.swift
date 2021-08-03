@@ -129,6 +129,7 @@ private extension CGFloat {
 }
 
 private struct CreateDrillTextFieldStyle: TextFieldStyle {
+    // swiftlint:disable:next identifier_name
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .autocapitalization(.none)
@@ -149,6 +150,7 @@ private struct CreateDrillTextFieldStyle: TextFieldStyle {
     }
 }
 
+// swiftlint:disable force_try
 struct CreateDrillView_Previews: PreviewProvider {
     static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
@@ -162,3 +164,4 @@ struct CreateDrillView_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

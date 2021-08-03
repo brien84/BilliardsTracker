@@ -102,6 +102,7 @@ private extension CGFloat {
     }
 }
 
+// swiftlint:disable force_try
 struct StatisticsPanel_Previews: PreviewProvider {
     static var store = try! DrillStore(inMemory: true, isPreview: true)
     static var drill = store.loadDrills().first { !$0.isFailable }!
@@ -139,3 +140,4 @@ struct StatisticsPanelFailableDrill_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

@@ -53,6 +53,7 @@ private extension CGFloat {
     }
 }
 
+// swiftlint:disable force_try
 struct ResultView_Previews: PreviewProvider {
     static var store = try! DrillStore(inMemory: true, isPreview: true)
     static var result = store.loadDrills().first!.results.first!
@@ -73,3 +74,4 @@ struct ResultView_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

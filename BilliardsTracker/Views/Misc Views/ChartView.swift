@@ -98,14 +98,14 @@ private struct Chart: Shape {
             return CGPoint(x: x, y: y)
         }
 
-        return Path { p in
+        return Path { path in
             guard dataPoints.count > 1 else { return }
 
             let start = dataPoints[0]
-            p.move(to: CGPoint(x: 0, y: (1 - start) * rect.height))
+            path.move(to: CGPoint(x: 0, y: (1 - start) * rect.height))
 
             for idx in dataPoints.indices {
-                p.addLine(to: point(at: idx))
+                path.addLine(to: point(at: idx))
             }
         }
     }
@@ -132,14 +132,15 @@ private struct ChartLabel: View {
 
     struct LabelLine: Shape {
         func path(in rect: CGRect) -> Path {
-            Path { p in
-                p.move(to: CGPoint(x: 0, y: 0))
-                p.addLine(to: CGPoint(x: rect.maxX, y: 0))
+            Path { path in
+                path.move(to: CGPoint(x: 0, y: 0))
+                path.addLine(to: CGPoint(x: rect.maxX, y: 0))
             }
         }
     }
 }
 
+// swiftlint:disable force_try
 struct ChartView_Previews: PreviewProvider {
     static var store = try! DrillStore(inMemory: true, isPreview: true)
     static var drill = store.loadDrills().first!
@@ -161,3 +162,4 @@ struct ChartView_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

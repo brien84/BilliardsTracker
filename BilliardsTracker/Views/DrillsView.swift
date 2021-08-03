@@ -35,7 +35,7 @@ struct DrillsView: View {
             }
         }
         .background(
-            Color.clear.alert(item: $store.savingError) { error in
+            Color.clear.alert(item: $store.savingError) { _ in
                 savingAlert
             }
         )
@@ -96,6 +96,7 @@ private extension CGFloat {
     }
 }
 
+// swiftlint:disable force_try
 struct DrillsView_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
     static var session = SessionManager(store: drillStore)
@@ -117,3 +118,4 @@ struct DrillsView_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

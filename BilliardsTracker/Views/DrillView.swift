@@ -128,6 +128,7 @@ private extension Double {
     }
 }
 
+// swiftlint:disable force_try
 struct DrillView_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
     static var session = SessionManager(store: drillStore)
@@ -152,3 +153,4 @@ struct DrillView_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try

@@ -142,6 +142,7 @@ private extension CGSize {
     }
 }
 
+// swiftlint:disable force_try
 struct StatisticsView_Previews: PreviewProvider {
     static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
     static var drill = store.drills.first!
@@ -187,3 +188,4 @@ struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
         view.preferredColorScheme(.dark)
     }
 }
+// swiftlint:enable force_try
