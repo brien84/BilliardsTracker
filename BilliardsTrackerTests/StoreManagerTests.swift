@@ -9,6 +9,7 @@ import Combine
 import XCTest
 @testable import BilliardsTracker
 
+// swiftlint:disable force_try
 final class StoreManagerTests: XCTestCase {
     var sut: StoreManager!
     var drillStore: DrillStore!

@@ -8,6 +8,7 @@
 import XCTest
 @testable import BilliardsTracker
 
+// swiftlint:disable force_try
 final class StatisticsManagerTests: XCTestCase {
     var sut: StatisticsManager!
     var store: DrillStore!
@@ -95,7 +96,7 @@ final class StatisticsManagerTests: XCTestCase {
         XCTAssertEqual(sut.chartDataPoints.count, 100)
         XCTAssertEqual(sut.chartDataPoints.last!, 1.0)
     }
-    
+
     // MARK: - Helpers
 
     private func createDrill(attempts: Int, isFailable: Bool = false) -> Drill {

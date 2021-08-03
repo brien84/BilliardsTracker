@@ -9,6 +9,7 @@ import Combine
 import XCTest
 @testable import BilliardsTracker
 
+// swiftlint:disable force_try
 final class DrillStoreTests: XCTestCase {
     var cancellables: Set<AnyCancellable>!
     var sut: DrillStore!
@@ -39,7 +40,7 @@ final class DrillStoreTests: XCTestCase {
             case .success():
                 expectation.fulfill()
             case .failure(_):
-                XCTFail()
+                XCTFail("didSaveContext should succeed.")
             }
         }
         .store(in: &cancellables)
@@ -59,7 +60,7 @@ final class DrillStoreTests: XCTestCase {
         sut.didSaveContext.sink { result in
             switch result {
             case .success():
-                XCTFail()
+                XCTFail("didSaveContext should fail.")
             case .failure(_):
                 expectation.fulfill()
             }
@@ -84,7 +85,7 @@ final class DrillStoreTests: XCTestCase {
             case .success():
                 expectation.fulfill()
             case .failure(_):
-                XCTFail()
+                XCTFail("didSaveContext should succeed.")
             }
         }
         .store(in: &cancellables)
@@ -105,7 +106,7 @@ final class DrillStoreTests: XCTestCase {
         sut.didSaveContext.sink { result in
             switch result {
             case .success():
-                XCTFail()
+                XCTFail("didSaveContext should fail.")
             case .failure(_):
                 expectation.fulfill()
             }
@@ -128,7 +129,7 @@ final class DrillStoreTests: XCTestCase {
         sut.didSaveContext.sink { result in
             switch result {
             case .success():
-                XCTFail()
+                XCTFail("didSaveContext should fail.")
             case .failure(_):
                 expectation.fulfill()
             }
@@ -153,7 +154,7 @@ final class DrillStoreTests: XCTestCase {
             case .success():
                 expectation.fulfill()
             case .failure(_):
-                XCTFail()
+                XCTFail("didSaveContext should succeed.")
             }
         }
         .store(in: &cancellables)

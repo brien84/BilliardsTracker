@@ -9,6 +9,7 @@ import Combine
 import XCTest
 @testable import BilliardsTracker
 
+// swiftlint:disable force_try
 final class SessionManagerTests: XCTestCase {
     var sut: SessionManager!
     var connectivity: MockConnectivityManager!
