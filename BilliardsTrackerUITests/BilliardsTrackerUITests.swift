@@ -149,6 +149,47 @@ final class BilliardsTrackerUITests: XCTestCase {
         XCTAssertFalse(app.drillView_failableIcon.isHittable)
     }
 
+    // MARK: - SettingsView
+
+    func testOpeningSettingsView() throws {
+        startApp(data: true)
+
+        app.mainView_settingsButton.tap()
+
+        XCTAssertTrue(app.settingsView_titleText.waitForExistence(timeout: 1.0))
+        XCTAssertTrue(app.settingsView_titleText.isHittable)
+    }
+
+    func testClosingSettingsView() throws {
+        try! testOpeningSettingsView()
+
+        app.mainView_settingsButton.tap()
+
+        XCTAssertFalse(app.settingsView_titleText.isHittable)
+    }
+
+    func testClosingSettingsViewByClickingOutOfBounds() throws {
+        try! testOpeningSettingsView()
+
+        app.drillView_statisticsButton.firstMatch.tap()
+
+        XCTAssertFalse(app.settingsView_titleText.isHittable)
+    }
+
+    func testSelectingSortOption() throws {
+        try! testOpeningSettingsView()
+
+        if !app.settingsView_attemptsImage.isHittable {
+            app.settingsView_attemptsText.tap()
+            XCTAssertTrue(app.settingsView_attemptsImage.isHittable)
+        } else if !app.settingsView_titleImage.isHittable {
+            app.settingsView_titleText.tap()
+            XCTAssertTrue(app.settingsView_titleImage.isHittable)
+        } else {
+            XCTFail("Two or more options are selected at the same time.")
+        }
+    }
+
 }
 
 extension XCUIApplication {
@@ -221,6 +262,28 @@ extension XCUIApplication {
 
     var mainView_createDrillButtonNavigation: XCUIElement {
         buttons["mainView_createDrillButtonNavigation"]
+    }
+
+    var mainView_settingsButton: XCUIElement {
+        buttons["mainView_settingsButton"]
+    }
+
+    // MARK: - SettingsView
+
+    var settingsView_attemptsText: XCUIElement {
+        staticTexts["settingsView_attemptsText"]
+    }
+
+    var settingsView_titleText: XCUIElement {
+        staticTexts["settingsView_titleText"]
+    }
+
+    var settingsView_attemptsImage: XCUIElement {
+        images["settingsView_attemptsImage"]
+    }
+
+    var settingsView_titleImage: XCUIElement {
+        images["settingsView_titleImage"]
     }
 
 }
