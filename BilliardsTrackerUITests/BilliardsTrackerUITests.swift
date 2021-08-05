@@ -190,6 +190,70 @@ final class BilliardsTrackerUITests: XCTestCase {
         }
     }
 
+    // MARK: - StatisticsView
+
+    func testOpeningStatisticsView() throws {
+        startApp(data: true)
+
+        app.drillView_statisticsButton.firstMatch.tap()
+
+        XCTAssertTrue(app.statisticsView_toggleHistoryButton.exists)
+    }
+
+    func testClosingStatisticsView() throws {
+        try! testOpeningStatisticsView()
+
+        let backButton = app.navigationBars.firstMatch.buttons.firstMatch
+        backButton.tap()
+
+        XCTAssertFalse(app.statisticsView_toggleHistoryButton.exists)
+    }
+
+    func testTogglingBetweenChartAndResultsViews() throws {
+        try! testOpeningStatisticsView()
+
+        XCTAssertTrue(app.statisticsView_chartView.exists)
+        XCTAssertFalse(app.statisticsView_resultsView.exists)
+
+        app.statisticsView_toggleHistoryButton.tap()
+
+        XCTAssertTrue(app.statisticsView_resultsView.exists)
+        XCTAssertFalse(app.statisticsView_chartView.exists)
+    }
+
+    func testDrillWithNoResultsDisplaysNoDataLabel() throws {
+        try! testCreatingDrill()
+
+        XCTAssertFalse(app.statisticsView_noDataLabel.exists)
+
+        app.drillView_statisticsButton.tap()
+
+        XCTAssertTrue(app.statisticsView_noDataLabel.exists)
+    }
+
+    func testDrillWithNoResultsToggleButtonIsDisabled() throws {
+        try! testCreatingDrill()
+
+        app.drillView_statisticsButton.tap()
+
+        XCTAssertTrue(app.statisticsView_toggleHistoryButton.exists)
+        XCTAssertFalse(app.statisticsView_toggleHistoryButton.isEnabled)
+    }
+
+    func testDeletingDrill() throws {
+        try! testCreatingDrill()
+
+        app.drillView_statisticsButton.tap()
+
+        XCTAssertTrue(app.statisticsView_deleteButton.exists)
+        app.statisticsView_deleteButton.tap()
+
+        let confirmationButton = app.alerts.firstMatch.buttons.element(boundBy: 1)
+        confirmationButton.tap()
+
+        XCTAssertFalse(app.statisticsView_deleteButton.isHittable)
+        XCTAssertFalse(app.drillView_statisticsButton.exists)
+    }
 }
 
 extension XCUIApplication {
@@ -284,6 +348,28 @@ extension XCUIApplication {
 
     var settingsView_titleImage: XCUIElement {
         images["settingsView_titleImage"]
+    }
+
+    // MARK: - StatisticsView
+
+    var statisticsView_deleteButton: XCUIElement {
+        buttons["statisticsView_deleteButton"]
+    }
+
+    var statisticsView_toggleHistoryButton: XCUIElement {
+        buttons["statisticsView_toggleHistoryButton"]
+    }
+
+    var statisticsView_chartView: XCUIElement {
+        staticTexts["statisticsView_chartView"]
+    }
+
+    var statisticsView_resultsView: XCUIElement {
+        scrollViews["statisticsView_resultsView"]
+    }
+
+    var statisticsView_noDataLabel: XCUIElement {
+        staticTexts["statisticsView_noDataLabel"]
     }
 
 }
