@@ -9,7 +9,16 @@ import SwiftUI
 
 @main
 struct BilliardsTrackerApp: App {
-    private let store: DrillStore? = try? DrillStore()
+
+    private let store: DrillStore? = {
+        if CommandLine.arguments.contains("ui-testing") {
+            return try? DrillStore(inMemory: true, isPreview: true)
+        } else if CommandLine.arguments.contains("ui-testing-no-data") {
+            return try? DrillStore(inMemory: true, isPreview: false)
+        } else {
+            return try? DrillStore()
+        }
+    }()
 
     init() {
         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .label
