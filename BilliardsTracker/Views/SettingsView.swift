@@ -25,13 +25,13 @@ struct SettingsView: View {
                                 SettingsCell {
                                     HStack {
                                         SettingsCellLabel(title: option.title, imageName: option.imageName)
+                                            .accessibility(identifier: "settingsView_\(option.title.lowercased())Text")
 
                                         Spacer()
 
-                                        Image(systemName: "checkmark")
-                                            .font(Font.body.weight(.bold))
-                                            .foregroundColor(.customBlue)
+                                        SettingsCellCheckmark()
                                             .opacity(settings.sortOption == option ? 1 : 0)
+                                            .accessibility(identifier: "settingsView_\(option.title.lowercased())Image")
                                     }
                                 }
                                 .onTapGesture {
@@ -110,6 +110,14 @@ private struct SettingsCellLabel: View {
                 .frame(width: .cellLabelHeight)
                 .foregroundColor(.secondaryElement)
         }
+    }
+}
+
+private struct SettingsCellCheckmark: View {
+    var body: some View {
+        Image(systemName: "checkmark")
+            .font(Font.body.weight(.bold))
+            .foregroundColor(.customBlue)
     }
 }
 
