@@ -258,7 +258,7 @@
 			children = (
 				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
 				29558FCE2642F78C006BA300 /* Managers */,
-				294AD366261F74C40086E808 /* Model */,
+				294AD366261F74C40086E808 /* Models */,
 				29642E3D262CD7BB00A967D6 /* Views */,
 				29558FD426432F26006BA300 /* Supporting Files */,
 				2926E0FB26150FE500E95DBB /* Assets.xcassets */,
@@ -341,7 +341,7 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		294AD366261F74C40086E808 /* Model */ = {
+		294AD366261F74C40086E808 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */,
@@ -351,7 +351,7 @@
 				294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */,
 				294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		29558FCE2642F78C006BA300 /* Managers */ = {
