@@ -35,6 +35,7 @@ struct MainView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $isCreatingDrill) {
             CreateDrillView(isCreatingDrill: $isCreatingDrill)
+                .accessibility(identifier: "createDrillView")
         }
     }
 
@@ -50,6 +51,7 @@ struct MainView: View {
                     .imageScale(.large)
             }
         )
+        .accessibility(identifier: "mainView_settingsButton")
     }
 
     private var createDrillButton: some View {
@@ -63,6 +65,7 @@ struct MainView: View {
             }
         )
         .disabled(isShowingSettings)
+        .accessibility(identifier: "mainView_createDrillButtonNavigation")
     }
 
     private var createDrillBackgroundButton: some View {
@@ -84,6 +87,7 @@ struct MainView: View {
             }
         )
         .foregroundColor(.primaryElement)
+        .accessibility(identifier: "mainView_createDrillButtonBackground")
     }
 }
 

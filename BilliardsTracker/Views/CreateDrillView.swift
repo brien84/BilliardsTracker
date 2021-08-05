@@ -29,28 +29,33 @@ struct CreateDrillView: View {
                         .textFieldStyle(CreateDrillTextFieldStyle())
                         .padding()
                         .padding(.top)
+                        .accessibility(identifier: "createDrillView_titleField")
 
                     Slider(value: $attempts, in: 1...100, step: 1.0)
                         .padding(.horizontal)
                         .accentColor(.customBlue)
+                        .accessibility(identifier: "createDrillView_attemptsSlider")
 
                     Text("\(Int(attempts))")
                         .padding(.bottom)
                         .font(.headline)
                         .foregroundColor(.primaryElement)
+                        .accessibility(identifier: "createDrillView_attemptsText")
 
                     Divider()
                         .padding(.top)
 
-                    Toggle(isOn: $isFailable) {
-                        HStack(alignment: .lastTextBaseline) {
-                            Text("Failable")
-                                .font(Font.body.weight(.semibold))
+                    HStack {
+                        Text("Failable")
+                            .font(Font.body.weight(.semibold))
 
-                            infoButton
-                        }
+                        infoButton
+
+                        Toggle("", isOn: $isFailable)
+                            .toggleStyle(SwitchToggleStyle(tint: .customBlue))
+                            .accessibility(identifier: "createDrillView_failableToggle")
+
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: .customBlue))
                     .padding(.horizontal)
 
                     Divider()
@@ -79,6 +84,7 @@ struct CreateDrillView: View {
                     .foregroundColor(.secondaryElement)
             }
         )
+        .accessibility(identifier: "createDrillView_infoButton")
     }
 
     private var failableHelpView: some View {
@@ -95,12 +101,14 @@ struct CreateDrillView: View {
                     showInfo.toggle()
                 }
             }
+            .accessibility(identifier: "createDrillView_failableHelpView")
     }
 
     private var cancelButton: some View {
         Button("Cancel") {
             isCreatingDrill = false
         }
+        .accessibility(identifier: "createDrillView_cancelButton")
     }
 
     private var saveButton: some View {
@@ -115,6 +123,7 @@ struct CreateDrillView: View {
 
             isCreatingDrill = false
         }
+        .accessibility(identifier: "createDrillView_saveButton")
     }
 }
 

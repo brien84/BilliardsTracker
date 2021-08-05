@@ -36,6 +36,7 @@ struct DrillView: View {
                     ZStack {
                         Text("100").opacity(0)
                         Text("\(drill.attempts)")
+                            .accessibility(identifier: "drillView_attemptsText")
                     }
                     .frame(maxHeight: .infinity)
                     .padding(.horizontal)
@@ -50,6 +51,7 @@ struct DrillView: View {
                         .padding()
                         .font(Font.headline.weight(.bold))
                         .foregroundColor(.secondaryElement)
+                        .accessibility(identifier: "drillView_titleText")
                 }
 
                 VStack(spacing: .iconsSpacing) {
@@ -83,6 +85,7 @@ struct DrillView: View {
         Image(systemName: "xmark.seal")
             .font(Font.title3.weight(.regular))
             .imageScale(.small)
+            .accessibility(identifier: "drillView_failableIcon")
     }
 
     private var statisticsButton: some View {
@@ -93,6 +96,7 @@ struct DrillView: View {
                     .imageScale(.large)
             }
         )
+        .accessibility(identifier: "drillView_statisticsButton")
     }
 }
 
