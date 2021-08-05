@@ -35,6 +35,7 @@ struct StatisticsView: View {
                             noDataLabel
                         } else {
                             ResultsView(results: statistics.results)
+                                .accessibility(identifier: "statisticsView_resultsView")
                         }
                     } else {
                         if statistics.results.count < 2 {
@@ -42,6 +43,7 @@ struct StatisticsView: View {
                         } else {
                             ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
                                 .padding()
+                                .accessibility(identifier: "statisticsView_chartView")
                         }
                     }
                 }
@@ -78,6 +80,7 @@ struct StatisticsView: View {
         }
         .disabled(statistics.results.isEmpty)
         .foregroundColor(statistics.results.isEmpty ? .secondaryElement : .primaryElement)
+        .accessibility(identifier: "statisticsView_toggleHistoryButton")
     }
 
     private var deleteButton: some View {
@@ -100,6 +103,7 @@ struct StatisticsView: View {
                 secondaryButton: .cancel()
             )
         })
+        .accessibility(identifier: "statisticsView_deleteButton")
     }
 
     private var noDataLabel: some View {
@@ -115,6 +119,7 @@ struct StatisticsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .offset(.noDataLabelOffset)
+        .accessibility(identifier: "statisticsView_noDataLabel")
     }
 }
 
