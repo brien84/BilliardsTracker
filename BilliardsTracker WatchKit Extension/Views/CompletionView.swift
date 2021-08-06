@@ -20,6 +20,8 @@ struct CompletionView: View {
 
             Spacer()
 
+            Divider()
+
             HStack {
                 Text("\(session.potCount)")
                     .frame(maxWidth: .infinity)
@@ -30,6 +32,8 @@ struct CompletionView: View {
                     .foregroundColor(.customRed)
             }
             .font(.title2)
+
+            Divider()
 
             Spacer()
 
