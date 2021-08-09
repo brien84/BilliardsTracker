@@ -23,6 +23,7 @@ final class SessionManager: ObservableObject {
             if mode == .tracked {
                 connectivity.isReadyForCommunication = true
             } else {
+                title = nil
                 connectivity.isReadyForCommunication = false
             }
         }
