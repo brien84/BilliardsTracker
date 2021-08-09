@@ -15,6 +15,11 @@ struct SetupView: View {
     var body: some View {
         if session.mode == .standalone {
             VStack {
+                Text("Attempts")
+                    .font(.footnote)
+
+                Divider()
+
                 Picker(selection: $attempts, label: EmptyView()) {
                     ForEach(1..<101, id: \.self) { i in
                         Text("\(i)")
@@ -23,6 +28,8 @@ struct SetupView: View {
                     }
                 }
                 .hideBorder()
+
+                Divider()
 
                 Button("Start") {
                     session.setAttempts(attempts)
@@ -52,7 +59,7 @@ private extension Picker {
     }
 }
 
-struct StartViewStandalone_Previews: PreviewProvider {
+struct SetupViewStandalone_Previews: PreviewProvider {
     static var session: SessionManager = {
         let session = SessionManager()
         session.mode = .standalone
@@ -65,7 +72,7 @@ struct StartViewStandalone_Previews: PreviewProvider {
     }
 }
 
-struct StartViewTracked_Previews: PreviewProvider {
+struct SetupViewTracked_Previews: PreviewProvider {
     static var session: SessionManager = {
         let session = SessionManager()
         session.mode = .tracked
