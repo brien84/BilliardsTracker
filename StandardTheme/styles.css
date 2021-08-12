@@ -496,7 +496,7 @@ footer a {
     position: fixed;
     overflow-y: scroll;
     overscroll-behavior: contain;
-    top: 40px; right: 0; bottom: 0px; left: 0;
+    top: 40px; right: 0; bottom: 40px; left: 0;
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
@@ -513,7 +513,6 @@ footer a {
         font-family: Helvetica, sans-serif;
         font-size: 16px;
         padding: 30px;
-        padding-bottom: 60px;
     }
 }
 
