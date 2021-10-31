@@ -27,7 +27,7 @@ struct SetupView: View {
                             .foregroundColor(i == attempts ? .primaryElement : .secondaryElement)
                     }
                 }
-                .hideBorder()
+                .borderHidden()
 
                 Divider()
 
@@ -51,10 +51,10 @@ struct SetupView: View {
 }
 
 private extension Picker {
-    func hideBorder() -> some View {
+    func borderHidden() -> some View {
         self.overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.black, lineWidth: 4)
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.black, lineWidth: 5)
         )
     }
 }
