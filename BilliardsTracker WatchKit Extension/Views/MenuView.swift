@@ -13,45 +13,51 @@ struct MenuView: View {
     var body: some View {
         TabView(selection: $currentTab) {
 
-            MenuOption(title: "Standalone", destination: AnyView(SessionView(.standalone)))
-                .foregroundColor(.customBlue)
-                .tag(0)
+            MenuNavigationLink(title: "Standalone") {
+                SessionView(.standalone)
+            }
+            .foregroundColor(.customBlue)
+            .tag(0)
 
-            MenuOption(title: "Tracked", destination: AnyView(SessionView(.tracked)))
-                .foregroundColor(.customRed)
-                .tag(1)
+            MenuNavigationLink(title: "Tracked") {
+                SessionView(.tracked)
+            }
+            .foregroundColor(.customRed)
+            .tag(1)
 
         }
-        .buttonStyle(PlainButtonStyle())
     }
 }
 
-private struct MenuOption: View {
-    private var title: String
-    private var destination: AnyView
+struct MenuNavigationLink<Destination>: View where Destination: View {
+    private let title: String
+    private let destination: () -> Destination
 
-    init(title: String, destination: AnyView) {
+    @State private var titleScale: CGFloat = 1.0
+
+    init(title: String, @ViewBuilder destination: @escaping () -> Destination) {
         self.title = title
         self.destination = destination
     }
 
-    @State private var scale: CGFloat = 1.0
-
     var body: some View {
-        NavigationLink(destination: destination) {
+        NavigationLink {
+            destination()
+        } label: {
             Text(title)
                 .font(.title3)
         }
-        .scaleEffect(scale)
+        .buttonStyle(PlainButtonStyle())
+        .scaleEffect(titleScale)
         .onAppear {
             let animation = Animation.easeInOut(duration: .animationDuration)
+                                     .repeatForever(autoreverses: true)
 
-            withAnimation(animation.repeatForever(autoreverses: true)) {
-                scale = .animationScaleValue
+            withAnimation(animation) {
+                titleScale = .navigationLinkTitleMaxScale
             }
         }
     }
-
 }
 
 private extension Double {
@@ -61,7 +67,7 @@ private extension Double {
 }
 
 private extension CGFloat {
-    static var animationScaleValue: CGFloat {
+    static var navigationLinkTitleMaxScale: CGFloat {
         1.1
     }
 }
