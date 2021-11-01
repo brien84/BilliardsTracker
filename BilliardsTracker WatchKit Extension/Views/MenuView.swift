@@ -9,23 +9,39 @@ import SwiftUI
 
 struct MenuView: View {
     @State private var currentTab: Int = 0
+    @State private var showOnboard = false
 
     var body: some View {
-        TabView(selection: $currentTab) {
+        ZStack {
+            NavigationLink(
+                destination: OnboardView(),
+                isActive: $showOnboard,
+                label: {
+                    Color.clear
+                })
 
-            MenuNavigationLink(title: "Standalone") {
-                SessionView(.standalone)
-            }
-            .foregroundColor(.customBlue)
-            .tag(0)
+            TabView(selection: $currentTab) {
+                MenuNavigationLink(title: "Standalone") {
+                    SessionView(.standalone)
+                }
+                .foregroundColor(.customBlue)
+                .tag(0)
 
-            MenuNavigationLink(title: "Tracked") {
-                SessionView(.tracked)
+                MenuNavigationLink(title: "Tracked") {
+                    SessionView(.tracked)
+                }
+                .foregroundColor(.customRed)
+                .tag(1)
             }
-            .foregroundColor(.customRed)
-            .tag(1)
 
         }
+        .onAppear {
+            if UserDefaults.standard.object(forKey: .userDefaultsOnboardKey) == nil {
+                showOnboard = true
+                UserDefaults.standard.set(true, forKey: .userDefaultsOnboardKey)
+            }
+        }
+
     }
 }
 
@@ -69,6 +85,12 @@ private extension Double {
 private extension CGFloat {
     static var navigationLinkTitleMaxScale: CGFloat {
         1.1
+    }
+}
+
+private extension String {
+    static var userDefaultsOnboardKey: String {
+        "userDefaultsOnboardKey"
     }
 }
 

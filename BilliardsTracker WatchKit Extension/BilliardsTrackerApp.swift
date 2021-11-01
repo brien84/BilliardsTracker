@@ -9,37 +9,14 @@ import SwiftUI
 
 @main
 struct BilliardsTrackerApp: App {
-    @ObservedObject var runner = SessionManager()
-
-    @State private var showOnboard = false
+    @StateObject var session = SessionManager()
 
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ZStack {
-                    NavigationLink(
-                        destination: OnboardView(),
-                        isActive: $showOnboard,
-                        label: {
-                            Color.clear
-                        })
-
-                    MenuView()
-                }
+                MenuView()
             }
-            .environmentObject(runner)
-            .onAppear {
-                if UserDefaults.standard.object(forKey: .userDefaultsOnboardKey) == nil {
-                    showOnboard = true
-                    UserDefaults.standard.set(true, forKey: .userDefaultsOnboardKey)
-                }
-            }
+            .environmentObject(session)
         }
-    }
-}
-
-private extension String {
-    static var userDefaultsOnboardKey: String {
-        "userDefaultsOnboardKey"
     }
 }
