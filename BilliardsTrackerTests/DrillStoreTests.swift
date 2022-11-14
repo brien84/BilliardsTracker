@@ -37,9 +37,9 @@ final class DrillStoreTests: XCTestCase {
 
         sut.didSaveContext.sink { result in
             switch result {
-            case .success():
+            case .success:
                 expectation.fulfill()
-            case .failure(_):
+            case .failure:
                 XCTFail("didSaveContext should succeed.")
             }
         }
@@ -59,9 +59,9 @@ final class DrillStoreTests: XCTestCase {
 
         sut.didSaveContext.sink { result in
             switch result {
-            case .success():
+            case .success:
                 XCTFail("didSaveContext should fail.")
-            case .failure(_):
+            case .failure:
                 expectation.fulfill()
             }
         }
@@ -82,9 +82,9 @@ final class DrillStoreTests: XCTestCase {
 
         sut.didSaveContext.sink { result in
             switch result {
-            case .success():
+            case .success:
                 expectation.fulfill()
-            case .failure(_):
+            case .failure:
                 XCTFail("didSaveContext should succeed.")
             }
         }
@@ -105,9 +105,9 @@ final class DrillStoreTests: XCTestCase {
 
         sut.didSaveContext.sink { result in
             switch result {
-            case .success():
+            case .success:
                 XCTFail("didSaveContext should fail.")
-            case .failure(_):
+            case .failure:
                 expectation.fulfill()
             }
         }
@@ -128,9 +128,9 @@ final class DrillStoreTests: XCTestCase {
 
         sut.didSaveContext.sink { result in
             switch result {
-            case .success():
+            case .success:
                 XCTFail("didSaveContext should fail.")
-            case .failure(_):
+            case .failure:
                 expectation.fulfill()
             }
         }
@@ -151,9 +151,9 @@ final class DrillStoreTests: XCTestCase {
 
         sut.didSaveContext.sink { result in
             switch result {
-            case .success():
+            case .success:
                 expectation.fulfill()
-            case .failure(_):
+            case .failure:
                 XCTFail("didSaveContext should succeed.")
             }
         }
