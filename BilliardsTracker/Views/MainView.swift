@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var session: SessionManager
     @EnvironmentObject var store: StoreManager
 
     @State private var isCreatingDrill = false
@@ -30,7 +31,10 @@ struct MainView: View {
                     .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
             }
             .navigationBarTitle("Drills")
-            .navigationBarItems(leading: settingsButton, trailing: createDrillButton)
+            .navigationBarItems(
+                leading: settingsButton.disabled(session.runState == .loading),
+                trailing: createDrillButton.disabled(session.runState == .loading)
+            )
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $isCreatingDrill) {
