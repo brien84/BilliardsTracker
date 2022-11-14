@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DrillsView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @EnvironmentObject var session: SessionManager
     @EnvironmentObject var store: StoreManager
 
@@ -42,13 +44,19 @@ struct DrillsView: View {
     }
 
     private var loadingView: some View {
-        ProgressView()
-            .padding()
-            .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
-            .background(Color.secondaryBackground)
-            .cornerRadius(.loadingViewCornerRadius)
-            .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
-                        .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+                .opacity(colorScheme == .light ? .loadingViewBackgroundOpacityLight : .loadingViewBackgroundOpacityDark)
+
+            ProgressView()
+                .padding()
+                .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
+                .background(Color.secondaryBackground)
+                .cornerRadius(.loadingViewCornerRadius)
+                .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
+                            .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
+        }
     }
 
     private var notReadyAlert: Alert {
@@ -93,6 +101,16 @@ private extension CGFloat {
 
     static var blurValue: CGFloat {
         5
+    }
+}
+
+private extension Double {
+    static var loadingViewBackgroundOpacityLight: Double {
+        0.25
+    }
+
+    static var loadingViewBackgroundOpacityDark: Double {
+        0.45
     }
 }
 
