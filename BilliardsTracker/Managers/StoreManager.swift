@@ -30,7 +30,7 @@ final class StoreManager: ObservableObject {
         store.didSaveContext
             .sink { [unowned self] result in
                 switch result {
-                case .success():
+                case .success:
                     drills = store.loadDrills(sortedBy: sortOption)
                 case .failure(let error):
                     if error == .saving {
