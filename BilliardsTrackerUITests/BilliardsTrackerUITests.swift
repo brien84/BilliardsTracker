@@ -84,7 +84,13 @@ final class BilliardsTrackerUITests: XCTestCase {
         app.createDrillView_titleField.typeText(title)
 
         // set attempts
-        app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
+        // slider adjusment behaviour changed on iOS15 and onwards
+        if #available(iOS 15.0, *) {
+            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts - 1) / 100.0)
+        } else {
+            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
+        }
+
         XCTAssertEqual(String(attempts), app.createDrillView_attemptsText.label)
 
         // toggle isFailable
@@ -123,7 +129,7 @@ final class BilliardsTrackerUITests: XCTestCase {
         XCTAssertTrue(app.drillView_titleText.waitForExistence(timeout: 1.0))
         XCTAssertEqual(title.uppercased(), app.drillView_titleText.label)
         XCTAssertEqual(String(attempts), app.drillView_attemptsText.label)
-        XCTAssertEqual(isFailable, app.drillView_failableIcon.isHittable)
+        XCTAssertEqual(isFailable, app.drillView_failableIcon.isEnabled)
     }
 
     func testCreatingDrillEmptyInputs() throws {
@@ -146,7 +152,7 @@ final class BilliardsTrackerUITests: XCTestCase {
         XCTAssertTrue(app.drillView_titleText.waitForExistence(timeout: 1.0))
         XCTAssertEqual("DRILL TITLE", app.drillView_titleText.label)
         XCTAssertEqual("1", app.drillView_attemptsText.label)
-        XCTAssertFalse(app.drillView_failableIcon.isHittable)
+        XCTAssertFalse(app.drillView_failableIcon.isEnabled)
     }
 
     // MARK: - SettingsView
@@ -179,12 +185,12 @@ final class BilliardsTrackerUITests: XCTestCase {
     func testSelectingSortOption() throws {
         try! testOpeningSettingsView()
 
-        if !app.settingsView_attemptsImage.isHittable {
+        if !app.settingsView_attemptsImage.isEnabled {
             app.settingsView_attemptsText.tap()
-            XCTAssertTrue(app.settingsView_attemptsImage.isHittable)
-        } else if !app.settingsView_titleImage.isHittable {
+            XCTAssertTrue(app.settingsView_attemptsImage.isEnabled)
+        } else if !app.settingsView_titleImage.isEnabled {
             app.settingsView_titleText.tap()
-            XCTAssertTrue(app.settingsView_titleImage.isHittable)
+            XCTAssertTrue(app.settingsView_titleImage.isEnabled)
         } else {
             XCTFail("Two or more options are selected at the same time.")
         }
