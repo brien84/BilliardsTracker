@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct MenuView: View {
-    @State private var currentTab: Int = 0
+    @State private var currentTab = MenuTab.standalone
     @State private var isNavigationToStandaloneActive = false
     @State private var isNavigationToTrackedActive = false
     @State private var isNavigationToOnboardActive = false
+
+    private enum MenuTab: Int {
+        case standalone, tracked
+    }
 
     var body: some View {
         ZStack {
@@ -35,13 +39,13 @@ struct MenuView: View {
                     isNavigationToStandaloneActive = true
                 }
                 .foregroundColor(.customBlue)
-                .tag(0)
+                .tag(MenuTab.standalone)
 
                 MenuButton(title: "Tracked") {
                     isNavigationToTrackedActive = true
                 }
                 .foregroundColor(.customRed)
-                .tag(1)
+                .tag(MenuTab.tracked)
             }
         }
         .onAppear {
@@ -50,7 +54,6 @@ struct MenuView: View {
                 UserDefaults.standard.set(true, forKey: .userDefaultsOnboardKey)
             }
         }
-
     }
 }
 
