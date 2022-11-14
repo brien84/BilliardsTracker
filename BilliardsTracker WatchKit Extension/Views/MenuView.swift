@@ -77,7 +77,7 @@ private struct MenuButton: View {
     let title: String
     let action: () -> Void
 
-    @State private var titleScale: CGFloat = 1.0
+    @State private var titleScale: CGFloat = .defaultMenuButtonTitleScale
 
     var body: some View {
         Button {
@@ -89,24 +89,28 @@ private struct MenuButton: View {
         .buttonStyle(PlainButtonStyle())
         .scaleEffect(titleScale)
         .onAppear {
-            let animation = Animation.easeInOut(duration: .animationDuration)
+            let animation = Animation.easeInOut(duration: .defaultAnimationDuration)
                                      .repeatForever(autoreverses: true)
 
             withAnimation(animation) {
-                titleScale = .navigationLinkTitleMaxScale
+                titleScale = .maximumMenuButtonTitleScale
             }
         }
     }
 }
 
 private extension Double {
-    static var animationDuration: Double {
+    static var defaultAnimationDuration: Double {
         1.0
     }
 }
 
 private extension CGFloat {
-    static var navigationLinkTitleMaxScale: CGFloat {
+    static var defaultMenuButtonTitleScale: CGFloat {
+        1.0
+    }
+
+    static var maximumMenuButtonTitleScale: CGFloat {
         1.1
     }
 }
