@@ -9,35 +9,44 @@ import SwiftUI
 
 struct MenuView: View {
     @State private var currentTab: Int = 0
-    @State private var showOnboard = false
+    @State private var isNavigationToStandaloneActive = false
+    @State private var isNavigationToTrackedActive = false
+    @State private var isNavigationToOnboardActive = false
 
     var body: some View {
         ZStack {
-            NavigationLink(
-                destination: OnboardView(),
-                isActive: $showOnboard,
-                label: {
-                    Color.clear
-                })
+            PassiveNavigationLink(
+                isActive: $isNavigationToOnboardActive,
+                destination: OnboardView()
+            )
+
+            PassiveNavigationLink(
+                isActive: $isNavigationToStandaloneActive,
+                destination: SessionView(.standalone)
+            )
+
+            PassiveNavigationLink(
+                isActive: $isNavigationToTrackedActive,
+                destination: SessionView(.tracked)
+            )
 
             TabView(selection: $currentTab) {
-                MenuNavigationLink(title: "Standalone") {
-                    SessionView(.standalone)
+                MenuButton(title: "Standalone") {
+                    isNavigationToStandaloneActive = true
                 }
                 .foregroundColor(.customBlue)
                 .tag(0)
 
-                MenuNavigationLink(title: "Tracked") {
-                    SessionView(.tracked)
+                MenuButton(title: "Tracked") {
+                    isNavigationToTrackedActive = true
                 }
                 .foregroundColor(.customRed)
                 .tag(1)
             }
-
         }
         .onAppear {
             if UserDefaults.standard.object(forKey: .userDefaultsOnboardKey) == nil {
-                showOnboard = true
+                isNavigationToOnboardActive = true
                 UserDefaults.standard.set(true, forKey: .userDefaultsOnboardKey)
             }
         }
@@ -45,20 +54,31 @@ struct MenuView: View {
     }
 }
 
-struct MenuNavigationLink<Destination>: View where Destination: View {
-    private let title: String
-    private let destination: () -> Destination
+private struct PassiveNavigationLink<Destination>: View where Destination: View {
+    let isActive: Binding<Bool>
+    let destination: Destination
+
+    var body: some View {
+        NavigationLink(
+            isActive: isActive,
+            destination: { destination },
+            label: { EmptyView() }
+        )
+        .buttonStyle(.plain)
+        .disabled(true)
+        .hidden()
+    }
+}
+
+private struct MenuButton: View {
+    let title: String
+    let action: () -> Void
 
     @State private var titleScale: CGFloat = 1.0
 
-    init(title: String, @ViewBuilder destination: @escaping () -> Destination) {
-        self.title = title
-        self.destination = destination
-    }
-
     var body: some View {
-        NavigationLink {
-            destination()
+        Button {
+            action()
         } label: {
             Text(title)
                 .font(.title3)
