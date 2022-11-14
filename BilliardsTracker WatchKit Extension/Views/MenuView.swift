@@ -92,8 +92,10 @@ private struct MenuButton: View {
             let animation = Animation.easeInOut(duration: .defaultAnimationDuration)
                                      .repeatForever(autoreverses: true)
 
-            withAnimation(animation) {
-                titleScale = .maximumMenuButtonTitleScale
+            DispatchQueue.main.async {
+                withAnimation(animation) {
+                    titleScale = .maximumMenuButtonTitleScale
+                }
             }
         }
     }
