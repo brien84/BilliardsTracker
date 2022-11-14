@@ -58,7 +58,7 @@ struct DrillView: View {
                     failableIcon
                         .frame(maxHeight: .infinity, alignment: .top)
                         .foregroundColor(.customRed)
-                        .opacity(drill.isFailable ? 1 : 0)
+                        .hidden(!drill.isFailable)
 
                     Spacer()
 

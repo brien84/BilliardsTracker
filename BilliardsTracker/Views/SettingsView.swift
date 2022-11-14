@@ -30,7 +30,7 @@ struct SettingsView: View {
                                         Spacer()
 
                                         SettingsCellCheckmark()
-                                            .opacity(settings.sortOption == option ? 1 : 0)
+                                            .hidden(settings.sortOption != option)
                                             .accessibility(identifier: "settingsView_\(option.title.lowercased())Image")
                                     }
                                 }
