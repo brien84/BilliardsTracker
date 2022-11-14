@@ -10,42 +10,44 @@ import SwiftUI
 struct SetupView: View {
     @EnvironmentObject var session: SessionManager
 
-    @State private var attempts = 15
+    @State private var attempts = 9
 
     var body: some View {
-        if session.mode == .standalone {
-            VStack {
-                Text("Attempts")
-                    .font(.footnote)
+        ZStack {
+            if session.mode == .standalone {
+                VStack {
+                    Text("Attempts")
+                        .font(.footnote)
 
-                Divider()
+                    Divider()
 
-                Picker(selection: $attempts, label: EmptyView()) {
-                    ForEach(1..<101, id: \.self) { i in
-                        Text("\(i)")
-                            .font(i == attempts ? .title2 : .title3)
-                            .foregroundColor(i == attempts ? .primaryElement : .secondaryElement)
+                    Picker(selection: $attempts, label: EmptyView()) {
+                        ForEach(1..<101, id: \.self) { i in
+                            Text("\(i)")
+                                .font(i == attempts ? .title2 : .title3)
+                                .foregroundColor(i == attempts ? .primaryElement : .secondaryElement)
+                        }
                     }
-                }
-                .borderHidden()
+                    .borderHidden()
 
-                Divider()
+                    Divider()
 
-                Button("Start") {
-                    session.setAttempts(attempts)
-                    withAnimation {
-                        session.isActive = true
+                    Button("Start") {
+                        session.setAttempts(attempts)
+                        withAnimation {
+                            session.isActive = true
+                        }
                     }
+                    .buttonStyle(BorderedButtonStyle(tint: .customBlue))
                 }
-                .buttonStyle(BorderedButtonStyle(tint: .customBlue))
             }
-        }
 
-        if session.mode == .tracked {
-            Text("Select a drill on BilliardsTracker iPhone app.")
-                .multilineTextAlignment(.center)
-                .font(.caption)
-                .foregroundColor(.primaryElement)
+            if session.mode == .tracked {
+                Text("Select a drill on BilliardsTracker iPhone app.")
+                    .multilineTextAlignment(.center)
+                    .font(.caption)
+                    .foregroundColor(.primaryElement)
+            }
         }
     }
 }
