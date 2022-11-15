@@ -26,8 +26,16 @@ struct DrillView: View {
                                 ).removeDuplictates()
 
         ZStack {
-            NavigationLink(destination: SessionView(drill: drill, startDate: session.startDate),
-                           isActive: navigationBinding) { EmptyView() }.disabled(true)
+            NavigationLink(
+                destination: EmptyView(),
+                label: { EmptyView() }
+            )
+
+            NavigationLink(
+                destination: SessionView(drill: drill, startDate: session.startDate),
+                isActive: navigationBinding,
+                label: { EmptyView() }
+            ).disabled(true)
 
             Color.secondaryBackground
 
