@@ -24,8 +24,8 @@ struct SessionView: View {
 
                 CardView {
                     if statistics.results.isEmpty {
-                        waitingForResultsLabel
-                            .offset(.waitingForResultsLabelOffset)
+                        WaitingLabelView()
+                            .offset(Self.waitingLabelOffset)
                     } else {
                         ResultsView(results: statistics.results)
                     }
@@ -36,14 +36,15 @@ struct SessionView: View {
         .animation(.easeInOut)
         .navigationBarTitle(statistics.drill.title)
     }
+}
 
-    private var waitingForResultsLabel: some View {
-        VStack(spacing: .waitingForResultsLabelSpacing) {
+private struct WaitingLabelView: View {
+    var body: some View {
+        VStack(spacing: Self.spacing) {
             Image("table")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: .waitingForResultsLabelWidth,
-                       height: .waitingForResultsLabelHeight)
+                .frame(width: Self.width, height: Self.height)
 
             Text("Waiting for results...")
                 .font(.title3)
@@ -53,25 +54,17 @@ struct SessionView: View {
     }
 }
 
-private extension CGFloat {
-    static var waitingForResultsLabelSpacing: CGFloat {
-        16
-    }
-
-    static var waitingForResultsLabelWidth: CGFloat {
-        100
-    }
-
-    static var waitingForResultsLabelHeight: CGFloat {
-        100
-    }
+private extension SessionView {
+    static let waitingLabelOffset: CGSize = CGSize(width: 0, height: -32)
 }
 
-private extension CGSize {
-    static var waitingForResultsLabelOffset: CGSize {
-        CGSize(width: 0, height: -32)
-    }
+private extension WaitingLabelView {
+    static let spacing: CGFloat = 16
+    static let width: CGFloat = 100
+    static let height: CGFloat = 100
 }
+
+// MARK: - Previews
 
 // swiftlint:disable force_try
 struct SessionView_Previews: PreviewProvider {
