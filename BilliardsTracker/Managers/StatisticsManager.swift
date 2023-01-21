@@ -76,3 +76,9 @@ final class StatisticsManager: ObservableObject {
         return dataPoints.reversed()
     }
 }
+
+extension StatisticsManager: Equatable {
+    static func == (lhs: StatisticsManager, rhs: StatisticsManager) -> Bool {
+        lhs.drill == rhs.drill && lhs.afterDate == rhs.afterDate
+    }
+}
