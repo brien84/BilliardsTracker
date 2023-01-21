@@ -47,6 +47,7 @@
 		298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
 		298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
 		2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2994521B26407CAD0051F4A7 /* ChartView.swift */; };
+		29A07896297C117400A5012A /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29A07895297C117400A5012A /* ComposableArchitecture */; };
 		29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */; };
 		29A6452A261CF3D200C42E41 /* DrillStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64529261CF3D200C42E41 /* DrillStore.swift */; };
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
@@ -168,6 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29A07896297C117400A5012A /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +409,9 @@
 				2926E11C26150FE500E95DBB /* PBXTargetDependency */,
 			);
 			name = BilliardsTracker;
+			packageProductDependencies = (
+				29A07895297C117400A5012A /* ComposableArchitecture */,
+			);
 			productName = BilliardsTracker;
 			productReference = 2926E0F426150FE400E95DBB /* BilliardsTracker.app */;
 			productType = "com.apple.product-type.application";
@@ -498,6 +503,9 @@
 				Base,
 			);
 			mainGroup = 2926E0EB26150FE300E95DBB;
+			packageReferences = (
+				29A07894297C117400A5012A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 2926E0F526150FE400E95DBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1029,6 +1037,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		29A07894297C117400A5012A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		29A07895297C117400A5012A /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 29A07894297C117400A5012A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */ = {
