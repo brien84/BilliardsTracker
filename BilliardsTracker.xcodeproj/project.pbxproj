@@ -343,7 +343,6 @@
 				293433CE267764FD00FA4768 /* MainView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29558FDC26447C9F006BA300 /* ResultView.swift */,
-				29642E4A262E058C00A967D6 /* SessionView.swift */,
 				293433C7267676C000FA4768 /* SettingsView.swift */,
 				29BB85FB262E26AB0055A8BB /* StatisticsView.swift */,
 				2967D8762694DB240031C3A7 /* Misc Views */,
@@ -383,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				29A07898297C230000A5012A /* Session.swift */,
+				29642E4A262E058C00A967D6 /* SessionView.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
