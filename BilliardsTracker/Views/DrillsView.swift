@@ -5,6 +5,7 @@
 //  Created by Marius on 2021-03-31.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct DrillsView: View {
@@ -16,31 +17,54 @@ struct DrillsView: View {
     private var isBlurred = false
 
     var body: some View {
-        ScrollView {
-            ForEach(store.drills) { drill in
-                DrillView(drill: drill)
-                    .padding([.horizontal], .drillViewPadding * 2)
-                    .padding([.vertical], .drillViewPadding)
-                    .transition(.slide)
-            }
-            .blur(radius: isBlurred ? .blurValue : 0)
-        }
-        .fixFlickering()
-        .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
-        .disabled(session.runState == .loading)
-        .alert(item: $session.connectivityError) { error in
-            switch error {
-            case .notReady:
-                return notReadyAlert
-            case .notReachable:
-                return notReachableAlert
-            }
-        }
-        .background(
-            Color.clear.alert(item: $store.savingError) { _ in
-                savingAlert
-            }
+        let navigationBinding = Binding<Bool>(
+            get: { session.runState == .running },
+            set: { session.runState = $0 ? .running : .stopped }
         )
+
+        ZStack {
+            PassiveNavigationLink(
+                isActive: navigationBinding,
+                destination: {
+                    Group {
+                        if let drill = session.selectedDrill {
+                            SessionView(store:
+                                Store(
+                                    initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: session.startDate)),
+                                    reducer: Session()
+                                )
+                            )
+                        }
+                    }
+                }
+            )
+
+            ScrollView {
+                ForEach(store.drills) { drill in
+                    DrillView(drill: drill)
+                        .padding([.horizontal], .drillViewPadding * 2)
+                        .padding([.vertical], .drillViewPadding)
+                        .transition(.slide)
+                }
+                .blur(radius: isBlurred ? .blurValue : 0)
+            }
+            .fixFlickering()
+            .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
+            .disabled(session.runState == .loading)
+            .alert(item: $session.connectivityError) { error in
+                switch error {
+                case .notReady:
+                    return notReadyAlert
+                case .notReachable:
+                    return notReachableAlert
+                }
+            }
+            .background(
+                Color.clear.alert(item: $store.savingError) { _ in
+                    savingAlert
+                }
+            )
+        }
     }
 
     private var loadingView: some View {

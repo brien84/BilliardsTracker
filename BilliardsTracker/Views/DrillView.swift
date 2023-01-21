@@ -21,29 +21,7 @@ struct DrillView: View {
     }
 
     var body: some View {
-        let navigationBinding = Binding<Bool>(
-                                    get: { session.runState == .running && session.selectedDrill == drill },
-                                    set: { session.runState = $0 ? .running : .stopped }
-                                ).removeDuplictates()
-
         ZStack {
-            NavigationLink(
-                destination: EmptyView(),
-                label: { EmptyView() }
-            )
-
-            NavigationLink(
-                destination:
-                    SessionView(store:
-                        Store(
-                            initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: session.startDate)),
-                            reducer: Session()
-                        )
-                    ),
-                isActive: navigationBinding,
-                label: { EmptyView() }
-            ).disabled(true)
-
             Color.secondaryBackground
 
             HStack(spacing: .zero) {
