@@ -5,6 +5,7 @@
 //  Created by Marius on 2021-04-19.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct DrillView: View {
@@ -32,7 +33,13 @@ struct DrillView: View {
             )
 
             NavigationLink(
-                destination: SessionView(drill: drill, startDate: session.startDate),
+                destination:
+                    SessionView(store:
+                        Store(
+                            initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: session.startDate)),
+                            reducer: Session()
+                        )
+                    ),
                 isActive: navigationBinding,
                 label: { EmptyView() }
             ).disabled(true)
