@@ -85,10 +85,10 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         // set attempts
         // slider adjusment behaviour changed on iOS15 and onwards
-        if #available(iOS 15.0, *) {
-            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts - 1) / 100.0)
+        if #available(iOS 16.0, *) {
+            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts - 2) / 100.0)
         } else {
-            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
+            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts - 1) / 100.0)
         }
 
         XCTAssertEqual(String(attempts), app.createDrillView_attemptsText.label)
