@@ -15,28 +15,27 @@ struct CreateDrillView: View {
 
     @Binding var isCreatingDrill: Bool
 
-    @State private var title = ""
-    @State private var attempts = 1.0
-    @State private var isFailable = false
-
     @State private var showInfo = false
 
     var body: some View {
-        WithViewStore(store) { _ in
+        WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
                     Color.secondaryBackground
                         .ignoresSafeArea()
 
-                    VStack(spacing: .spacing) {
-                        TextFieldView(title: $title)
+                    VStack(spacing: Self.spacing) {
+                        TitleTextField(title: viewStore.binding(\.$title))
 
-                        Slider(value: $attempts, in: 1...100, step: 1.0)
-                            .padding(.horizontal)
-                            .accentColor(.customBlue)
-                            .accessibility(identifier: "createDrillView_attemptsSlider")
+                        Slider(
+                            value: viewStore.binding(\.$attempts),
+                            in: 1...100,
+                            step: 1.0
+                        )
+                        .padding(.horizontal)
+                        .accentColor(.customBlue)
 
-                        Text("\(Int(attempts))")
+                        Text("\(Int(viewStore.attempts))")
                             .padding(.bottom)
                             .font(.headline)
                             .foregroundColor(.primaryElement)
@@ -51,10 +50,8 @@ struct CreateDrillView: View {
 
                             infoButton
 
-                            Toggle("", isOn: $isFailable)
+                            Toggle("", isOn: viewStore.binding(\.$isFailable))
                                 .toggleStyle(SwitchToggleStyle(tint: .customBlue))
-                                .accessibility(identifier: "createDrillView_failableToggle")
-
                         }
                         .padding(.horizontal)
 
@@ -66,8 +63,34 @@ struct CreateDrillView: View {
                     }
                 }
                 .navigationBarTitle("Create Drill", displayMode: .inline)
-                .navigationBarItems(leading: cancelButton, trailing: saveButton)
+                .navigationBarItems(
+                    leading:
+                        Button("Cancel") {
+                            isCreatingDrill = false
+                        }
+                        .accessibility(identifier: "createDrillView_cancelButton"),
+                    trailing:
+                        Button("Save") {
+                            var title = viewStore.title
+
+                            if title.isEmpty {
+                                title = "Drill Title"
+                            }
+
+                            withAnimation {
+                                drillStore.addDrill(
+                                    title: title,
+                                    attempts: Int(viewStore.attempts),
+                                    isFailable: viewStore.isFailable
+                                )
+                            }
+
+                            isCreatingDrill = false
+                        }
+                        .accessibility(identifier: "createDrillView_saveButton")
+                )
             }
+
         }
     }
 
@@ -94,7 +117,7 @@ struct CreateDrillView: View {
             .background(Color.primaryBackground)
             .font(.footnote)
             .foregroundColor(.primaryElement)
-            .cornerRadius(.failableHelpViewCornerRadius)
+            .cornerRadius(Self.failableHelpViewCornerRadius)
             .padding()
             .opacity(showInfo ? 1.0 : 0)
             .onTapGesture {
@@ -104,41 +127,14 @@ struct CreateDrillView: View {
             }
             .accessibility(identifier: "createDrillView_failableHelpView")
     }
-
-    private var cancelButton: some View {
-        Button("Cancel") {
-            isCreatingDrill = false
-        }
-        .accessibility(identifier: "createDrillView_cancelButton")
-    }
-
-    private var saveButton: some View {
-        Button("Save") {
-            if title.isEmpty {
-                title = "Drill Title"
-            }
-
-            withAnimation {
-                drillStore.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
-            }
-
-            isCreatingDrill = false
-        }
-        .accessibility(identifier: "createDrillView_saveButton")
-    }
 }
 
-private extension CGFloat {
-    static var spacing: CGFloat {
-        16
-    }
-
-    static var failableHelpViewCornerRadius: CGFloat {
-        25
-    }
+private extension CreateDrillView {
+    static let spacing: CGFloat = 16
+    static let failableHelpViewCornerRadius: CGFloat = 25
 }
 
-private struct TextFieldView: View {
+private struct TitleTextField: View {
     @Binding var title: String
 
     var body: some View {
@@ -155,7 +151,7 @@ private struct TextFieldView: View {
     }
 }
 
-private extension TextFieldView {
+private extension TitleTextField {
     static let cornerRadius: CGFloat = 8
     static let innerPadding: CGFloat = 12
 }
@@ -164,17 +160,12 @@ private extension TextFieldView {
 struct CreateDrillView_Previews: PreviewProvider {
     static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
-    static var view: some View {
+    static var previews: some View {
         CreateDrillView(
             store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
             isCreatingDrill: .constant(true)
         )
         .environmentObject(store)
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
     }
 }
 // swiftlint:enable force_try
