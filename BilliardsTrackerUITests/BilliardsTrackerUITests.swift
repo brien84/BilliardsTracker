@@ -79,9 +79,9 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        // type title
-        app.createDrillView_titleField.tap()
-        app.createDrillView_titleField.typeText(title)
+        // type title into textfield
+        app.textFields.firstMatch.tap()
+        app.textFields.firstMatch.typeText(title)
 
         // set attempts
         // slider adjusment behaviour changed on iOS15 and onwards
@@ -112,9 +112,9 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        // type title
-        app.createDrillView_titleField.tap()
-        app.createDrillView_titleField.typeText(title)
+        // type title into textfield
+        app.textFields.firstMatch.tap()
+        app.textFields.firstMatch.typeText(title)
 
         // set attempts
         app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
@@ -138,9 +138,9 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        // type title
-        app.createDrillView_titleField.tap()
-        app.createDrillView_titleField.typeText(title)
+        // type title into textfield
+        app.textFields.firstMatch.tap()
+        app.textFields.firstMatch.typeText(title)
 
         // set attempts
         app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
@@ -276,10 +276,6 @@ extension XCUIApplication {
 
     var createDrillView_saveButton: XCUIElement {
         buttons["createDrillView_saveButton"]
-    }
-
-    var createDrillView_titleField: XCUIElement {
-        textFields["createDrillView_titleField"]
     }
 
     var createDrillView_attemptsSlider: XCUIElement {
