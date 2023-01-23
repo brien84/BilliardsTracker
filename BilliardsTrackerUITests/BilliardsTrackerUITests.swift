@@ -79,22 +79,22 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        // type title into textfield
+        // types title into TitleTextField
         app.textFields.firstMatch.tap()
         app.textFields.firstMatch.typeText(title)
 
         // set attempts
         // slider adjusment behaviour changed on iOS15 and onwards
         if #available(iOS 16.0, *) {
-            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts - 2) / 100.0)
+            app.sliders.firstMatch.adjust(toNormalizedSliderPosition: CGFloat(attempts - 2) / 100.0)
         } else {
-            app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts - 1) / 100.0)
+            app.sliders.firstMatch.adjust(toNormalizedSliderPosition: CGFloat(attempts - 1) / 100.0)
         }
 
         XCTAssertEqual(String(attempts), app.createDrillView_attemptsText.label)
 
-        // toggle isFailable
-        app.createDrillView_failableToggle.tap()
+        // toggle isFailable Toggle
+        app.switches.firstMatch.tap()
 
         app.createDrillView_saveButton.tap()
         XCTAssertFalse(app.createDrillView.isHittable)
@@ -112,16 +112,16 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        // type title into textfield
+        // types title into TitleTextField
         app.textFields.firstMatch.tap()
         app.textFields.firstMatch.typeText(title)
 
         // set attempts
-        app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
+        app.sliders.firstMatch.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
         XCTAssertEqual(String(attempts), app.createDrillView_attemptsText.label)
 
-        // toggle isFailable
-        app.createDrillView_failableToggle.tap()
+        // toggle isFailable Toggle
+        app.switches.firstMatch.tap()
 
         app.createDrillView_saveButton.tap()
         XCTAssertFalse(app.createDrillView.isHittable)
@@ -138,12 +138,12 @@ final class BilliardsTrackerUITests: XCTestCase {
 
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        // type title into textfield
+        // types title into TitleTextField
         app.textFields.firstMatch.tap()
         app.textFields.firstMatch.typeText(title)
 
         // set attempts
-        app.createDrillView_attemptsSlider.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
+        app.sliders.firstMatch.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
         XCTAssertEqual(String(1), app.createDrillView_attemptsText.label)
 
         app.createDrillView_saveButton.tap()
@@ -278,10 +278,6 @@ extension XCUIApplication {
         buttons["createDrillView_saveButton"]
     }
 
-    var createDrillView_attemptsSlider: XCUIElement {
-        sliders["createDrillView_attemptsSlider"]
-    }
-
     var createDrillView_attemptsText: XCUIElement {
         staticTexts["createDrillView_attemptsText"]
     }
@@ -292,10 +288,6 @@ extension XCUIApplication {
 
     var createDrillView_failableHelpView: XCUIElement {
         staticTexts["createDrillView_failableHelpView"]
-    }
-
-    var createDrillView_failableToggle: XCUIElement {
-        switches["createDrillView_failableToggle"]
     }
 
     // MARK: - DrillView
