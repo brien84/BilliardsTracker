@@ -13,13 +13,18 @@ struct CreateDrill: ReducerProtocol {
     }
 
     enum Action: Equatable {
-        case none
+        case cancelButtonDidTap
+        case saveButtonDidTap
     }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { _, action in
             switch action {
-            case .none:
+
+            case .cancelButtonDidTap:
+                return .none
+
+            case .saveButtonDidTap:
                 return .none
             }
         }
