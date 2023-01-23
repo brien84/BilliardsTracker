@@ -342,7 +342,6 @@
 		29642E3D262CD7BB00A967D6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				29BB8602262EECE00055A8BB /* CreateDrillView.swift */,
 				2926E0F926150FE400E95DBB /* DrillsView.swift */,
 				29642E43262CD7DE00A967D6 /* DrillView.swift */,
 				293433CE267764FD00FA4768 /* MainView.swift */,
@@ -397,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				29A078A0297EFBFE00A5012A /* CreateDrill.swift */,
+				29BB8602262EECE00055A8BB /* CreateDrillView.swift */,
 			);
 			path = CreateDrill;
 			sourceTree = "<group>";
