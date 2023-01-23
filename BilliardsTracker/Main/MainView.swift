@@ -5,6 +5,7 @@
 //  Created by Marius on 2021-06-14.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct MainView: View {
@@ -38,8 +39,11 @@ struct MainView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $isCreatingDrill) {
-            CreateDrillView(isCreatingDrill: $isCreatingDrill)
-                .accessibility(identifier: "createDrillView")
+            CreateDrillView(
+                store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
+                isCreatingDrill: $isCreatingDrill
+            )
+            .accessibility(identifier: "createDrillView")
         }
     }
 

@@ -5,10 +5,13 @@
 //  Created by Marius on 2021-04-20.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct CreateDrillView: View {
-    @EnvironmentObject var store: StoreManager
+    let store: StoreOf<CreateDrill>
+
+    @EnvironmentObject var drillStore: StoreManager
 
     @Binding var isCreatingDrill: Bool
 
@@ -19,50 +22,52 @@ struct CreateDrillView: View {
     @State private var showInfo = false
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.secondaryBackground
-                    .ignoresSafeArea()
+        WithViewStore(store) { _ in
+            NavigationView {
+                ZStack {
+                    Color.secondaryBackground
+                        .ignoresSafeArea()
 
-                VStack(spacing: .spacing) {
-                    TextFieldView(title: $title)
+                    VStack(spacing: .spacing) {
+                        TextFieldView(title: $title)
 
-                    Slider(value: $attempts, in: 1...100, step: 1.0)
+                        Slider(value: $attempts, in: 1...100, step: 1.0)
+                            .padding(.horizontal)
+                            .accentColor(.customBlue)
+                            .accessibility(identifier: "createDrillView_attemptsSlider")
+
+                        Text("\(Int(attempts))")
+                            .padding(.bottom)
+                            .font(.headline)
+                            .foregroundColor(.primaryElement)
+                            .accessibility(identifier: "createDrillView_attemptsText")
+
+                        Divider()
+                            .padding(.top)
+
+                        HStack {
+                            Text("Failable")
+                                .font(Font.body.weight(.semibold))
+
+                            infoButton
+
+                            Toggle("", isOn: $isFailable)
+                                .toggleStyle(SwitchToggleStyle(tint: .customBlue))
+                                .accessibility(identifier: "createDrillView_failableToggle")
+
+                        }
                         .padding(.horizontal)
-                        .accentColor(.customBlue)
-                        .accessibility(identifier: "createDrillView_attemptsSlider")
 
-                    Text("\(Int(attempts))")
-                        .padding(.bottom)
-                        .font(.headline)
-                        .foregroundColor(.primaryElement)
-                        .accessibility(identifier: "createDrillView_attemptsText")
+                        Divider()
 
-                    Divider()
-                        .padding(.top)
+                        failableHelpView
 
-                    HStack {
-                        Text("Failable")
-                            .font(Font.body.weight(.semibold))
-
-                        infoButton
-
-                        Toggle("", isOn: $isFailable)
-                            .toggleStyle(SwitchToggleStyle(tint: .customBlue))
-                            .accessibility(identifier: "createDrillView_failableToggle")
-
+                        Spacer()
                     }
-                    .padding(.horizontal)
-
-                    Divider()
-
-                    failableHelpView
-
-                    Spacer()
                 }
+                .navigationBarTitle("Create Drill", displayMode: .inline)
+                .navigationBarItems(leading: cancelButton, trailing: saveButton)
             }
-            .navigationBarTitle("Create Drill", displayMode: .inline)
-            .navigationBarItems(leading: cancelButton, trailing: saveButton)
         }
     }
 
@@ -114,7 +119,7 @@ struct CreateDrillView: View {
             }
 
             withAnimation {
-                store.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
+                drillStore.addDrill(title: title, attempts: Int(attempts), isFailable: isFailable)
             }
 
             isCreatingDrill = false
@@ -160,8 +165,11 @@ struct CreateDrillView_Previews: PreviewProvider {
     static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
 
     static var view: some View {
-        CreateDrillView(isCreatingDrill: .constant(true))
-            .environmentObject(store)
+        CreateDrillView(
+            store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
+            isCreatingDrill: .constant(true)
+        )
+        .environmentObject(store)
     }
 
     static var previews: some View {
