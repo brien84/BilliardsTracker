@@ -5,6 +5,7 @@
 //  Created by Marius on 2021-03-31.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 @main
@@ -35,7 +36,7 @@ struct BilliardsTrackerApp: App {
                         )
                     }
             } else {
-                MainView()
+                MainView(store: Store(initialState: Main.State(), reducer: Main()))
                     .environmentObject(StoreManager(store: store!))
                     .environmentObject(SessionManager(store: store!))
                     .accessibility(identifier: "mainView")

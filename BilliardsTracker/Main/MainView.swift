@@ -9,41 +9,45 @@ import ComposableArchitecture
 import SwiftUI
 
 struct MainView: View {
+    let store: StoreOf<Main>
+
     @EnvironmentObject var session: SessionManager
-    @EnvironmentObject var store: StoreManager
+    @EnvironmentObject var drillStore: StoreManager
 
     @State private var isCreatingDrill = false
     @State private var isShowingSettings = false
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.primaryBackground
-                    .ignoresSafeArea()
+        WithViewStore(store) { _ in
+            NavigationView {
+                ZStack {
+                    Color.primaryBackground
+                        .ignoresSafeArea()
 
-                DrillsView()
-                    .blur(isShowingSettings)
-                    .disabled(isShowingSettings)
+                    DrillsView()
+                        .blur(isShowingSettings)
+                        .disabled(isShowingSettings)
 
-                createDrillBackgroundButton
-                    .opacity(store.drills.count == 0 ? 1 : 0)
+                    createDrillBackgroundButton
+                        .opacity(drillStore.drills.count == 0 ? 1 : 0)
 
-                SettingsView(isShowingSettings: $isShowingSettings)
-                    .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
+                    SettingsView(isShowingSettings: $isShowingSettings)
+                        .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
+                }
+                .navigationBarTitle("Drills")
+                .navigationBarItems(
+                    leading: settingsButton.disabled(session.runState == .loading),
+                    trailing: createDrillButton.disabled(session.runState == .loading)
+                )
             }
-            .navigationBarTitle("Drills")
-            .navigationBarItems(
-                leading: settingsButton.disabled(session.runState == .loading),
-                trailing: createDrillButton.disabled(session.runState == .loading)
-            )
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .sheet(isPresented: $isCreatingDrill) {
-            CreateDrillView(
-                store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
-                isCreatingDrill: $isCreatingDrill
-            )
-            .accessibility(identifier: "createDrillView")
+            .navigationViewStyle(StackNavigationViewStyle())
+            .sheet(isPresented: $isCreatingDrill) {
+                CreateDrillView(
+                    store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
+                    isCreatingDrill: $isCreatingDrill
+                )
+                .accessibility(identifier: "createDrillView")
+            }
         }
     }
 
@@ -122,7 +126,7 @@ struct MainView_Previews: PreviewProvider {
     static var store = StoreManager(store: drillStore)
 
     static var view: some View {
-        MainView()
+        MainView(store: Store(initialState: Main.State(), reducer: Main()))
             .environmentObject(session)
             .environmentObject(store)
     }
@@ -139,7 +143,7 @@ struct MainViewCreateDrillBackground_Previews: PreviewProvider {
     static var store = StoreManager(store: drillStore)
 
     static var view: some View {
-        MainView()
+        MainView(store: Store(initialState: Main.State(), reducer: Main()))
             .environmentObject(session)
             .environmentObject(store)
     }
