@@ -10,6 +10,10 @@ import ComposableArchitecture
 struct DrillList: ReducerProtocol {
     struct State: Equatable {
         let drills: IdentifiedArrayOf<Drill>
+
+        init(drills: [Drill] = []) {
+            self.drills = IdentifiedArrayOf(uniqueElements: drills)
+        }
     }
 
     enum Action: Equatable {
