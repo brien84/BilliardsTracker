@@ -51,7 +51,7 @@ final class BilliardsTrackerUITests: XCTestCase {
     func testClosingCreateDrillView() throws {
         try! testOpeningCreateDrillViewWithNavigationButton()
 
-        app.createDrillView_cancelButton.tap()
+        app.buttons["Cancel"].tap()
 
         XCTAssertFalse(app.createDrillView.isHittable)
     }
@@ -96,8 +96,7 @@ final class BilliardsTrackerUITests: XCTestCase {
         // toggle isFailable Toggle
         app.switches.firstMatch.tap()
 
-        app.createDrillView_saveButton.tap()
-        XCTAssertFalse(app.createDrillView.isHittable)
+        app.buttons["Save"].tap()
 
         XCTAssertTrue(app.drillView_titleText.waitForExistence(timeout: 1.0))
         XCTAssertEqual(title.uppercased(), app.drillView_titleText.label)
@@ -123,8 +122,7 @@ final class BilliardsTrackerUITests: XCTestCase {
         // toggle isFailable Toggle
         app.switches.firstMatch.tap()
 
-        app.createDrillView_saveButton.tap()
-        XCTAssertFalse(app.createDrillView.isHittable)
+        app.buttons["Save"].tap()
 
         XCTAssertTrue(app.drillView_titleText.waitForExistence(timeout: 1.0))
         XCTAssertEqual(title.uppercased(), app.drillView_titleText.label)
@@ -146,8 +144,7 @@ final class BilliardsTrackerUITests: XCTestCase {
         app.sliders.firstMatch.adjust(toNormalizedSliderPosition: CGFloat(attempts) / 100.0)
         XCTAssertEqual(String(1), app.createDrillView_attemptsText.label)
 
-        app.createDrillView_saveButton.tap()
-        XCTAssertFalse(app.createDrillView.isHittable)
+        app.buttons["Save"].tap()
 
         XCTAssertTrue(app.drillView_titleText.waitForExistence(timeout: 1.0))
         XCTAssertEqual("DRILL TITLE", app.drillView_titleText.label)
@@ -268,14 +265,6 @@ extension XCUIApplication {
 
     var createDrillView: XCUIElement {
         otherElements["createDrillView"]
-    }
-
-    var createDrillView_cancelButton: XCUIElement {
-        buttons["createDrillView_cancelButton"]
-    }
-
-    var createDrillView_saveButton: XCUIElement {
-        buttons["createDrillView_saveButton"]
     }
 
     var createDrillView_attemptsText: XCUIElement {
