@@ -23,9 +23,12 @@ struct MainView: View {
                     Color.primaryBackground
                         .ignoresSafeArea()
 
-                    DrillsView()
-                        .blur(isShowingSettings)
-                        .disabled(isShowingSettings)
+                    DrillsView(store: store.scope(
+                        state: \.drillList,
+                        action: Main.Action.drillList
+                    ))
+                    .blur(isShowingSettings)
+                    .disabled(isShowingSettings)
 
                     CreateDrillBackgroundButton(store: store)
                         .opacity(drillStore.drills.count == 0 ? 1 : 0)
@@ -70,7 +73,12 @@ struct MainView: View {
                         isFailable: drill.isFailable
                     )
                 }
-
+            }
+            .onChange(of: drillStore.drills) { newValue in
+                viewStore.send(.updateDrillList(newValue), animation: .default)
+            }
+            .onAppear {
+                viewStore.send(.updateDrillList(drillStore.drills), animation: .default)
             }
             .alert(item: $drillStore.savingError) { _ in
                 savingAlert

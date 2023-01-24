@@ -11,14 +11,21 @@ import SwiftUI
 struct Main: ReducerProtocol {
     struct State: Equatable {
         var createDrill: CreateDrill.State?
+        var drillList = DrillList.State()
+
         var isNavigationToCreateDrillActive = false
 
         var needsToCreateDrill = false
+
     }
 
     enum Action: Equatable {
         case createDrill(CreateDrill.Action)
+        case drillList(DrillList.Action)
+
         case setNavigationToCreateDrill(isActive: Bool)
+
+        case updateDrillList([Drill])
     }
 
     var body: some ReducerProtocol<State, Action> {
@@ -47,6 +54,13 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .createDrill:
+                return .none
+
+            case .drillList:
+                return .none
+
+            case .updateDrillList(let drills):
+                state.drillList = DrillList.State(drills: drills)
                 return .none
 
             }
