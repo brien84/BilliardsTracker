@@ -58,11 +58,6 @@ struct DrillsView: View {
                     return notReachableAlert
                 }
             }
-            .background(
-                Color.clear.alert(item: $store.savingError) { _ in
-                    savingAlert
-                }
-            )
         }
     }
 
@@ -91,12 +86,6 @@ struct DrillsView: View {
     private var notReachableAlert: Alert {
         Alert(title: Text("Watch app is not reachable!"),
               message: Text("Make sure BilliardsTracker Watch app is installed and running."),
-              dismissButton: .default(Text("OK")))
-    }
-
-    private var savingAlert: Alert {
-        Alert(title: Text("Something went wrong!"),
-              message: Text("Latest changes will not be saved."),
               dismissButton: .default(Text("OK")))
     }
 

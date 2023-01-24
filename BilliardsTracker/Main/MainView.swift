@@ -99,7 +99,16 @@ struct MainView: View {
                 }
 
             }
+            .alert(item: $drillStore.savingError) { _ in
+                savingAlert
+            }
         }
+    }
+
+    private var savingAlert: Alert {
+        Alert(title: Text("Something went wrong!"),
+              message: Text("Latest changes will not be saved."),
+              dismissButton: .default(Text("OK")))
     }
 
     private var settingsButton: some View {
