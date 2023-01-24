@@ -47,7 +47,7 @@ struct DrillsView: View {
 
                 ScrollView {
                     ForEach(viewStore.drills) { drill in
-                        DrillView(drill: drill)
+                        DrillView(store: store, drill: drill)
                             .padding([.horizontal], .drillViewPadding * 2)
                             .padding([.vertical], .drillViewPadding)
                             .transition(.slide)

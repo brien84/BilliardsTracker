@@ -9,17 +9,17 @@ import ComposableArchitecture
 
 struct Statistics: ReducerProtocol {
     struct State: Equatable {
-
+        let drill: Drill
     }
 
     enum Action: Equatable {
-        case none
+        case didTapDeleteButton
     }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { _, action in
             switch action {
-            case .none:
+            case .didTapDeleteButton:
                 return .none
             }
         }

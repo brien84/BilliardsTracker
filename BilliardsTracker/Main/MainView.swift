@@ -20,6 +20,22 @@ struct MainView: View {
         WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
+                    PassiveNavigationLink(
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToStatisticsActive,
+                            send: Main.Action.setNavigationToStatistics(isActive:)
+                        ),
+                        destination: {
+                            IfLetStore(
+                                store.scope(
+                                    state: \.statistics,
+                                    action: Main.Action.statistics
+                                ),
+                                then: StatisticsView.init(store:)
+                            )
+                        }
+                    )
+
                     Color.primaryBackground
                         .ignoresSafeArea()
 
@@ -72,6 +88,14 @@ struct MainView: View {
                         attempts: Int(drill.attempts),
                         isFailable: drill.isFailable
                     )
+                }
+            }
+            .onChange(of: viewStore.needsToDeleteDrill) { newValue in
+                guard newValue else { return }
+                guard let drill = viewStore.statistics?.drill else { return }
+
+                withAnimation {
+                    drillStore.delete(drill: drill)
                 }
             }
             .onChange(of: drillStore.drills) { newValue in

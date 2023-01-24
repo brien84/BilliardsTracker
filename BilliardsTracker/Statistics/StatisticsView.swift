@@ -5,67 +5,87 @@
 //  Created by Marius on 2021-04-19.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct StatisticsView: View {
+    let store: StoreOf<Statistics>
+
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var store: StoreManager
 
     private let statistics: StatisticsManager
 
     @State private var showHistory = false
     @State private var showDeleteAlert = false
-    @State private var shouldDelete = false
 
-    init(drill: Drill) {
+    init(store: StoreOf<Statistics>) {
+        self.store = store
+        let drill = ViewStore(store).drill
         self.statistics = StatisticsManager(drill: drill)
     }
 
     var body: some View {
-        ZStack {
-            Color.primaryBackground
-                .ignoresSafeArea()
+        WithViewStore(store) { viewStore in
+            ZStack {
+                Color.primaryBackground
+                    .ignoresSafeArea()
 
-            VStack(spacing: .zero) {
-                StatisticsPanel(statistics: statistics)
+                VStack(spacing: .zero) {
+                    StatisticsPanel(statistics: statistics)
 
-                CardView {
-                    if showHistory {
-                        if statistics.results.count < 1 {
-                            noDataLabel
+                    CardView {
+                        if showHistory {
+                            if statistics.results.count < 1 {
+                                noDataLabel
+                            } else {
+                                ResultsView(results: statistics.results)
+                                    .accessibility(identifier: "statisticsView_resultsView")
+                            }
                         } else {
-                            ResultsView(results: statistics.results)
-                                .accessibility(identifier: "statisticsView_resultsView")
-                        }
-                    } else {
-                        if statistics.results.count < 2 {
-                            noDataLabel
-                        } else {
-                            ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
-                                .padding()
-                                .accessibility(identifier: "statisticsView_chartView")
+                            if statistics.results.count < 2 {
+                                noDataLabel
+                            } else {
+                                ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
+                                    .padding()
+                                    .accessibility(identifier: "statisticsView_chartView")
+                            }
                         }
                     }
-                }
-                .setTitle(showHistory ? "History" : "Performance")
-                .setInfo(showHistory ? nil : statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
-                .id(UUID())
-                .transition(.asymmetric(insertion: .move(edge: showHistory ? .trailing : .leading),
-                                        removal: .move(edge: showHistory ? .leading : .trailing)))
-            }
-        }
-        .onDisappear {
-            if shouldDelete {
-                withAnimation {
-                    store.delete(drill: statistics.drill)
+                    .setTitle(showHistory ? "History" : "Performance")
+                    .setInfo(showHistory ? nil : statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
+                    .id(UUID())
+                    .transition(.asymmetric(insertion: .move(edge: showHistory ? .trailing : .leading),
+                                            removal: .move(edge: showHistory ? .leading : .trailing)))
                 }
             }
+            .navigationBarTitle(statistics.drill.title)
+            .navigationBarItems(trailing: HStack(alignment: .firstTextBaseline, spacing: .navigationBarItemWidth) {
+
+                Button {
+                    showDeleteAlert = true
+                } label: {
+                    Image(systemName: "trash")
+                        .font(Font.body)
+                        .imageScale(.large)
+                        .foregroundColor(.customRed)
+                }
+                .alert(isPresented: $showDeleteAlert, content: {
+                    Alert(
+                        title: Text("Confirmation"),
+                        message: Text("Are you sure you want to delete this drill?"),
+                        primaryButton: .destructive(Text("Delete")) {
+                            viewStore.send(.didTapDeleteButton)
+                            presentationMode.wrappedValue.dismiss()
+                        },
+                        secondaryButton: .cancel()
+                    )
+                })
+                .frame(width: .navigationBarItemWidth)
+                .accessibility(identifier: "statisticsView_deleteButton")
+
+                toggleHistoryButton.frame(width: .navigationBarItemWidth)
+            })
         }
-        .navigationBarTitle(statistics.drill.title)
-        .navigationBarItems(trailing: HStack(alignment: .firstTextBaseline, spacing: .navigationBarItemWidth) {
-            deleteButton.frame(width: .navigationBarItemWidth)
-            toggleHistoryButton.frame(width: .navigationBarItemWidth)
-        })
     }
 
     private var toggleHistoryButton: some View {
@@ -81,29 +101,6 @@ struct StatisticsView: View {
         .disabled(statistics.results.isEmpty)
         .foregroundColor(statistics.results.isEmpty ? .secondaryElement : .primaryElement)
         .accessibility(identifier: "statisticsView_toggleHistoryButton")
-    }
-
-    private var deleteButton: some View {
-        Button {
-            showDeleteAlert = true
-        } label: {
-            Image(systemName: "trash")
-                .font(Font.body)
-                .imageScale(.large)
-                .foregroundColor(.customRed)
-        }
-        .alert(isPresented: $showDeleteAlert, content: {
-            Alert(
-                title: Text("Confirmation"),
-                message: Text("Are you sure you want to delete this drill?"),
-                primaryButton: .destructive(Text("Delete")) {
-                    shouldDelete = true
-                    presentationMode.wrappedValue.dismiss()
-                },
-                secondaryButton: .cancel()
-            )
-        })
-        .accessibility(identifier: "statisticsView_deleteButton")
     }
 
     private var noDataLabel: some View {
@@ -148,49 +145,49 @@ private extension CGSize {
 }
 
 // swiftlint:disable force_try
-struct StatisticsView_Previews: PreviewProvider {
-    static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
-    static var drill = store.drills.first!
-
-    static var view: some View {
-        NavigationView {
-            NavigationLink(
-                destination: StatisticsView(drill: drill).environmentObject(store),
-                isActive: .constant(true),
-                label: { Text("Preview") }
-            )
-        }
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
-    }
-}
-
-struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
-    static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
-
-    static var drill: Drill = {
-        drillStore.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
-        return store.drills.first!
-    }()
-
-    static var store = StoreManager(store: drillStore)
-
-    static var view: some View {
-        NavigationView {
-            NavigationLink(
-                destination: StatisticsView(drill: drill).environmentObject(store),
-                isActive: .constant(true),
-                label: { Text("Preview") }
-            )
-        }
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
-    }
-}
+//struct StatisticsView_Previews: PreviewProvider {
+//    static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
+//    static var drill = store.drills.first!
+//
+//    static var view: some View {
+//        NavigationView {
+//            NavigationLink(
+//                destination: StatisticsView(drill: drill).environmentObject(store),
+//                isActive: .constant(true),
+//                label: { Text("Preview") }
+//            )
+//        }
+//    }
+//
+//    static var previews: some View {
+//        view.preferredColorScheme(.light)
+//        view.preferredColorScheme(.dark)
+//    }
+//}
+//
+//struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
+//    static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
+//
+//    static var drill: Drill = {
+//        drillStore.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
+//        return store.drills.first!
+//    }()
+//
+//    static var store = StoreManager(store: drillStore)
+//
+//    static var view: some View {
+//        NavigationView {
+//            NavigationLink(
+//                destination: StatisticsView(drill: drill).environmentObject(store),
+//                isActive: .constant(true),
+//                label: { Text("Preview") }
+//            )
+//        }
+//    }
+//
+//    static var previews: some View {
+//        view.preferredColorScheme(.light)
+//        view.preferredColorScheme(.dark)
+//    }
+//}
 // swiftlint:enable force_try
