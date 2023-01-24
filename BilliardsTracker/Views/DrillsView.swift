@@ -48,7 +48,6 @@ struct DrillsView: View {
                 }
                 .blur(radius: isBlurred ? .blurValue : 0)
             }
-            .fixFlickering()
             .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
             .disabled(session.runState == .loading)
             .alert(item: $session.connectivityError) { error in
