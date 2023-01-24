@@ -14,11 +14,10 @@ struct MainView: View {
     @EnvironmentObject var session: SessionManager
     @EnvironmentObject var drillStore: StoreManager
 
-    @State private var isCreatingDrill = false
     @State private var isShowingSettings = false
 
     var body: some View {
-        WithViewStore(store) { _ in
+        WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
                     Color.primaryBackground
@@ -28,8 +27,26 @@ struct MainView: View {
                         .blur(isShowingSettings)
                         .disabled(isShowingSettings)
 
-                    createDrillBackgroundButton
-                        .opacity(drillStore.drills.count == 0 ? 1 : 0)
+                    Button(
+                        action: {
+                            viewStore.send(.setNavigationToCreateDrill(isActive: true))
+                        },
+                        label: {
+                            VStack {
+                                Image(systemName: "plus")
+                                    .font(.largeTitle)
+                                    .imageScale(.large)
+                                    .scaleEffect(.createDrillBackgroundButtonImageScale)
+
+                                Text("Create drill")
+                                    .font(.title)
+                                    .padding(.createDrillBackgroundButtonTextPadding)
+                            }
+                        }
+                    )
+                    .foregroundColor(.primaryElement)
+                    .accessibility(identifier: "mainView_createDrillButtonBackground")
+                    .opacity(drillStore.drills.count == 0 ? 1 : 0)
 
                     SettingsView(isShowingSettings: $isShowingSettings)
                         .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
@@ -37,16 +54,35 @@ struct MainView: View {
                 .navigationBarTitle("Drills")
                 .navigationBarItems(
                     leading: settingsButton.disabled(session.runState == .loading),
-                    trailing: createDrillButton.disabled(session.runState == .loading)
+                    trailing:
+                        Button(
+                            action: {
+                                viewStore.send(.setNavigationToCreateDrill(isActive: true))
+                            },
+                            label: {
+                                Image(systemName: "plus")
+                                    .imageScale(.large)
+                            }
+                        )
+                        .disabled(isShowingSettings)
+                        .disabled(session.runState == .loading)
+                        .accessibility(identifier: "mainView_createDrillButtonNavigation")
                 )
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .sheet(isPresented: $isCreatingDrill) {
-                CreateDrillView(
-                    store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
-                    isCreatingDrill: $isCreatingDrill
+            .sheet(
+                isPresented: viewStore.binding(
+                    get: \.isNavigationToCreateDrillActive,
+                    send: Main.Action.setNavigationToCreateDrill(isActive:)
                 )
-                .accessibility(identifier: "createDrillView")
+            ) {
+                IfLetStore(
+                    store.scope(
+                        state: \.createDrill,
+                        action: Main.Action.createDrill
+                    ),
+                    then: CreateDrillView.init(store:)
+                )
             }
         }
     }
@@ -64,42 +100,6 @@ struct MainView: View {
             }
         )
         .accessibility(identifier: "mainView_settingsButton")
-    }
-
-    private var createDrillButton: some View {
-        Button(
-            action: {
-                isCreatingDrill = true
-            },
-            label: {
-                Image(systemName: "plus")
-                    .imageScale(.large)
-            }
-        )
-        .disabled(isShowingSettings)
-        .accessibility(identifier: "mainView_createDrillButtonNavigation")
-    }
-
-    private var createDrillBackgroundButton: some View {
-        Button(
-            action: {
-                isCreatingDrill = true
-            },
-            label: {
-                VStack {
-                    Image(systemName: "plus")
-                        .font(.largeTitle)
-                        .imageScale(.large)
-                        .scaleEffect(.createDrillBackgroundButtonImageScale)
-
-                    Text("Create drill")
-                        .font(.title)
-                        .padding(.createDrillBackgroundButtonTextPadding)
-                }
-            }
-        )
-        .foregroundColor(.primaryElement)
-        .accessibility(identifier: "mainView_createDrillButtonBackground")
     }
 }
 

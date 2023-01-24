@@ -6,22 +6,46 @@
 //
 
 import ComposableArchitecture
+import SwiftUI
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
-
+        var createDrill: CreateDrill.State?
+        var isNavigationToCreateDrillActive = false
     }
 
     enum Action: Equatable {
-        case none
+        case createDrill(CreateDrill.Action)
+        case setNavigationToCreateDrill(isActive: Bool)
     }
 
     var body: some ReducerProtocol<State, Action> {
-        Reduce { _, action in
+
+        Reduce { state, action in
             switch action {
-            case .none:
+
+            case .setNavigationToCreateDrill(isActive: let isActive):
+                if isActive {
+                    state.isNavigationToCreateDrillActive = true
+                    state.createDrill = CreateDrill.State()
+                } else {
+                    state.isNavigationToCreateDrillActive = false
+                }
+
                 return .none
+
+            case .createDrill(.cancelButtonDidTap), .createDrill(.saveButtonDidTap):
+                state.isNavigationToCreateDrillActive = false
+                return .none
+
+            case .createDrill:
+                return .none
+
             }
         }
+        .ifLet(\.createDrill, action: /Action.createDrill) {
+            CreateDrill()
+        }
+
     }
 }

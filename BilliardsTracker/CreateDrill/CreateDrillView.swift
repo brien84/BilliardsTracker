@@ -13,7 +13,9 @@ struct CreateDrillView: View {
 
     @EnvironmentObject var drillStore: StoreManager
 
-    @Binding var isCreatingDrill: Bool
+    init(store: StoreOf<CreateDrill>) {
+        self.store = store
+    }
 
     @State private var showInfo = false
 
@@ -66,9 +68,8 @@ struct CreateDrillView: View {
                 .navigationBarItems(
                     leading:
                         Button("Cancel") {
-                            isCreatingDrill = false
-                        }
-                        .accessibility(identifier: "createDrillView_cancelButton"),
+                            viewStore.send(.cancelButtonDidTap)
+                        },
                     trailing:
                         Button("Save") {
                             var title = viewStore.title
@@ -85,13 +86,12 @@ struct CreateDrillView: View {
                                 )
                             }
 
-                            isCreatingDrill = false
+                            viewStore.send(.saveButtonDidTap)
                         }
-                        .accessibility(identifier: "createDrillView_saveButton")
                 )
             }
-
         }
+        .accessibility(identifier: "createDrillView")
     }
 
     private var infoButton: some View {
@@ -162,8 +162,7 @@ struct CreateDrillView_Previews: PreviewProvider {
 
     static var previews: some View {
         CreateDrillView(
-            store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()),
-            isCreatingDrill: .constant(true)
+            store: Store(initialState: CreateDrill.State(), reducer: CreateDrill())
         )
         .environmentObject(store)
     }
