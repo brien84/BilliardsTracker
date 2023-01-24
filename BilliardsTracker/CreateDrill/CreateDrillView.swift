@@ -11,12 +11,6 @@ import SwiftUI
 struct CreateDrillView: View {
     let store: StoreOf<CreateDrill>
 
-    @EnvironmentObject var drillStore: StoreManager
-
-    init(store: StoreOf<CreateDrill>) {
-        self.store = store
-    }
-
     @State private var showInfo = false
 
     var body: some View {
@@ -72,20 +66,6 @@ struct CreateDrillView: View {
                         },
                     trailing:
                         Button("Save") {
-                            var title = viewStore.title
-
-                            if title.isEmpty {
-                                title = "Drill Title"
-                            }
-
-                            withAnimation {
-                                drillStore.addDrill(
-                                    title: title,
-                                    attempts: Int(viewStore.attempts),
-                                    isFailable: viewStore.isFailable
-                                )
-                            }
-
                             viewStore.send(.saveButtonDidTap)
                         }
                 )

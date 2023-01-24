@@ -53,7 +53,9 @@ struct MainView: View {
                 }
                 .navigationBarTitle("Drills")
                 .navigationBarItems(
-                    leading: settingsButton.disabled(session.runState == .loading),
+                    leading:
+                        settingsButton
+                            .disabled(session.runState == .loading),
                     trailing:
                         Button(
                             action: {
@@ -83,6 +85,19 @@ struct MainView: View {
                     ),
                     then: CreateDrillView.init(store:)
                 )
+            }
+            .onChange(of: viewStore.needsToCreateDrill) { newValue in
+                guard newValue else { return }
+                guard let drill = viewStore.createDrill else { return }
+
+                withAnimation {
+                    drillStore.addDrill(
+                        title: drill.title.isEmpty ? "Drill Title" : drill.title,
+                        attempts: Int(drill.attempts),
+                        isFailable: drill.isFailable
+                    )
+                }
+
             }
         }
     }

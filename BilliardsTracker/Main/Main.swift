@@ -12,6 +12,8 @@ struct Main: ReducerProtocol {
     struct State: Equatable {
         var createDrill: CreateDrill.State?
         var isNavigationToCreateDrillActive = false
+
+        var needsToCreateDrill = false
     }
 
     enum Action: Equatable {
@@ -26,6 +28,7 @@ struct Main: ReducerProtocol {
 
             case .setNavigationToCreateDrill(isActive: let isActive):
                 if isActive {
+                    state.needsToCreateDrill = false
                     state.isNavigationToCreateDrillActive = true
                     state.createDrill = CreateDrill.State()
                 } else {
@@ -34,7 +37,12 @@ struct Main: ReducerProtocol {
 
                 return .none
 
-            case .createDrill(.cancelButtonDidTap), .createDrill(.saveButtonDidTap):
+            case .createDrill(.cancelButtonDidTap):
+                state.isNavigationToCreateDrillActive = false
+                return .none
+
+            case .createDrill(.saveButtonDidTap):
+                state.needsToCreateDrill = true
                 state.isNavigationToCreateDrillActive = false
                 return .none
 
