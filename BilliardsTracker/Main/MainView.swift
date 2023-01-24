@@ -27,26 +27,8 @@ struct MainView: View {
                         .blur(isShowingSettings)
                         .disabled(isShowingSettings)
 
-                    Button(
-                        action: {
-                            viewStore.send(.setNavigationToCreateDrill(isActive: true))
-                        },
-                        label: {
-                            VStack {
-                                Image(systemName: "plus")
-                                    .font(.largeTitle)
-                                    .imageScale(.large)
-                                    .scaleEffect(.createDrillBackgroundButtonImageScale)
-
-                                Text("Create drill")
-                                    .font(.title)
-                                    .padding(.createDrillBackgroundButtonTextPadding)
-                            }
-                        }
-                    )
-                    .foregroundColor(.primaryElement)
-                    .accessibility(identifier: "mainView_createDrillButtonBackground")
-                    .opacity(drillStore.drills.count == 0 ? 1 : 0)
+                    CreateDrillBackgroundButton(store: store)
+                        .opacity(drillStore.drills.count == 0 ? 1 : 0)
 
                     SettingsView(isShowingSettings: $isShowingSettings)
                         .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
@@ -57,18 +39,9 @@ struct MainView: View {
                         settingsButton
                             .disabled(session.runState == .loading),
                     trailing:
-                        Button(
-                            action: {
-                                viewStore.send(.setNavigationToCreateDrill(isActive: true))
-                            },
-                            label: {
-                                Image(systemName: "plus")
-                                    .imageScale(.large)
-                            }
-                        )
-                        .disabled(isShowingSettings)
-                        .disabled(session.runState == .loading)
-                        .accessibility(identifier: "mainView_createDrillButtonNavigation")
+                        CreateDrillNavigationBarButton(store: store)
+                            .disabled(isShowingSettings)
+                            .disabled(session.runState == .loading)
                 )
             }
             .navigationViewStyle(StackNavigationViewStyle())
@@ -106,9 +79,11 @@ struct MainView: View {
     }
 
     private var savingAlert: Alert {
-        Alert(title: Text("Something went wrong!"),
-              message: Text("Latest changes will not be saved."),
-              dismissButton: .default(Text("OK")))
+        Alert(
+            title: Text("Something went wrong!"),
+            message: Text("Latest changes will not be saved."),
+            dismissButton: .default(Text("OK"))
+        )
     }
 
     private var settingsButton: some View {
@@ -127,14 +102,56 @@ struct MainView: View {
     }
 }
 
-private extension CGFloat {
-    static var createDrillBackgroundButtonImageScale: CGFloat {
-        2.0
-    }
+private struct CreateDrillBackgroundButton: View {
+    let store: StoreOf<Main>
 
-    static var createDrillBackgroundButtonTextPadding: CGFloat {
-        32
+    var body: some View {
+        WithViewStore(store) { viewStore in
+            Button(
+                action: {
+                    viewStore.send(.setNavigationToCreateDrill(isActive: true))
+                },
+                label: {
+                    VStack {
+                        Image(systemName: "plus")
+                            .font(.largeTitle)
+                            .imageScale(.large)
+                            .scaleEffect(Self.imageScale)
+
+                        Text("Create drill")
+                            .font(.title)
+                            .padding(Self.textPadding)
+                    }
+                }
+            )
+            .foregroundColor(.primaryElement)
+            .accessibility(identifier: "mainView_createDrillButtonBackground")
+        }
     }
+}
+
+private struct CreateDrillNavigationBarButton: View {
+    let store: StoreOf<Main>
+
+    var body: some View {
+        WithViewStore(store) { viewStore in
+            Button(
+                action: {
+                    viewStore.send(.setNavigationToCreateDrill(isActive: true))
+                },
+                label: {
+                    Image(systemName: "plus")
+                        .imageScale(.large)
+                }
+            )
+            .accessibility(identifier: "mainView_createDrillButtonNavigation")
+        }
+    }
+}
+
+private extension CreateDrillBackgroundButton {
+    static let imageScale: CGFloat = 2.0
+    static let textPadding: CGFloat = 32
 }
 
 private extension CGSize {
