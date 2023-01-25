@@ -18,7 +18,7 @@ final class SessionManagerTests: XCTestCase {
     override func setUpWithError() throws {
         connectivity = MockConnectivityManager()
         drillStore = try! DrillStore(inMemory: true, isPreview: true)
-        sut = SessionManager(store: drillStore, connectivity: connectivity)
+        sut = SessionManager(connectivity: connectivity)
     }
 
     override func tearDownWithError() throws {
@@ -155,28 +155,6 @@ final class SessionManagerTests: XCTestCase {
 
         XCTAssertEqual(sut.selectedDrill, nil)
         XCTAssertEqual(sut.runState, .stopped)
-    }
-
-    func testReceivingAndSavingResultContext() throws {
-        connectivity.sentContextCallback = .success(())
-        let drill = drillStore.loadDrills().first!
-        let initialResultsCount = drill.results.count
-
-        let resultPotCount = 420
-        let resultMissCount = 69
-        let resultDate = Date()
-
-        sut.start(drill: drill)
-        waitForPublisher()
-
-        connectivity.sendResultContext(ResultContext(potCount: resultPotCount, missCount: resultMissCount, date: resultDate))
-        waitForPublisher()
-
-        XCTAssertGreaterThan(drill.results.count, initialResultsCount)
-
-        let testResult = drill.results.first { $0.date == resultDate }!
-        XCTAssertEqual(testResult.potCount, resultPotCount)
-        XCTAssertEqual(testResult.missCount, resultMissCount)
     }
 
     // MARK: - Helpers

@@ -17,13 +17,14 @@ enum SessionState: Identifiable {
 }
 
 final class SessionManager: ObservableObject {
-    private let store: DrillStore
-
     private let connectivity: WatchCommunication
     @Published var connectivityError: ConnectivityError?
 
     private(set) var selectedDrill: Drill?
     private(set) var startDate = Date()
+
+    @Published var drill: Drill?
+    @Published var result: ResultContext?
 
     @Published var runState: SessionState = .stopped {
         didSet {
@@ -35,15 +36,15 @@ final class SessionManager: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(store: DrillStore, connectivity: WatchCommunication = ConnectivityManager()) {
-        self.store = store
+    init(connectivity: WatchCommunication = ConnectivityManager()) {
         self.connectivity = connectivity
 
         connectivity.didReceiveResultContext
             .receive(on: RunLoop.main)
             .sink { [unowned self] context in
                 if let drill = self.selectedDrill {
-                    self.addResult(context, to: drill)
+                    self.drill = drill
+                    self.result = context
                 }
             }
             .store(in: &cancellables)
@@ -88,9 +89,5 @@ final class SessionManager: ObservableObject {
 
         let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
         _ = connectivity.sendDrillContext(context)
-    }
-
-    private func addResult(_ context: ResultContext, to drill: Drill) {
-        store.addResult(from: context, to: drill)
     }
 }

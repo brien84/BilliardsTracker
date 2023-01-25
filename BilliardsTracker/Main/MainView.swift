@@ -78,6 +78,11 @@ struct MainView: View {
                     then: CreateDrillView.init(store:)
                 )
             }
+            .onChange(of: session.result) { newValue in
+                guard let result = newValue else { return }
+                guard let drill = session.drill else { return }
+                drillStore.addResult(result, to: drill)
+            }
             .onChange(of: viewStore.needsToCreateDrill) { newValue in
                 guard newValue else { return }
                 guard let drill = viewStore.createDrill else { return }
@@ -195,7 +200,7 @@ private extension CGSize {
 // swiftlint:disable force_try
 struct MainView_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-    static var session = SessionManager(store: drillStore)
+    static var session = SessionManager()
     static var store = StoreManager(store: drillStore)
 
     static var view: some View {
@@ -212,7 +217,7 @@ struct MainView_Previews: PreviewProvider {
 
 struct MainViewCreateDrillBackground_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
-    static var session = SessionManager(store: drillStore)
+    static var session = SessionManager()
     static var store = StoreManager(store: drillStore)
 
     static var view: some View {
