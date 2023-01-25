@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ResultContext: Codable {
+struct ResultContext: Codable, Equatable {
     let potCount: Int
     let missCount: Int
     let date: Date
