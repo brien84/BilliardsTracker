@@ -33,15 +33,6 @@ struct DrillsView: View {
                 .blur(radius: isBlurred ? .blurValue : 0)
             }
             .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
-            .disabled(session.runState == .loading)
-            .alert(item: $session.connectivityError) { error in
-                switch error {
-                case .notReady:
-                    return notReadyAlert
-                case .notReachable:
-                    return notReachableAlert
-                }
-            }
         }
     }
 
@@ -59,18 +50,6 @@ struct DrillsView: View {
                 .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
                             .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
         }
-    }
-
-    private var notReadyAlert: Alert {
-        Alert(title: Text("Watch app is not in Tracked mode!"),
-              message: Text("Make sure Tracked mode is selected in Watch app."),
-              dismissButton: .default(Text("OK")))
-    }
-
-    private var notReachableAlert: Alert {
-        Alert(title: Text("Watch app is not reachable!"),
-              message: Text("Make sure BilliardsTracker Watch app is installed and running."),
-              dismissButton: .default(Text("OK")))
     }
 
     /// Applies blur effect to `DrillsView`.

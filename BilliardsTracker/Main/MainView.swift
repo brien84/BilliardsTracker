@@ -66,6 +66,15 @@ struct MainView: View {
                     ))
                     .blur(isShowingSettings)
                     .disabled(isShowingSettings)
+                    .disabled(session.runState == .loading)
+                    .alert(item: $session.connectivityError) { error in
+                        switch error {
+                        case .notReady:
+                            return notReadyAlert
+                        case .notReachable:
+                            return notReachableAlert
+                        }
+                    }
 
                     CreateDrillBackgroundButton(store: store)
                         .opacity(drillStore.drills.count == 0 ? 1 : 0)
@@ -151,6 +160,18 @@ struct MainView: View {
             message: Text("Latest changes will not be saved."),
             dismissButton: .default(Text("OK"))
         )
+    }
+
+    private var notReadyAlert: Alert {
+        Alert(title: Text("Watch app is not in Tracked mode!"),
+              message: Text("Make sure Tracked mode is selected in Watch app."),
+              dismissButton: .default(Text("OK")))
+    }
+
+    private var notReachableAlert: Alert {
+        Alert(title: Text("Watch app is not reachable!"),
+              message: Text("Make sure BilliardsTracker Watch app is installed and running."),
+              dismissButton: .default(Text("OK")))
     }
 
     private var settingsButton: some View {
