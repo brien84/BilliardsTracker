@@ -15,10 +15,6 @@ struct DrillsView: View {
         self.store = store
     }
 
-    @Environment(\.colorScheme) var colorScheme
-
-    @EnvironmentObject var session: SessionManager
-
     private var isBlurred = false
 
     var body: some View {
@@ -32,23 +28,6 @@ struct DrillsView: View {
                 }
                 .blur(radius: isBlurred ? .blurValue : 0)
             }
-            .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
-        }
-    }
-
-    private var loadingView: some View {
-        ZStack {
-            Color.black
-                .ignoresSafeArea()
-                .opacity(colorScheme == .light ? .loadingViewBackgroundOpacityLight : .loadingViewBackgroundOpacityDark)
-
-            ProgressView()
-                .padding()
-                .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
-                .background(Color.secondaryBackground)
-                .cornerRadius(.loadingViewCornerRadius)
-                .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
-                            .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
         }
     }
 
@@ -66,26 +45,8 @@ private extension CGFloat {
         8
     }
 
-    static var loadingViewCornerRadius: CGFloat {
-        10
-    }
-
-    static var loadingViewLineWidth: CGFloat {
-        1
-    }
-
     static var blurValue: CGFloat {
         5
-    }
-}
-
-private extension Double {
-    static var loadingViewBackgroundOpacityLight: Double {
-        0.25
-    }
-
-    static var loadingViewBackgroundOpacityDark: Double {
-        0.45
     }
 }
 

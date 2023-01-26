@@ -14,6 +14,8 @@ struct MainView: View {
     @EnvironmentObject var session: SessionManager
     @EnvironmentObject var drillStore: StoreManager
 
+    @Environment(\.colorScheme) var colorScheme
+
     @State private var isShowingSettings = false
 
     var body: some View {
@@ -81,6 +83,10 @@ struct MainView: View {
 
                     SettingsView(isShowingSettings: $isShowingSettings)
                         .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
+
+                    loadingView
+                        .opacity(session.runState == .loading ? 1 : 0)
+
                 }
                 .navigationBarTitle("Drills")
                 .navigationBarItems(
@@ -188,6 +194,22 @@ struct MainView: View {
         )
         .accessibility(identifier: "mainView_settingsButton")
     }
+
+    private var loadingView: some View {
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+                .opacity(colorScheme == .light ? .loadingViewBackgroundOpacityLight : .loadingViewBackgroundOpacityDark)
+
+            ProgressView()
+                .padding()
+                .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
+                .background(Color.secondaryBackground)
+                .cornerRadius(.loadingViewCornerRadius)
+                .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
+                            .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
+        }
+    }
 }
 
 private struct CreateDrillBackgroundButton: View {
@@ -245,6 +267,26 @@ private extension CreateDrillBackgroundButton {
 private extension CGSize {
     static var settingsViewHiddenOffset: CGSize {
         CGSize(width: -500, height: 0)
+    }
+}
+
+private extension CGFloat {
+    static var loadingViewCornerRadius: CGFloat {
+        10
+    }
+
+    static var loadingViewLineWidth: CGFloat {
+        1
+    }
+}
+
+private extension Double {
+    static var loadingViewBackgroundOpacityLight: Double {
+        0.25
+    }
+
+    static var loadingViewBackgroundOpacityDark: Double {
+        0.45
     }
 }
 
