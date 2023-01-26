@@ -78,6 +78,15 @@ struct MainView: View {
                     then: CreateDrillView.init(store:)
                 )
             }
+            .onChange(of: viewStore.selectedDrill) { newValue in
+                guard let drill = newValue else { return }
+                session.start(drill: drill)
+            }
+            .onChange(of: session.runState) { newValue in
+                if newValue == .stopped {
+                    viewStore.send(.drillList(.didTap(nil)))
+                }
+            }
             .onChange(of: session.result) { newValue in
                 guard let result = newValue else { return }
                 guard let drill = session.drill else { return }

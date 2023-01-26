@@ -17,12 +17,15 @@ struct DrillList: ReducerProtocol {
     }
 
     enum Action: Equatable {
+        case didTap(Drill?)
         case didTapStatisticsButton(Drill)
     }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { _, action in
             switch action {
+            case .didTap:
+                return .none
             case .didTapStatisticsButton:
                 return .none
             }

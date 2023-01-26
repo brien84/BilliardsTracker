@@ -11,8 +11,6 @@ import SwiftUI
 struct DrillView: View {
     let store: StoreOf<DrillList>
 
-    @EnvironmentObject var session: SessionManager
-
     private let drill: Drill
 
     @State private var touchesBegan = false
@@ -74,7 +72,7 @@ struct DrillView: View {
             .cornerRadius(.cornerRadius)
             .scaleEffect(touchesBegan ? .scaleEffectOn : .scaleEffectOff)
             .onTapGesture {
-                session.start(drill: drill)
+                viewStore.send(.didTap(drill))
             }
             .onLongPressGesture(minimumDuration: .scaleGestureDuration, maximumDistance: .scaleGestureDistance) { isPressing in
                 withAnimation(.easeOut(duration: .scaleAnimationDuration)) {
@@ -124,29 +122,27 @@ private extension Double {
     }
 }
 
-// swiftlint:disable force_try
-//struct DrillView_Previews: PreviewProvider {
-//    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-//    static var session = SessionManager(store: drillStore)
-//    static var store = StoreManager(store: drillStore)
-//    static var drill = store.drills.first!
+// struct DrillView_Previews: PreviewProvider {
+//     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
+//     static var session = SessionManager(store: drillStore)
+//     static var store = StoreManager(store: drillStore)
+//     static var drill = store.drills.first!
 //
-//    static var view: some View {
-//        ZStack {
-//            Color.primaryBackground
-//                .ignoresSafeArea()
+//     static var view: some View {
+//         ZStack {
+//             Color.primaryBackground
+//                 .ignoresSafeArea()
 //
-//            DrillView(drill: drill)
-//                .environmentObject(session)
-//                .environmentObject(store)
-//                .fixedSize(horizontal: false, vertical: true)
-//                .padding()
-//        }
-//    }
+//             DrillView(drill: drill)
+//                 .environmentObject(session)
+//                 .environmentObject(store)
+//                 .fixedSize(horizontal: false, vertical: true)
+//                 .padding()
+//         }
+//     }
 //
-//    static var previews: some View {
-//        view.preferredColorScheme(.light)
-//        view.preferredColorScheme(.dark)
-//    }
-//}
-// swiftlint:enable force_try
+//     static var previews: some View {
+//         view.preferredColorScheme(.light)
+//         view.preferredColorScheme(.dark)
+//     }
+// }

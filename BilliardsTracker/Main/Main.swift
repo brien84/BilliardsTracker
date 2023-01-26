@@ -23,6 +23,7 @@ struct Main: ReducerProtocol {
         var needsToCreateDrill = false
         var needsToDeleteDrill = false
 
+        var selectedDrill: Drill?
     }
 
     enum Action: Equatable {
@@ -62,6 +63,10 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .createDrill:
+                return .none
+
+            case .drillList(.didTap(let drill)):
+                state.selectedDrill = drill
                 return .none
 
             case .drillList(.didTapStatisticsButton(let drill)):
