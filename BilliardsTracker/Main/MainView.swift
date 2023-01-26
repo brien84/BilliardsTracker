@@ -17,9 +17,30 @@ struct MainView: View {
     @State private var isShowingSettings = false
 
     var body: some View {
+        let navigationBinding = Binding<Bool>(
+            get: { session.runState == .running },
+            set: { session.runState = $0 ? .running : .stopped }
+        )
+
         WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
+                    PassiveNavigationLink(
+                        isActive: navigationBinding,
+                        destination: {
+                            Group {
+                                if let drill = session.selectedDrill {
+                                    SessionView(store:
+                                        Store(
+                                            initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: session.startDate)),
+                                            reducer: Session()
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    )
+
                     PassiveNavigationLink(
                         isActive: viewStore.binding(
                             get: \.isNavigationToStatisticsActive,

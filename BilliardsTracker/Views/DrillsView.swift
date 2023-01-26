@@ -22,51 +22,27 @@ struct DrillsView: View {
     private var isBlurred = false
 
     var body: some View {
-        let navigationBinding = Binding<Bool>(
-            get: { session.runState == .running },
-            set: { session.runState = $0 ? .running : .stopped }
-        )
-
         WithViewStore(store) { viewStore in
-            ZStack {
-                PassiveNavigationLink(
-                    isActive: navigationBinding,
-                    destination: {
-                        Group {
-                            if let drill = session.selectedDrill {
-                                SessionView(store:
-                                    Store(
-                                        initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: session.startDate)),
-                                        reducer: Session()
-                                    )
-                                )
-                            }
-                        }
-                    }
-                )
-
-                ScrollView {
-                    ForEach(viewStore.drills) { drill in
-                        DrillView(store: store, drill: drill)
-                            .padding([.horizontal], .drillViewPadding * 2)
-                            .padding([.vertical], .drillViewPadding)
-                            .transition(.slide)
-                    }
-                    .blur(radius: isBlurred ? .blurValue : 0)
+            ScrollView {
+                ForEach(viewStore.drills) { drill in
+                    DrillView(store: store, drill: drill)
+                        .padding([.horizontal], .drillViewPadding * 2)
+                        .padding([.vertical], .drillViewPadding)
+                        .transition(.slide)
                 }
-                .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
-                .disabled(session.runState == .loading)
-                .alert(item: $session.connectivityError) { error in
-                    switch error {
-                    case .notReady:
-                        return notReadyAlert
-                    case .notReachable:
-                        return notReachableAlert
-                    }
+                .blur(radius: isBlurred ? .blurValue : 0)
+            }
+            .overlay(session.runState == .loading ? AnyView(loadingView) : AnyView(EmptyView()))
+            .disabled(session.runState == .loading)
+            .alert(item: $session.connectivityError) { error in
+                switch error {
+                case .notReady:
+                    return notReadyAlert
+                case .notReachable:
+                    return notReachableAlert
                 }
             }
         }
-
     }
 
     private var loadingView: some View {
@@ -134,26 +110,24 @@ private extension Double {
     }
 }
 
-// swiftlint:disable force_try
-//struct DrillsView_Previews: PreviewProvider {
-//    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-//    static var session = SessionManager(store: drillStore)
-//    static var store = StoreManager(store: drillStore)
+// struct DrillsView_Previews: PreviewProvider {
+//     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
+//     static var session = SessionManager(store: drillStore)
+//     static var store = StoreManager(store: drillStore)
 //
-//    static var view: some View {
-//        ZStack {
-//            Color.primaryBackground
-//                .ignoresSafeArea()
+//     static var view: some View {
+//         ZStack {
+//             Color.primaryBackground
+//                 .ignoresSafeArea()
 //
-//            DrillsView()
-//                .environmentObject(session)
-//                .environmentObject(store)
-//        }
-//    }
+//             DrillsView()
+//                 .environmentObject(session)
+//                 .environmentObject(store)
+//         }
+//     }
 //
-//    static var previews: some View {
-//        view.preferredColorScheme(.light)
-//        view.preferredColorScheme(.dark)
-//    }
-//}
-// swiftlint:enable force_try
+//     static var previews: some View {
+//         view.preferredColorScheme(.light)
+//         view.preferredColorScheme(.dark)
+//     }
+// }
