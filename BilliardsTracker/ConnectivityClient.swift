@@ -8,6 +8,13 @@
 import ComposableArchitecture
 import WatchConnectivity
 
+enum ConnectivityError: Error, Identifiable {
+    var id: ConnectivityError { self }
+
+    case notReachable
+    case notReady
+}
+
 enum ConnectivityResponse: Equatable {
     case success
     case failure(Failure)

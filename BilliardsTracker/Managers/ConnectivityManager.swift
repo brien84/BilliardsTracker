@@ -8,13 +8,6 @@
 import Combine
 import WatchConnectivity
 
-enum ConnectivityError: Error, Identifiable {
-    var id: ConnectivityError { self }
-
-    case notReachable
-    case notReady
-}
-
 protocol WatchCommunication: AnyObject {
     var didReceiveResultContext: PassthroughSubject<ResultContext, Never> { get }
     func sendDrillContext(_ context: DrillContext) -> AnyPublisher<Void, ConnectivityError>
