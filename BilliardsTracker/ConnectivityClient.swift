@@ -20,7 +20,7 @@ enum ConnectivityResponse: Equatable {
 
 struct ConnectivityClient {
     var begin: @Sendable () async -> AsyncStream<ResultContext>
-    var sendDrillContext: @Sendable (DrillContext) async -> Void
+    var sendDrillContext: @Sendable (DrillContext) async -> ConnectivityResponse
 }
 
 extension ConnectivityClient: DependencyKey {
@@ -32,7 +32,7 @@ extension ConnectivityClient: DependencyKey {
                 await connectivity.begin()
             },
             sendDrillContext: { context in
-
+                await connectivity.send(context: context)
             }
         )
     }
@@ -69,6 +69,45 @@ private actor Connectivity {
         }
 
         return stream
+    }
+
+    func send(context: DrillContext) async -> ConnectivityResponse {
+        guard session.activationState == .activated, session.isReachable
+        else { return ConnectivityResponse.failure(.notReachable) }
+
+        guard let data = try? JSONEncoder().encode(context)
+        else { return ConnectivityResponse.failure(.notReachable) }
+
+        return await withCheckedContinuation { continuation in
+            Task {
+                var continuation: CheckedContinuation<ConnectivityResponse, Never>? = continuation
+
+                session.sendMessageData(data) { replyData in
+                    guard let reply = try? JSONDecoder().decode(Bool.self, from: replyData)
+                    else {
+                        continuation?.resume(returning: .failure(.notReady))
+                        continuation = nil
+                        return
+                    }
+
+                    if reply {
+                        continuation?.resume(returning: .success)
+                        continuation = nil
+                    } else {
+                        continuation?.resume(returning: .failure(.notReady))
+                        continuation = nil
+                    }
+                } errorHandler: { error in
+                    print("\(Self.self).sendDrillContext: \(error)")
+                    continuation?.resume(returning: .failure(.notReachable))
+                    continuation = nil
+                }
+
+                try await Task.sleep(nanoseconds: 5_000_000_000)
+                continuation?.resume(returning: .failure(.notReachable))
+                continuation = nil
+            }
+        }
     }
 }
 
