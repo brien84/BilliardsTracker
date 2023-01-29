@@ -68,7 +68,6 @@
 		29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* SessionManager.swift */; };
 		29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionManager.swift */; };
 		29FD3DD42624DAF500322371 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FD3DD32624DAF500322371 /* ConnectivityManager.swift */; };
-		29FD3DE0262604A000322371 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FD3DDF262604A000322371 /* ConnectivityManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,7 +174,6 @@
 		29FAD65D2615112A00310DA9 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		29FAD6692616066800310DA9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		29FD3DD32624DAF500322371 /* ConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityManager.swift; sourceTree = "<group>"; };
-		29FD3DDF262604A000322371 /* ConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,7 +333,6 @@
 		29558FCE2642F78C006BA300 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				29FD3DDF262604A000322371 /* ConnectivityManager.swift */,
 				2967D82D26936CA20031C3A7 /* SessionManager.swift */,
 				293433D52677807E00FA4768 /* SettingsManager.swift */,
 				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
@@ -656,7 +653,6 @@
 				293433C8267676C100FA4768 /* SettingsView.swift in Sources */,
 				29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				2967D82E26936CA20031C3A7 /* SessionManager.swift in Sources */,
-				29FD3DE0262604A000322371 /* ConnectivityManager.swift in Sources */,
 				29A078A4297F0C6C00A5012A /* Main.swift in Sources */,
 				294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */,
 				293433CF267764FD00FA4768 /* MainView.swift in Sources */,
