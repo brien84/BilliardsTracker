@@ -5,7 +5,7 @@
 //  Created by Marius on 2021-07-05.
 //
 
-import Combine
+import ComposableArchitecture
 import Foundation
 
 enum SessionState: Identifiable {
@@ -17,7 +17,6 @@ enum SessionState: Identifiable {
 }
 
 final class SessionManager: ObservableObject {
-    private let connectivity: WatchCommunication
     @Published var connectivityError: ConnectivityError?
 
     private(set) var selectedDrill: Drill?
@@ -34,20 +33,19 @@ final class SessionManager: ObservableObject {
         }
     }
 
-    private var cancellables = Set<AnyCancellable>()
+    @Dependency(\.connectivityClient) var connectivityClient
 
-    init(connectivity: WatchCommunication = ConnectivityManager()) {
-        self.connectivity = connectivity
-
-        connectivity.didReceiveResultContext
-            .receive(on: RunLoop.main)
-            .sink { [unowned self] context in
-                if let drill = self.selectedDrill {
-                    self.drill = drill
-                    self.result = context
+    init() {
+        Task {
+            for await result in await connectivityClient.begin() {
+                await MainActor.run {
+                    if let drill = self.selectedDrill {
+                        self.drill = drill
+                        self.result = result
+                    }
                 }
             }
-            .store(in: &cancellables)
+        }
     }
 
     func start(drill: Drill) {
@@ -58,36 +56,41 @@ final class SessionManager: ObservableObject {
         startDate = Date()
         selectedDrill = drill
 
-        let context = DrillContext(title: drill.title, attempts: drill.attempts, isFailable: drill.isFailable, isActive: true)
-
-        connectivity.sendDrillContext(context)
-            .receive(on: RunLoop.main)
-            .subscribe(
-                Subscribers.Sink(
-                    receiveCompletion: { [weak self] completion in
-                        if completion == .finished {
-                            self?.runState = .running
-                        }
-
-                        if completion == .failure(.notReachable) {
-                            self?.runState = .stopped
-                            self?.connectivityError = .notReachable
-                        }
-
-                        if completion == .failure(.notReady) {
-                            self?.runState = .stopped
-                            self?.connectivityError = .notReady
-                        }
-                    },
-                    receiveValue: { }
-                )
+        let context = DrillContext(
+            title: drill.title,
+            attempts: drill.attempts,
+            isFailable: drill.isFailable,
+            isActive: true
         )
+
+        Task {
+            let response = await connectivityClient.sendDrillContext(context)
+
+            await MainActor.run {
+                if response == .success {
+                    runState = .running
+                }
+
+                if response == .failure(.notReachable) {
+                    runState = .stopped
+                    connectivityError = .notReachable
+                }
+
+                if response == .failure(.notReady) {
+                    runState = .stopped
+                    connectivityError = .notReady
+                }
+            }
+        }
     }
 
     func stop() {
         selectedDrill = nil
 
         let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
-        _ = connectivity.sendDrillContext(context)
+
+        Task {
+            await connectivityClient.sendDrillContext(context)
+        }
     }
 }
