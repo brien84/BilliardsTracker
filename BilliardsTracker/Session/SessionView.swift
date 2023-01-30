@@ -18,6 +18,15 @@ struct SessionView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: .zero) {
+                    Button {
+                        viewStore.send(.didTapExitButton)
+                    } label: {
+                        Image(systemName: "xmark")
+                            .imageScale(.large)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding()
+
                     SessionStatisticsPanel(store: store)
 
                     CardView {
