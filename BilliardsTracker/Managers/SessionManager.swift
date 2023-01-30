@@ -19,12 +19,6 @@ enum SessionState: Identifiable {
 final class SessionManager: ObservableObject {
     @Published var connectivityError: ConnectivityError?
 
-    private(set) var selectedDrill: Drill?
-    private(set) var startDate = Date()
-
-    @Published var drill: Drill?
-    @Published var result: ResultContext?
-
     @Published var runState: SessionState = .stopped {
         didSet {
             if runState == .stopped {
@@ -35,26 +29,10 @@ final class SessionManager: ObservableObject {
 
     @Dependency(\.connectivityClient) var connectivityClient
 
-    init() {
-        Task {
-            for await result in await connectivityClient.begin() {
-                await MainActor.run {
-                    if let drill = self.selectedDrill {
-                        self.drill = drill
-                        self.result = result
-                    }
-                }
-            }
-        }
-    }
-
     func start(drill: Drill) {
         guard runState == .stopped else { return }
 
         runState = .loading
-
-        startDate = Date()
-        selectedDrill = drill
 
         let context = DrillContext(
             title: drill.title,
@@ -85,8 +63,6 @@ final class SessionManager: ObservableObject {
     }
 
     func stop() {
-        selectedDrill = nil
-
         let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
 
         Task {

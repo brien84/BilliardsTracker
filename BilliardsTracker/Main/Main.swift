@@ -24,6 +24,9 @@ struct Main: ReducerProtocol {
         var needsToDeleteDrill = false
 
         var selectedDrill: Drill?
+        var startDate = Date()
+
+        var resultNeedsToBeCreated: ResultContext?
     }
 
     enum Action: Equatable {
@@ -35,12 +38,31 @@ struct Main: ReducerProtocol {
         case setNavigationToCreateDrill(isActive: Bool)
 
         case updateDrillList([Drill])
+
+        case onAppear
+
+        case connectivityClient(ResultContext)
     }
+
+    @Dependency(\.connectivityClient) var connectivityClient
 
     var body: some ReducerProtocol<State, Action> {
 
         Reduce { state, action in
             switch action {
+
+            case .connectivityClient(let result):
+                state.resultNeedsToBeCreated = result
+                return .none
+
+            case .onAppear:
+                return .run { send in
+                    for await result in await connectivityClient.begin() {
+                        await send(
+                            .connectivityClient(result)
+                        )
+                    }
+                }
 
             case .setNavigationToCreateDrill(isActive: let isActive):
                 if isActive {
@@ -66,6 +88,7 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .drillList(.didTap(let drill)):
+                state.startDate = Date()
                 state.selectedDrill = drill
                 return .none
 

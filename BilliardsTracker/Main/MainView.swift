@@ -31,10 +31,10 @@ struct MainView: View {
                         isActive: navigationBinding,
                         destination: {
                             Group {
-                                if let drill = session.selectedDrill {
+                                if let drill = viewStore.selectedDrill {
                                     SessionView(store:
                                         Store(
-                                            initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: session.startDate)),
+                                            initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: viewStore.startDate)),
                                             reducer: Session()
                                         )
                                     )
@@ -123,9 +123,9 @@ struct MainView: View {
                     viewStore.send(.drillList(.didTap(nil)))
                 }
             }
-            .onChange(of: session.result) { newValue in
+            .onChange(of: viewStore.resultNeedsToBeCreated) { newValue in
                 guard let result = newValue else { return }
-                guard let drill = session.drill else { return }
+                guard let drill = viewStore.selectedDrill else { return }
                 drillStore.addResult(result, to: drill)
             }
             .onChange(of: viewStore.needsToCreateDrill) { newValue in
@@ -153,6 +153,7 @@ struct MainView: View {
             }
             .onAppear {
                 viewStore.send(.updateDrillList(drillStore.drills), animation: .default)
+                viewStore.send(.onAppear)
             }
             .alert(item: $drillStore.savingError) { _ in
                 savingAlert
