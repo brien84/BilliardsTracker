@@ -13,6 +13,7 @@ struct Main: ReducerProtocol {
         var createDrill: CreateDrill.State?
         var drillList = DrillList.State()
         var statistics: Statistics.State?
+        var session: Session.State?
 
         var isNavigationToStatisticsActive: Bool {
             statistics != nil
@@ -33,6 +34,7 @@ struct Main: ReducerProtocol {
         case createDrill(CreateDrill.Action)
         case drillList(DrillList.Action)
         case statistics(Statistics.Action)
+        case session(Session.Action)
 
         case setNavigationToStatistics(isActive: Bool)
         case setNavigationToCreateDrill(isActive: Bool)
@@ -87,9 +89,24 @@ struct Main: ReducerProtocol {
             case .createDrill:
                 return .none
 
+            case .session(.didTapExitButton):
+                state.selectedDrill = nil
+                return .none
+
+            case .session:
+                return .none
+
             case .drillList(.didTap(let drill)):
                 state.startDate = Date()
                 state.selectedDrill = drill
+                if let drill {
+                    state.session = Session.State(statistics:
+                        StatisticsManager(drill: drill, afterDate: state.startDate)
+                    )
+                } else {
+                    state.session = nil
+                }
+
                 return .none
 
             case .drillList(.didTapStatisticsButton(let drill)):
@@ -122,6 +139,9 @@ struct Main: ReducerProtocol {
         }
         .ifLet(\.createDrill, action: /Action.createDrill) {
             CreateDrill()
+        }
+        .ifLet(\.session, action: /Action.session) {
+            Session()
         }
 
     }

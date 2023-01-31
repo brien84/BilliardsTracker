@@ -28,22 +28,6 @@ struct MainView: View {
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
-                        isActive: navigationBinding,
-                        destination: {
-                            Group {
-                                if let drill = viewStore.selectedDrill {
-                                    SessionView(store:
-                                        Store(
-                                            initialState: Session.State(statistics: StatisticsManager(drill: drill, afterDate: viewStore.startDate)),
-                                            reducer: Session()
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    )
-
-                    PassiveNavigationLink(
                         isActive: viewStore.binding(
                             get: \.isNavigationToStatisticsActive,
                             send: Main.Action.setNavigationToStatistics(isActive:)
@@ -114,13 +98,22 @@ struct MainView: View {
                     then: CreateDrillView.init(store:)
                 )
             }
-            .onChange(of: viewStore.selectedDrill) { newValue in
-                guard let drill = newValue else { return }
-                session.start(drill: drill)
+            .fullScreenCover(
+                isPresented: navigationBinding
+            ) {
+                IfLetStore(
+                    store.scope(
+                        state: \.session,
+                        action: Main.Action.session
+                    ),
+                    then: SessionView.init(store:)
+                )
             }
-            .onChange(of: session.runState) { newValue in
-                if newValue == .stopped {
-                    viewStore.send(.drillList(.didTap(nil)))
+            .onChange(of: viewStore.selectedDrill) { newValue in
+                if let drill = newValue {
+                    session.start(drill: drill)
+                } else {
+                    session.runState = .stopped
                 }
             }
             .onChange(of: viewStore.resultNeedsToBeCreated) { newValue in
