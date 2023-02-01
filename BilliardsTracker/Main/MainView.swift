@@ -11,7 +11,6 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
-    @EnvironmentObject var session: SessionManager
     @EnvironmentObject var drillStore: StoreManager
 
     @Environment(\.colorScheme) var colorScheme
@@ -19,11 +18,6 @@ struct MainView: View {
     @State private var isShowingSettings = false
 
     var body: some View {
-        let navigationBinding = Binding<Bool>(
-            get: { session.runState == .running },
-            set: { session.runState = $0 ? .running : .stopped }
-        )
-
         WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
@@ -52,15 +46,11 @@ struct MainView: View {
                     ))
                     .blur(isShowingSettings)
                     .disabled(isShowingSettings)
-                    .disabled(session.runState == .loading)
-                    .alert(item: $session.connectivityError) { error in
-                        switch error {
-                        case .notReady:
-                            return notReadyAlert
-                        case .notReachable:
-                            return notReachableAlert
-                        }
-                    }
+                    .disabled(viewStore.isShowingLoadingIndicator)
+                    .alert(
+                      store.scope(state: \.alert),
+                      dismiss: .alertDismissed
+                    )
 
                     CreateDrillBackgroundButton(store: store)
                         .opacity(drillStore.drills.count == 0 ? 1 : 0)
@@ -69,18 +59,17 @@ struct MainView: View {
                         .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
 
                     loadingView
-                        .opacity(session.runState == .loading ? 1 : 0)
-
+                        .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
                 }
                 .navigationBarTitle("Drills")
                 .navigationBarItems(
                     leading:
                         settingsButton
-                            .disabled(session.runState == .loading),
+                            .disabled(viewStore.isShowingLoadingIndicator),
                     trailing:
                         CreateDrillNavigationBarButton(store: store)
                             .disabled(isShowingSettings)
-                            .disabled(session.runState == .loading)
+                            .disabled(viewStore.isShowingLoadingIndicator)
                 )
             }
             .navigationViewStyle(StackNavigationViewStyle())
@@ -99,7 +88,10 @@ struct MainView: View {
                 )
             }
             .fullScreenCover(
-                isPresented: navigationBinding
+                isPresented: viewStore.binding(
+                    get: \.isNavigationToSessionActive,
+                    send: Main.Action.setNavigationToSession(isActive:)
+                )
             ) {
                 IfLetStore(
                     store.scope(
@@ -108,13 +100,6 @@ struct MainView: View {
                     ),
                     then: SessionView.init(store:)
                 )
-            }
-            .onChange(of: viewStore.selectedDrill) { newValue in
-                if let drill = newValue {
-                    session.start(drill: drill)
-                } else {
-                    session.runState = .stopped
-                }
             }
             .onChange(of: viewStore.resultNeedsToBeCreated) { newValue in
                 guard let result = newValue else { return }
@@ -160,18 +145,6 @@ struct MainView: View {
             message: Text("Latest changes will not be saved."),
             dismissButton: .default(Text("OK"))
         )
-    }
-
-    private var notReadyAlert: Alert {
-        Alert(title: Text("Watch app is not in Tracked mode!"),
-              message: Text("Make sure Tracked mode is selected in Watch app."),
-              dismissButton: .default(Text("OK")))
-    }
-
-    private var notReachableAlert: Alert {
-        Alert(title: Text("Watch app is not reachable!"),
-              message: Text("Make sure BilliardsTracker Watch app is installed and running."),
-              dismissButton: .default(Text("OK")))
     }
 
     private var settingsButton: some View {
@@ -287,12 +260,10 @@ private extension Double {
 // swiftlint:disable force_try
 struct MainView_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-    static var session = SessionManager()
     static var store = StoreManager(store: drillStore)
 
     static var view: some View {
         MainView(store: Store(initialState: Main.State(), reducer: Main()))
-            .environmentObject(session)
             .environmentObject(store)
     }
 
@@ -304,12 +275,10 @@ struct MainView_Previews: PreviewProvider {
 
 struct MainViewCreateDrillBackground_Previews: PreviewProvider {
     static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
-    static var session = SessionManager()
     static var store = StoreManager(store: drillStore)
 
     static var view: some View {
         MainView(store: Store(initialState: Main.State(), reducer: Main()))
-            .environmentObject(session)
             .environmentObject(store)
     }
 

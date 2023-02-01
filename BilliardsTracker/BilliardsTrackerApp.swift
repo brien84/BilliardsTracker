@@ -38,7 +38,6 @@ struct BilliardsTrackerApp: App {
             } else {
                 MainView(store: Store(initialState: Main.State(), reducer: Main()))
                     .environmentObject(StoreManager(store: store!))
-                    .environmentObject(SessionManager())
                     .accessibility(identifier: "mainView")
             }
         }

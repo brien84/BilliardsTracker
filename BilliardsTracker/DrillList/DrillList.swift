@@ -17,7 +17,7 @@ struct DrillList: ReducerProtocol {
     }
 
     enum Action: Equatable {
-        case didTap(Drill?)
+        case didTap(Drill)
         case didTapStatisticsButton(Drill)
     }
 

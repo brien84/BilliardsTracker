@@ -21,6 +21,8 @@ struct Main: ReducerProtocol {
 
         var isNavigationToCreateDrillActive = false
 
+        var isNavigationToSessionActive = false
+
         var needsToCreateDrill = false
         var needsToDeleteDrill = false
 
@@ -28,6 +30,10 @@ struct Main: ReducerProtocol {
         var startDate = Date()
 
         var resultNeedsToBeCreated: ResultContext?
+
+        var isShowingLoadingIndicator = false
+
+        var alert: AlertState<Action>?
     }
 
     enum Action: Equatable {
@@ -38,12 +44,16 @@ struct Main: ReducerProtocol {
 
         case setNavigationToStatistics(isActive: Bool)
         case setNavigationToCreateDrill(isActive: Bool)
+        case setNavigationToSession(isActive: Bool)
 
         case updateDrillList([Drill])
 
         case onAppear
 
         case connectivityClient(ResultContext)
+        case connectivityClientReceived(ConnectivityResponse)
+
+        case alertDismissed
     }
 
     @Dependency(\.connectivityClient) var connectivityClient
@@ -52,6 +62,10 @@ struct Main: ReducerProtocol {
 
         Reduce { state, action in
             switch action {
+
+            case .alertDismissed:
+                state.alert = nil
+                return .none
 
             case .connectivityClient(let result):
                 state.resultNeedsToBeCreated = result
@@ -89,25 +103,72 @@ struct Main: ReducerProtocol {
             case .createDrill:
                 return .none
 
-            case .session(.didTapExitButton):
-                state.selectedDrill = nil
+            case .setNavigationToSession(isActive: let isActive):
+                state.isNavigationToSessionActive = isActive
                 return .none
+
+            case .session(.didTapExitButton):
+                state.isNavigationToSessionActive = false
+                state.selectedDrill = nil
+                return .fireAndForget {
+                    let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
+                    _ = await connectivityClient.sendDrillContext(context)
+                }
 
             case .session:
                 return .none
 
-            case .drillList(.didTap(let drill)):
-                state.startDate = Date()
-                state.selectedDrill = drill
-                if let drill {
-                    state.session = Session.State(statistics:
-                        StatisticsManager(drill: drill, afterDate: state.startDate)
-                    )
-                } else {
-                    state.session = nil
+            case .connectivityClientReceived(let response):
+                state.isShowingLoadingIndicator = false
+
+                if response == .success {
+                    state.isNavigationToSessionActive = true
                 }
 
+                if response == .failure(.notReachable) {
+                    state.selectedDrill = nil
+                    state.alert = AlertState {
+                        TextState("Watch app is not reachable!")
+                    } actions: {
+                        ButtonState(role: .cancel) {
+                            TextState("OK")
+                        }
+                    } message: {
+                        TextState("Make sure BilliardsTracker Watch app is installed and running.")
+                    }
+                }
+
+                if response == .failure(.notReady) {
+                    state.selectedDrill = nil
+                    state.alert = AlertState {
+                        TextState("Watch app is not in Tracked mode!")
+                    } actions: {
+                        ButtonState(role: .cancel) {
+                            TextState("OK")
+                        }
+                    } message: {
+                        TextState("Make sure Tracked mode is selected in Watch app.")
+                    }
+                }
                 return .none
+
+            case .drillList(.didTap(let drill)):
+                state.isShowingLoadingIndicator = true
+
+                state.startDate = Date()
+                state.selectedDrill = drill
+                state.session = Session.State(statistics:
+                    StatisticsManager(drill: drill, afterDate: state.startDate)
+                )
+                let context = DrillContext(
+                    title: drill.title,
+                    attempts: drill.attempts,
+                    isFailable: drill.isFailable,
+                    isActive: true
+                )
+                return .task {
+                    .connectivityClientReceived(await connectivityClient.sendDrillContext(context))
+                }
 
             case .drillList(.didTapStatisticsButton(let drill)):
                 state.needsToDeleteDrill = false
@@ -134,7 +195,6 @@ struct Main: ReducerProtocol {
 
             case .statistics:
                 return .none
-
             }
         }
         .ifLet(\.createDrill, action: /Action.createDrill) {
