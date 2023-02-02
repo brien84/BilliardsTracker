@@ -66,7 +66,7 @@ struct CreateDrillView: View {
                         },
                     trailing:
                         Button("Save") {
-                            viewStore.send(.saveButtonDidTap)
+                            viewStore.send(.saveButtonDidTap, animation: .default)
                         }
                 )
             }
