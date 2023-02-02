@@ -44,6 +44,21 @@ extension PersistenceClient: DependencyKey {
             }
         )
     }
+
+    static let testValue = Self(
+        createDrill: { _ in
+            unimplemented("\(Self.self).createDrill")
+        },
+        deleteDrill: { _ in
+            unimplemented("\(Self.self).deleteDrill")
+        },
+        insertResult: { _, _ in
+            unimplemented("\(Self.self).insertResult")
+        },
+        loadDrills: {
+            unimplemented("\(Self.self).loadDrills")
+        }
+    )
 }
 
 extension DependencyValues {
