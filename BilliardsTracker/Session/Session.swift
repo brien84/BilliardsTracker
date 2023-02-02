@@ -6,10 +6,19 @@
 //
 
 import ComposableArchitecture
+import Foundation
 
 struct Session: ReducerProtocol {
     struct State: Equatable {
+        var drill: Drill
+        var results: [DrillResult]
         var statistics: StatisticsManager
+
+        init(drill: Drill, startDate: Date) {
+            self.drill = drill
+            self.results = drill.results
+            self.statistics = StatisticsManager(drill: drill, afterDate: startDate)
+        }
     }
 
     enum Action: Equatable {

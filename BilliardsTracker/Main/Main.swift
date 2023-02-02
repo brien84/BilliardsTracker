@@ -20,16 +20,10 @@ struct Main: ReducerProtocol {
         }
 
         var isNavigationToCreateDrillActive = false
-
         var isNavigationToSessionActive = false
-
-        var needsToCreateDrill = false
-        var needsToDeleteDrill = false
 
         var selectedDrill: Drill?
         var startDate = Date()
-
-        var resultNeedsToBeCreated: ResultContext?
 
         var isShowingLoadingIndicator = false
 
@@ -46,30 +40,118 @@ struct Main: ReducerProtocol {
         case setNavigationToCreateDrill(isActive: Bool)
         case setNavigationToSession(isActive: Bool)
 
-        case updateDrillList([Drill])
-
         case onAppear
 
         case connectivityClient(ResultContext)
         case connectivityClientReceived(ConnectivityResponse)
 
         case alertDismissed
+
+        case loadDrills
+        case persistenceClientDidLoad(TaskResult<[Drill]>)
+        case persistenceClient(PersistenceResponse)
     }
 
     @Dependency(\.connectivityClient) var connectivityClient
+    @Dependency(\.persistenceClient) var persistenceClient
 
     var body: some ReducerProtocol<State, Action> {
 
         Reduce { state, action in
             switch action {
 
+            case .persistenceClient(let response):
+                switch response {
+                case .success:
+                    return .task {
+                        await .persistenceClientDidLoad(
+                            TaskResult { try await persistenceClient.loadDrills() }
+                        )
+                    }.animation()
+
+                case .failure(.saving):
+                    state.alert = AlertState {
+                        TextState("Something went wrong!")
+                    } actions: {
+                        ButtonState(role: .cancel) {
+                            TextState("OK")
+                        }
+                    } message: {
+                        TextState("Latest changes will not be saved.")
+                    }
+                    return .none
+
+                case .failure(.initialization):
+                    state.alert = AlertState {
+                        TextState("Something went terribly wrong!")
+                    } actions: {
+                        ButtonState(role: .cancel) {
+                            TextState("OK")
+                        }
+                    } message: {
+                        TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
+                    }
+                    return .none
+
+                case .failure:
+                    return .none
+                }
+
+            case .persistenceClientDidLoad(let result):
+                switch result {
+                case .success(let drills):
+                    state.drillList = DrillList.State(drills: drills)
+
+                    if let drill = state.selectedDrill {
+                        state.session = Session.State(drill: drill, startDate: state.startDate)
+                    }
+
+                    return .none
+
+                case .failure(let error):
+                    switch error {
+                    case PersistenceResponse.Failure.initialization:
+                        state.alert = AlertState {
+                            TextState("Something went terribly wrong!")
+                        } actions: {
+                            ButtonState(role: .cancel) {
+                                TextState("OK")
+                            }
+                        } message: {
+                            TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
+                        }
+                    case PersistenceResponse.Failure.loading:
+                        state.alert = AlertState {
+                            TextState("Something went terribly wrong!")
+                        } actions: {
+                            ButtonState(role: .cancel) {
+                                TextState("OK")
+                            }
+                        } message: {
+                            TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
+                        }
+                    default:
+                        return .none
+                    }
+                    return .none
+                }
+
+            case .loadDrills:
+                return .task {
+                    await .persistenceClientDidLoad(
+                        TaskResult { try await persistenceClient.loadDrills() }
+                    )
+                }
+
             case .alertDismissed:
                 state.alert = nil
                 return .none
 
             case .connectivityClient(let result):
-                state.resultNeedsToBeCreated = result
-                return .none
+                guard let drill = state.selectedDrill else { return .none }
+                return .task {
+                    .persistenceClient(await persistenceClient.insertResult(result, drill))
+                }
 
             case .onAppear:
                 return .run { send in
@@ -82,7 +164,6 @@ struct Main: ReducerProtocol {
 
             case .setNavigationToCreateDrill(isActive: let isActive):
                 if isActive {
-                    state.needsToCreateDrill = false
                     state.isNavigationToCreateDrillActive = true
                     state.createDrill = CreateDrill.State()
                 } else {
@@ -96,9 +177,15 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .createDrill(.saveButtonDidTap):
-                state.needsToCreateDrill = true
                 state.isNavigationToCreateDrillActive = false
-                return .none
+                let drill = Drill(entity: Drill.entity(), insertInto: nil)
+                drill.title = state.createDrill?.title ?? "Drill Title"
+                drill.title = drill.title.isEmpty ? "Drill Title" : drill.title
+                drill.attempts = Int(state.createDrill?.attempts ?? 69)
+                drill.isFailable = state.createDrill?.isFailable ?? false
+                return .task {
+                    .persistenceClient(await persistenceClient.createDrill(drill))
+                }
 
             case .createDrill:
                 return .none
@@ -154,12 +241,9 @@ struct Main: ReducerProtocol {
 
             case .drillList(.didTap(let drill)):
                 state.isShowingLoadingIndicator = true
-
                 state.startDate = Date()
                 state.selectedDrill = drill
-                state.session = Session.State(statistics:
-                    StatisticsManager(drill: drill, afterDate: state.startDate)
-                )
+                state.session = Session.State(drill: drill, startDate: state.startDate)
                 let context = DrillContext(
                     title: drill.title,
                     attempts: drill.attempts,
@@ -171,15 +255,10 @@ struct Main: ReducerProtocol {
                 }
 
             case .drillList(.didTapStatisticsButton(let drill)):
-                state.needsToDeleteDrill = false
                 state.statistics = Statistics.State(drill: drill)
                 return .none
 
             case .drillList:
-                return .none
-
-            case .updateDrillList(let drills):
-                state.drillList = DrillList.State(drills: drills)
                 return .none
 
             case .setNavigationToStatistics(isActive: let isActive):
@@ -190,8 +269,10 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .statistics(.didTapDeleteButton):
-                state.needsToDeleteDrill = true
-                return .none
+                guard let drill = state.statistics?.drill else { return .none }
+                return .task {
+                    .persistenceClient(await persistenceClient.deleteDrill(drill))
+                }
 
             case .statistics:
                 return .none

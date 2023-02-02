@@ -142,7 +142,6 @@ private extension DrillView {
     static let scaleGestureDuration: Double = 0.8
 }
 
-
 // struct DrillsView_Previews: PreviewProvider {
 //     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
 //     static var session = SessionManager(store: drillStore)

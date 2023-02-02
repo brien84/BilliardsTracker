@@ -75,22 +75,22 @@ private extension WaitingLabelView {
 // MARK: - Previews
 
 // swiftlint:disable force_try
-struct SessionView_Previews: PreviewProvider {
-    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-    static var drill = drillStore.loadDrills().first!
-
-    static let store = Store(
-        initialState: Session.State(statistics: StatisticsManager(drill: drill)),
-        reducer: Session()
-    )
-
-    static var previews: some View {
-        NavigationView {
-            SessionView(store: store)
-        }
-    }
-
-}
+//struct SessionView_Previews: PreviewProvider {
+//    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
+//    static var drill = drillStore.loadDrills().first!
+//
+//    static let store = Store(
+//        initialState: Session.State(statistics: StatisticsManager(drill: drill)),
+//        reducer: Session()
+//    )
+//
+//    static var previews: some View {
+//        NavigationView {
+//            SessionView(store: store)
+//        }
+//    }
+//
+//}
 
 struct SessionStatisticsPanel: View {
     let store: StoreOf<Session>

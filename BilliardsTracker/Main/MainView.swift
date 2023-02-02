@@ -11,8 +11,6 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
-    @EnvironmentObject var drillStore: StoreManager
-
     @Environment(\.colorScheme) var colorScheme
 
     @State private var isShowingSettings = false
@@ -53,7 +51,7 @@ struct MainView: View {
                     )
 
                     CreateDrillBackgroundButton(store: store)
-                        .opacity(drillStore.drills.count == 0 ? 1 : 0)
+                        .opacity(viewStore.drillList.drills.count == 0 ? 1 : 0)
 
                     SettingsView(isShowingSettings: $isShowingSettings)
                         .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
@@ -101,40 +99,9 @@ struct MainView: View {
                     then: SessionView.init(store:)
                 )
             }
-            .onChange(of: viewStore.resultNeedsToBeCreated) { newValue in
-                guard let result = newValue else { return }
-                guard let drill = viewStore.selectedDrill else { return }
-                drillStore.addResult(result, to: drill)
-            }
-            .onChange(of: viewStore.needsToCreateDrill) { newValue in
-                guard newValue else { return }
-                guard let drill = viewStore.createDrill else { return }
-
-                withAnimation {
-                    drillStore.addDrill(
-                        title: drill.title.isEmpty ? "Drill Title" : drill.title,
-                        attempts: Int(drill.attempts),
-                        isFailable: drill.isFailable
-                    )
-                }
-            }
-            .onChange(of: viewStore.needsToDeleteDrill) { newValue in
-                guard newValue else { return }
-                guard let drill = viewStore.statistics?.drill else { return }
-
-                withAnimation {
-                    drillStore.delete(drill: drill)
-                }
-            }
-            .onChange(of: drillStore.drills) { newValue in
-                viewStore.send(.updateDrillList(newValue), animation: .default)
-            }
             .onAppear {
-                viewStore.send(.updateDrillList(drillStore.drills), animation: .default)
+                viewStore.send(.loadDrills)
                 viewStore.send(.onAppear)
-            }
-            .alert(item: $drillStore.savingError) { _ in
-                savingAlert
             }
         }
     }

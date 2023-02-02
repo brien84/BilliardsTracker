@@ -144,50 +144,48 @@ private extension CGSize {
     }
 }
 
-// swiftlint:disable force_try
-//struct StatisticsView_Previews: PreviewProvider {
-//    static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
-//    static var drill = store.drills.first!
+// struct StatisticsView_Previews: PreviewProvider {
+//     static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
+//     static var drill = store.drills.first!
 //
-//    static var view: some View {
-//        NavigationView {
-//            NavigationLink(
-//                destination: StatisticsView(drill: drill).environmentObject(store),
-//                isActive: .constant(true),
-//                label: { Text("Preview") }
-//            )
-//        }
-//    }
+//     static var view: some View {
+//         NavigationView {
+//             NavigationLink(
+//                 destination: StatisticsView(drill: drill).environmentObject(store),
+//                 isActive: .constant(true),
+//                 label: { Text("Preview") }
+//             )
+//         }
+//     }
 //
-//    static var previews: some View {
-//        view.preferredColorScheme(.light)
-//        view.preferredColorScheme(.dark)
-//    }
-//}
+//     static var previews: some View {
+//         view.preferredColorScheme(.light)
+//         view.preferredColorScheme(.dark)
+//     }
+// }
 //
-//struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
-//    static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
+// struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
+//     static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
 //
-//    static var drill: Drill = {
-//        drillStore.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
-//        return store.drills.first!
-//    }()
+//     static var drill: Drill = {
+//         drillStore.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
+//         return store.drills.first!
+//     }()
 //
-//    static var store = StoreManager(store: drillStore)
+//     static var store = StoreManager(store: drillStore)
 //
-//    static var view: some View {
-//        NavigationView {
-//            NavigationLink(
-//                destination: StatisticsView(drill: drill).environmentObject(store),
-//                isActive: .constant(true),
-//                label: { Text("Preview") }
-//            )
-//        }
-//    }
+//     static var view: some View {
+//         NavigationView {
+//             NavigationLink(
+//                 destination: StatisticsView(drill: drill).environmentObject(store),
+//                 isActive: .constant(true),
+//                 label: { Text("Preview") }
+//             )
+//         }
+//     }
 //
-//    static var previews: some View {
-//        view.preferredColorScheme(.light)
-//        view.preferredColorScheme(.dark)
-//    }
-//}
-// swiftlint:enable force_try
+//     static var previews: some View {
+//         view.preferredColorScheme(.light)
+//         view.preferredColorScheme(.dark)
+//     }
+// }
