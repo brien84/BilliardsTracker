@@ -11,12 +11,6 @@ import SwiftUI
 struct DrillsView: View {
     let store: StoreOf<DrillList>
 
-    init(store: StoreOf<DrillList>) {
-        self.store = store
-    }
-
-    private var isBlurred = false
-
     var body: some View {
         WithViewStore(store) { viewStore in
             ScrollView {
@@ -26,17 +20,8 @@ struct DrillsView: View {
                         .padding([.vertical], .drillViewPadding)
                         .transition(.slide)
                 }
-                .blur(radius: isBlurred ? .blurValue : 0)
             }
         }
-    }
-
-    /// Applies blur effect to `DrillsView`.
-    /// This function is required, since applying blur directly on `ScrollView` causes `NavigationView` layout bug.
-    func blur(_ isEnabled: Bool) -> some View {
-        var view = self
-        view.isBlurred = isEnabled
-        return view
     }
 }
 
@@ -141,25 +126,3 @@ private extension DrillView {
     static let scaleAnimationDuration: Double = 0.1
     static let scaleGestureDuration: Double = 0.8
 }
-
-// struct DrillsView_Previews: PreviewProvider {
-//     static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-//     static var session = SessionManager(store: drillStore)
-//     static var store = StoreManager(store: drillStore)
-//
-//     static var view: some View {
-//         ZStack {
-//             Color.primaryBackground
-//                 .ignoresSafeArea()
-//
-//             DrillsView()
-//                 .environmentObject(session)
-//                 .environmentObject(store)
-//         }
-//     }
-//
-//     static var previews: some View {
-//         view.preferredColorScheme(.light)
-//         view.preferredColorScheme(.dark)
-//     }
-// }

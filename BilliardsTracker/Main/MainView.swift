@@ -13,8 +13,6 @@ struct MainView: View {
 
     @Environment(\.colorScheme) var colorScheme
 
-    @State private var isShowingSettings = false
-
     var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
@@ -42,13 +40,7 @@ struct MainView: View {
                         state: \.drillList,
                         action: Main.Action.drillList
                     ))
-                    .blur(isShowingSettings)
-                    .disabled(isShowingSettings)
                     .disabled(viewStore.isShowingLoadingIndicator)
-                    .alert(
-                      store.scope(state: \.alert),
-                      dismiss: .alertDismissed
-                    )
 
                     CreateDrillBackgroundButton(store: store)
                         .opacity(viewStore.drillList.drills.count == 0 ? 1 : 0)
@@ -66,7 +58,6 @@ struct MainView: View {
                         .disabled(viewStore.isShowingLoadingIndicator),
                     trailing:
                         CreateDrillNavigationBarButton(store: store)
-                            .disabled(isShowingSettings)
                             .disabled(viewStore.isShowingLoadingIndicator)
                 )
             }
@@ -99,34 +90,15 @@ struct MainView: View {
                     then: SessionView.init(store:)
                 )
             }
+            .alert(
+                store.scope(state: \.alert),
+                dismiss: .alertDismissed
+            )
             .onAppear {
                 viewStore.send(.loadDrills)
                 viewStore.send(.onAppear)
             }
         }
-    }
-
-    private var savingAlert: Alert {
-        Alert(
-            title: Text("Something went wrong!"),
-            message: Text("Latest changes will not be saved."),
-            dismissButton: .default(Text("OK"))
-        )
-    }
-
-    private var settingsButton: some View {
-        Button(
-            action: {
-                withAnimation(.spring()) {
-                    isShowingSettings.toggle()
-                }
-            },
-            label: {
-                Image(systemName: "slider.horizontal.3")
-                    .imageScale(.large)
-            }
-        )
-        .accessibility(identifier: "mainView_settingsButton")
     }
 
     private var loadingView: some View {
