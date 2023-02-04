@@ -56,6 +56,7 @@
 		29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AC298E7D1B0045DFCB /* Settings.swift */; };
 		29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */; };
 		29C554B1298EC8A90045DFCB /* DrillItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B0298EC8A90045DFCB /* DrillItem.swift */; };
+		29C554B3298EEDEB0045DFCB /* DrillItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B2298EEDEB0045DFCB /* DrillItemView.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
 		29C87169262210680064C592 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* SessionView.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
@@ -156,6 +157,7 @@
 		29C554AC298E7D1B0045DFCB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOnPressView.swift; sourceTree = "<group>"; };
 		29C554B0298EC8A90045DFCB /* DrillItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillItem.swift; sourceTree = "<group>"; };
+		29C554B2298EEDEB0045DFCB /* DrillItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillItemView.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		29C87168262210680064C592 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 			children = (
 				29C554B0298EC8A90045DFCB /* DrillItem.swift */,
 				29A078AB2980195600A5012A /* DrillList.swift */,
+				29C554B2298EEDEB0045DFCB /* DrillItemView.swift */,
 			);
 			path = DrillList;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */,
 				293433C8267676C100FA4768 /* SettingsView.swift in Sources */,
 				29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */,
+				29C554B3298EEDEB0045DFCB /* DrillItemView.swift in Sources */,
 				29A078A4297F0C6C00A5012A /* Main.swift in Sources */,
 				294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */,
 				293433CF267764FD00FA4768 /* MainView.swift in Sources */,
