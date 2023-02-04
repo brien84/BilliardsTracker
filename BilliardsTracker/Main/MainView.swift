@@ -34,7 +34,7 @@ struct MainView: View {
                     Color.primaryBackground
                         .ignoresSafeArea()
 
-                    DrillsView(store: store.scope(
+                    DrillListView(store: store.scope(
                         state: \.drillList,
                         action: Main.Action.drillList
                     ))

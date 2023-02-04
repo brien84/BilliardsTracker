@@ -1,5 +1,5 @@
 //
-//  DrillsView.swift
+//  DrillListView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-03-31.
@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct DrillsView: View {
+struct DrillListView: View {
     let store: StoreOf<DrillList>
 
     var body: some View {
