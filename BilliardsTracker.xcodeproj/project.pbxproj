@@ -54,6 +54,7 @@
 		29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* CreateDrillView.swift */; };
 		29BB860F2631F2BA0055A8BB /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */; };
 		29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AC298E7D1B0045DFCB /* Settings.swift */; };
+		29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
 		29C87169262210680064C592 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* SessionView.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
@@ -152,6 +153,7 @@
 		29BB8602262EECE00055A8BB /* CreateDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDrillView.swift; sourceTree = "<group>"; };
 		29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		29C554AC298E7D1B0045DFCB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOnPressView.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		29C87168262210680064C592 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 			children = (
 				292E6F61266BFD1B0078C033 /* CardView.swift */,
 				2994521B26407CAD0051F4A7 /* ChartView.swift */,
+				29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */,
 				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
 			);
 			path = "Misc Views";
@@ -621,6 +624,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */,
 				29A07899297C230000A5012A /* Session.swift in Sources */,
 				294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */,
 				29A078A1297EFBFE00A5012A /* CreateDrill.swift in Sources */,
