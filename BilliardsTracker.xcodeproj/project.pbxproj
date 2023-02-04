@@ -25,8 +25,6 @@
 		292E6F69266C0A0E0078C033 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292E6F68266C0A0E0078C033 /* ResultsView.swift */; };
 		293433C8267676C100FA4768 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433C7267676C000FA4768 /* SettingsView.swift */; };
 		293433CF267764FD00FA4768 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433CE267764FD00FA4768 /* MainView.swift */; };
-		293433D62677807E00FA4768 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433D52677807E00FA4768 /* SettingsManager.swift */; };
-		293433E22677850600FA4768 /* SettingsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433E12677850600FA4768 /* SettingsManagerTests.swift */; };
 		294AD35D261F74340086E808 /* Drill+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD359261F74340086E808 /* Drill+CoreDataClass.swift */; };
 		294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35A261F74340086E808 /* Drill+CoreDataProperties.swift */; };
 		294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */; };
@@ -128,8 +126,6 @@
 		292E6F68266C0A0E0078C033 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		293433C7267676C000FA4768 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		293433CE267764FD00FA4768 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		293433D52677807E00FA4768 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
-		293433E12677850600FA4768 /* SettingsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManagerTests.swift; sourceTree = "<group>"; };
 		294AD359261F74340086E808 /* Drill+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drill+CoreDataClass.swift"; sourceTree = "<group>"; };
 		294AD35A261F74340086E808 /* Drill+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drill+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrillResult+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -231,13 +227,13 @@
 		2926E0F626150FE400E95DBB /* BilliardsTracker */ = {
 			isa = PBXGroup;
 			children = (
-				29C554AB298E7D080045DFCB /* Settings */,
 				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
 				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
 				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
 				29A0789F297EFBEC00A5012A /* CreateDrill */,
 				29A078AA2980194400A5012A /* DrillList */,
 				29A078A2297F0C5B00A5012A /* Main */,
+				29C554AB298E7D080045DFCB /* Settings */,
 				29A07897297C22EB00A5012A /* Session */,
 				29A078A7298015D100A5012A /* Statistics */,
 				29558FCE2642F78C006BA300 /* Managers */,
@@ -263,7 +259,6 @@
 		2926E10826150FE500E95DBB /* BilliardsTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
-				293433E12677850600FA4768 /* SettingsManagerTests.swift */,
 				2963D2C5264F0F24009BD3C7 /* StatisticsManagerTests.swift */,
 				2926E10B26150FE500E95DBB /* Info.plist */,
 			);
@@ -318,7 +313,6 @@
 		29558FCE2642F78C006BA300 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				293433D52677807E00FA4768 /* SettingsManager.swift */,
 				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
 			);
 			path = Managers;
@@ -644,7 +638,6 @@
 				294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */,
 				293433CF267764FD00FA4768 /* MainView.swift in Sources */,
 				29A078AE29808AA300A5012A /* PersistenceClient.swift in Sources */,
-				293433D62677807E00FA4768 /* SettingsManager.swift in Sources */,
 				295389DA26696C4D0028E5B8 /* StatisticsPanel.swift in Sources */,
 				29A078AC2980195600A5012A /* DrillList.swift in Sources */,
 				29A078A9298015E900A5012A /* Statistics.swift in Sources */,
@@ -664,7 +657,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				293433E22677850600FA4768 /* SettingsManagerTests.swift in Sources */,
 				2963D2C6264F0F24009BD3C7 /* StatisticsManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
