@@ -40,8 +40,6 @@ struct DrillView: View {
 
     private let drill: Drill
 
-    @State private var touchesBegan = false
-
     init(store: StoreOf<DrillList>, drill: Drill) {
         self.store = store
         self.drill = drill
@@ -49,80 +47,66 @@ struct DrillView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            ZStack {
-                Color.secondaryBackground
+            ShrinkOnPressView {
+                ZStack {
+                    Color.secondaryBackground
 
-                HStack(spacing: .zero) {
-                    if drill.attempts > 0 {
-                        ZStack {
-                            Text("100").opacity(0)
-                            Text("\(drill.attempts)")
-                                .accessibility(identifier: "drillView_attemptsText")
+                    HStack(spacing: .zero) {
+                        if drill.attempts > 0 {
+                            ZStack {
+                                Text("100").opacity(0)
+                                Text("\(drill.attempts)")
+                                    .accessibility(identifier: "drillView_attemptsText")
+                            }
+                            .frame(maxHeight: .infinity)
+                            .padding(.horizontal)
+                            .font(Font.title.weight(.semibold))
+                            .foregroundColor(.primaryElement)
                         }
-                        .frame(maxHeight: .infinity)
-                        .padding(.horizontal)
-                        .font(Font.title.weight(.semibold))
-                        .foregroundColor(.primaryElement)
-                    }
 
-                    if !drill.title.isEmpty {
-                        Text(drill.title.uppercased())
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                            .padding()
-                            .font(Font.headline.weight(.bold))
-                            .foregroundColor(.secondaryElement)
-                            .accessibility(identifier: "drillView_titleText")
-                    }
-
-                    VStack(spacing: Self.iconsSpacing) {
-                        failableIcon
-                            .frame(maxHeight: .infinity, alignment: .top)
-                            .foregroundColor(.customRed)
-                            .hidden(!drill.isFailable)
-
-                        Spacer()
-
-                        Button {
-                            viewStore.send(.didTapStatisticsButton(drill))
-                        } label: {
-                            Image(systemName: "chart.bar.xaxis")
-                                .imageScale(.large)
+                        if !drill.title.isEmpty {
+                            Text(drill.title.uppercased())
+                                .fixedSize(horizontal: false, vertical: true)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                                .padding()
+                                .font(Font.headline.weight(.bold))
+                                .foregroundColor(.secondaryElement)
+                                .accessibility(identifier: "drillView_titleText")
                         }
-                        .frame(maxHeight: .infinity, alignment: .bottom)
-                        .foregroundColor(.customBlue)
-                        .accessibility(identifier: "drillView_statisticsButton")
+
+                        VStack(spacing: Self.iconsSpacing) {
+                            Image(systemName: "xmark.seal")
+                                .font(Font.title3.weight(.regular))
+                                .imageScale(.small)
+                                .frame(maxHeight: .infinity, alignment: .top)
+                                .foregroundColor(.customRed)
+                                .hidden(!drill.isFailable)
+
+                            Spacer()
+
+                            Button {
+                                viewStore.send(.didTapStatisticsButton(drill))
+                            } label: {
+                                Image(systemName: "chart.bar.xaxis")
+                                    .imageScale(.large)
+                            }
+                            .frame(maxHeight: .infinity, alignment: .bottom)
+                            .foregroundColor(.customBlue)
+                            .accessibility(identifier: "drillView_statisticsButton")
+                        }
+                        .padding()
                     }
-                    .padding()
+                }
+                .cornerRadius(Self.cornerRadius)
+                .onTapGesture {
+                    viewStore.send(.didTap(drill))
                 }
             }
-            .cornerRadius(Self.cornerRadius)
-            .scaleEffect(touchesBegan ? Self.scaleEffectOn : Self.scaleEffectOff)
-            .onTapGesture {
-                viewStore.send(.didTap(drill))
-            }
-            .onLongPressGesture(minimumDuration: Self.scaleGestureDuration, maximumDistance: Self.scaleGestureDistance) { isPressing in
-                withAnimation(.easeOut(duration: Self.scaleAnimationDuration)) {
-                    touchesBegan = isPressing
-                }
-            } perform: { }
         }
-    }
-
-    private var failableIcon: some View {
-        Image(systemName: "xmark.seal")
-            .font(Font.title3.weight(.regular))
-            .imageScale(.small)
-            .accessibility(identifier: "drillView_failableIcon")
     }
 }
 
 private extension DrillView {
     static let cornerRadius: CGFloat = 10
     static let iconsSpacing: CGFloat = 4
-    static let scaleEffectOn: CGFloat = 0.9
-    static let scaleEffectOff: CGFloat = 1.0
-    static let scaleGestureDistance: CGFloat = 1.0
-    static let scaleAnimationDuration: Double = 0.1
-    static let scaleGestureDuration: Double = 0.8
 }
