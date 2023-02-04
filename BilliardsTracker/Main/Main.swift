@@ -15,6 +15,8 @@ struct Main: ReducerProtocol {
         var statistics: Statistics.State?
         var session: Session.State?
 
+        var settings = Settings.State()
+
         var isNavigationToStatisticsActive: Bool {
             statistics != nil
         }
@@ -35,6 +37,8 @@ struct Main: ReducerProtocol {
         case drillList(DrillList.Action)
         case statistics(Statistics.Action)
         case session(Session.Action)
+
+        case settings(Settings.Action)
 
         case setNavigationToStatistics(isActive: Bool)
         case setNavigationToCreateDrill(isActive: Bool)
@@ -57,8 +61,28 @@ struct Main: ReducerProtocol {
 
     var body: some ReducerProtocol<State, Action> {
 
+        Scope(state: \.settings, action: /Action.settings) {
+            Settings()
+        }
+
         Reduce { state, action in
             switch action {
+
+            case .settings(.didSelectSortOption):
+                let drills = state.drillList.drills.sorted {
+                    switch state.settings.sortOption {
+                    case .attempts:
+                        return $0.attempts < $1.attempts
+                    case .dateCreated:
+                        return $0.dateCreated < $1.dateCreated
+                    case .title:
+                        return $0.title < $1.title
+                    }
+                }
+
+                state.drillList = DrillList.State(drills: drills)
+
+                return .none
 
             case .persistenceClient(let response):
                 switch response {
@@ -100,6 +124,17 @@ struct Main: ReducerProtocol {
             case .persistenceClientDidLoad(let result):
                 switch result {
                 case .success(let drills):
+                    let drills = drills.sorted {
+                        switch state.settings.sortOption {
+                        case .attempts:
+                            return $0.attempts < $1.attempts
+                        case .dateCreated:
+                            return $0.dateCreated < $1.dateCreated
+                        case .title:
+                            return $0.title < $1.title
+                        }
+                    }
+
                     state.drillList = DrillList.State(drills: drills)
 
                     if let drill = state.selectedDrill {

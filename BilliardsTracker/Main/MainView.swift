@@ -53,17 +53,17 @@ struct MainView: View {
                     CreateDrillBackgroundButton(store: store)
                         .opacity(viewStore.drillList.drills.count == 0 ? 1 : 0)
 
-                    SettingsView(isShowingSettings: $isShowingSettings)
-                        .offset(isShowingSettings ? .zero : .settingsViewHiddenOffset)
-
                     loadingView
                         .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
                 }
                 .navigationBarTitle("Drills")
                 .navigationBarItems(
                     leading:
-                        settingsButton
-                            .disabled(viewStore.isShowingLoadingIndicator),
+                        SettingsView(store: store.scope(
+                            state: \.settings,
+                            action: Main.Action.settings
+                        ))
+                        .disabled(viewStore.isShowingLoadingIndicator),
                     trailing:
                         CreateDrillNavigationBarButton(store: store)
                             .disabled(isShowingSettings)
@@ -224,34 +224,10 @@ private extension Double {
     }
 }
 
-// swiftlint:disable force_try
+// MARK: - Previews
+
 struct MainView_Previews: PreviewProvider {
-    static var drillStore = try! DrillStore(inMemory: true, isPreview: true)
-    static var store = StoreManager(store: drillStore)
-
-    static var view: some View {
-        MainView(store: Store(initialState: Main.State(), reducer: Main()))
-            .environmentObject(store)
-    }
-
     static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
+        MainView(store: Store(initialState: Main.State(), reducer: Main()))
     }
 }
-
-struct MainViewCreateDrillBackground_Previews: PreviewProvider {
-    static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
-    static var store = StoreManager(store: drillStore)
-
-    static var view: some View {
-        MainView(store: Store(initialState: Main.State(), reducer: Main()))
-            .environmentObject(store)
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
-    }
-}
-// swiftlint:enable force_try
