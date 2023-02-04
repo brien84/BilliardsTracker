@@ -11,8 +11,6 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
-    @Environment(\.colorScheme) var colorScheme
-
     var body: some View {
         WithViewStore(store) { viewStore in
             NavigationView {
@@ -45,7 +43,7 @@ struct MainView: View {
                     CreateDrillBackgroundButton(store: store)
                         .opacity(viewStore.drillList.drills.count == 0 ? 1 : 0)
 
-                    loadingView
+                    LoadingView()
                         .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
                 }
                 .navigationBarTitle("Drills")
@@ -100,22 +98,32 @@ struct MainView: View {
             }
         }
     }
+}
 
-    private var loadingView: some View {
+private struct LoadingView: View {
+    var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-                .opacity(colorScheme == .light ? .loadingViewBackgroundOpacityLight : .loadingViewBackgroundOpacityDark)
+                .opacity(Self.backgroundOpacity)
 
             ProgressView()
                 .padding()
                 .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
                 .background(Color.secondaryBackground)
-                .cornerRadius(.loadingViewCornerRadius)
-                .overlay(RoundedRectangle(cornerRadius: .loadingViewCornerRadius)
-                            .stroke(Color.secondaryElement, lineWidth: .loadingViewLineWidth))
+                .cornerRadius(Self.cornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Self.cornerRadius)
+                        .stroke(Color.secondaryElement, lineWidth: Self.lineWidth)
+                )
         }
     }
+}
+
+private extension LoadingView {
+    static let backgroundOpacity: CGFloat = 0.5
+    static let cornerRadius: CGFloat = 10
+    static let lineWidth: CGFloat = 1
 }
 
 private struct CreateDrillBackgroundButton: View {
@@ -168,32 +176,6 @@ private struct CreateDrillNavigationBarButton: View {
 private extension CreateDrillBackgroundButton {
     static let imageScale: CGFloat = 2.0
     static let textPadding: CGFloat = 32
-}
-
-private extension CGSize {
-    static var settingsViewHiddenOffset: CGSize {
-        CGSize(width: -500, height: 0)
-    }
-}
-
-private extension CGFloat {
-    static var loadingViewCornerRadius: CGFloat {
-        10
-    }
-
-    static var loadingViewLineWidth: CGFloat {
-        1
-    }
-}
-
-private extension Double {
-    static var loadingViewBackgroundOpacityLight: Double {
-        0.25
-    }
-
-    static var loadingViewBackgroundOpacityDark: Double {
-        0.45
-    }
 }
 
 // MARK: - Previews
