@@ -337,7 +337,6 @@
 			children = (
 				2926E0F926150FE400E95DBB /* DrillsView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
-				293433C7267676C000FA4768 /* SettingsView.swift */,
 				2967D8762694DB240031C3A7 /* Misc Views */,
 			);
 			path = Views;
@@ -420,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				29C554AC298E7D1B0045DFCB /* Settings.swift */,
+				293433C7267676C000FA4768 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
