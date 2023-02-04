@@ -41,10 +41,34 @@ struct Settings: ReducerProtocol {
 
 }
 
-enum SortOption: Int {
+enum SortOption: Int, CaseIterable, Identifiable {
+    var id: SortOption { self }
+
     case attempts
     case dateCreated
     case title
+
+    var label: String {
+        switch self {
+        case .attempts:
+            return "Attempts"
+        case .dateCreated:
+            return "Creation Date"
+        case .title:
+            return "Title"
+        }
+    }
+
+    var imageName: String {
+        switch self {
+        case .attempts:
+            return "repeat"
+        case .dateCreated:
+            return "calendar"
+        case .title:
+            return "textformat"
+        }
+    }
 }
 
 private extension UserDefaults {
