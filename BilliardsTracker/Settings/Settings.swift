@@ -11,7 +11,18 @@ import Foundation
 struct Settings: ReducerProtocol {
 
     struct State: Equatable {
-        var sortOption: SortOption
+        private let userDefaults: UserDefaults
+
+        var sortOption: SortOption {
+            didSet {
+                userDefaults.sortOption = sortOption
+            }
+        }
+
+        init(userDefaults: UserDefaults = .standard) {
+            self.userDefaults = userDefaults
+            self.sortOption = userDefaults.sortOption
+        }
     }
 
     enum Action: Equatable {
@@ -30,8 +41,22 @@ struct Settings: ReducerProtocol {
 
 }
 
-enum SortOption: Int, CaseIterable, Identifiable {
+enum SortOption: Int {
     case attempts
     case dateCreated
     case title
+}
+
+private extension UserDefaults {
+    private static let sortOptionKey = "sortOptionKey"
+
+    var sortOption: SortOption {
+        get {
+            let rawValue = integer(forKey: Self.sortOptionKey)
+            return SortOption(rawValue: rawValue) ?? .title
+        }
+        set {
+            set(newValue.rawValue, forKey: Self.sortOptionKey)
+        }
+    }
 }
