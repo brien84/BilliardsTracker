@@ -8,13 +8,18 @@
 import ComposableArchitecture
 
 struct DrillItem: ReducerProtocol {
-    struct State: Equatable {
+
+    struct State: Equatable, Identifiable {
         let drill: Drill
+
+        var id: ObjectIdentifier {
+            drill.id
+        }
     }
 
     enum Action: Equatable {
-        case didSelectDrill(Drill)
-        case didTapStatisticsButton(Drill)
+        case didSelectDrill
+        case didTapStatisticsButton
     }
 
     var body: some ReducerProtocol<State, Action> {
@@ -27,4 +32,5 @@ struct DrillItem: ReducerProtocol {
             }
         }
     }
+    
 }

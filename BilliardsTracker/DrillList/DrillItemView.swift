@@ -8,15 +8,8 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct DrillView: View {
-    let store: StoreOf<DrillList>
-
-    private let drill: Drill
-
-    init(store: StoreOf<DrillList>, drill: Drill) {
-        self.store = store
-        self.drill = drill
-    }
+struct DrillItemView: View {
+    let store: StoreOf<DrillItem>
 
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -25,10 +18,10 @@ struct DrillView: View {
                     Color.secondaryBackground
 
                     HStack(spacing: .zero) {
-                        if drill.attempts > 0 {
+                        if viewStore.drill.attempts > 0 {
                             ZStack {
                                 Text("100").opacity(0)
-                                Text("\(drill.attempts)")
+                                Text("\(viewStore.drill.attempts)")
                                     .accessibility(identifier: "drillView_attemptsText")
                             }
                             .frame(maxHeight: .infinity)
@@ -37,8 +30,8 @@ struct DrillView: View {
                             .foregroundColor(.primaryElement)
                         }
 
-                        if !drill.title.isEmpty {
-                            Text(drill.title.uppercased())
+                        if !viewStore.drill.title.isEmpty {
+                            Text(viewStore.drill.title.uppercased())
                                 .fixedSize(horizontal: false, vertical: true)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                                 .padding()
@@ -53,12 +46,12 @@ struct DrillView: View {
                                 .imageScale(.small)
                                 .frame(maxHeight: .infinity, alignment: .top)
                                 .foregroundColor(.customRed)
-                                .hidden(!drill.isFailable)
+                                .hidden(!viewStore.drill.isFailable)
 
                             Spacer()
 
                             Button {
-                                viewStore.send(.didTapStatisticsButton(drill))
+                                viewStore.send(.didTapStatisticsButton)
                             } label: {
                                 Image(systemName: "chart.bar.xaxis")
                                     .imageScale(.large)
@@ -72,15 +65,14 @@ struct DrillView: View {
                 }
                 .cornerRadius(Self.cornerRadius)
                 .onTapGesture {
-                    viewStore.send(.didTap(drill))
+                    viewStore.send(.didSelectDrill)
                 }
             }
         }
     }
 }
 
-private extension DrillView {
+private extension DrillItemView {
     static let cornerRadius: CGFloat = 10
     static let iconsSpacing: CGFloat = 4
 }
-

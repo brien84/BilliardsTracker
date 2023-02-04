@@ -69,7 +69,7 @@ struct Main: ReducerProtocol {
             switch action {
 
             case .settings(.didSelectSortOption):
-                let drills = state.drillList.drills.sorted {
+                let drills = state.drillList.drillItems.map { $0.drill }.sorted {
                     switch state.settings.sortOption {
                     case .attempts:
                         return $0.attempts < $1.attempts
@@ -274,23 +274,30 @@ struct Main: ReducerProtocol {
                 }
                 return .none
 
-            case .drillList(.didTap(let drill)):
-                state.isShowingLoadingIndicator = true
-                state.startDate = Date()
-                state.selectedDrill = drill
-                state.session = Session.State(drill: drill, startDate: state.startDate)
-                let context = DrillContext(
-                    title: drill.title,
-                    attempts: drill.attempts,
-                    isFailable: drill.isFailable,
-                    isActive: true
-                )
-                return .task {
-                    .connectivityClientReceived(await connectivityClient.sendDrillContext(context))
+            case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
+                if let drill = state.drillList.drillItems[id: id]?.drill {
+                    state.isShowingLoadingIndicator = true
+                    state.startDate = Date()
+                    state.selectedDrill = drill
+                    state.session = Session.State(drill: drill, startDate: state.startDate)
+                    let context = DrillContext(
+                        title: drill.title,
+                        attempts: drill.attempts,
+                        isFailable: drill.isFailable,
+                        isActive: true
+                    )
+                    return .task {
+                        .connectivityClientReceived(await connectivityClient.sendDrillContext(context))
+                    }
+                } else {
+                    return .none
                 }
 
-            case .drillList(.didTapStatisticsButton(let drill)):
-                state.statistics = Statistics.State(drill: drill)
+            case .drillList(.drillItem(id: let id, action: .didTapStatisticsButton)):
+                if let drill = state.drillList.drillItems[id: id]?.drill {
+                    state.statistics = Statistics.State(drill: drill)
+                }
+
                 return .none
 
             case .drillList:

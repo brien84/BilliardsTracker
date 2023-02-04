@@ -12,25 +12,22 @@ struct DrillListView: View {
     let store: StoreOf<DrillList>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store) { _ in
             ScrollView {
-                ForEach(viewStore.drills) { drill in
-                    DrillView(store: store, drill: drill)
-                        .padding([.horizontal], .drillViewPadding * 2)
-                        .padding([.vertical], .drillViewPadding)
-                        .transition(.slide)
+                LazyVStack(spacing: Self.verticalSpacing) {
+                    ForEachStore(
+                        store.scope(state: \.drillItems, action: DrillList.Action.drillItem(id:action:))
+                    ) {
+                        DrillItemView(store: $0)
+                            .padding(.horizontal)
+                            .transition(.slide)
+                    }
                 }
             }
         }
     }
 }
 
-private extension CGFloat {
-    static var drillViewPadding: CGFloat {
-        8
-    }
-
-    static var blurValue: CGFloat {
-        5
-    }
+private extension DrillListView {
+    static let verticalSpacing: CGFloat = 16
 }

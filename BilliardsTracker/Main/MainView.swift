@@ -41,7 +41,7 @@ struct MainView: View {
                     .disabled(viewStore.isShowingLoadingIndicator)
 
                     CreateDrillBackgroundButton(store: store)
-                        .opacity(viewStore.drillList.drills.count == 0 ? 1 : 0)
+                        .opacity(viewStore.drillList.drillItems.count == 0 ? 1 : 0)
 
                     LoadingView()
                         .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
