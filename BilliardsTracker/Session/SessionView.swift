@@ -18,13 +18,18 @@ struct SessionView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: .zero) {
-                    Button {
-                        viewStore.send(.didTapExitButton)
-                    } label: {
-                        Image(systemName: "xmark")
-                            .imageScale(.large)
+                    HStack {
+                        Text(viewStore.drill.title)
+                            .lineLimit(2)
+                            .font(.largeTitle.bold())
+                            .foregroundColor(.primaryElement)
+
+                        Spacer()
+
+                        ExitButtonView {
+                            viewStore.send(.didTapExitButton)
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding()
 
                     StatisticsPanel(statistics: viewStore.statistics)
@@ -41,8 +46,6 @@ struct SessionView: View {
                     .setTitle("Results")
                 }
             }
-            .animation(.easeInOut)
-            .navigationBarTitle(viewStore.statistics.drill.title)
         }
     }
 }
