@@ -90,7 +90,7 @@ struct MainView: View {
             }
             .alert(
                 store.scope(state: \.alert),
-                dismiss: .alertDismissed
+                dismiss: .alertDidDismiss
             )
             .onAppear {
                 viewStore.send(.loadDrills)

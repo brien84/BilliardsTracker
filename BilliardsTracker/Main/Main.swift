@@ -10,6 +10,8 @@ import SwiftUI
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
+        var alert: AlertState<Action>?
+
         var createDrill: CreateDrill.State?
         var drillList = DrillList.State()
         var statistics: Statistics.State?
@@ -28,11 +30,11 @@ struct Main: ReducerProtocol {
         var startDate = Date()
 
         var isShowingLoadingIndicator = false
-
-        var alert: AlertState<Action>?
     }
 
     enum Action: Equatable {
+        case alertDidDismiss
+
         case createDrill(CreateDrill.Action)
         case drillList(DrillList.Action)
         case statistics(Statistics.Action)
@@ -48,8 +50,6 @@ struct Main: ReducerProtocol {
 
         case connectivityClient(ResultContext)
         case connectivityClientReceived(ConnectivityResponse)
-
-        case alertDismissed
 
         case loadDrills
         case persistenceClientDidLoad(TaskResult<[Drill]>)
@@ -67,6 +67,13 @@ struct Main: ReducerProtocol {
 
         Reduce { state, action in
             switch action {
+
+            case .alertDidDismiss:
+                if state.alert == initializationAlert {
+                    fatalError()
+                }
+                state.alert = nil
+                return .none
 
             case .settings(.didSelectSortOption):
                 let drills = state.drillList.drillItems.map { $0.drill }.sorted {
@@ -94,27 +101,11 @@ struct Main: ReducerProtocol {
                     }.animation()
 
                 case .failure(.saving):
-                    state.alert = AlertState {
-                        TextState("Something went wrong!")
-                    } actions: {
-                        ButtonState(role: .cancel) {
-                            TextState("OK")
-                        }
-                    } message: {
-                        TextState("Latest changes will not be saved.")
-                    }
+                    state.alert = savingAlert
                     return .none
 
                 case .failure(.initialization):
-                    state.alert = AlertState {
-                        TextState("Something went terribly wrong!")
-                    } actions: {
-                        ButtonState(role: .cancel) {
-                            TextState("OK")
-                        }
-                    } message: {
-                        TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
-                    }
+                    state.alert = initializationAlert
                     return .none
 
                 case .failure:
@@ -146,25 +137,9 @@ struct Main: ReducerProtocol {
                 case .failure(let error):
                     switch error {
                     case PersistenceResponse.Failure.initialization:
-                        state.alert = AlertState {
-                            TextState("Something went terribly wrong!")
-                        } actions: {
-                            ButtonState(role: .cancel) {
-                                TextState("OK")
-                            }
-                        } message: {
-                            TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
-                        }
+                        state.alert = initializationAlert
                     case PersistenceResponse.Failure.loading:
-                        state.alert = AlertState {
-                            TextState("Something went terribly wrong!")
-                        } actions: {
-                            ButtonState(role: .cancel) {
-                                TextState("OK")
-                            }
-                        } message: {
-                            TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
-                        }
+                        state.alert = loadingAlert
                     default:
                         return .none
                     }
@@ -177,10 +152,6 @@ struct Main: ReducerProtocol {
                         TaskResult { try await persistenceClient.loadDrills() }
                     )
                 }
-
-            case .alertDismissed:
-                state.alert = nil
-                return .none
 
             case .connectivityClient(let result):
                 guard let drill = state.selectedDrill else { return .none }
@@ -243,35 +214,19 @@ struct Main: ReducerProtocol {
             case .connectivityClientReceived(let response):
                 state.isShowingLoadingIndicator = false
 
-                if response == .success {
+                switch response {
+                case .success:
                     state.isNavigationToSessionActive = true
+
+                case .failure(.notReachable):
+                    state.selectedDrill = nil
+                    state.alert = notReachableAlert
+
+                case .failure(.notReady):
+                    state.selectedDrill = nil
+                    state.alert = notReadyAlert
                 }
 
-                if response == .failure(.notReachable) {
-                    state.selectedDrill = nil
-                    state.alert = AlertState {
-                        TextState("Watch app is not reachable!")
-                    } actions: {
-                        ButtonState(role: .cancel) {
-                            TextState("OK")
-                        }
-                    } message: {
-                        TextState("Make sure BilliardsTracker Watch app is installed and running.")
-                    }
-                }
-
-                if response == .failure(.notReady) {
-                    state.selectedDrill = nil
-                    state.alert = AlertState {
-                        TextState("Watch app is not in Tracked mode!")
-                    } actions: {
-                        ButtonState(role: .cancel) {
-                            TextState("OK")
-                        }
-                    } message: {
-                        TextState("Make sure Tracked mode is selected in Watch app.")
-                    }
-                }
                 return .none
 
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
@@ -328,4 +283,70 @@ struct Main: ReducerProtocol {
         }
 
     }
+}
+
+// MARK: - Alerts
+
+private extension Main {
+
+    var initializationAlert: AlertState<Main.Action> {
+        AlertState {
+            TextState("Something went terribly wrong!")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("OK")
+            }
+        } message: {
+            TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
+        }
+    }
+
+    var loadingAlert: AlertState<Main.Action> {
+        AlertState {
+            TextState("Something went wrong!")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("OK")
+            }
+        } message: {
+            TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
+        }
+    }
+
+    var notReachableAlert: AlertState<Main.Action> {
+        AlertState {
+            TextState("Watch app is not reachable!")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("OK")
+            }
+        } message: {
+            TextState("Make sure BilliardsTracker Watch app is installed and running.")
+        }
+    }
+
+    var notReadyAlert: AlertState<Main.Action> {
+        AlertState {
+            TextState("Watch app is not in Tracked mode!")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("OK")
+            }
+        } message: {
+            TextState("Make sure Tracked mode is selected in Watch app.")
+        }
+    }
+
+    var savingAlert: AlertState<Main.Action> {
+        AlertState {
+            TextState("Something went wrong!")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("OK")
+            }
+        } message: {
+            TextState("Latest changes will not be saved.")
+        }
+    }
+
 }
