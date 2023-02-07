@@ -72,7 +72,29 @@ struct DrillItemView: View {
     }
 }
 
+// MARK: - Constants
+
 private extension DrillItemView {
     static let cornerRadius: CGFloat = 10
     static let iconsSpacing: CGFloat = 4
+}
+
+// MARK: - Previews
+
+struct DrillItemView_Previews: PreviewProvider {
+    static let store = Store(
+        initialState: DrillItem.State(drill: PersistenceClient.previewData.first!),
+        reducer: DrillItem()
+    )
+
+    static var previews: some View {
+        ZStack {
+            Color.green
+                .ignoresSafeArea()
+
+            DrillItemView(store: store)
+                .padding(.horizontal)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
 }

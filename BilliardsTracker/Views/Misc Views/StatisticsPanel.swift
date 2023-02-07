@@ -96,48 +96,18 @@ private struct StatisticLabel: View {
     }
 }
 
+// MARK: - Constants
+
 private extension CGFloat {
     static var labelVerticalSpacing: CGFloat {
         8
     }
 }
 
-// swiftlint:disable force_try
+// MARK: - Previews
+
 struct StatisticsPanel_Previews: PreviewProvider {
-    static var store = try! DrillStore(inMemory: true, isPreview: true)
-    static var drill = store.loadDrills().first { !$0.isFailable }!
-
-    static var view: some View {
-        ZStack {
-            Color.primaryBackground
-
-            StatisticsPanel(statistics: StatisticsManager(drill: drill))
-        }
-        .fixedSize(horizontal: false, vertical: true)
-    }
-
     static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
+        StatisticsPanel(statistics: StatisticsManager(drill: PersistenceClient.previewData.first!))
     }
 }
-
-struct StatisticsPanelFailableDrill_Previews: PreviewProvider {
-    static var store = try! DrillStore(inMemory: true, isPreview: true)
-    static var drill = store.loadDrills().first { $0.isFailable }!
-
-    static var view: some View {
-        ZStack {
-            Color.primaryBackground
-
-            StatisticsPanel(statistics: StatisticsManager(drill: drill))
-        }
-        .fixedSize(horizontal: false, vertical: true)
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
-    }
-}
-// swiftlint:enable force_try

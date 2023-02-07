@@ -140,13 +140,12 @@ private struct ChartLabel: View {
     }
 }
 
-// swiftlint:disable force_try
-struct ChartView_Previews: PreviewProvider {
-    static var store = try! DrillStore(inMemory: true, isPreview: true)
-    static var drill = store.loadDrills().first!
-    static var statistics = StatisticsManager(drill: drill)
+// MARK: - Previews
 
-    static var view: some View {
+struct ChartView_Previews: PreviewProvider {
+    static let statistics = StatisticsManager(drill: PersistenceClient.previewData.first!)
+
+    static var previews: some View {
         ZStack {
             Color.primaryBackground
                 .ignoresSafeArea()
@@ -156,10 +155,4 @@ struct ChartView_Previews: PreviewProvider {
                 .padding()
         }
     }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
-    }
 }
-// swiftlint:enable force_try

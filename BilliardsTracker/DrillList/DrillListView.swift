@@ -28,6 +28,26 @@ struct DrillListView: View {
     }
 }
 
+// MARK: - Constants
+
 private extension DrillListView {
     static let verticalSpacing: CGFloat = 16
+}
+
+// MARK: - Previews
+
+struct DrillListView_Previews: PreviewProvider {
+    static let store = Store(
+        initialState: DrillList.State(drills: PersistenceClient.previewData),
+        reducer: DrillList()
+    )
+
+    static var previews: some View {
+        ZStack {
+            Color.green
+                .ignoresSafeArea()
+
+            DrillListView(store: store)
+        }
+    }
 }

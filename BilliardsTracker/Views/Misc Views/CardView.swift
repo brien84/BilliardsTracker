@@ -124,8 +124,11 @@ private struct CornerRadiusStyle: ViewModifier {
         var corners = UIRectCorner.allCorners
 
         func path(in rect: CGRect) -> Path {
-            let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners,
-                                    cornerRadii: CGSize(width: radius, height: radius))
+            let path = UIBezierPath(
+                roundedRect: rect,
+                byRoundingCorners: corners,
+                cornerRadii: CGSize(width: radius, height: radius)
+            )
             return Path(path.cgPath)
         }
     }
@@ -136,8 +139,10 @@ private struct CornerRadiusStyle: ViewModifier {
     }
 }
 
+// MARK: - Previews
+
 struct CardView_Previews: PreviewProvider {
-    static var view: some View {
+    static var previews: some View {
         ZStack {
             Color.gray
                 .ignoresSafeArea()
@@ -150,10 +155,5 @@ struct CardView_Previews: PreviewProvider {
             .setTitle("Preview")
             .aspectRatio(0.8, contentMode: .fit)
         }
-    }
-
-    static var previews: some View {
-        view.preferredColorScheme(.light)
-        view.preferredColorScheme(.dark)
     }
 }

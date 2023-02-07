@@ -11,12 +11,12 @@ struct ResultsView: View {
     let results: [DrillResult]
 
     var body: some View {
-        ScrollView {
-            ForEach(results) { result in
-                ZStack {
-                    Color.secondaryBackground
+        ZStack {
+            Color.secondaryBackground
 
-                    VStack {
+            ScrollView {
+                LazyVStack {
+                    ForEach(results) { result in
                         Text("\(result.date.asString)")
                             .font(.caption)
                             .foregroundColor(.secondaryElement)
@@ -24,26 +24,34 @@ struct ResultsView: View {
 
                         HStack {
                             Text("\(result.potCount)")
-                                .frame(maxWidth: .infinity)
-                                .font(.title)
+                                .font(.title.weight(.medium))
                                 .foregroundColor(.customGreen)
+                                .frame(maxWidth: .infinity)
 
                             Text("\(result.pottingPercentage)%")
-                                .frame(maxWidth: .infinity)
                                 .font(.title3)
                                 .foregroundColor(.secondaryElement)
+                                .frame(maxWidth: .infinity)
 
                             Text("\(result.missCount)")
-                                .frame(maxWidth: .infinity)
-                                .font(Font.title)
+                                .font(.title.weight(.medium))
                                 .foregroundColor(.customRed)
+                                .frame(maxWidth: .infinity)
                         }
                         .padding()
+
+                        Divider()
                     }
                 }
-
-                Divider()
             }
         }
+    }
+}
+
+// MARK: - Previews
+
+struct ResultsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ResultsView(results: PersistenceClient.previewData.first!.results)
     }
 }

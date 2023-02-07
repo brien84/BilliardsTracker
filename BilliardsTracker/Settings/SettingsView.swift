@@ -36,20 +36,16 @@ struct SettingsView: View {
 // MARK: - Previews
 
 struct SettingsView_Previews: PreviewProvider {
-    static let userDefaults: UserDefaults = {
-        let userDefaults = UserDefaults(suiteName: #file)
-        userDefaults!.removePersistentDomain(forName: #file)
-        return userDefaults!
-    }()
+    static let store = Store(
+        initialState: Settings.State(),
+        reducer: Settings()
+    )
 
     static var previews: some View {
         NavigationView {
             Color.primaryBackground
                 .toolbar {
-                    SettingsView(store: Store(
-                        initialState: Settings.State(userDefaults: userDefaults),
-                        reducer: Settings()
-                    ))
+                    SettingsView(store: store)
                 }
         }
     }

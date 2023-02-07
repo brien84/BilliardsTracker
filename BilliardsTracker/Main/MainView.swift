@@ -120,12 +120,6 @@ private struct LoadingView: View {
     }
 }
 
-private extension LoadingView {
-    static let backgroundOpacity: CGFloat = 0.5
-    static let cornerRadius: CGFloat = 10
-    static let lineWidth: CGFloat = 1
-}
-
 private struct CreateDrillBackgroundButton: View {
     let store: StoreOf<Main>
 
@@ -173,9 +167,17 @@ private struct CreateDrillNavigationBarButton: View {
     }
 }
 
+// MARK: - Constants
+
 private extension CreateDrillBackgroundButton {
     static let imageScale: CGFloat = 2.0
     static let textPadding: CGFloat = 32
+}
+
+private extension LoadingView {
+    static let backgroundOpacity: CGFloat = 0.5
+    static let cornerRadius: CGFloat = 10
+    static let lineWidth: CGFloat = 1
 }
 
 // MARK: - Previews

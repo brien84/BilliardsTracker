@@ -120,6 +120,8 @@ struct StatisticsView: View {
     }
 }
 
+// MARK: - Constants
+
 private extension CGFloat {
     static var navigationBarItemWidth: CGFloat {
         30
@@ -144,48 +146,15 @@ private extension CGSize {
     }
 }
 
-// struct StatisticsView_Previews: PreviewProvider {
-//     static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
-//     static var drill = store.drills.first!
-//
-//     static var view: some View {
-//         NavigationView {
-//             NavigationLink(
-//                 destination: StatisticsView(drill: drill).environmentObject(store),
-//                 isActive: .constant(true),
-//                 label: { Text("Preview") }
-//             )
-//         }
-//     }
-//
-//     static var previews: some View {
-//         view.preferredColorScheme(.light)
-//         view.preferredColorScheme(.dark)
-//     }
-// }
-//
-// struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
-//     static var drillStore = try! DrillStore(inMemory: true, isPreview: false)
-//
-//     static var drill: Drill = {
-//         drillStore.createDrill(title: "EmptyDrill", attempts: 10, isFailable: false)
-//         return store.drills.first!
-//     }()
-//
-//     static var store = StoreManager(store: drillStore)
-//
-//     static var view: some View {
-//         NavigationView {
-//             NavigationLink(
-//                 destination: StatisticsView(drill: drill).environmentObject(store),
-//                 isActive: .constant(true),
-//                 label: { Text("Preview") }
-//             )
-//         }
-//     }
-//
-//     static var previews: some View {
-//         view.preferredColorScheme(.light)
-//         view.preferredColorScheme(.dark)
-//     }
-// }
+// MARK: - Previews
+
+struct StatisticsView_Previews: PreviewProvider {
+    static let store = Store(
+        initialState: Statistics.State(drill: PersistenceClient.previewData.first!),
+        reducer: Statistics()
+    )
+
+    static var previews: some View {
+        StatisticsView(store: store)
+    }
+}

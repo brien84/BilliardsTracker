@@ -109,11 +109,6 @@ struct CreateDrillView: View {
     }
 }
 
-private extension CreateDrillView {
-    static let spacing: CGFloat = 16
-    static let failableHelpViewCornerRadius: CGFloat = 25
-}
-
 private struct TitleTextField: View {
     @Binding var title: String
 
@@ -131,20 +126,22 @@ private struct TitleTextField: View {
     }
 }
 
+// MARK: - Constants
+
+private extension CreateDrillView {
+    static let spacing: CGFloat = 16
+    static let failableHelpViewCornerRadius: CGFloat = 25
+}
+
 private extension TitleTextField {
     static let cornerRadius: CGFloat = 8
     static let innerPadding: CGFloat = 12
 }
 
-// swiftlint:disable force_try
-struct CreateDrillView_Previews: PreviewProvider {
-    static var store = StoreManager(store: try! DrillStore(inMemory: true, isPreview: true))
+// MARK: - Previews
 
+struct CreateDrillView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateDrillView(
-            store: Store(initialState: CreateDrill.State(), reducer: CreateDrill())
-        )
-        .environmentObject(store)
+        CreateDrillView(store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()))
     }
 }
-// swiftlint:enable force_try
