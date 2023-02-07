@@ -45,6 +45,15 @@ extension ConnectivityClient: DependencyKey {
             unimplemented("\(Self.self).sendDrillContext")
         }
     )
+
+    static let previewValue = Self(
+        begin: {
+            AsyncStream.finished
+        },
+        sendDrillContext: { _ in
+            ConnectivityResponse.success
+        }
+    )
 }
 
 extension DependencyValues {
