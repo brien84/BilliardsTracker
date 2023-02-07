@@ -29,6 +29,7 @@ struct PersistenceClient {
 extension PersistenceClient: DependencyKey {
     static var liveValue: Self {
         let store = PersistentStore()
+
         return Self(
             createDrill: { drill in
                 await store.create(drill: drill)
@@ -59,6 +60,25 @@ extension PersistenceClient: DependencyKey {
             unimplemented("\(Self.self).loadDrills")
         }
     )
+
+    static var previewValue: Self {
+        let store = PersistentStore(inMemory: true)
+
+        return Self(
+            createDrill: { drill in
+                await store.create(drill: drill)
+            },
+            deleteDrill: { drill in
+                await store.delete(drill: drill)
+            },
+            insertResult: { context, drill in
+                await store.insertResult(context: context, to: drill)
+            },
+            loadDrills: {
+                try await store.load()
+            }
+        )
+    }
 }
 
 extension DependencyValues {
@@ -68,10 +88,39 @@ extension DependencyValues {
     }
 }
 
+extension PersistenceClient {
+    static var previewData: [Drill] = {
+        let store = PersistentStore(inMemory: true)
+
+        var drills = [Drill]()
+
+        for i in 1..<4 {
+            let drill = Drill(entity: Drill().entity, insertInto: nil)
+            drill.title = "Preview Drill \(i)"
+            drill.attempts = i * 10
+            drill.isFailable = i % 2 == 0
+            drills.append(drill)
+        }
+
+        drills.forEach { drill in
+            for i in 1..<Int.random(in: 5...10) {
+                let result = DrillResult(entity: DrillResult.entity(), insertInto: nil)
+                result.potCount = Int.random(in: 0...drill.attempts)
+                result.missCount = drill.attempts - result.potCount
+                result.date = Date(timeIntervalSinceNow: 3600)
+                result.drill = drill
+                drill.addToResultsValue(result)
+            }
+        }
+
+        return drills
+    }()
+}
+
 private actor PersistentStore {
     private var persistentContainer: NSPersistentContainer?
 
-    init() {
+    init(inMemory: Bool = false) {
         let name = "BilliardsTrackerModel"
 
         guard
@@ -82,6 +131,10 @@ private actor PersistentStore {
         }
 
         self.persistentContainer = NSPersistentContainer(name: name, managedObjectModel: model)
+
+        if inMemory {
+            persistentContainer?.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+        }
 
         var loadingError: Error?
 
