@@ -143,14 +143,12 @@ private struct ChartLabel: View {
 // MARK: - Previews
 
 struct ChartView_Previews: PreviewProvider {
-    static let statistics = StatisticsManager(drill: PersistenceClient.previewData.first!)
-
     static var previews: some View {
         ZStack {
             Color.primaryBackground
                 .ignoresSafeArea()
 
-            ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
+            ChartView(dataPoints: [0, 0.5, 0.3, 1, 0.75, 0.66], maxValue: 100)
                 .aspectRatio(1, contentMode: .fit)
                 .padding()
         }
