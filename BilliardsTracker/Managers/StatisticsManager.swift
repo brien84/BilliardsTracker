@@ -7,39 +7,36 @@
 
 import SwiftUI
 
-final class StatisticsManager: ObservableObject {
+struct StatisticsManager {
     let drill: Drill
-    private var afterDate: Date?
+    let results: [DrillResult]
 
-    init(drill: Drill, afterDate: Date? = nil) {
+    init(drill: Drill, startDate: Date? = nil) {
         self.drill = drill
-        self.afterDate = afterDate
-    }
 
-    var results: [DrillResult] {
-        if let afterDate = afterDate {
-            return drill.results.filter { $0.date > afterDate }
+        if let startDate {
+            self.results = drill.results.filter { $0.date > startDate }
         } else {
-            return drill.results
+            self.results = drill.results
         }
     }
 
-    var attemptsCount: Int {
+    var totalAttemptsCount: Int {
         results.reduce(0, { $0 + $1.potCount + $1.missCount })
     }
 
-    var potCount: Int {
+    var totalPotCount: Int {
         results.reduce(0, { $0 + $1.potCount })
     }
 
-    var missCount: Int {
+    var totalMissCount: Int {
         results.reduce(0, { $0 + $1.missCount })
     }
 
     var averagePots: Double {
         guard results.count > 0 else { return 0 }
 
-        let result = Double(potCount) / Double(results.count)
+        let result = Double(totalPotCount) / Double(results.count)
 
         return floor(result * 10) / 10.0
     }
@@ -50,17 +47,14 @@ final class StatisticsManager: ObservableObject {
         return results.reduce(0, { $0 + $1.pottingPercentage }) / results.count
     }
 
-    var failableCompletedCount: Int {
-        guard drill.isFailable else { return 0 }
-
-        return results.filter { $0.missCount == 0 }.count
+    var completionCount: Int {
+        results.filter { $0.missCount == 0 }.count
     }
 
-    var failableCompletionPercentage: Int {
-        guard drill.isFailable else { return 0 }
+    var completionPercentage: Int {
         guard results.count > 0 else { return 0 }
 
-        return failableCompletedCount * 100 / results.count
+        return completionCount * 100 / results.count
     }
 
     var chartDataPoints: [CGFloat] {
@@ -79,6 +73,6 @@ final class StatisticsManager: ObservableObject {
 
 extension StatisticsManager: Equatable {
     static func == (lhs: StatisticsManager, rhs: StatisticsManager) -> Bool {
-        lhs.drill == rhs.drill && lhs.afterDate == rhs.afterDate
+        lhs.results == rhs.results
     }
 }

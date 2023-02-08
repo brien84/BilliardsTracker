@@ -13,15 +13,11 @@ struct StatisticsView: View {
 
     @Environment(\.presentationMode) var presentationMode
 
-    private let statistics: StatisticsManager
-
     @State private var isShowingHistory = false
     @State private var showDeleteAlert = false
 
     init(store: StoreOf<Statistics>) {
         self.store = store
-        let drill = ViewStore(store).drill
-        self.statistics = StatisticsManager(drill: drill)
     }
 
     var body: some View {
@@ -31,28 +27,26 @@ struct StatisticsView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: .zero) {
-                    StatisticsPanel(statistics: statistics)
+                    StatisticsPanel(statistics: viewStore.statistics)
 
                     CardView {
                         if isShowingHistory {
-                            if statistics.results.count < 1 {
+                            if viewStore.statistics.results.count < 1 {
                                 NotEnoughDataLabel()
                             } else {
-                                ResultsView(results: statistics.results)
-                                    .accessibility(identifier: "statisticsView_resultsView")
+                                ResultsView(results: viewStore.statistics.results)
                             }
                         } else {
-                            if statistics.results.count < 2 {
+                            if viewStore.statistics.results.count < 2 {
                                 NotEnoughDataLabel()
                             } else {
-                                ChartView(dataPoints: statistics.chartDataPoints, maxValue: statistics.drill.attempts)
+                                ChartView(dataPoints: viewStore.statistics.chartDataPoints, maxValue: viewStore.drill.attempts)
                                     .padding()
-                                    .accessibility(identifier: "statisticsView_chartView")
                             }
                         }
                     }
                     .setTitle(isShowingHistory ? "History" : "Performance")
-                    .setInfo(isShowingHistory ? nil : statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
+                    .setInfo(isShowingHistory ? nil : viewStore.statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
                     .id(UUID())
                     .transition(
                         .asymmetric(
@@ -79,12 +73,12 @@ struct StatisticsView: View {
                         .frame(width: Self.toolbarItemWidth)
 
                     toggleViewButton
-                        .foregroundColor(statistics.results.isEmpty ? .secondaryElement : .primaryElement)
-                        .disabled(statistics.results.isEmpty)
+                        .foregroundColor(viewStore.statistics.results.isEmpty ? .secondaryElement : .primaryElement)
+                        .disabled(viewStore.statistics.results.isEmpty)
                         .frame(width: Self.toolbarItemWidth)
                 }
             }
-            .navigationTitle(statistics.drill.title)
+            .navigationTitle(viewStore.drill.title)
         }
     }
 

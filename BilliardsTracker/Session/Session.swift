@@ -10,14 +10,14 @@ import Foundation
 
 struct Session: ReducerProtocol {
     struct State: Equatable {
-        var drill: Drill
-        var results: [DrillResult]
-        var statistics: StatisticsManager
+        let drill: Drill
+        let startDate: Date
+        let statistics: StatisticsManager
 
         init(drill: Drill, startDate: Date) {
             self.drill = drill
-            self.results = drill.results
-            self.statistics = StatisticsManager(drill: drill, afterDate: startDate)
+            self.startDate = startDate
+            self.statistics = StatisticsManager(drill: drill, startDate: startDate)
         }
     }
 

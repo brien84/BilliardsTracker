@@ -10,6 +10,12 @@ import ComposableArchitecture
 struct Statistics: ReducerProtocol {
     struct State: Equatable {
         let drill: Drill
+        let statistics: StatisticsManager
+
+        init(drill: Drill) {
+            self.drill = drill
+            self.statistics = StatisticsManager(drill: drill)
+        }
     }
 
     enum Action: Equatable {

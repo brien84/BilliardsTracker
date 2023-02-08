@@ -33,7 +33,7 @@ struct SessionView: View {
                     .padding()
 
                     StatisticsPanel(statistics: viewStore.statistics)
-                        .id(viewStore.statistics.results.count)
+                        .transition(.identity)
 
                     CardView {
                         if viewStore.statistics.results.isEmpty {

@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct StatisticsPanel: View {
-    private let statistics: StatisticsManager
-
-    init(statistics: StatisticsManager) {
-        self.statistics = statistics
-    }
+    let statistics: StatisticsManager
 
     var body: some View {
         VStack(spacing: .zero) {
@@ -21,22 +17,22 @@ struct StatisticsPanel: View {
 
             HStack {
                 if statistics.drill.isFailable {
-                    StatisticLabel(title: "Completed", value: "\(statistics.failableCompletedCount)")
+                    StatisticLabel(title: "Completed", value: "\(statistics.completionCount)")
                         .titleColor(.customGreen)
 
-                    StatisticLabel(title: "Completion", value: "\(statistics.failableCompletionPercentage)%")
-                        .titleColor(statistics.failableCompletionPercentage > 50 ? .customGreen : .customRed)
+                    StatisticLabel(title: "Completion", value: "\(statistics.completionPercentage)%")
+                        .titleColor(statistics.completionPercentage > 50 ? .customGreen : .customRed)
 
                     StatisticLabel(title: "Average Pots", value: "\(statistics.averagePots)")
                         .titleColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
                 } else {
-                    StatisticLabel(title: "Pots", value: "\(statistics.potCount)")
+                    StatisticLabel(title: "Pots", value: "\(statistics.totalPotCount)")
                         .titleColor(.customGreen)
 
                     StatisticLabel(title: "Potting", value: "\(statistics.pottingPercentage)%")
                         .titleColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
 
-                    StatisticLabel(title: "Misses", value: "\(statistics.missCount)")
+                    StatisticLabel(title: "Misses", value: "\(statistics.totalMissCount)")
                         .titleColor(.customRed)
                 }
             }
@@ -54,10 +50,10 @@ struct StatisticsPanel: View {
 
             Spacer()
 
-            if statistics.attemptsCount == 1 {
+            if statistics.totalAttemptsCount == 1 {
                 Text("1 shot")
             } else {
-                Text("\(statistics.attemptsCount) shots")
+                Text("\(statistics.totalAttemptsCount) shots")
             }
         }
         .frame(maxWidth: .infinity)

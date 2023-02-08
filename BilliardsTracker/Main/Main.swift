@@ -27,7 +27,6 @@ struct Main: ReducerProtocol {
         var isNavigationToSessionActive = false
 
         var selectedDrill: Drill?
-        var startDate = Date()
 
         var isShowingLoadingIndicator = false
     }
@@ -129,7 +128,7 @@ struct Main: ReducerProtocol {
                     state.drillList = DrillList.State(drills: drills)
 
                     if let drill = state.selectedDrill {
-                        state.session = Session.State(drill: drill, startDate: state.startDate)
+                        state.session = Session.State(drill: drill, startDate: state.session?.startDate ?? Date())
                     }
 
                     return .none
@@ -232,9 +231,8 @@ struct Main: ReducerProtocol {
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.isShowingLoadingIndicator = true
-                    state.startDate = Date()
                     state.selectedDrill = drill
-                    state.session = Session.State(drill: drill, startDate: state.startDate)
+                    state.session = Session.State(drill: drill, startDate: Date())
                     let context = DrillContext(
                         title: drill.title,
                         attempts: drill.attempts,
