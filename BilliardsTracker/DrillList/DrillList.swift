@@ -8,7 +8,7 @@
 import ComposableArchitecture
 
 struct DrillList: ReducerProtocol {
-    
+
     struct State: Equatable {
         var drillItems: IdentifiedArrayOf<DrillItem.State>
 

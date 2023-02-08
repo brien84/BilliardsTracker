@@ -238,13 +238,13 @@
 				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
 				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
 				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
+				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
 				29A0789F297EFBEC00A5012A /* CreateDrill */,
 				29A078AA2980194400A5012A /* DrillList */,
 				29A078A2297F0C5B00A5012A /* Main */,
 				29C554AB298E7D080045DFCB /* Settings */,
 				29A07897297C22EB00A5012A /* Session */,
 				29A078A7298015D100A5012A /* Statistics */,
-				29558FCE2642F78C006BA300 /* Managers */,
 				294AD366261F74C40086E808 /* Models */,
 				29642E3D262CD7BB00A967D6 /* Views */,
 				29558FD426432F26006BA300 /* Supporting Files */,
@@ -318,14 +318,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		29558FCE2642F78C006BA300 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		29558FD426432F26006BA300 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,22 +329,14 @@
 		29642E3D262CD7BB00A967D6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
-				2967D8762694DB240031C3A7 /* Misc Views */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		2967D8762694DB240031C3A7 /* Misc Views */ = {
-			isa = PBXGroup;
-			children = (
 				292E6F61266BFD1B0078C033 /* CardView.swift */,
 				2994521B26407CAD0051F4A7 /* ChartView.swift */,
 				29C554B4299296860045DFCB /* ExitButtonView.swift */,
+				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */,
 				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
 			);
-			path = "Misc Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		2967D87C2694DBDD0031C3A7 /* Misc Views */ = {
