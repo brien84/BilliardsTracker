@@ -48,10 +48,19 @@ extension ConnectivityClient: DependencyKey {
 
     static let previewValue = Self(
         receiveResults: {
-            AsyncStream.finished
+            AsyncStream<ResultContext> {
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+                let randomInt = Int.random(in: 0...9)
+                return ResultContext(
+                    potCount: randomInt,
+                    missCount: 9 - randomInt,
+                    date: Date(timeIntervalSinceNow: 3600)
+                )
+            }
         },
         sendDrillContext: { _ in
-            ConnectivityResponse.success
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            return ConnectivityResponse.success
         }
     )
 }
