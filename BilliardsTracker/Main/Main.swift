@@ -10,14 +10,13 @@ import SwiftUI
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
-        var alert: AlertState<Action>?
-
         var createDrill: CreateDrill.State?
         var drillList = DrillList.State()
-        var statistics: Statistics.State?
         var session: Session.State?
-
         var settings = Settings.State()
+        var statistics: Statistics.State?
+
+        var alert: AlertState<Action>?
 
         var isNavigationToStatisticsActive: Bool {
             statistics != nil
@@ -32,23 +31,21 @@ struct Main: ReducerProtocol {
     }
 
     enum Action: Equatable {
-        case alertDidDismiss
-
         case createDrill(CreateDrill.Action)
         case drillList(DrillList.Action)
-        case statistics(Statistics.Action)
         case session(Session.Action)
-
         case settings(Settings.Action)
+        case statistics(Statistics.Action)
+
+        case alertDidDismiss
 
         case setNavigationToStatistics(isActive: Bool)
         case setNavigationToCreateDrill(isActive: Bool)
         case setNavigationToSession(isActive: Bool)
 
-        case onAppear
-
-        case connectivityClient(ResultContext)
-        case connectivityClientReceived(ConnectivityResponse)
+        case beginReceivingResults
+        case connectivityClientDidReceiveResult(ResultContext)
+        case connectivityClientDidReceiveResponse(ConnectivityResponse)
 
         case loadDrills
         case persistenceClientDidLoad(TaskResult<[Drill]>)
@@ -67,12 +64,58 @@ struct Main: ReducerProtocol {
         Reduce { state, action in
             switch action {
 
-            case .alertDidDismiss:
-                if state.alert == initializationAlert {
-                    fatalError()
-                }
-                state.alert = nil
+            case .createDrill(.cancelButtonDidTap):
+                state.isNavigationToCreateDrillActive = false
                 return .none
+
+            case .createDrill(.saveButtonDidTap):
+                state.isNavigationToCreateDrillActive = false
+                let drill = Drill(entity: Drill.entity(), insertInto: nil)
+                drill.title = state.createDrill?.title ?? "Drill Title"
+                drill.title = drill.title.isEmpty ? "Drill Title" : drill.title
+                drill.attempts = Int(state.createDrill?.attempts ?? 69)
+                drill.isFailable = state.createDrill?.isFailable ?? false
+                return .task {
+                    .persistenceClient(await persistenceClient.createDrill(drill))
+                }
+
+            case .createDrill:
+                return .none
+
+            case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
+                if let drill = state.drillList.drillItems[id: id]?.drill {
+                    state.isShowingLoadingIndicator = true
+                    state.selectedDrill = drill
+                    state.session = Session.State(drill: drill, startDate: Date())
+                    let context = DrillContext(
+                        title: drill.title,
+                        attempts: drill.attempts,
+                        isFailable: drill.isFailable,
+                        isActive: true
+                    )
+                    return .task {
+                        .connectivityClientDidReceiveResponse(
+                            await connectivityClient.sendDrillContext(context)
+                        )
+                    }
+                } else {
+                    return .none
+                }
+
+            case .drillList(.drillItem(id: let id, action: .didTapStatisticsButton)):
+                if let drill = state.drillList.drillItems[id: id]?.drill {
+                    state.statistics = Statistics.State(drill: drill)
+                }
+
+                return .none
+
+            case .session(.didTapExitButton):
+                state.isNavigationToSessionActive = false
+                state.selectedDrill = nil
+                return .fireAndForget {
+                    let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
+                    _ = await connectivityClient.sendDrillContext(context)
+                }
 
             case .settings(.didSelectSortOption):
                 let drills = state.drillList.drillItems.map { $0.drill }.sorted {
@@ -88,6 +131,50 @@ struct Main: ReducerProtocol {
 
                 state.drillList = DrillList.State(drills: drills)
 
+                return .none
+
+            case .statistics(.didTapDeleteButton):
+                guard let drill = state.statistics?.drill else { return .none }
+                return .task {
+                    .persistenceClient(await persistenceClient.deleteDrill(drill))
+                }
+
+            case .beginReceivingResults:
+                return .run { send in
+                    for await result in await connectivityClient.receiveResults() {
+                        await send(.connectivityClientDidReceiveResult(result))
+                    }
+                }
+
+            case .connectivityClientDidReceiveResponse(let response):
+                state.isShowingLoadingIndicator = false
+
+                switch response {
+                case .success:
+                    state.isNavigationToSessionActive = true
+
+                case .failure(.notReachable):
+                    state.selectedDrill = nil
+                    state.alert = notReachableAlert
+
+                case .failure(.notReady):
+                    state.selectedDrill = nil
+                    state.alert = notReadyAlert
+                }
+
+                return .none
+
+            case .connectivityClientDidReceiveResult(let result):
+                guard let drill = state.selectedDrill else { return .none }
+                return .task {
+                    .persistenceClient(await persistenceClient.insertResult(result, drill))
+                }
+
+            case .alertDidDismiss:
+                if state.alert == initializationAlert {
+                    fatalError()
+                }
+                state.alert = nil
                 return .none
 
             case .persistenceClient(let response):
@@ -152,21 +239,6 @@ struct Main: ReducerProtocol {
                     )
                 }
 
-            case .connectivityClient(let result):
-                guard let drill = state.selectedDrill else { return .none }
-                return .task {
-                    .persistenceClient(await persistenceClient.insertResult(result, drill))
-                }
-
-            case .onAppear:
-                return .run { send in
-                    for await result in await connectivityClient.begin() {
-                        await send(
-                            .connectivityClient(result)
-                        )
-                    }
-                }
-
             case .setNavigationToCreateDrill(isActive: let isActive):
                 if isActive {
                     state.isNavigationToCreateDrillActive = true
@@ -177,83 +249,8 @@ struct Main: ReducerProtocol {
 
                 return .none
 
-            case .createDrill(.cancelButtonDidTap):
-                state.isNavigationToCreateDrillActive = false
-                return .none
-
-            case .createDrill(.saveButtonDidTap):
-                state.isNavigationToCreateDrillActive = false
-                let drill = Drill(entity: Drill.entity(), insertInto: nil)
-                drill.title = state.createDrill?.title ?? "Drill Title"
-                drill.title = drill.title.isEmpty ? "Drill Title" : drill.title
-                drill.attempts = Int(state.createDrill?.attempts ?? 69)
-                drill.isFailable = state.createDrill?.isFailable ?? false
-                return .task {
-                    .persistenceClient(await persistenceClient.createDrill(drill))
-                }
-
-            case .createDrill:
-                return .none
-
             case .setNavigationToSession(isActive: let isActive):
                 state.isNavigationToSessionActive = isActive
-                return .none
-
-            case .session(.didTapExitButton):
-                state.isNavigationToSessionActive = false
-                state.selectedDrill = nil
-                return .fireAndForget {
-                    let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
-                    _ = await connectivityClient.sendDrillContext(context)
-                }
-
-            case .session:
-                return .none
-
-            case .connectivityClientReceived(let response):
-                state.isShowingLoadingIndicator = false
-
-                switch response {
-                case .success:
-                    state.isNavigationToSessionActive = true
-
-                case .failure(.notReachable):
-                    state.selectedDrill = nil
-                    state.alert = notReachableAlert
-
-                case .failure(.notReady):
-                    state.selectedDrill = nil
-                    state.alert = notReadyAlert
-                }
-
-                return .none
-
-            case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
-                if let drill = state.drillList.drillItems[id: id]?.drill {
-                    state.isShowingLoadingIndicator = true
-                    state.selectedDrill = drill
-                    state.session = Session.State(drill: drill, startDate: Date())
-                    let context = DrillContext(
-                        title: drill.title,
-                        attempts: drill.attempts,
-                        isFailable: drill.isFailable,
-                        isActive: true
-                    )
-                    return .task {
-                        .connectivityClientReceived(await connectivityClient.sendDrillContext(context))
-                    }
-                } else {
-                    return .none
-                }
-
-            case .drillList(.drillItem(id: let id, action: .didTapStatisticsButton)):
-                if let drill = state.drillList.drillItems[id: id]?.drill {
-                    state.statistics = Statistics.State(drill: drill)
-                }
-
-                return .none
-
-            case .drillList:
                 return .none
 
             case .setNavigationToStatistics(isActive: let isActive):
@@ -261,15 +258,6 @@ struct Main: ReducerProtocol {
                     state.statistics = nil
                 }
 
-                return .none
-
-            case .statistics(.didTapDeleteButton):
-                guard let drill = state.statistics?.drill else { return .none }
-                return .task {
-                    .persistenceClient(await persistenceClient.deleteDrill(drill))
-                }
-
-            case .statistics:
                 return .none
             }
         }

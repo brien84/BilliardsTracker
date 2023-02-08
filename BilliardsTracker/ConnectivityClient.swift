@@ -19,7 +19,7 @@ enum ConnectivityResponse: Equatable {
 }
 
 struct ConnectivityClient {
-    var begin: @Sendable () async -> AsyncStream<ResultContext>
+    var receiveResults: @Sendable () async -> AsyncStream<ResultContext>
     var sendDrillContext: @Sendable (DrillContext) async -> ConnectivityResponse
 }
 
@@ -28,8 +28,8 @@ extension ConnectivityClient: DependencyKey {
         let connectivity = Connectivity()
 
         return Self(
-            begin: {
-                await connectivity.begin()
+            receiveResults: {
+                await connectivity.receive()
             },
             sendDrillContext: { context in
                 await connectivity.send(context: context)
@@ -38,8 +38,8 @@ extension ConnectivityClient: DependencyKey {
     }
 
     static let testValue = Self(
-        begin: {
-            unimplemented("\(Self.self).begin")
+        receiveResults: {
+            unimplemented("\(Self.self).receiveResults")
         },
         sendDrillContext: { _ in
             unimplemented("\(Self.self).sendDrillContext")
@@ -47,7 +47,7 @@ extension ConnectivityClient: DependencyKey {
     )
 
     static let previewValue = Self(
-        begin: {
+        receiveResults: {
             AsyncStream.finished
         },
         sendDrillContext: { _ in
@@ -64,10 +64,10 @@ extension DependencyValues {
 }
 
 private actor Connectivity {
-    var delegate: Delegate?
-    var session: WCSession = WCSession.default
+    private var delegate: Delegate?
+    private var session: WCSession = WCSession.default
 
-    func begin() async -> AsyncStream<ResultContext> {
+    func receive() async -> AsyncStream<ResultContext> {
         let stream = AsyncStream { continuation in
             self.delegate = Delegate { context in
                 continuation.yield(context)
@@ -121,7 +121,6 @@ private actor Connectivity {
 }
 
 private final class Delegate: NSObject, WCSessionDelegate {
-
     let didReceiveResultContext: @Sendable (ResultContext) -> Void
 
     init(didReceiveResultContext: @escaping @Sendable (ResultContext) -> Void) {

@@ -94,7 +94,7 @@ struct MainView: View {
             )
             .onAppear {
                 viewStore.send(.loadDrills)
-                viewStore.send(.onAppear)
+                viewStore.send(.beginReceivingResults)
             }
         }
     }
