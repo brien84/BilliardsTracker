@@ -62,16 +62,16 @@ struct MainView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .sheet(
                 isPresented: viewStore.binding(
-                    get: \.isNavigationToCreateDrillActive,
-                    send: Main.Action.setNavigationToCreateDrill(isActive:)
+                    get: \.isNavigationToNewDrillActive,
+                    send: Main.Action.setNavigationToNewDrill(isActive:)
                 )
             ) {
                 IfLetStore(
                     store.scope(
-                        state: \.createDrill,
-                        action: Main.Action.createDrill
+                        state: \.newDrill,
+                        action: Main.Action.newDrill
                     ),
-                    then: CreateDrillView.init(store:)
+                    then: NewDrillView.init(store:)
                 )
             }
             .fullScreenCover(
@@ -127,7 +127,7 @@ private struct CreateDrillBackgroundButton: View {
         WithViewStore(store) { viewStore in
             Button(
                 action: {
-                    viewStore.send(.setNavigationToCreateDrill(isActive: true))
+                    viewStore.send(.setNavigationToNewDrill(isActive: true))
                 },
                 label: {
                     VStack {
@@ -155,7 +155,7 @@ private struct CreateDrillNavigationBarButton: View {
         WithViewStore(store) { viewStore in
             Button(
                 action: {
-                    viewStore.send(.setNavigationToCreateDrill(isActive: true))
+                    viewStore.send(.setNavigationToNewDrill(isActive: true))
                 },
                 label: {
                     Image(systemName: "plus")

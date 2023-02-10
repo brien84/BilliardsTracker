@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
-        var createDrill: CreateDrill.State?
+        var newDrill: NewDrill.State?
         var drillList = DrillList.State()
         var session: Session.State?
         var settings = Settings.State()
@@ -22,7 +22,7 @@ struct Main: ReducerProtocol {
             statistics != nil
         }
 
-        var isNavigationToCreateDrillActive = false
+        var isNavigationToNewDrillActive = false
         var isNavigationToSessionActive = false
 
         var selectedDrill: Drill?
@@ -31,7 +31,7 @@ struct Main: ReducerProtocol {
     }
 
     enum Action: Equatable {
-        case createDrill(CreateDrill.Action)
+        case newDrill(NewDrill.Action)
         case drillList(DrillList.Action)
         case session(Session.Action)
         case settings(Settings.Action)
@@ -40,7 +40,7 @@ struct Main: ReducerProtocol {
         case alertDidDismiss
 
         case setNavigationToStatistics(isActive: Bool)
-        case setNavigationToCreateDrill(isActive: Bool)
+        case setNavigationToNewDrill(isActive: Bool)
         case setNavigationToSession(isActive: Bool)
 
         case beginReceivingResults
@@ -64,22 +64,22 @@ struct Main: ReducerProtocol {
         Reduce { state, action in
             switch action {
 
-            case .createDrill(.cancelButtonDidTap):
-                state.isNavigationToCreateDrillActive = false
+            case .newDrill(.cancelButtonDidTap):
+                state.isNavigationToNewDrillActive = false
                 return .none
 
-            case .createDrill(.saveButtonDidTap):
-                state.isNavigationToCreateDrillActive = false
+            case .newDrill(.saveButtonDidTap):
+                state.isNavigationToNewDrillActive = false
                 let drill = Drill(entity: Drill.entity(), insertInto: nil)
-                drill.title = state.createDrill?.title ?? "Drill Title"
+                drill.title = state.newDrill?.title ?? "Drill Title"
                 drill.title = drill.title.isEmpty ? "Drill Title" : drill.title
-                drill.attempts = Int(state.createDrill?.attempts ?? 69)
-                drill.isFailable = state.createDrill?.isFailable ?? false
+                drill.attempts = Int(state.newDrill?.attempts ?? 69)
+                drill.isFailable = state.newDrill?.isFailable ?? false
                 return .task {
                     .persistenceClient(await persistenceClient.createDrill(drill))
                 }
 
-            case .createDrill:
+            case .newDrill:
                 return .none
 
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
@@ -239,12 +239,12 @@ struct Main: ReducerProtocol {
                     )
                 }
 
-            case .setNavigationToCreateDrill(isActive: let isActive):
+            case .setNavigationToNewDrill(isActive: let isActive):
                 if isActive {
-                    state.isNavigationToCreateDrillActive = true
-                    state.createDrill = CreateDrill.State()
+                    state.isNavigationToNewDrillActive = true
+                    state.newDrill = NewDrill.State()
                 } else {
-                    state.isNavigationToCreateDrillActive = false
+                    state.isNavigationToNewDrillActive = false
                 }
 
                 return .none
@@ -261,8 +261,8 @@ struct Main: ReducerProtocol {
                 return .none
             }
         }
-        .ifLet(\.createDrill, action: /Action.createDrill) {
-            CreateDrill()
+        .ifLet(\.newDrill, action: /Action.newDrill) {
+            NewDrill()
         }
         .ifLet(\.session, action: /Action.session) {
             Session()

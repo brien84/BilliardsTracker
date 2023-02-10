@@ -1,5 +1,5 @@
 //
-//  CreateDrillView.swift
+//  NewDrillView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-04-20.
@@ -8,8 +8,8 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct CreateDrillView: View {
-    let store: StoreOf<CreateDrill>
+struct NewDrillView: View {
+    let store: StoreOf<NewDrill>
 
     @State private var showInfo = false
 
@@ -128,7 +128,7 @@ private struct TitleTextField: View {
 
 // MARK: - Constants
 
-private extension CreateDrillView {
+private extension NewDrillView {
     static let spacing: CGFloat = 16
     static let failableHelpViewCornerRadius: CGFloat = 25
 }
@@ -140,8 +140,8 @@ private extension TitleTextField {
 
 // MARK: - Previews
 
-struct CreateDrillView_Previews: PreviewProvider {
+struct NewDrillView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateDrillView(store: Store(initialState: CreateDrill.State(), reducer: CreateDrill()))
+        NewDrillView(store: Store(initialState: NewDrill.State(), reducer: NewDrill()))
     }
 }

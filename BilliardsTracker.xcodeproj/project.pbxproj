@@ -41,7 +41,7 @@
 		29A07896297C117400A5012A /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29A07895297C117400A5012A /* ComposableArchitecture */; };
 		29A07899297C230000A5012A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A07898297C230000A5012A /* Session.swift */; };
 		29A0789E297C75ED00A5012A /* PassiveNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0789D297C75ED00A5012A /* PassiveNavigationLink.swift */; };
-		29A078A1297EFBFE00A5012A /* CreateDrill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A078A0297EFBFE00A5012A /* CreateDrill.swift */; };
+		29A078A1297EFBFE00A5012A /* NewDrill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A078A0297EFBFE00A5012A /* NewDrill.swift */; };
 		29A078A4297F0C6C00A5012A /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A078A3297F0C6C00A5012A /* Main.swift */; };
 		29A078A9298015E900A5012A /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A078A8298015E900A5012A /* Statistics.swift */; };
 		29A078AC2980195600A5012A /* DrillList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A078AB2980195600A5012A /* DrillList.swift */; };
@@ -51,7 +51,7 @@
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB85FB262E26AB0055A8BB /* StatisticsView.swift */; };
-		29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* CreateDrillView.swift */; };
+		29BB8603262EECE00055A8BB /* NewDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* NewDrillView.swift */; };
 		29BB860F2631F2BA0055A8BB /* StatisticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */; };
 		29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AC298E7D1B0045DFCB /* Settings.swift */; };
 		29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */; };
@@ -144,7 +144,7 @@
 		2994521B26407CAD0051F4A7 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		29A07898297C230000A5012A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		29A0789D297C75ED00A5012A /* PassiveNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassiveNavigationLink.swift; sourceTree = "<group>"; };
-		29A078A0297EFBFE00A5012A /* CreateDrill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDrill.swift; sourceTree = "<group>"; };
+		29A078A0297EFBFE00A5012A /* NewDrill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrill.swift; sourceTree = "<group>"; };
 		29A078A3297F0C6C00A5012A /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29A078A8298015E900A5012A /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		29A078AB2980195600A5012A /* DrillList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillList.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		29A64522261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BilliardsTrackerModel.xcdatamodel; sourceTree = "<group>"; };
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29BB85FB262E26AB0055A8BB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
-		29BB8602262EECE00055A8BB /* CreateDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDrillView.swift; sourceTree = "<group>"; };
+		29BB8602262EECE00055A8BB /* NewDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrillView.swift; sourceTree = "<group>"; };
 		29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsManager.swift; sourceTree = "<group>"; };
 		29C554AC298E7D1B0045DFCB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOnPressView.swift; sourceTree = "<group>"; };
@@ -239,7 +239,7 @@
 				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
 				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
 				29BB860E2631F2BA0055A8BB /* StatisticsManager.swift */,
-				29A0789F297EFBEC00A5012A /* CreateDrill */,
+				29A0789F297EFBEC00A5012A /* NewDrill */,
 				29A078AA2980194400A5012A /* DrillList */,
 				29A078A2297F0C5B00A5012A /* Main */,
 				29C554AB298E7D080045DFCB /* Settings */,
@@ -367,13 +367,13 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
-		29A0789F297EFBEC00A5012A /* CreateDrill */ = {
+		29A0789F297EFBEC00A5012A /* NewDrill */ = {
 			isa = PBXGroup;
 			children = (
-				29A078A0297EFBFE00A5012A /* CreateDrill.swift */,
-				29BB8602262EECE00055A8BB /* CreateDrillView.swift */,
+				29A078A0297EFBFE00A5012A /* NewDrill.swift */,
+				29BB8602262EECE00055A8BB /* NewDrillView.swift */,
 			);
-			path = CreateDrill;
+			path = NewDrill;
 			sourceTree = "<group>";
 		};
 		29A078A2297F0C5B00A5012A /* Main */ = {
@@ -620,7 +620,7 @@
 				29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */,
 				29A07899297C230000A5012A /* Session.swift in Sources */,
 				294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */,
-				29A078A1297EFBFE00A5012A /* CreateDrill.swift in Sources */,
+				29A078A1297EFBFE00A5012A /* NewDrill.swift in Sources */,
 				29C554B1298EC8A90045DFCB /* DrillItem.swift in Sources */,
 				29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */,
 				29A0789E297C75ED00A5012A /* PassiveNavigationLink.swift in Sources */,
@@ -630,7 +630,7 @@
 				2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */,
 				2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				29558FD626432F46006BA300 /* Extensions.swift in Sources */,
-				29BB8603262EECE00055A8BB /* CreateDrillView.swift in Sources */,
+				29BB8603262EECE00055A8BB /* NewDrillView.swift in Sources */,
 				293433C8267676C100FA4768 /* SettingsView.swift in Sources */,
 				29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				29C554B3298EEDEB0045DFCB /* DrillItemView.swift in Sources */,

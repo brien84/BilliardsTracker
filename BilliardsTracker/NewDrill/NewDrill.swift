@@ -1,5 +1,5 @@
 //
-//  CreateDrill.swift
+//  NewDrill.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2023-01-23.
@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-struct CreateDrill: ReducerProtocol {
+struct NewDrill: ReducerProtocol {
     struct State: Equatable {
         @BindingState var attempts = 1.0
         @BindingState var isFailable = false
