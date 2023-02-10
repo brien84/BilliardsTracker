@@ -11,7 +11,7 @@ import SwiftUI
 struct NewDrillView: View {
     let store: StoreOf<NewDrill>
 
-    @State private var showInfo = false
+    @State private var isShowingPicker = false
 
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -20,122 +20,108 @@ struct NewDrillView: View {
                     Color.secondaryBackground
                         .ignoresSafeArea()
 
-                    VStack(spacing: Self.spacing) {
-                        TitleTextField(title: viewStore.binding(\.$title))
+                    List {
+                        TextField("Drill Title", text: viewStore.binding(\.$title))
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                            .padding(.vertical, Self.textFieldVerticalPadding)
 
-                        Slider(
-                            value: viewStore.binding(\.$attempts),
-                            in: 1...100,
-                            step: 1.0
-                        )
-                        .padding(.horizontal)
-                        .accentColor(.customBlue)
+                        Section {
+                            HStack {
+                                OptionLabel(title: "Attempts", imageName: "repeat", fillColor: .customBlue)
 
-                        Text("\(Int(viewStore.attempts))")
-                            .padding(.bottom)
-                            .font(.headline)
-                            .foregroundColor(.primaryElement)
-                            .accessibility(identifier: "createDrillView_attemptsText")
+                                Spacer()
 
-                        Divider()
-                            .padding(.top)
+                                Button {
+                                    withAnimation {
+                                        isShowingPicker.toggle()
+                                    }
+                                } label: {
+                                    HStack(spacing: Self.attemptsSectionButtonSpacing) {
+                                        Text("\(viewStore.attempts)")
 
-                        HStack {
-                            Text("Failable")
-                                .font(Font.body.weight(.semibold))
+                                        Image(systemName: "chevron.up.chevron.down")
+                                            .imageScale(.small)
+                                    }
+                                    .foregroundColor(.secondaryElement)
+                                }
+                            }
 
-                            infoButton
-
-                            Toggle("", isOn: viewStore.binding(\.$isFailable))
-                                .toggleStyle(SwitchToggleStyle(tint: .customBlue))
+                            if isShowingPicker {
+                                Picker("Set attempts", selection: viewStore.binding(\.$attempts)) {
+                                    ForEach(1..<101) { i in
+                                        Text("\(i)")
+                                            .tag(i)
+                                    }
+                                }
+                                .pickerStyle(.wheel)
+                            }
                         }
-                        .padding(.horizontal)
 
-                        Divider()
-
-                        failableHelpView
-
-                        Spacer()
+                        Section {
+                            Toggle(isOn: viewStore.binding(\.$isFailable)) {
+                                OptionLabel(title: "Continuous", imageName: "xmark.seal", fillColor: .customRed)
+                            }
+                            .toggleStyle(SwitchToggleStyle(tint: .customBlue))
+                        } footer: {
+                            Text("Deselecting this option will end the drill once the first shot is missed.")
+                        }
                     }
+                    .listStyle(.insetGrouped)
+                    .environment(\.defaultMinListRowHeight, .zero)
                 }
-                .navigationBarTitle("Create Drill", displayMode: .inline)
-                .navigationBarItems(
-                    leading:
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
                         Button("Cancel") {
                             viewStore.send(.cancelButtonDidTap)
-                        },
-                    trailing:
+                        }
+                    }
+
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Save") {
                             viewStore.send(.saveButtonDidTap, animation: .default)
                         }
-                )
+                    }
+                }
+                .navigationTitle("New Drill")
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
-        .accessibility(identifier: "createDrillView")
-    }
-
-    private var infoButton: some View {
-        Button(
-            action: {
-                withAnimation {
-                    showInfo.toggle()
-                }
-            },
-            label: {
-                Image(systemName: "info.circle")
-                    .padding(.horizontal)
-                    .imageScale(.large)
-                    .foregroundColor(.secondaryElement)
-            }
-        )
-        .accessibility(identifier: "createDrillView_infoButton")
-    }
-
-    private var failableHelpView: some View {
-        Text("Drill will finish when first shot is missed")
-            .padding()
-            .background(Color.primaryBackground)
-            .font(.footnote)
-            .foregroundColor(.primaryElement)
-            .cornerRadius(Self.failableHelpViewCornerRadius)
-            .padding()
-            .opacity(showInfo ? 1.0 : 0)
-            .onTapGesture {
-                withAnimation {
-                    showInfo.toggle()
-                }
-            }
-            .accessibility(identifier: "createDrillView_failableHelpView")
     }
 }
 
-private struct TitleTextField: View {
-    @Binding var title: String
+private struct OptionLabel: View {
+    let title: String
+    let imageName: String
+    let fillColor: Color
 
     var body: some View {
-        TextField("Drill Title", text: $title)
-            .accentColor(.primaryElement)
-            .foregroundColor(.primaryElement)
-            .padding(Self.innerPadding)
-            .background(Color.primaryBackground)
-            .cornerRadius(Self.cornerRadius)
-            .padding()
-            .padding(.top)
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
+        Label {
+            Text(title)
+        } icon: {
+            ZStack {
+                RoundedRectangle(cornerRadius: Self.cornerRadius)
+                    .fill(fillColor)
+                    .frame(width: Self.imageSize.width, height: Self.imageSize.height)
+
+                Image(systemName: imageName)
+                    .imageScale(.medium)
+                    .foregroundColor(.white)
+            }
+        }
     }
 }
 
 // MARK: - Constants
 
 private extension NewDrillView {
-    static let spacing: CGFloat = 16
-    static let failableHelpViewCornerRadius: CGFloat = 25
+    static let attemptsSectionButtonSpacing: CGFloat = 4
+    static let textFieldVerticalPadding: CGFloat = 2
 }
 
-private extension TitleTextField {
-    static let cornerRadius: CGFloat = 8
-    static let innerPadding: CGFloat = 12
+private extension OptionLabel {
+    static let cornerRadius: CGFloat = 4
+    static let imageSize: CGSize = CGSize(width: 28, height: 28)
 }
 
 // MARK: - Previews
