@@ -28,7 +28,7 @@ struct NewDrillView: View {
 
                         Section {
                             HStack {
-                                OptionLabel(title: "Attempts", imageName: "repeat", fillColor: .customBlue)
+                                ListItemLabel(title: "Attempts", imageName: "checklist", fillColor: .customBlue)
 
                                 Spacer()
 
@@ -60,7 +60,7 @@ struct NewDrillView: View {
 
                         Section {
                             Toggle(isOn: viewStore.binding(\.$isContinuous)) {
-                                OptionLabel(title: "Continuous", imageName: "xmark.seal", fillColor: .customRed)
+                                ListItemLabel(title: "Continuous", imageName: "repeat", fillColor: .customRed)
                             }
                             .toggleStyle(SwitchToggleStyle(tint: .customBlue))
                         } footer: {
@@ -90,7 +90,7 @@ struct NewDrillView: View {
     }
 }
 
-private struct OptionLabel: View {
+private struct ListItemLabel: View {
     let title: String
     let imageName: String
     let fillColor: Color
@@ -114,14 +114,14 @@ private struct OptionLabel: View {
 
 // MARK: - Constants
 
+private extension ListItemLabel {
+    static let cornerRadius: CGFloat = 4
+    static let imageSize: CGSize = CGSize(width: 28, height: 28)
+}
+
 private extension NewDrillView {
     static let attemptsSectionButtonSpacing: CGFloat = 4
     static let textFieldVerticalPadding: CGFloat = 2
-}
-
-private extension OptionLabel {
-    static let cornerRadius: CGFloat = 4
-    static let imageSize: CGSize = CGSize(width: 28, height: 28)
 }
 
 // MARK: - Previews

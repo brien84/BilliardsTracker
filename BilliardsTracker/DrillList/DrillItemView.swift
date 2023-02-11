@@ -22,7 +22,6 @@ struct DrillItemView: View {
                             ZStack {
                                 Text("100").opacity(0)
                                 Text("\(viewStore.drill.attempts)")
-                                    .accessibility(identifier: "drillView_attemptsText")
                             }
                             .frame(maxHeight: .infinity)
                             .padding(.horizontal)
@@ -37,11 +36,10 @@ struct DrillItemView: View {
                                 .padding()
                                 .font(Font.headline.weight(.bold))
                                 .foregroundColor(.secondaryElement)
-                                .accessibility(identifier: "drillView_titleText")
                         }
 
                         VStack(spacing: Self.iconsSpacing) {
-                            Image(systemName: "xmark.seal")
+                            Image(systemName: "repeat")
                                 .font(Font.title3.weight(.regular))
                                 .imageScale(.small)
                                 .frame(maxHeight: .infinity, alignment: .top)
@@ -58,7 +56,6 @@ struct DrillItemView: View {
                             }
                             .frame(maxHeight: .infinity, alignment: .bottom)
                             .foregroundColor(.customBlue)
-                            .accessibility(identifier: "drillView_statisticsButton")
                         }
                         .padding()
                     }
