@@ -40,8 +40,10 @@ struct MainView: View {
                     ))
                     .disabled(viewStore.isShowingLoadingIndicator)
 
-                    CreateDrillBackgroundButton(store: store)
-                        .opacity(viewStore.drillList.drillItems.count == 0 ? 1 : 0)
+                    NewDrillBackgroundButton(
+                        isNavigationActive: viewStore.binding(\.$isNavigationToNewDrillActive)
+                    )
+                    .opacity(viewStore.drillList.drillItems.count == 0 ? 1 : 0)
 
                     LoadingView()
                         .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
@@ -55,24 +57,18 @@ struct MainView: View {
                         ))
                         .disabled(viewStore.isShowingLoadingIndicator),
                     trailing:
-                        CreateDrillNavigationBarButton(store: store)
-                            .disabled(viewStore.isShowingLoadingIndicator)
+                        NewDrillNavigationBarButton(
+                            isNavigationActive: viewStore.binding(\.$isNavigationToNewDrillActive)
+                        )
+                        .disabled(viewStore.isShowingLoadingIndicator)
                 )
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .sheet(
-                isPresented: viewStore.binding(
-                    get: \.isNavigationToNewDrillActive,
-                    send: Main.Action.setNavigationToNewDrill(isActive:)
-                )
-            ) {
-                IfLetStore(
-                    store.scope(
-                        state: \.newDrill,
-                        action: Main.Action.newDrill
-                    ),
-                    then: NewDrillView.init(store:)
-                )
+            .sheet(isPresented: viewStore.binding(\.$isNavigationToNewDrillActive)) {
+                NewDrillView(store: store.scope(
+                    state: \.newDrill,
+                    action: Main.Action.newDrill
+                ))
             }
             .fullScreenCover(
                 isPresented: viewStore.binding(
@@ -120,64 +116,58 @@ private struct LoadingView: View {
     }
 }
 
-private struct CreateDrillBackgroundButton: View {
-    let store: StoreOf<Main>
+private struct NewDrillBackgroundButton: View {
+    @Binding var isNavigationActive: Bool
 
     var body: some View {
-        WithViewStore(store) { viewStore in
-            Button(
-                action: {
-                    viewStore.send(.setNavigationToNewDrill(isActive: true))
-                },
-                label: {
-                    VStack {
-                        Image(systemName: "plus")
-                            .font(.largeTitle)
-                            .imageScale(.large)
-                            .scaleEffect(Self.imageScale)
+        Button(
+            action: {
+                isNavigationActive = true
+            },
+            label: {
+                VStack {
+                    Image(systemName: "plus")
+                        .font(.largeTitle)
+                        .imageScale(.large)
+                        .scaleEffect(Self.imageScale)
 
-                        Text("Create drill")
-                            .font(.title)
-                            .padding(Self.textPadding)
-                    }
+                    Text("Create drill")
+                        .font(.title)
+                        .padding(Self.textPadding)
                 }
-            )
-            .foregroundColor(.primaryElement)
-            .accessibility(identifier: "mainView_createDrillButtonBackground")
-        }
+            }
+        )
+        .foregroundColor(.primaryElement)
     }
 }
 
-private struct CreateDrillNavigationBarButton: View {
-    let store: StoreOf<Main>
+private struct NewDrillNavigationBarButton: View {
+    @Binding var isNavigationActive: Bool
 
     var body: some View {
-        WithViewStore(store) { viewStore in
-            Button(
-                action: {
-                    viewStore.send(.setNavigationToNewDrill(isActive: true))
-                },
-                label: {
-                    Image(systemName: "plus")
-                        .imageScale(.large)
-                }
-            )
-            .accessibility(identifier: "mainView_createDrillButtonNavigation")
-        }
+        Button(
+            action: {
+                isNavigationActive = true
+            },
+            label: {
+                Image(systemName: "plus")
+                    .imageScale(.large)
+            }
+        )
     }
 }
 
 // MARK: - Constants
 
-private extension CreateDrillBackgroundButton {
-    static let imageScale: CGFloat = 2.0
-    static let textPadding: CGFloat = 32
-}
-
 private extension LoadingView {
     static let backgroundOpacity: CGFloat = 0.5
     static let cornerRadius: CGFloat = 10
     static let lineWidth: CGFloat = 1
+}
+
+private extension NewDrillBackgroundButton {
+    static let imageScale: CGFloat = 2.0
+    static let textPadding: CGFloat = 32
 }
 
 // MARK: - Previews
