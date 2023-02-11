@@ -8,8 +8,8 @@
 import Foundation
 
 struct DrillContext: Codable {
-    let title: String
-    let attempts: Int
-    let isFailable: Bool
     let isActive: Bool
+    let attempts: Int
+    let isContinuous: Bool
+    let title: String
 }

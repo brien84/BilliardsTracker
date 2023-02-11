@@ -46,7 +46,7 @@ struct DrillItemView: View {
                                 .imageScale(.small)
                                 .frame(maxHeight: .infinity, alignment: .top)
                                 .foregroundColor(.customRed)
-                                .hidden(!viewStore.drill.isFailable)
+                                .hidden(!viewStore.drill.isContinuous)
 
                             Spacer()
 

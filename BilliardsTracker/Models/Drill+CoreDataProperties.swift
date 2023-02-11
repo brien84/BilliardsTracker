@@ -41,30 +41,35 @@ extension Drill {
         }
     }
 
-    var title: String {
-        get {
-            titleValue ?? ""
-        }
-        set {
-            titleValue = newValue
-        }
-    }
-
-    var isFailable: Bool {
-        get {
-            isFailableValue
-        }
-        set {
-            isFailableValue = newValue
-        }
-    }
-
     var dateCreated: Date {
         get {
             dateCreatedValue
         }
         set {
             dateCreatedValue = newValue
+        }
+    }
+
+    /// To improve clarity, the `isFailable` property has been renamed to
+    /// `isContinuous` and its boolean value has been inverted.
+    ///
+    /// Since the value can be easily inverted within this wrapper property without any impact to codebase,
+    /// there is no urgent need to update the CoreData model unless a wider migration is performed.
+    var isContinuous: Bool {
+        get {
+            !isFailableValue
+        }
+        set {
+            isFailableValue = !newValue
+        }
+    }
+
+    var title: String {
+        get {
+            titleValue ?? "Drill Title"
+        }
+        set {
+            titleValue = newValue
         }
     }
 

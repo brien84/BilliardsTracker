@@ -98,7 +98,7 @@ extension PersistenceClient {
             let drill = Drill(entity: Drill().entity, insertInto: nil)
             drill.title = "Preview Drill \(i)"
             drill.attempts = i * 10
-            drill.isFailable = i % 2 == 0
+            drill.isContinuous = i % 2 == 0
             drills.append(drill)
         }
 
@@ -166,7 +166,7 @@ private actor PersistentStore {
         let newDrill = Drill(context: persistentContainer.viewContext)
         newDrill.title = drill.title
         newDrill.attempts = drill.attempts
-        newDrill.isFailable = drill.isFailable
+        newDrill.isContinuous = drill.isContinuous
         newDrill.dateCreated = Date()
 
         do {

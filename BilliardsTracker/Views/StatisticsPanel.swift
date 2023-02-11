@@ -16,16 +16,7 @@ struct StatisticsPanel: View {
                 .padding()
 
             HStack {
-                if statistics.drill.isFailable {
-                    StatisticLabel(title: "Completed", value: "\(statistics.completionCount)")
-                        .titleColor(.customGreen)
-
-                    StatisticLabel(title: "Completion", value: "\(statistics.completionPercentage)%")
-                        .titleColor(statistics.completionPercentage > 50 ? .customGreen : .customRed)
-
-                    StatisticLabel(title: "Average Pots", value: "\(statistics.averagePots)")
-                        .titleColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
-                } else {
+                if statistics.drill.isContinuous {
                     StatisticLabel(title: "Pots", value: "\(statistics.totalPotCount)")
                         .titleColor(.customGreen)
 
@@ -34,6 +25,15 @@ struct StatisticsPanel: View {
 
                     StatisticLabel(title: "Misses", value: "\(statistics.totalMissCount)")
                         .titleColor(.customRed)
+                } else {
+                    StatisticLabel(title: "Completed", value: "\(statistics.completionCount)")
+                        .titleColor(.customGreen)
+
+                    StatisticLabel(title: "Completion", value: "\(statistics.completionPercentage)%")
+                        .titleColor(statistics.completionPercentage > 50 ? .customGreen : .customRed)
+
+                    StatisticLabel(title: "Average Pots", value: "\(statistics.averagePots)")
+                        .titleColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
                 }
             }
             .padding()

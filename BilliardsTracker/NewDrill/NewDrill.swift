@@ -10,7 +10,7 @@ import ComposableArchitecture
 struct NewDrill: ReducerProtocol {
     struct State: Equatable {
         @BindingState var attempts = 9
-        @BindingState var isFailable = false
+        @BindingState var isContinuous = true
         @BindingState var title = ""
     }
 

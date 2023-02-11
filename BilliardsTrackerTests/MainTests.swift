@@ -13,7 +13,7 @@ import XCTest
 final class MainTests: XCTestCase {
 
     func test() async {
-        let store = TestStore(
+        _ = TestStore(
             initialState: Main.State(),
             reducer: Main()
         )

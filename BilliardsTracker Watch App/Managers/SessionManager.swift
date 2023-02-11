@@ -67,14 +67,14 @@ final class SessionManager: ObservableObject {
     }
 
     var isCompleted: Bool {
-        if isFailable {
-            return missCount > 0 || remainingAttempts <= 0
-        } else {
+        if isContinuous {
             return remainingAttempts <= 0
+        } else {
+            return missCount > 0 || remainingAttempts <= 0
         }
     }
 
-    private var isFailable = false
+    private var isContinuous = true
 
     private(set) var title: String?
     private(set) var attempts = 1
@@ -95,7 +95,7 @@ final class SessionManager: ObservableObject {
                 if context.isActive {
                     self?.title = context.title
                     self?.attempts = context.attempts
-                    self?.isFailable = context.isFailable
+                    self?.isContinuous = context.isContinuous
                     self?.isActive = true
                 } else {
                     self?.isActive = false

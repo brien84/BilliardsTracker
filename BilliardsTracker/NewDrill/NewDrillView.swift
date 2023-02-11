@@ -59,7 +59,7 @@ struct NewDrillView: View {
                         }
 
                         Section {
-                            Toggle(isOn: viewStore.binding(\.$isFailable)) {
+                            Toggle(isOn: viewStore.binding(\.$isContinuous)) {
                                 OptionLabel(title: "Continuous", imageName: "xmark.seal", fillColor: .customRed)
                             }
                             .toggleStyle(SwitchToggleStyle(tint: .customBlue))

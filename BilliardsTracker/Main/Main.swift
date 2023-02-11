@@ -74,7 +74,7 @@ struct Main: ReducerProtocol {
                 drill.title = state.newDrill?.title ?? "Drill Title"
                 drill.title = drill.title.isEmpty ? "Drill Title" : drill.title
                 drill.attempts = Int(state.newDrill?.attempts ?? 69)
-                drill.isFailable = state.newDrill?.isFailable ?? false
+                drill.isContinuous = state.newDrill?.isContinuous ?? true
                 return .task {
                     .persistenceClient(await persistenceClient.createDrill(drill))
                 }
@@ -88,10 +88,10 @@ struct Main: ReducerProtocol {
                     state.selectedDrill = drill
                     state.session = Session.State(drill: drill, startDate: Date())
                     let context = DrillContext(
-                        title: drill.title,
+                        isActive: true,
                         attempts: drill.attempts,
-                        isFailable: drill.isFailable,
-                        isActive: true
+                        isContinuous: drill.isContinuous,
+                        title: drill.title
                     )
                     return .task {
                         .connectivityClientDidReceiveResponse(
@@ -113,7 +113,7 @@ struct Main: ReducerProtocol {
                 state.isNavigationToSessionActive = false
                 state.selectedDrill = nil
                 return .fireAndForget {
-                    let context = DrillContext(title: "", attempts: 0, isFailable: false, isActive: false)
+                    let context = DrillContext(isActive: false, attempts: 0, isContinuous: false, title: "")
                     _ = await connectivityClient.sendDrillContext(context)
                 }
 
