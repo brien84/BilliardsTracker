@@ -59,6 +59,7 @@
 		29C554B5299296860045DFCB /* ExitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B4299296860045DFCB /* ExitButtonView.swift */; };
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
 		29C87169262210680064C592 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* SessionView.swift */; };
+		29DB145E2998168A004029D1 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB145D2998168A004029D1 /* MainTests.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
 		29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* SessionManager.swift */; };
 		29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionManager.swift */; };
@@ -160,6 +161,7 @@
 		29C554B4299296860045DFCB /* ExitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitButtonView.swift; sourceTree = "<group>"; };
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		29C87168262210680064C592 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		29FAD65D2615112A00310DA9 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		29FAD6692616066800310DA9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 		2926E10826150FE500E95DBB /* BilliardsTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
+				29DB145D2998168A004029D1 /* MainTests.swift */,
 				2926E10B26150FE500E95DBB /* Info.plist */,
 			);
 			path = BilliardsTrackerTests;
@@ -518,6 +521,7 @@
 					};
 					2926E10426150FE500E95DBB = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1420;
 						TestTargetID = 2926E0F326150FE400E95DBB;
 					};
 					2926E10F26150FE500E95DBB = {
@@ -654,6 +658,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29DB145E2998168A004029D1 /* MainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,6 +942,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LZTF7R47SK;
 				INFOPLIST_FILE = BilliardsTrackerTests/Info.plist;
@@ -949,6 +955,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.MariusK.BilliardsTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BilliardsTracker.app/BilliardsTracker";
@@ -960,6 +967,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LZTF7R47SK;
 				INFOPLIST_FILE = BilliardsTrackerTests/Info.plist;
