@@ -16,10 +16,7 @@ struct MainView: View {
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
-                        isActive: viewStore.binding(
-                            get: \.isNavigationToStatisticsActive,
-                            send: Main.Action.setNavigationToStatistics(isActive:)
-                        ),
+                        isActive: viewStore.binding(\.$isNavigationToStatisticsActive),
                         destination: {
                             IfLetStore(
                                 store.scope(

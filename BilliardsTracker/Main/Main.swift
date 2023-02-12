@@ -18,14 +18,11 @@ struct Main: ReducerProtocol {
 
         var alert: AlertState<Action>?
 
-        var isNavigationToStatisticsActive: Bool {
-            statistics != nil
-        }
-
         var isShowingLoadingIndicator = false
 
         @BindingState var isNavigationToNewDrillActive = false
         @BindingState var isNavigationToSessionActive = false
+        @BindingState var isNavigationToStatisticsActive = false
     }
 
     enum Action: BindableAction, Equatable {
@@ -38,8 +35,6 @@ struct Main: ReducerProtocol {
         case statistics(Statistics.Action)
 
         case alertDidDismiss
-
-        case setNavigationToStatistics(isActive: Bool)
 
         case beginReceivingResults
         case connectivityClientDidReceiveResult(ResultContext)
@@ -115,6 +110,7 @@ struct Main: ReducerProtocol {
             case .drillList(.drillItem(id: let id, action: .didTapStatisticsButton)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.statistics = Statistics.State(drill: drill)
+                    state.isNavigationToStatisticsActive = true
                 }
                 return .none
 
@@ -143,6 +139,7 @@ struct Main: ReducerProtocol {
 
             case .statistics(.didTapDeleteButton):
                 guard let drill = state.statistics?.drill else { return .none }
+                state.isNavigationToStatisticsActive = false
                 return .task {
                     .persistenceClient(await persistenceClient.deleteDrill(drill))
                 }
@@ -246,16 +243,13 @@ struct Main: ReducerProtocol {
                     )
                 }
 
-            case .setNavigationToStatistics(isActive: let isActive):
-                if isActive == false {
-                    state.statistics = nil
-                }
-
-                return .none
             }
         }
         .ifLet(\.session, action: /Action.session) {
             Session()
+        }
+        .ifLet(\.statistics, action: /Action.statistics) {
+            Statistics()
         }
 
     }

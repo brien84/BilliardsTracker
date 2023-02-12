@@ -11,14 +11,8 @@ import SwiftUI
 struct StatisticsView: View {
     let store: StoreOf<Statistics>
 
-    @Environment(\.presentationMode) var presentationMode
-
     @State private var isShowingHistory = false
-    @State private var showDeleteAlert = false
-
-    init(store: StoreOf<Statistics>) {
-        self.store = store
-    }
+    @State private var isShowingDeleteAlert = false
 
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -56,13 +50,12 @@ struct StatisticsView: View {
                     )
                 }
             }
-            .alert(isPresented: $showDeleteAlert) {
+            .alert(isPresented: $isShowingDeleteAlert) {
                 Alert(
                     title: Text("Confirmation"),
                     message: Text("Are you sure you want to delete this drill?"),
                     primaryButton: .destructive(Text("Delete")) {
                         viewStore.send(.didTapDeleteButton)
-                        presentationMode.wrappedValue.dismiss()
                     },
                     secondaryButton: .cancel()
                 )
@@ -84,7 +77,7 @@ struct StatisticsView: View {
 
     private var deleteButton: some View {
         Button {
-            showDeleteAlert = true
+            isShowingDeleteAlert = true
         } label: {
             Image(systemName: "trash")
                 .font(.body)
