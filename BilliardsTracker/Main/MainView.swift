@@ -70,12 +70,7 @@ struct MainView: View {
                     action: Main.Action.newDrill
                 ))
             }
-            .fullScreenCover(
-                isPresented: viewStore.binding(
-                    get: \.isNavigationToSessionActive,
-                    send: Main.Action.setNavigationToSession(isActive:)
-                )
-            ) {
+            .fullScreenCover(isPresented: viewStore.binding(\.$isNavigationToSessionActive)) {
                 IfLetStore(
                     store.scope(
                         state: \.session,

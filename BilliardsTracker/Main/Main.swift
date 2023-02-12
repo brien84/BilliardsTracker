@@ -10,8 +10,8 @@ import SwiftUI
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
-        var newDrill = NewDrill.State()
         var drillList = DrillList.State()
+        var newDrill = NewDrill.State()
         var session: Session.State?
         var settings = Settings.State()
         var statistics: Statistics.State?
@@ -22,16 +22,15 @@ struct Main: ReducerProtocol {
             statistics != nil
         }
 
-        var isNavigationToSessionActive = false
-
-        var selectedDrill: Drill?
-
         var isShowingLoadingIndicator = false
 
         @BindingState var isNavigationToNewDrillActive = false
+        @BindingState var isNavigationToSessionActive = false
     }
 
     enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
+
         case newDrill(NewDrill.Action)
         case drillList(DrillList.Action)
         case session(Session.Action)
@@ -41,7 +40,6 @@ struct Main: ReducerProtocol {
         case alertDidDismiss
 
         case setNavigationToStatistics(isActive: Bool)
-        case setNavigationToSession(isActive: Bool)
 
         case beginReceivingResults
         case connectivityClientDidReceiveResult(ResultContext)
@@ -50,8 +48,6 @@ struct Main: ReducerProtocol {
         case loadDrills
         case persistenceClientDidLoad(TaskResult<[Drill]>)
         case persistenceClient(PersistenceResponse)
-
-        case binding(BindingAction<State>)
     }
 
     @Dependency(\.connectivityClient) var connectivityClient
@@ -60,12 +56,12 @@ struct Main: ReducerProtocol {
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
 
-        Scope(state: \.settings, action: /Action.settings) {
-            Settings()
-        }
-
         Scope(state: \.newDrill, action: /Action.newDrill) {
             NewDrill()
+        }
+
+        Scope(state: \.settings, action: /Action.settings) {
+            Settings()
         }
 
         Reduce { state, action in
@@ -75,7 +71,7 @@ struct Main: ReducerProtocol {
                 if state.isNavigationToNewDrillActive {
                     state.newDrill = NewDrill.State()
                 }
-            return .none
+                return .none
 
             case .binding:
                 return .none
@@ -100,7 +96,6 @@ struct Main: ReducerProtocol {
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.isShowingLoadingIndicator = true
-                    state.selectedDrill = drill
                     state.session = Session.State(drill: drill, startDate: Date())
                     let context = DrillContext(
                         isActive: true,
@@ -121,12 +116,10 @@ struct Main: ReducerProtocol {
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.statistics = Statistics.State(drill: drill)
                 }
-
                 return .none
 
             case .session(.didTapExitButton):
                 state.isNavigationToSessionActive = false
-                state.selectedDrill = nil
                 return .fireAndForget {
                     let context = DrillContext(isActive: false, attempts: 0, isContinuous: false, title: "")
                     _ = await connectivityClient.sendDrillContext(context)
@@ -169,18 +162,17 @@ struct Main: ReducerProtocol {
                     state.isNavigationToSessionActive = true
 
                 case .failure(.notReachable):
-                    state.selectedDrill = nil
                     state.alert = notReachableAlert
 
                 case .failure(.notReady):
-                    state.selectedDrill = nil
                     state.alert = notReadyAlert
                 }
 
                 return .none
 
             case .connectivityClientDidReceiveResult(let result):
-                guard let drill = state.selectedDrill else { return .none }
+                guard state.isNavigationToSessionActive else { return .none }
+                guard let drill = state.session?.drill else { return .none }
                 return .task {
                     .persistenceClient(await persistenceClient.insertResult(result, drill))
                 }
@@ -229,8 +221,8 @@ struct Main: ReducerProtocol {
 
                     state.drillList = DrillList.State(drills: drills)
 
-                    if let drill = state.selectedDrill {
-                        state.session = Session.State(drill: drill, startDate: state.session?.startDate ?? Date())
+                    if let session = state.session {
+                        state.session = Session.State(drill: session.drill, startDate: session.startDate)
                     }
 
                     return .none
@@ -253,10 +245,6 @@ struct Main: ReducerProtocol {
                         TaskResult { try await persistenceClient.loadDrills() }
                     )
                 }
-
-            case .setNavigationToSession(isActive: let isActive):
-                state.isNavigationToSessionActive = isActive
-                return .none
 
             case .setNavigationToStatistics(isActive: let isActive):
                 if isActive == false {
