@@ -80,7 +80,7 @@ struct Main: ReducerProtocol {
                 let drill = Drill(entity: Drill.entity(), insertInto: nil)
                 drill.attempts = state.newDrill.attempts
                 drill.isContinuous = state.newDrill.isContinuous
-                drill.title = state.newDrill.title.isEmpty ? "Drill Title" : drill.title
+                drill.title = state.newDrill.title.isEmpty ? "Drill Title" : state.newDrill.title
                 return .task {
                     .persistenceClient(await persistenceClient.createDrill(drill))
                 }
