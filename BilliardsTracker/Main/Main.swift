@@ -122,20 +122,11 @@ struct Main: ReducerProtocol {
                 }
 
             case .settings(.didSelectSortOption):
-                let drills = state.drillList.drillItems.map { $0.drill }.sorted {
-                    switch state.settings.sortOption {
-                    case .attempts:
-                        return $0.attempts < $1.attempts
-                    case .dateCreated:
-                        return $0.dateCreated < $1.dateCreated
-                    case .title:
-                        return $0.title < $1.title
-                    }
-                }
-
-                state.drillList = DrillList.State(drills: drills)
-
-                return .none
+                return .task {
+                    await .persistenceClientDidLoad(
+                        TaskResult { try await persistenceClient.loadDrills() }
+                    )
+                }.animation()
 
             case .statistics(.didTapDeleteButton):
                 guard let drill = state.statistics?.drill else { return .none }
@@ -205,16 +196,7 @@ struct Main: ReducerProtocol {
             case .persistenceClientDidLoad(let result):
                 switch result {
                 case .success(let drills):
-                    let drills = drills.sorted {
-                        switch state.settings.sortOption {
-                        case .attempts:
-                            return $0.attempts < $1.attempts
-                        case .dateCreated:
-                            return $0.dateCreated < $1.dateCreated
-                        case .title:
-                            return $0.title < $1.title
-                        }
-                    }
+                    let drills = drills.sorted(using: state.settings.sortOption.descriptor)
 
                     state.drillList = DrillList.State(drills: drills)
 
