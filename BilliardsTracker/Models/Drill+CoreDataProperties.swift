@@ -20,7 +20,7 @@ extension Drill {
     @NSManaged private var dateCreatedValue: Date
     @NSManaged private var resultsValue: NSSet?
 
-    var attempts: Int {
+    @objc var attempts: Int {
         get {
             Int(attemptsValue)
         }
@@ -29,7 +29,7 @@ extension Drill {
         }
     }
 
-    var dateCreated: Date {
+    @objc var dateCreated: Date {
         get {
             dateCreatedValue
         }
@@ -43,7 +43,7 @@ extension Drill {
     ///
     /// Since the value can be easily inverted within this wrapper property without any impact to codebase,
     /// there is no urgent need to update the CoreData model unless a wider migration is performed.
-    var isContinuous: Bool {
+    @objc var isContinuous: Bool {
         get {
             !isFailableValue
         }
@@ -52,7 +52,7 @@ extension Drill {
         }
     }
 
-    var title: String {
+    @objc var title: String {
         get {
             titleValue ?? "Drill Title"
         }
