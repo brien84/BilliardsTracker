@@ -48,6 +48,17 @@ enum SortOption: Int, CaseIterable, Identifiable {
     case dateCreated
     case title
 
+    var descriptor: SortDescriptor<Drill> {
+        switch self {
+        case .attempts:
+            return SortDescriptor(\Drill.attempts, order: .reverse)
+        case .dateCreated:
+            return SortDescriptor(\Drill.dateCreated, order: .reverse)
+        case .title:
+            return SortDescriptor(\Drill.title, order: .forward)
+        }
+    }
+
     var label: String {
         switch self {
         case .attempts:
