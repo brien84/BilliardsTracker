@@ -14,18 +14,6 @@ extension Drill {
         NSFetchRequest<Drill>(entityName: "Drill")
     }
 
-    @nonobjc public class func attemptsSortDescriptor() -> NSSortDescriptor {
-        NSSortDescriptor(key: "attemptsValue", ascending: true)
-    }
-
-    @nonobjc public class func dateCreatedSortDescriptor() -> NSSortDescriptor {
-        NSSortDescriptor(key: "dateCreatedValue", ascending: false)
-    }
-
-    @nonobjc public class func titleSortDescriptor() -> NSSortDescriptor {
-        NSSortDescriptor(key: "titleValue", ascending: true)
-    }
-
     @NSManaged private var attemptsValue: Int64
     @NSManaged private var titleValue: String?
     @NSManaged private var isFailableValue: Bool
