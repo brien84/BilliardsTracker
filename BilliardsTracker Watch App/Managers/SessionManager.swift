@@ -13,6 +13,12 @@ enum Mode {
     case tracked
 }
 
+extension SessionManager: Equatable {
+    static func == (lhs: SessionManager, rhs: SessionManager) -> Bool {
+        lhs.isActive == rhs.isActive
+    }
+}
+
 final class SessionManager: ObservableObject {
     private let connectivity = ConnectivityManager()
     private let extendedRuntime = ExtendedRuntimeManager()
