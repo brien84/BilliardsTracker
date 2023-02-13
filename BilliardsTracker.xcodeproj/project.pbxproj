@@ -60,6 +60,8 @@
 		29C8716226220E060064C592 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C8716126220E060064C592 /* MenuView.swift */; };
 		29C87169262210680064C592 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C87168262210680064C592 /* SessionView.swift */; };
 		29DB145E2998168A004029D1 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB145D2998168A004029D1 /* MainTests.swift */; };
+		29DB1461299ADA77004029D1 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29DB1460299ADA77004029D1 /* ComposableArchitecture */; };
+		29DB1464299ADE8B004029D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1463299ADE8B004029D1 /* Main.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
 		29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* SessionManager.swift */; };
 		29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionManager.swift */; };
@@ -162,6 +164,7 @@
 		29C8716126220E060064C592 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		29C87168262210680064C592 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
+		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		29FAD65D2615112A00310DA9 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		29FAD6692616066800310DA9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
@@ -195,6 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29DB1461299ADA77004029D1 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +222,7 @@
 				2926E11326150FE500E95DBB /* BilliardsTrackerUITests */,
 				2926E11D26150FE500E95DBB /* BilliardsTracker Watch App */,
 				2926E0F526150FE400E95DBB /* Products */,
+				29DB145F299ADA77004029D1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -287,6 +292,7 @@
 			children = (
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				292D80A1265D88FC0058CAB2 /* Managers */,
+				29DB1462299ADE78004029D1 /* Main */,
 				29F37DEA2617716A00DD4A9C /* Views */,
 				29200293267FC76D00DCA308 /* Supporting FIles */,
 				2926E11E26150FE600E95DBB /* Assets.xcassets */,
@@ -414,6 +420,21 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		29DB145F299ADA77004029D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		29DB1462299ADE78004029D1 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				29DB1463299ADE8B004029D1 /* Main.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		29F37DEA2617716A00DD4A9C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,6 +524,9 @@
 			dependencies = (
 			);
 			name = "BilliardsTracker Watch App";
+			packageProductDependencies = (
+				29DB1460299ADA77004029D1 /* ComposableArchitecture */,
+			);
 			productName = "BilliardsTracker WatchKit App";
 			productReference = 2926E11926150FE500E95DBB /* BilliardsTracker Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -679,6 +703,7 @@
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				29C87169262210680064C592 /* SessionView.swift in Sources */,
 				290C01392618899E00A82A6C /* ExtendedRuntimeManager.swift in Sources */,
+				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
 				29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */,
 				29FD3DD42624DAF500322371 /* ConnectivityManager.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
@@ -1095,6 +1120,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		29A07895297C117400A5012A /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 29A07894297C117400A5012A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		29DB1460299ADA77004029D1 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 29A07894297C117400A5012A /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
