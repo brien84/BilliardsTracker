@@ -6,22 +6,49 @@
 //
 
 import ComposableArchitecture
+import Foundation
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
         let session = SessionManager()
+
+        @BindingState var isNavigationToStandaloneActive = false
+        @BindingState var isNavigationToTrackedActive = false
+        @BindingState var isNavigationToOnboardActive = false
+
+        init() {
+            if !UserDefaults.standard.hasOnboardBeenShown {
+                isNavigationToOnboardActive = true
+                UserDefaults.standard.hasOnboardBeenShown = true
+            }
+        }
     }
 
-    enum Action: Equatable {
-        case none
+    enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
     }
 
     var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
+        BindingReducer()
+
+        Reduce { _, action in
             switch action {
-            case .none:
+            case .binding:
                 return .none
             }
+        }
+    }
+}
+
+private extension UserDefaults {
+    private static let hasOnboardBeenShownKey = "hasOnboardBeenShownKey"
+
+    var hasOnboardBeenShown: Bool {
+        get {
+            bool(forKey: Self.hasOnboardBeenShownKey)
+        }
+        set {
+            set(newValue, forKey: Self.hasOnboardBeenShownKey)
         }
     }
 }
