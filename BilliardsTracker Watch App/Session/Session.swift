@@ -6,8 +6,14 @@
 //
 
 import ComposableArchitecture
+import Foundation
 
 struct Session: ReducerProtocol {
+    enum Tab: Int {
+        case control
+        case progress
+    }
+
     struct State: Equatable {
         let title: String
         let shotCount: Int
@@ -15,16 +21,18 @@ struct Session: ReducerProtocol {
         var potCount = 0
         var missCount = 0
         var didPotLastShot: Bool?
+
+        @BindingState var currentTab: Session.Tab = .progress
     }
 
-    enum Action: Equatable {
-        case none
+    enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
     }
 
     var body: some ReducerProtocol<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .none:
+            case .binding:
                 return .none
             }
         }
