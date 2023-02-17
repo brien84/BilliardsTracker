@@ -38,16 +38,18 @@ struct SessionControlView: View {
                         imageName: "pause",
                         color: .customYellow
                     ) {
-
+                        viewStore.send(.pauseButtonDidTap, animation: .default)
                     }
+                    .disabled(viewStore.isPaused)
 
                     SessionControlButton(
                         title: "Resume",
                         imageName: "play",
                         color: .customGreen
                     ) {
-
+                        viewStore.send(.resumeButtonDidTap, animation: .default)
                     }
+                    .disabled(!viewStore.isPaused)
                 }
             }
         }
