@@ -41,6 +41,7 @@ struct Session: ReducerProtocol {
 
         case pauseButtonDidTap
         case resumeButtonDidTap
+        case stopButtonDidTap
     }
 
     var body: some ReducerProtocol<State, Action> {
@@ -75,7 +76,9 @@ struct Session: ReducerProtocol {
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionUp)
                 return .none
-                
+
+            case .stopButtonDidTap:
+                return .none
             }
         }
     }

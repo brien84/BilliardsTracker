@@ -8,6 +8,41 @@
 import ComposableArchitecture
 import SwiftUI
 
+private extension SessionControlView {
+    struct State: Equatable {
+        let isPaused: Bool
+
+        init(state: Session.State) {
+            self.isPaused = state.isPaused
+        }
+    }
+
+    enum Action: Equatable {
+        case pauseButtonDidTap
+        case resumeButtonDidTap
+        case stopButtonDidTap
+    }
+}
+
+private extension Session.State {
+    var state: SessionControlView.State {
+        .init(state: self)
+    }
+}
+
+private extension SessionControlView.Action {
+    var action: Session.Action {
+        switch self {
+        case .pauseButtonDidTap:
+            return .pauseButtonDidTap
+        case .resumeButtonDidTap:
+            return .resumeButtonDidTap
+        case .stopButtonDidTap:
+            return .stopButtonDidTap
+        }
+    }
+}
+
 struct SessionControlView: View {
     let store: StoreOf<Session>
 
@@ -20,7 +55,7 @@ struct SessionControlView: View {
                         imageName: "multiply",
                         color: .customRed
                     ) {
-
+                        viewStore.send(.stopButtonDidTap, animation: .default)
                     }
 
                     SessionControlButton(
