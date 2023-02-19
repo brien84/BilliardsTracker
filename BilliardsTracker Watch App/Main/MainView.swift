@@ -11,45 +11,79 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
-    @State private var currentTab = Tab.standalone
+    struct ViewState: Equatable {
+        let session: SessionManager
+        let currentTab: Main.Tab
 
-    private enum Tab: Int {
-        case standalone, tracked
+        let isNavigationToOnboardActive: Bool
+        let isNavigationToStandaloneActive: Bool
+        let isNavigationToTrackedActive: Bool
+
+        init(state: Main.State) {
+            self.session = state.session
+            self.currentTab = state.currentTab
+
+            self.isNavigationToOnboardActive = state.isNavigationToOnboardActive
+            self.isNavigationToStandaloneActive = state.standalone != nil
+            self.isNavigationToTrackedActive = state.isNavigationToTrackedActive
+        }
     }
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: ViewState.init)) { viewStore in
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
-                        isActive: viewStore.binding(\.$isNavigationToOnboardActive),
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToOnboardActive,
+                            send: Main.Action.setNavigationToOnboard(isActive:)
+                        ),
                         destination: { OnboardView() }
                     )
 
                     PassiveNavigationLink(
-                        isActive: viewStore.binding(\.$isNavigationToStandaloneActive),
-                        destination: { SessionView(.standalone) }
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToStandaloneActive,
+                            send: Main.Action.setNavigationToStandalone(isActive:)
+                        ),
+                        destination: {
+                            IfLetStore(
+                                store.scope(
+                                    state: \.standalone,
+                                    action: Main.Action.standalone
+                                ),
+                                then: StandaloneView.init(store:)
+                            )
+                        }
                     )
 
                     PassiveNavigationLink(
-                        isActive: viewStore.binding(\.$isNavigationToTrackedActive),
-                        destination: { SessionView(.tracked) }
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToTrackedActive,
+                            send: Main.Action.setNavigationToTracked(isActive:)
+                        ),
+                        destination: {
+                            SessionView(.tracked)
+                        }
                     )
 
-                    TabView(selection: $currentTab) {
-                        NavigationButton(
-                            title: "Standalone",
-                            isActive: viewStore.binding(\.$isNavigationToStandaloneActive)
+                    TabView(selection:
+                        viewStore.binding(
+                            get: \.currentTab,
+                            send: Main.Action.didChangeCurrentTab
                         )
+                    ) {
+                        TabViewButton(title: "Standalone") {
+                            viewStore.send(.setNavigationToStandalone(isActive: true))
+                        }
                         .foregroundColor(.customBlue)
-                        .tag(Tab.standalone)
+                        .tag(Main.Tab.standalone)
 
-                        NavigationButton(
-                            title: "Tracked",
-                            isActive: viewStore.binding(\.$isNavigationToTrackedActive)
-                        )
+                        TabViewButton(title: "Tracked") {
+                            viewStore.send(.setNavigationToTracked(isActive: true))
+                        }
                         .foregroundColor(.customRed)
-                        .tag(Tab.tracked)
+                        .tag(Main.Tab.tracked)
                     }
                 }
             }
@@ -58,15 +92,15 @@ struct MainView: View {
     }
 }
 
-private struct NavigationButton: View {
+private struct TabViewButton: View {
     let title: String
-    @Binding var isActive: Bool
+    let action: () -> Void
 
     @State private var titleScale = Self.minimumTitleScale
 
     var body: some View {
         Button {
-            isActive = true
+            action()
         } label: {
             Text(title)
                 .font(.title3)
@@ -83,7 +117,7 @@ private struct NavigationButton: View {
 
 // MARK: - Constants
 
-private extension NavigationButton {
+private extension TabViewButton {
     static let minimumTitleScale: CGFloat = 1.0
     static let maximumTitleScale: CGFloat = 1.1
     static let titleScaleAnimation: Animation = .easeInOut(duration: 1.0).repeatForever()

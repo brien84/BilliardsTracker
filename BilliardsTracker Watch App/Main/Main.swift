@@ -9,12 +9,20 @@ import ComposableArchitecture
 import Foundation
 
 struct Main: ReducerProtocol {
+    enum Tab: Int {
+        case standalone
+        case tracked
+    }
+
     struct State: Equatable {
         let session = SessionManager()
 
-        @BindingState var isNavigationToStandaloneActive = false
-        @BindingState var isNavigationToTrackedActive = false
-        @BindingState var isNavigationToOnboardActive = false
+        var standalone: Standalone.State?
+        var isNavigationToTrackedActive = false
+
+        var isNavigationToOnboardActive = false
+
+        var currentTab: Main.Tab = .standalone
 
         init() {
             if !UserDefaults.standard.hasOnboardBeenShown {
@@ -24,18 +32,42 @@ struct Main: ReducerProtocol {
         }
     }
 
-    enum Action: BindableAction, Equatable {
-        case binding(BindingAction<State>)
+    enum Action: Equatable {
+        case didChangeCurrentTab(Main.Tab)
+
+        case standalone(Standalone.Action)
+
+        case setNavigationToStandalone(isActive: Bool)
+        case setNavigationToTracked(isActive: Bool)
+        case setNavigationToOnboard(isActive: Bool)
     }
 
     var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
-
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .binding:
+
+            case .didChangeCurrentTab(let tab):
+                state.currentTab = tab
+                return .none
+
+            case .standalone:
+                return .none
+
+            case .setNavigationToStandalone(isActive: let isActive):
+                state.standalone = isActive ? Standalone.State() : nil
+                return .none
+
+            case .setNavigationToTracked(isActive: let isActive):
+                state.isNavigationToTrackedActive = isActive
+                return .none
+
+            case .setNavigationToOnboard(isActive: let isActive):
+                state.isNavigationToOnboardActive = isActive
                 return .none
             }
+        }
+        .ifLet(\.standalone, action: /Action.standalone) {
+            Standalone()
         }
     }
 }
