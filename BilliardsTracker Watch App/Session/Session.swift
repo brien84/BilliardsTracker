@@ -42,6 +42,7 @@ struct Session: ReducerProtocol {
         case pauseButtonDidTap
         case resumeButtonDidTap
         case stopButtonDidTap
+        case undoButtonDidTap
     }
 
     var body: some ReducerProtocol<State, Action> {
@@ -63,6 +64,8 @@ struct Session: ReducerProtocol {
                     WKInterfaceDevice().play(.failure)
                 }
 
+                state.didPotLastShot = isSuccess
+
                 return .none
 
             case .pauseButtonDidTap:
@@ -78,6 +81,20 @@ struct Session: ReducerProtocol {
                 return .none
 
             case .stopButtonDidTap:
+                return .none
+
+            case .undoButtonDidTap:
+                guard let didPotLastShot = state.didPotLastShot else { return .none }
+
+                if didPotLastShot {
+                    state.potCount -= 1
+                } else {
+                    state.missCount -= 1
+                }
+
+                state.didPotLastShot = nil
+                state.currentTab = .progress
+                WKInterfaceDevice().play(.directionDown)
                 return .none
             }
         }

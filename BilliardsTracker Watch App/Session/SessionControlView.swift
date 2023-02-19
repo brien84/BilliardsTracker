@@ -10,9 +10,11 @@ import SwiftUI
 
 private extension SessionControlView {
     struct State: Equatable {
+        let didPotLastShot: Bool?
         let isPaused: Bool
 
         init(state: Session.State) {
+            self.didPotLastShot = state.didPotLastShot
             self.isPaused = state.isPaused
         }
     }
@@ -21,6 +23,7 @@ private extension SessionControlView {
         case pauseButtonDidTap
         case resumeButtonDidTap
         case stopButtonDidTap
+        case undoButtonDidTap
     }
 }
 
@@ -39,6 +42,8 @@ private extension SessionControlView.Action {
             return .resumeButtonDidTap
         case .stopButtonDidTap:
             return .stopButtonDidTap
+        case .undoButtonDidTap:
+            return .undoButtonDidTap
         }
     }
 }
@@ -63,8 +68,9 @@ struct SessionControlView: View {
                         imageName: "arrow.uturn.backward",
                         color: .customBlue
                     ) {
-
+                        viewStore.send(.undoButtonDidTap, animation: .default)
                     }
+                    .disabled(viewStore.didPotLastShot == nil)
                 }
 
                 HStack {
