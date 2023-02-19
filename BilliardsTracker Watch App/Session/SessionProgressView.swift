@@ -22,13 +22,13 @@ private extension SessionProgressView {
             return CGFloat(remainingShots) / CGFloat(shotCount)
         }
 
-        init(session: Session.State) {
-            self.title = session.title
-            self.shotCount = session.shotCount
-            self.potCount = session.potCount
-            self.missCount = session.missCount
-            self.remainingShots = session.remainingShots
-            self.isPaused = session.isPaused
+        init(state: Session.State) {
+            self.title = state.title
+            self.shotCount = state.shotCount
+            self.potCount = state.potCount
+            self.missCount = state.missCount
+            self.remainingShots = state.remainingShots
+            self.isPaused = state.isPaused
         }
     }
 
@@ -39,7 +39,7 @@ private extension SessionProgressView {
 
 private extension Session.State {
     var state: SessionProgressView.State {
-        .init(session: self)
+        .init(state: self)
     }
 }
 
@@ -65,7 +65,7 @@ struct SessionProgressView: View {
                 Spacer()
 
                 ProgressView(value: viewStore.remainingShotsPercentage) {
-                    Text("\(viewStore.shotCount - viewStore.potCount - viewStore.missCount)")
+                    Text("\(viewStore.remainingShots)")
                         .bold()
                         .foregroundColor(.primaryElement)
                 }
