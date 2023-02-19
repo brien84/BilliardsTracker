@@ -9,19 +9,41 @@ import ComposableArchitecture
 
 struct Standalone: ReducerProtocol {
     struct State: Equatable {
-
+        var session: Session.State?
+        var shotCount = 9
     }
 
     enum Action: Equatable {
-        case none
+        case session(Session.Action)
+        case setNavigationToSession(isActive: Bool)
+        case shotCountDidChange(Int)
     }
 
     var body: some ReducerProtocol<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .none:
+            case .session(.stopButtonDidTap):
+                state.session = nil
+                return .none
+
+            case .session:
+                return .none
+
+            case .setNavigationToSession(isActive: true):
+                state.session = Session.State(title: "Standalone", shotCount: state.shotCount)
+                return .none
+
+            case .setNavigationToSession(isActive: false):
+                state.session = nil
+                return .none
+
+            case .shotCountDidChange(let count):
+                state.shotCount = count
                 return .none
             }
+        }
+        .ifLet(\.session, action: /Action.session) {
+            Session()
         }
     }
 }

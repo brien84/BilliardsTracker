@@ -11,8 +11,18 @@ import SwiftUI
 struct StandaloneView: View {
     let store: StoreOf<Standalone>
 
+    struct ViewState: Equatable {
+        let isNavigationToSessionActive: Bool
+        let shotCount: Int
+
+        init(state: Standalone.State) {
+            self.isNavigationToSessionActive = state.session != nil
+            self.shotCount = state.shotCount
+        }
+    }
+
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: ViewState.init)) { viewStore in
             ZStack {
                 VStack {
                     Text("Shots")
@@ -39,12 +49,23 @@ struct StandaloneView: View {
                     Divider()
 
                     Button("Start") {
-
+                        viewStore.send(.setNavigationToSession(isActive: true), animation: .default)
                     }
                     .buttonStyle(.bordered)
                     .tint(.customBlue)
                 }
+
+                IfLetStore(
+                    store.scope(
+                        state: \.session,
+                        action: Standalone.Action.session
+                    ),
+                    then: NewSessionView.init(store:)
+                )
+                .transition(.slide)
+                .zIndex(100)
             }
+            .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
         }
     }
 }
