@@ -8,19 +8,48 @@
 import ComposableArchitecture
 import SwiftUI
 
+private extension NewSessionView {
+    struct State: Equatable {
+        let currentTab: Session.Tab
+    }
+
+    enum Action: Equatable {
+        case didChangeCurrentTab(Session.Tab)
+    }
+}
+
+private extension Session.State {
+    var state: NewSessionView.State {
+        .init(currentTab: self.currentTab)
+    }
+}
+
+private extension NewSessionView.Action {
+    var action: Session.Action {
+        switch self {
+        case .didChangeCurrentTab(let tab):
+            return .didChangeCurrentTab(tab)
+        }
+    }
+}
+
 struct NewSessionView: View {
     let store: StoreOf<Session>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
-            TabView(selection: viewStore.binding(\.$currentTab)) {
+        WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
+            TabView(selection:
+                viewStore.binding(
+                    get: \.currentTab,
+                    send: NewSessionView.Action.didChangeCurrentTab
+                )
+            ) {
                 SessionProgressView(store: store)
                     .tag(Session.Tab.progress)
 
                 SessionControlView(store: store)
                     .tag(Session.Tab.control)
             }
-            .transition(.slide)
         }
     }
 }

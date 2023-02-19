@@ -31,24 +31,24 @@ struct Session: ReducerProtocol {
             return shots
         }
 
-        @BindingState var currentTab: Session.Tab = .progress
+        var currentTab: Session.Tab = .progress
     }
 
-    enum Action: BindableAction, Equatable {
-        case binding(BindingAction<State>)
-
+    enum Action: Equatable {
         case didRegisterShot(isSuccess: Bool)
+
+        case didChangeCurrentTab(Session.Tab)
 
         case pauseButtonDidTap
         case resumeButtonDidTap
     }
 
     var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
-            case .binding:
+
+            case .didChangeCurrentTab(let tab):
+                state.currentTab = tab
                 return .none
 
             case .didRegisterShot(let isSuccess):
@@ -75,6 +75,7 @@ struct Session: ReducerProtocol {
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionUp)
                 return .none
+                
             }
         }
     }
