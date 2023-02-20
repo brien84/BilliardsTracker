@@ -53,6 +53,7 @@
 		29A0F3A0299ED9CC000302AF /* NewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F39F299ED9CC000302AF /* NewSessionView.swift */; };
 		29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A129A285ED000302AF /* StandaloneView.swift */; };
 		29A0F3A529A2BAB7000302AF /* Tracked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A429A2BAB7000302AF /* Tracked.swift */; };
+		29A0F3A829A2DBB8000302AF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A729A2DBB8000302AF /* Result.swift */; };
 		29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */; };
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
@@ -167,6 +168,7 @@
 		29A0F39F299ED9CC000302AF /* NewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionView.swift; sourceTree = "<group>"; };
 		29A0F3A129A285ED000302AF /* StandaloneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneView.swift; sourceTree = "<group>"; };
 		29A0F3A429A2BAB7000302AF /* Tracked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracked.swift; sourceTree = "<group>"; };
+		29A0F3A729A2DBB8000302AF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		29A64522261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BilliardsTrackerModel.xcdatamodel; sourceTree = "<group>"; };
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29BB85FB262E26AB0055A8BB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			children = (
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				29A0F396299D54EA000302AF /* Session */,
+				29A0F3A629A2DBA7000302AF /* Result */,
 				292D80A1265D88FC0058CAB2 /* Managers */,
 				29A0F3A329A2BAA4000302AF /* Tracked */,
 				29DB146A299C343C004029D1 /* Standalone */,
@@ -449,6 +452,14 @@
 				29A0F3A429A2BAB7000302AF /* Tracked.swift */,
 			);
 			path = Tracked;
+			sourceTree = "<group>";
+		};
+		29A0F3A629A2DBA7000302AF /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				29A0F3A729A2DBB8000302AF /* Result.swift */,
+			);
+			path = Result;
 			sourceTree = "<group>";
 		};
 		29C554AB298E7D080045DFCB /* Settings */ = {
@@ -747,6 +758,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29A0F3A829A2DBB8000302AF /* Result.swift in Sources */,
 				29A0F3A0299ED9CC000302AF /* NewSessionView.swift in Sources */,
 				29A0F39C299ED466000302AF /* SessionProgressView.swift in Sources */,
 				29A0F398299D54FC000302AF /* Session.swift in Sources */,
