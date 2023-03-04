@@ -54,6 +54,7 @@
 		29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A129A285ED000302AF /* StandaloneView.swift */; };
 		29A0F3A529A2BAB7000302AF /* Tracked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A429A2BAB7000302AF /* Tracked.swift */; };
 		29A0F3A829A2DBB8000302AF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A729A2DBB8000302AF /* Result.swift */; };
+		29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CD29A3BC14000302AF /* MotionClient.swift */; };
 		29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */; };
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
@@ -169,6 +170,7 @@
 		29A0F3A129A285ED000302AF /* StandaloneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneView.swift; sourceTree = "<group>"; };
 		29A0F3A429A2BAB7000302AF /* Tracked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracked.swift; sourceTree = "<group>"; };
 		29A0F3A729A2DBB8000302AF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		29A0F3CD29A3BC14000302AF /* MotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionClient.swift; sourceTree = "<group>"; };
 		29A64522261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BilliardsTrackerModel.xcdatamodel; sourceTree = "<group>"; };
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29BB85FB262E26AB0055A8BB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
@@ -438,10 +440,11 @@
 			isa = PBXGroup;
 			children = (
 				29A0F399299D642F000302AF /* ExtendedRuntimeClient.swift */,
+				29A0F3CD29A3BC14000302AF /* MotionClient.swift */,
+				29A0F39F299ED9CC000302AF /* NewSessionView.swift */,
 				29A0F397299D54FC000302AF /* Session.swift */,
 				29A0F39D299ED5D1000302AF /* SessionControlView.swift */,
 				29A0F39B299ED466000302AF /* SessionProgressView.swift */,
-				29A0F39F299ED9CC000302AF /* NewSessionView.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				29A0F398299D54FC000302AF /* Session.swift in Sources */,
 				29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */,
 				290C01152617794900A82A6C /* PrimaryControls.swift in Sources */,
+				29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				29C87169262210680064C592 /* SessionView.swift in Sources */,
 				29A0F39A299D642F000302AF /* ExtendedRuntimeClient.swift in Sources */,
