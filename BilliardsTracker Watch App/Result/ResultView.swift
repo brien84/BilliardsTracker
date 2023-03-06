@@ -38,8 +38,47 @@ struct ResultView: View {
                     .font(.title2)
 
                     Divider()
+
+                    Spacer()
+
+                    HStack {
+                        ResultButton(
+                            imageName: "checkmark",
+                            color: .customGreen,
+                            action: {
+                                viewStore.send(.doneButtonDidTap, animation: .default)
+                            }
+                        )
+
+                        ResultButton(
+                            imageName: "arrow.counterclockwise",
+                            color: .customBlue,
+                            action: {
+                                viewStore.send(.restartButtonDidTap, animation: .default)
+                            }
+                        )
+                    }
                 }
             }
+        }
+    }
+}
+
+private struct ResultButton: View {
+    let imageName: String
+    let color: Color
+    let action: () -> Void
+
+    var body: some View {
+        VStack {
+            Button {
+                action()
+            } label: {
+                Image(systemName: imageName)
+                    .font(.title3.weight(.semibold))
+            }
+            .buttonStyle(.bordered)
+            .tint(color)
         }
     }
 }
