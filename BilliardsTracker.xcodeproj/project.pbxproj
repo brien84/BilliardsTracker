@@ -77,7 +77,6 @@
 		29DB1469299C3437004029D1 /* Standalone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1468299C3437004029D1 /* Standalone.swift */; };
 		29F37DEC2617717C00DD4A9C /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F37DEB2617717C00DD4A9C /* SetupView.swift */; };
 		29FAD65E2615112A00310DA9 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD65D2615112A00310DA9 /* SessionManager.swift */; };
-		29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FAD6692616066800310DA9 /* MotionManager.swift */; };
 		29FD3DD42624DAF500322371 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FD3DD32624DAF500322371 /* ConnectivityManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -192,7 +191,6 @@
 		29DB1468299C3437004029D1 /* Standalone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Standalone.swift; sourceTree = "<group>"; };
 		29F37DEB2617717C00DD4A9C /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		29FAD65D2615112A00310DA9 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		29FAD6692616066800310DA9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		29FD3DD32624DAF500322371 /* ConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -335,7 +333,6 @@
 			children = (
 				29FD3DD32624DAF500322371 /* ConnectivityManager.swift */,
 				290C01382618899E00A82A6C /* ExtendedRuntimeManager.swift */,
-				29FAD6692616066800310DA9 /* MotionManager.swift */,
 				29FAD65D2615112A00310DA9 /* SessionManager.swift */,
 			);
 			path = Managers;
@@ -771,7 +768,6 @@
 				29A0F3A0299ED9CC000302AF /* NewSessionView.swift in Sources */,
 				29A0F39C299ED466000302AF /* SessionProgressView.swift in Sources */,
 				29A0F398299D54FC000302AF /* Session.swift in Sources */,
-				29FAD66A2616066900310DA9 /* MotionManager.swift in Sources */,
 				290C01152617794900A82A6C /* PrimaryControls.swift in Sources */,
 				29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,

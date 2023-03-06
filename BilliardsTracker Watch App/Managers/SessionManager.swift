@@ -22,7 +22,6 @@ extension SessionManager: Equatable {
 final class SessionManager: ObservableObject {
     private let connectivity = ConnectivityManager()
     private let extendedRuntime = ExtendedRuntimeManager()
-    private let motion = MotionManager()
 
     @Published var mode: Mode? {
         didSet {
@@ -62,11 +61,9 @@ final class SessionManager: ObservableObject {
         didSet {
             if isPaused {
                 WKInterfaceDevice().play(.directionDown)
-                motion.stop()
                 extendedRuntime.stop()
             } else {
                 WKInterfaceDevice().play(.directionUp)
-                motion.start()
                 extendedRuntime.start()
             }
         }
@@ -105,18 +102,6 @@ final class SessionManager: ObservableObject {
                     self?.isActive = true
                 } else {
                     self?.isActive = false
-                }
-            }
-            .store(in: &cancellables)
-
-        motion.gesturePublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] gesture in
-                switch gesture {
-                case .axisX:
-                    self?.addAttempt(isSuccess: true)
-                case .axisZ:
-                    self?.addAttempt(isSuccess: false)
                 }
             }
             .store(in: &cancellables)
