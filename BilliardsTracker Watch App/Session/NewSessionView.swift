@@ -11,6 +11,12 @@ import SwiftUI
 private extension NewSessionView {
     struct State: Equatable {
         let currentTab: Session.Tab
+        let isNavigationToResultActive: Bool
+
+        init(state: Session.State) {
+            self.currentTab = state.currentTab
+            self.isNavigationToResultActive = state.result != nil
+        }
     }
 
     enum Action: Equatable {
@@ -20,7 +26,7 @@ private extension NewSessionView {
 
 private extension Session.State {
     var state: NewSessionView.State {
-        .init(currentTab: self.currentTab)
+        .init(state: self)
     }
 }
 
@@ -38,17 +44,30 @@ struct NewSessionView: View {
 
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
-            TabView(selection:
-                viewStore.binding(
-                    get: \.currentTab,
-                    send: NewSessionView.Action.didChangeCurrentTab
-                )
-            ) {
-                SessionProgressView(store: store)
-                    .tag(Session.Tab.progress)
+            ZStack {
+                TabView(selection:
+                    viewStore.binding(
+                        get: \.currentTab,
+                        send: NewSessionView.Action.didChangeCurrentTab
+                    )
+                ) {
+                    SessionProgressView(store: store)
+                        .tag(Session.Tab.progress)
 
-                SessionControlView(store: store)
-                    .tag(Session.Tab.control)
+                    SessionControlView(store: store)
+                        .tag(Session.Tab.control)
+                }
+                .tabViewStyle(.page(indexDisplayMode: viewStore.isNavigationToResultActive ? .never : .always))
+
+                IfLetStore(
+                    store.scope(
+                        state: \.result,
+                        action: Session.Action.result
+                    ),
+                    then: ResultView.init(store:)
+                )
+                .transition(.move(edge: .bottom))
+                .zIndex(1000)
             }
         }
     }

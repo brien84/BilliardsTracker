@@ -32,6 +32,8 @@ struct Session: ReducerProtocol {
         }
 
         var currentTab: Session.Tab = .progress
+
+        var result: Result.State?
     }
 
     enum Action: Equatable {
@@ -43,11 +45,24 @@ struct Session: ReducerProtocol {
         case resumeButtonDidTap
         case stopButtonDidTap
         case undoButtonDidTap
+
+        case result(Result.Action)
     }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
+
+            case .result(.doneButtonDidTap):
+                state.result = nil
+                return .none
+
+            case .result(.restartButtonDidTap):
+                state.potCount = 0
+                state.missCount = 0
+                state.didPotLastShot = nil
+                state.result = nil
+                return .none
 
             case .didChangeCurrentTab(let tab):
                 state.currentTab = tab
@@ -65,6 +80,10 @@ struct Session: ReducerProtocol {
                 }
 
                 state.didPotLastShot = isSuccess
+
+                if state.remainingShots == 0 {
+                    state.result = Result.State(potCount: state.potCount, missCount: state.missCount)
+                }
 
                 return .none
 
@@ -97,6 +116,9 @@ struct Session: ReducerProtocol {
                 WKInterfaceDevice().play(.directionDown)
                 return .none
             }
+        }
+        .ifLet(\.result, action: /Action.result) {
+            Result()
         }
     }
 }
