@@ -12,7 +12,6 @@ struct MainView: View {
     let store: StoreOf<Main>
 
     struct ViewState: Equatable {
-        let session: SessionManager
         let currentTab: Main.Tab
 
         let isNavigationToOnboardActive: Bool
@@ -20,12 +19,11 @@ struct MainView: View {
         let isNavigationToTrackedActive: Bool
 
         init(state: Main.State) {
-            self.session = state.session
             self.currentTab = state.currentTab
 
             self.isNavigationToOnboardActive = state.isNavigationToOnboardActive
             self.isNavigationToStandaloneActive = state.standalone != nil
-            self.isNavigationToTrackedActive = state.isNavigationToTrackedActive
+            self.isNavigationToTrackedActive = state.tracked != nil
         }
     }
 
@@ -63,7 +61,13 @@ struct MainView: View {
                             send: Main.Action.setNavigationToTracked(isActive:)
                         ),
                         destination: {
-                            SessionView(.tracked)
+                            IfLetStore(
+                                store.scope(
+                                    state: \.tracked,
+                                    action: Main.Action.tracked
+                                ),
+                                then: TrackedView.init(store:)
+                            )
                         }
                     )
 
@@ -87,7 +91,6 @@ struct MainView: View {
                     }
                 }
             }
-            .environmentObject(viewStore.session)
         }
     }
 }

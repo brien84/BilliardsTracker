@@ -15,14 +15,12 @@ struct Main: ReducerProtocol {
     }
 
     struct State: Equatable {
-        let session = SessionManager()
+        var currentTab: Main.Tab = .standalone
 
         var standalone: Standalone.State?
-        var isNavigationToTrackedActive = false
+        var tracked: Tracked.State?
 
         var isNavigationToOnboardActive = false
-
-        var currentTab: Main.Tab = .standalone
 
         init() {
             if !UserDefaults.standard.hasOnboardBeenShown {
@@ -36,6 +34,7 @@ struct Main: ReducerProtocol {
         case didChangeCurrentTab(Main.Tab)
 
         case standalone(Standalone.Action)
+        case tracked(Tracked.Action)
 
         case setNavigationToStandalone(isActive: Bool)
         case setNavigationToTracked(isActive: Bool)
@@ -53,12 +52,15 @@ struct Main: ReducerProtocol {
             case .standalone:
                 return .none
 
+            case .tracked:
+                return .none
+
             case .setNavigationToStandalone(isActive: let isActive):
                 state.standalone = isActive ? Standalone.State() : nil
                 return .none
 
             case .setNavigationToTracked(isActive: let isActive):
-                state.isNavigationToTrackedActive = isActive
+                state.tracked = isActive ? Tracked.State() : nil
                 return .none
 
             case .setNavigationToOnboard(isActive: let isActive):
@@ -68,6 +70,9 @@ struct Main: ReducerProtocol {
         }
         .ifLet(\.standalone, action: /Action.standalone) {
             Standalone()
+        }
+        .ifLet(\.tracked, action: /Action.tracked) {
+            Tracked()
         }
     }
 }
