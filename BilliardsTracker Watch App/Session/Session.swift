@@ -34,6 +34,8 @@ struct Session: ReducerProtocol {
         var currentTab: Session.Tab = .progress
 
         var result: Result.State?
+
+        var alert: AlertState<Action>?
     }
 
     enum Action: Equatable {
@@ -47,11 +49,48 @@ struct Session: ReducerProtocol {
         case undoButtonDidTap
 
         case result(Result.Action)
+
+        case alertDidDismiss
+        case gestureTrackingDidFail
+
+        case onAppear
+    }
+
+    @Dependency(\.motionClient) var motionClient
+    private enum MotionID { }
+
+    private func startMotionClient(state: inout State) -> EffectTask<Action> {
+        .run { send in
+            do {
+                for try await gesture in await motionClient.start() {
+                    if gesture == .axisX {
+                        await send(.didRegisterShot(isSuccess: true))
+                    } else {
+                        await send(.didRegisterShot(isSuccess: false))
+                    }
+                }
+            } catch {
+                await send(.gestureTrackingDidFail)
+            }
+        }
+        .cancellable(id: MotionID.self, cancelInFlight: true)
     }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
+
+            case .onAppear:
+                return startMotionClient(state: &state)
+
+            case .alertDidDismiss:
+                state.alert = nil
+                return .none
+
+            case .gestureTrackingDidFail:
+                guard state.alert == nil else { return .none }
+                state.alert = gestureTrackingAlert
+                return .cancel(ids: [MotionID.self])
 
             case .result(.doneButtonDidTap):
                 state.result = nil
@@ -62,7 +101,7 @@ struct Session: ReducerProtocol {
                 state.missCount = 0
                 state.didPotLastShot = nil
                 state.result = nil
-                return .none
+                return startMotionClient(state: &state)
 
             case .didChangeCurrentTab(let tab):
                 state.currentTab = tab
@@ -83,6 +122,7 @@ struct Session: ReducerProtocol {
 
                 if state.remainingShots == 0 {
                     state.result = Result.State(potCount: state.potCount, missCount: state.missCount)
+                    return .cancel(ids: [MotionID.self])
                 }
 
                 return .none
@@ -91,16 +131,16 @@ struct Session: ReducerProtocol {
                 state.isPaused = true
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionDown)
-                return .none
+                return .cancel(ids: [MotionID.self])
 
             case .resumeButtonDidTap:
                 state.isPaused = false
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionUp)
-                return .none
+                return startMotionClient(state: &state)
 
             case .stopButtonDidTap:
-                return .none
+                return .cancel(ids: [MotionID.self])
 
             case .undoButtonDidTap:
                 guard let didPotLastShot = state.didPotLastShot else { return .none }
@@ -121,4 +161,27 @@ struct Session: ReducerProtocol {
             Result()
         }
     }
+}
+
+// MARK: - Alerts
+
+private extension Session {
+
+    var gestureTrackingAlert: AlertState<Session.Action> {
+        AlertState {
+            TextState("Attention!")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("OK")
+            }
+        } message: {
+            TextState(
+                """
+                BilliardsTracker could not initiate gesture tracking.
+                Make sure other workout apps are not actively running.
+                """
+            )
+        }
+    }
+
 }

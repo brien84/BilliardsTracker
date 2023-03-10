@@ -13,14 +13,20 @@ private extension NewSessionView {
         let currentTab: Session.Tab
         let isNavigationToResultActive: Bool
 
+        var alert: AlertState<Session.Action>?
+
         init(state: Session.State) {
             self.currentTab = state.currentTab
             self.isNavigationToResultActive = state.result != nil
+            self.alert = state.alert
         }
     }
 
     enum Action: Equatable {
         case didChangeCurrentTab(Session.Tab)
+
+        case alertDidDismiss
+        case onAppear
     }
 }
 
@@ -35,6 +41,12 @@ private extension NewSessionView.Action {
         switch self {
         case .didChangeCurrentTab(let tab):
             return .didChangeCurrentTab(tab)
+
+        case .alertDidDismiss:
+            return .alertDidDismiss
+
+        case .onAppear:
+            return .onAppear
         }
     }
 }
@@ -68,6 +80,13 @@ struct NewSessionView: View {
                 )
                 .transition(.move(edge: .bottom))
                 .zIndex(1000)
+            }
+            .alert(
+                store.scope(state: \.alert),
+                dismiss: .alertDidDismiss
+            )
+            .onAppear {
+                viewStore.send(.onAppear)
             }
         }
     }
