@@ -10,23 +10,21 @@ import SwiftUI
 
 private extension NewSessionView {
     struct State: Equatable {
+        let alert: AlertState<Session.Action>?
         let currentTab: Session.Tab
         let isNavigationToResultActive: Bool
 
-        var alert: AlertState<Session.Action>?
-
         init(state: Session.State) {
+            self.alert = state.alert
             self.currentTab = state.currentTab
             self.isNavigationToResultActive = state.result != nil
-            self.alert = state.alert
         }
     }
 
     enum Action: Equatable {
-        case didChangeCurrentTab(Session.Tab)
-
         case alertDidDismiss
-        case onAppear
+        case beginGestureTracking
+        case didChangeCurrentTab(Session.Tab)
     }
 }
 
@@ -39,14 +37,14 @@ private extension Session.State {
 private extension NewSessionView.Action {
     var action: Session.Action {
         switch self {
-        case .didChangeCurrentTab(let tab):
-            return .didChangeCurrentTab(tab)
-
         case .alertDidDismiss:
             return .alertDidDismiss
 
-        case .onAppear:
-            return .onAppear
+        case .beginGestureTracking:
+            return .beginGestureTracking
+
+        case .didChangeCurrentTab(let tab):
+            return .didChangeCurrentTab(tab)
         }
     }
 }
@@ -86,7 +84,7 @@ struct NewSessionView: View {
                 dismiss: .alertDidDismiss
             )
             .onAppear {
-                viewStore.send(.onAppear)
+                viewStore.send(.beginGestureTracking)
             }
         }
     }
