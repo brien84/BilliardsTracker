@@ -21,7 +21,6 @@ extension SessionManager: Equatable {
 
 final class SessionManager: ObservableObject {
     private let connectivity = ConnectivityManager()
-    private let extendedRuntime = ExtendedRuntimeManager()
 
     @Published var mode: Mode? {
         didSet {
@@ -61,10 +60,8 @@ final class SessionManager: ObservableObject {
         didSet {
             if isPaused {
                 WKInterfaceDevice().play(.directionDown)
-                extendedRuntime.stop()
             } else {
                 WKInterfaceDevice().play(.directionUp)
-                extendedRuntime.start()
             }
         }
     }
@@ -123,10 +120,6 @@ final class SessionManager: ObservableObject {
             isPaused = true
             didPotLastAttempt = nil
             return
-        }
-
-        if extendedRuntime.isExpiring {
-            extendedRuntime.start()
         }
 
         WKInterfaceDevice().play(isSuccess ? .notification : .failure)
