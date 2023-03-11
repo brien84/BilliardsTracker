@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DrillContext: Codable {
+struct DrillContext: Codable, Equatable {
     let isActive: Bool
     let attempts: Int
     let isContinuous: Bool
