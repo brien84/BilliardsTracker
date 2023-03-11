@@ -16,13 +16,15 @@ struct Session: ReducerProtocol {
     }
 
     struct State: Equatable {
+        var alert: AlertState<Action>?
+        var currentTab: Session.Tab = .progress
+        var result: Result.State?
+
         let title: String
         let shotCount: Int
-
         var potCount = 0
         var missCount = 0
         var didPotLastShot: Bool?
-
         var isPaused = false
 
         var remainingShots: Int {
@@ -30,34 +32,29 @@ struct Session: ReducerProtocol {
             guard shots > 0 else { return 0 }
             return shots
         }
-
-        var currentTab: Session.Tab = .progress
-
-        var result: Result.State?
-
-        var alert: AlertState<Action>?
     }
 
     enum Action: Equatable {
-        case didRegisterShot(isSuccess: Bool)
-
+        case alertDidDismiss
         case didChangeCurrentTab(Session.Tab)
+        case result(Result.Action)
 
+        case didRegisterShot(isSuccess: Bool)
         case pauseButtonDidTap
         case resumeButtonDidTap
         case stopButtonDidTap
         case undoButtonDidTap
 
-        case result(Result.Action)
-
-        case alertDidDismiss
+        case beginGestureTracking
         case gestureTrackingDidFail
-
-        case onAppear
+        case runtimeClient(ExtendedRuntimeClient.Action?)
     }
 
     @Dependency(\.motionClient) var motionClient
+    @Dependency(\.runtimeClient) var runtimeClient
+
     private enum MotionID { }
+    private enum RuntimeID { }
 
     private func startMotionClient(state: inout State) -> EffectTask<Action> {
         .run { send in
@@ -76,21 +73,24 @@ struct Session: ReducerProtocol {
         .cancellable(id: MotionID.self, cancelInFlight: true)
     }
 
+    private func startRuntimeClient(state: inout State) -> EffectTask<Action> {
+        .task {
+            .runtimeClient(await runtimeClient.start())
+        }
+        .cancellable(id: RuntimeID.self, cancelInFlight: true)
+    }
+
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-
-            case .onAppear:
-                return startMotionClient(state: &state)
 
             case .alertDidDismiss:
                 state.alert = nil
                 return .none
 
-            case .gestureTrackingDidFail:
-                guard state.alert == nil else { return .none }
-                state.alert = gestureTrackingAlert
-                return .cancel(ids: [MotionID.self])
+            case .didChangeCurrentTab(let tab):
+                state.currentTab = tab
+                return .none
 
             case .result(.doneButtonDidTap):
                 state.result = nil
@@ -101,11 +101,10 @@ struct Session: ReducerProtocol {
                 state.missCount = 0
                 state.didPotLastShot = nil
                 state.result = nil
-                return startMotionClient(state: &state)
-
-            case .didChangeCurrentTab(let tab):
-                state.currentTab = tab
-                return .none
+                return .merge(
+                    startMotionClient(state: &state),
+                    startRuntimeClient(state: &state)
+                )
 
             case .didRegisterShot(let isSuccess):
                 guard state.remainingShots > 0 else { return .none }
@@ -122,7 +121,7 @@ struct Session: ReducerProtocol {
 
                 if state.remainingShots == 0 {
                     state.result = Result.State(potCount: state.potCount, missCount: state.missCount)
-                    return .cancel(ids: [MotionID.self])
+                    return .cancel(ids: [MotionID.self, RuntimeID.self])
                 }
 
                 return .none
@@ -131,16 +130,19 @@ struct Session: ReducerProtocol {
                 state.isPaused = true
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionDown)
-                return .cancel(ids: [MotionID.self])
+                return .cancel(ids: [MotionID.self, RuntimeID.self])
 
             case .resumeButtonDidTap:
                 state.isPaused = false
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionUp)
-                return startMotionClient(state: &state)
+                return .merge(
+                    startMotionClient(state: &state),
+                    startRuntimeClient(state: &state)
+                )
 
             case .stopButtonDidTap:
-                return .cancel(ids: [MotionID.self])
+                return .cancel(ids: [MotionID.self, RuntimeID.self])
 
             case .undoButtonDidTap:
                 guard let didPotLastShot = state.didPotLastShot else { return .none }
@@ -155,6 +157,30 @@ struct Session: ReducerProtocol {
                 state.currentTab = .progress
                 WKInterfaceDevice().play(.directionDown)
                 return .none
+
+            case .beginGestureTracking:
+                return .merge(
+                    startMotionClient(state: &state),
+                    startRuntimeClient(state: &state)
+                )
+
+            case .gestureTrackingDidFail:
+                guard state.alert == nil else { return .none }
+                state.alert = gestureTrackingAlert
+                return .cancel(ids: [MotionID.self, RuntimeID.self])
+
+            case .runtimeClient(.didInvalidate(let reason)):
+                if reason != .none {
+                    return EffectTask.task { .gestureTrackingDidFail }
+                }
+                return .none
+
+            case .runtimeClient(.willExpire):
+                return startRuntimeClient(state: &state)
+
+            case .runtimeClient:
+                return .none
+
             }
         }
         .ifLet(\.result, action: /Action.result) {
@@ -166,7 +192,6 @@ struct Session: ReducerProtocol {
 // MARK: - Alerts
 
 private extension Session {
-
     var gestureTrackingAlert: AlertState<Session.Action> {
         AlertState {
             TextState("Attention!")
@@ -183,5 +208,4 @@ private extension Session {
             )
         }
     }
-
 }
