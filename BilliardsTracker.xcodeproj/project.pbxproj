@@ -71,7 +71,6 @@
 		29DB1466299ADF1B004029D1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1465299ADF1B004029D1 /* MainView.swift */; };
 		29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0789D297C75ED00A5012A /* PassiveNavigationLink.swift */; };
 		29DB1469299C3437004029D1 /* Standalone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1468299C3437004029D1 /* Standalone.swift */; };
-		29FD3DD42624DAF500322371 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FD3DD32624DAF500322371 /* ConnectivityManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,7 +178,6 @@
 		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29DB1465299ADF1B004029D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		29DB1468299C3437004029D1 /* Standalone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Standalone.swift; sourceTree = "<group>"; };
-		29FD3DD32624DAF500322371 /* ConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,7 +302,6 @@
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				29A0F396299D54EA000302AF /* Session */,
 				29A0F3A629A2DBA7000302AF /* Result */,
-				292D80A1265D88FC0058CAB2 /* Managers */,
 				29A0F3A329A2BAA4000302AF /* Tracked */,
 				29DB146A299C343C004029D1 /* Standalone */,
 				29DB1462299ADE78004029D1 /* Main */,
@@ -314,14 +311,6 @@
 				2926E12026150FE600E95DBB /* Info.plist */,
 			);
 			path = "BilliardsTracker Watch App";
-			sourceTree = "<group>";
-		};
-		292D80A1265D88FC0058CAB2 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				29FD3DD32624DAF500322371 /* ConnectivityManager.swift */,
-			);
-			path = Managers;
 			sourceTree = "<group>";
 		};
 		294AD366261F74C40086E808 /* Models */ = {
@@ -758,7 +747,6 @@
 				29A0F3D029B633D8000302AF /* ResultView.swift in Sources */,
 				29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
-				29FD3DD42624DAF500322371 /* ConnectivityManager.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */,
