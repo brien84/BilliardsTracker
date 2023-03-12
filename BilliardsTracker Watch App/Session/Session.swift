@@ -50,11 +50,19 @@ struct Session: ReducerProtocol {
         case runtimeClient(ExtendedRuntimeClient.Action?)
     }
 
+    @Dependency(\.connectivityClient) var connectivityClient
     @Dependency(\.motionClient) var motionClient
     @Dependency(\.runtimeClient) var runtimeClient
 
     private enum MotionID { }
     private enum RuntimeID { }
+
+    private func sendResultContext(state: inout State) -> EffectTask<Action> {
+        let context = ResultContext(potCount: state.potCount, missCount: state.missCount, date: .now)
+        return .fireAndForget {
+            await connectivityClient.sendResultContext(context)
+        }
+    }
 
     private func startMotionClient(state: inout State) -> EffectTask<Action> {
         .run { send in
@@ -94,16 +102,18 @@ struct Session: ReducerProtocol {
 
             case .result(.doneButtonDidTap):
                 state.result = nil
-                return .none
+                return sendResultContext(state: &state)
 
             case .result(.restartButtonDidTap):
+                let sendResultContext = sendResultContext(state: &state)
                 state.potCount = 0
                 state.missCount = 0
                 state.didPotLastShot = nil
                 state.result = nil
                 return .merge(
                     startMotionClient(state: &state),
-                    startRuntimeClient(state: &state)
+                    startRuntimeClient(state: &state),
+                    sendResultContext
                 )
 
             case .didRegisterShot(let isSuccess):
