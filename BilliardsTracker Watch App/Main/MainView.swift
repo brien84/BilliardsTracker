@@ -22,8 +22,8 @@ struct MainView: View {
             self.currentTab = state.currentTab
 
             self.isNavigationToOnboardActive = state.isNavigationToOnboardActive
-            self.isNavigationToStandaloneActive = state.standalone != nil
-            self.isNavigationToTrackedActive = state.tracked != nil
+            self.isNavigationToStandaloneActive = state.isNavigationToStandaloneActive
+            self.isNavigationToTrackedActive = state.isNavigationToTrackedActive
         }
     }
 
@@ -45,13 +45,10 @@ struct MainView: View {
                             send: Main.Action.setNavigationToStandalone(isActive:)
                         ),
                         destination: {
-                            IfLetStore(
-                                store.scope(
-                                    state: \.standalone,
-                                    action: Main.Action.standalone
-                                ),
-                                then: StandaloneView.init(store:)
-                            )
+                            StandaloneView(store: store.scope(
+                                state: \.standalone,
+                                action: Main.Action.standalone
+                            ))
                         }
                     )
 
@@ -61,13 +58,10 @@ struct MainView: View {
                             send: Main.Action.setNavigationToTracked(isActive:)
                         ),
                         destination: {
-                            IfLetStore(
-                                store.scope(
-                                    state: \.tracked,
-                                    action: Main.Action.tracked
-                                ),
-                                then: TrackedView.init(store:)
-                            )
+                            TrackedView(store: store.scope(
+                                state: \.tracked,
+                                action: Main.Action.tracked
+                            ))
                         }
                     )
 

@@ -17,9 +17,11 @@ struct Main: ReducerProtocol {
     struct State: Equatable {
         var currentTab: Main.Tab = .standalone
 
-        var standalone: Standalone.State?
-        var tracked: Tracked.State?
+        var standalone = Standalone.State()
+        var tracked = Tracked.State()
 
+        var isNavigationToStandaloneActive = false
+        var isNavigationToTrackedActive = false
         var isNavigationToOnboardActive = false
 
         init() {
@@ -42,6 +44,14 @@ struct Main: ReducerProtocol {
     }
 
     var body: some ReducerProtocol<State, Action> {
+        Scope(state: \.standalone, action: /Action.standalone) {
+            Standalone()
+        }
+
+        Scope(state: \.tracked, action: /Action.tracked) {
+            Tracked()
+        }
+
         Reduce { state, action in
             switch action {
 
@@ -56,23 +66,17 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .setNavigationToStandalone(isActive: let isActive):
-                state.standalone = isActive ? Standalone.State() : nil
+                state.isNavigationToStandaloneActive = isActive
                 return .none
 
             case .setNavigationToTracked(isActive: let isActive):
-                state.tracked = isActive ? Tracked.State() : nil
+                state.isNavigationToTrackedActive = isActive
                 return .none
 
             case .setNavigationToOnboard(isActive: let isActive):
                 state.isNavigationToOnboardActive = isActive
                 return .none
             }
-        }
-        .ifLet(\.standalone, action: /Action.standalone) {
-            Standalone()
-        }
-        .ifLet(\.tracked, action: /Action.tracked) {
-            Tracked()
         }
     }
 }
