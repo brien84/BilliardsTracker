@@ -22,10 +22,19 @@ struct Session: ReducerProtocol {
 
         let title: String
         let shotCount: Int
+        let isContinuous: Bool
         var potCount = 0
         var missCount = 0
         var didPotLastShot: Bool?
         var isPaused = false
+
+        var isCompleted: Bool {
+            if isContinuous {
+                return remainingShots <= 0
+            } else {
+                return remainingShots <= 0 || missCount > 0
+            }
+        }
 
         var remainingShots: Int {
             let shots = shotCount - potCount - missCount
@@ -129,8 +138,9 @@ struct Session: ReducerProtocol {
 
                 state.didPotLastShot = isSuccess
 
-                if state.remainingShots == 0 {
+                if state.isCompleted {
                     state.result = Result.State(potCount: state.potCount, missCount: state.missCount)
+                    WKInterfaceDevice().play(.success)
                     return .cancel(ids: [MotionID.self, RuntimeID.self])
                 }
 

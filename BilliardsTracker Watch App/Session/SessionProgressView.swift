@@ -103,7 +103,7 @@ struct SessionProgressView: View {
 
 struct SessionProgressView_Previews: PreviewProvider {
     static let store = Store(
-        initialState: Session.State(title: "Preview", shotCount: 9),
+        initialState: Session.State(title: "Preview", shotCount: 9, isContinuous: true),
         reducer: Session()
     )
 

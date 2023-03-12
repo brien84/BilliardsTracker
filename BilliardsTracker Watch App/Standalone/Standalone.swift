@@ -30,7 +30,7 @@ struct Standalone: ReducerProtocol {
                 return .none
 
             case .setNavigationToSession(isActive: true):
-                state.session = Session.State(title: "Standalone", shotCount: state.shotCount)
+                state.session = Session.State(title: "Standalone", shotCount: state.shotCount, isContinuous: true)
                 return .none
 
             case .setNavigationToSession(isActive: false):
