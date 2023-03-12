@@ -1,5 +1,5 @@
 //
-//  NewSessionView.swift
+//  SessionView.swift
 //  BilliardsTracker Watch App
 //
 //  Created by Marius on 2023-02-16.
@@ -8,7 +8,7 @@
 import ComposableArchitecture
 import SwiftUI
 
-private extension NewSessionView {
+private extension SessionView {
     struct State: Equatable {
         let alert: AlertState<Session.Action>?
         let currentTab: Session.Tab
@@ -29,12 +29,12 @@ private extension NewSessionView {
 }
 
 private extension Session.State {
-    var state: NewSessionView.State {
+    var state: SessionView.State {
         .init(state: self)
     }
 }
 
-private extension NewSessionView.Action {
+private extension SessionView.Action {
     var action: Session.Action {
         switch self {
         case .alertDidDismiss:
@@ -49,7 +49,7 @@ private extension NewSessionView.Action {
     }
 }
 
-struct NewSessionView: View {
+struct SessionView: View {
     let store: StoreOf<Session>
 
     var body: some View {
@@ -58,7 +58,7 @@ struct NewSessionView: View {
                 TabView(selection:
                     viewStore.binding(
                         get: \.currentTab,
-                        send: NewSessionView.Action.didChangeCurrentTab
+                        send: SessionView.Action.didChangeCurrentTab
                     )
                 ) {
                     SessionProgressView(store: store)
@@ -99,6 +99,6 @@ struct NewSessionView_Previews: PreviewProvider {
     )
 
     static var previews: some View {
-        NewSessionView(store: store)
+        SessionView(store: store)
     }
 }

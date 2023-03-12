@@ -32,7 +32,7 @@ struct TrackedView: View {
                         state: \.session,
                         action: Tracked.Action.session
                     ),
-                    then: NewSessionView.init(store:)
+                    then: SessionView.init(store:)
                 )
                 .transition(.slide)
                 .zIndex(100)
