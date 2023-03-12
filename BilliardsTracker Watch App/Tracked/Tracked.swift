@@ -14,25 +14,45 @@ struct Tracked: ReducerProtocol {
 
     enum Action: Equatable {
         case session(Session.Action)
-        case setNavigationToSession(isActive: Bool)
+
+        case beginReceivingDrillContexts
+        case stopReceivingDrillContexts
+        case connectivityClientDidReceiveDrillContext(DrillContext)
     }
+
+    @Dependency(\.connectivityClient) var connectivityClient
+
+    private enum ConnectivityID { }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .session(.stopButtonDidTap):
+
+            case .session(.stopButtonDidTap), .session(.result(.doneButtonDidTap)):
                 state.session = nil
                 return .none
 
             case .session:
                 return .none
 
-            case .setNavigationToSession(isActive: true):
-                state.session = Session.State(title: "Standalone", shotCount: 9)
-                return .none
+            case .beginReceivingDrillContexts:
+                return .run { send in
+                    for await drillContext in await connectivityClient.receiveDrillContext() {
+                        await send(.connectivityClientDidReceiveDrillContext(drillContext))
+                    }
+                }
+                .cancellable(id: ConnectivityID.self, cancelInFlight: true)
 
-            case .setNavigationToSession(isActive: false):
-                state.session = nil
+            case .stopReceivingDrillContexts:
+                return .cancel(id: ConnectivityID.self)
+
+            case .connectivityClientDidReceiveDrillContext(let context):
+                if context.isActive {
+                    state.session = Session.State(title: context.title, shotCount: context.attempts)
+                } else {
+                    state.session = nil
+                }
+
                 return .none
             }
         }

@@ -38,6 +38,12 @@ struct TrackedView: View {
                 .zIndex(100)
             }
             .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
+            .onAppear {
+                viewStore.send(.beginReceivingDrillContexts)
+            }
+            .onDisappear {
+                viewStore.send(.stopReceivingDrillContexts)
+            }
         }
     }
 }
