@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29200295267FC78500DCA308 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions.swift */; };
+		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
 		292002D92682572C00DCA308 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292002D82682572C00DCA308 /* MarqueeText.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
 		2926E0FA26150FE400E95DBB /* DrillListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F926150FE400E95DBB /* DrillListView.swift */; };
@@ -112,7 +112,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		29200294267FC78500DCA308 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		292002D82682572C00DCA308 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
@@ -214,12 +214,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		29200293267FC76D00DCA308 /* Supporting FIles */ = {
+		29200293267FC76D00DCA308 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29200294267FC78500DCA308 /* Extensions.swift */,
+				29200294267FC78500DCA308 /* Extensions+Color.swift */,
+				292002D82682572C00DCA308 /* MarqueeText.swift */,
+				297E8FF8268B649C0091F086 /* OnboardView.swift */,
 			);
-			path = "Supporting FIles";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		2926E0EB26150FE300E95DBB = {
@@ -300,13 +302,12 @@
 			isa = PBXGroup;
 			children = (
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
-				29A0F396299D54EA000302AF /* Session */,
-				29A0F3A629A2DBA7000302AF /* Result */,
-				29A0F3A329A2BAA4000302AF /* Tracked */,
-				29DB146A299C343C004029D1 /* Standalone */,
 				29DB1462299ADE78004029D1 /* Main */,
-				29F37DEA2617716A00DD4A9C /* Views */,
-				29200293267FC76D00DCA308 /* Supporting FIles */,
+				29A0F3A629A2DBA7000302AF /* Result */,
+				29A0F396299D54EA000302AF /* Session */,
+				29DB146A299C343C004029D1 /* Standalone */,
+				29A0F3A329A2BAA4000302AF /* Tracked */,
+				29200293267FC76D00DCA308 /* Supporting Files */,
 				2926E11E26150FE600E95DBB /* Assets.xcassets */,
 				2926E12026150FE600E95DBB /* Info.plist */,
 			);
@@ -344,15 +345,6 @@
 				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		2967D87C2694DBDD0031C3A7 /* Misc Views */ = {
-			isa = PBXGroup;
-			children = (
-				292002D82682572C00DCA308 /* MarqueeText.swift */,
-				297E8FF8268B649C0091F086 /* OnboardView.swift */,
-			);
-			path = "Misc Views";
 			sourceTree = "<group>";
 		};
 		298E3536261A1C3200CCDDEE /* Shared */ = {
@@ -417,10 +409,9 @@
 			children = (
 				29A0F399299D642F000302AF /* ExtendedRuntimeClient.swift */,
 				29A0F3CD29A3BC14000302AF /* MotionClient.swift */,
-				29A0F39F299ED9CC000302AF /* SessionView.swift */,
 				29A0F397299D54FC000302AF /* Session.swift */,
-				29A0F39D299ED5D1000302AF /* SessionControlView.swift */,
-				29A0F39B299ED466000302AF /* SessionProgressView.swift */,
+				29A0F39F299ED9CC000302AF /* SessionView.swift */,
+				29D0343F29BE821C00BA7865 /* Subviews */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -453,6 +444,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		29D0343F29BE821C00BA7865 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				29A0F39D299ED5D1000302AF /* SessionControlView.swift */,
+				29A0F39B299ED466000302AF /* SessionProgressView.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		29DB145F299ADA77004029D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,14 +476,6 @@
 				29A0F3A129A285ED000302AF /* StandaloneView.swift */,
 			);
 			path = Standalone;
-			sourceTree = "<group>";
-		};
-		29F37DEA2617716A00DD4A9C /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2967D87C2694DBDD0031C3A7 /* Misc Views */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -755,7 +747,7 @@
 				29A0F3A529A2BAB7000302AF /* Tracked.swift in Sources */,
 				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
-				29200295267FC78500DCA308 /* Extensions.swift in Sources */,
+				29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */,
 				29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
