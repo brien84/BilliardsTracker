@@ -60,7 +60,7 @@ struct MainView: View {
                         .disabled(viewStore.isShowingLoadingIndicator)
                 )
             }
-            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(.stack)
             .sheet(isPresented: viewStore.binding(\.$isNavigationToNewDrillActive)) {
                 NewDrillView(store: store.scope(
                     state: \.newDrill,
@@ -97,7 +97,8 @@ private struct LoadingView: View {
 
             ProgressView()
                 .padding()
-                .progressViewStyle(CircularProgressViewStyle(tint: .primaryElement))
+                .progressViewStyle(.circular)
+                .tint(.primaryElement)
                 .background(Color.secondaryBackground)
                 .cornerRadius(Self.cornerRadius)
                 .overlay(
