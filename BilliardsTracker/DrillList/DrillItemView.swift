@@ -18,44 +18,34 @@ struct DrillItemView: View {
                     Color.secondaryBackground
 
                     HStack(spacing: .zero) {
-                        if viewStore.drill.attempts > 0 {
-                            ZStack {
-                                Text("100").opacity(0)
-                                Text("\(viewStore.drill.attempts)")
-                            }
-                            .frame(maxHeight: .infinity)
-                            .padding(.horizontal)
-                            .font(Font.title.weight(.semibold))
-                            .foregroundColor(.primaryElement)
+                        ZStack {
+                            Text("100")
+                                .opacity(.zero)
+                            Text("\(viewStore.drill.attempts)")
                         }
+                        .font(.title.weight(.semibold))
+                        .foregroundColor(.primaryElement)
+                        .padding(.horizontal)
 
-                        if !viewStore.drill.title.isEmpty {
-                            Text(viewStore.drill.title.uppercased())
-                                .fixedSize(horizontal: false, vertical: true)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                                .padding()
-                                .font(Font.headline.weight(.bold))
-                                .foregroundColor(.secondaryElement)
-                        }
+                        Text(viewStore.drill.title.uppercased())
+                            .font(.headline.bold())
+                            .foregroundColor(.secondaryElement)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            .padding()
 
                         VStack(spacing: Self.iconsSpacing) {
                             Image(systemName: "repeat")
-                                .font(Font.title3.weight(.regular))
-                                .imageScale(.small)
-                                .frame(maxHeight: .infinity, alignment: .top)
+                                .font(.title3.weight(.semibold))
                                 .foregroundColor(.customRed)
-                                .hidden(!viewStore.drill.isContinuous)
-
-                            Spacer()
+                                .imageScale(.small)
 
                             Button {
                                 viewStore.send(.didTapStatisticsButton)
                             } label: {
                                 Image(systemName: "chart.bar.xaxis")
+                                    .foregroundColor(.customBlue)
                                     .imageScale(.large)
                             }
-                            .frame(maxHeight: .infinity, alignment: .bottom)
-                            .foregroundColor(.customBlue)
                         }
                         .padding()
                     }
@@ -73,7 +63,7 @@ struct DrillItemView: View {
 
 private extension DrillItemView {
     static let cornerRadius: CGFloat = 10
-    static let iconsSpacing: CGFloat = 4
+    static let iconsSpacing: CGFloat = 16
 }
 
 // MARK: - Previews
