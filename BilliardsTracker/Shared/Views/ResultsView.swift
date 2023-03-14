@@ -17,7 +17,7 @@ struct ResultsView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(results) { result in
-                        Text("\(result.date.asString)")
+                        Text(result.date.asString)
                             .font(.caption)
                             .foregroundColor(.secondaryElement)
                             .padding([.horizontal, .top])
@@ -45,6 +45,15 @@ struct ResultsView: View {
                 }
             }
         }
+    }
+}
+
+private extension Date {
+    var asString: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
     }
 }
 

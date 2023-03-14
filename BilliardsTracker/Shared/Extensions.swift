@@ -37,15 +37,6 @@ extension Color {
     }
 }
 
-extension Date {
-    var asString: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter.string(from: self)
-    }
-}
-
 /// Dinamically hides and disables view.
 ///
 /// Since iOS15 the behaviour of `XCUIElement` `isHittable` property
