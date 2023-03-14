@@ -7,36 +7,6 @@
 
 import SwiftUI
 
-extension Color {
-    static var primaryBackground: Color {
-        Color("primaryBackground")
-    }
-
-    static var secondaryBackground: Color {
-        Color("secondaryBackground")
-    }
-
-    static var primaryElement: Color {
-        Color("primaryElement")
-    }
-
-    static var secondaryElement: Color {
-        Color("secondaryElement")
-    }
-
-    static var customRed: Color {
-        Color("customRed")
-    }
-
-    static var customGreen: Color {
-        Color("customGreen")
-    }
-
-    static var customBlue: Color {
-        Color("customBlue")
-    }
-}
-
 /// Dinamically hides and disables view.
 ///
 /// Since iOS15 the behaviour of `XCUIElement` `isHittable` property
