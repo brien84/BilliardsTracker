@@ -99,7 +99,8 @@ struct Main: ReducerProtocol {
                         title: drill.title
                     )
                     return .task {
-                        .connectivityClientDidReceiveResponse(
+                        try await Task.sleep(nanoseconds: 500_000_000)
+                        return .connectivityClientDidReceiveResponse(
                             await connectivityClient.sendDrillContext(context)
                         )
                     }
