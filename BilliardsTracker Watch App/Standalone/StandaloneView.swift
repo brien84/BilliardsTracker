@@ -30,7 +30,7 @@ struct StandaloneView: View {
 
                     Divider()
 
-                    Picker("Set shot count",
+                    Picker("Set Shots",
                         selection: viewStore.binding(
                             get: \.shotCount,
                             send: Standalone.Action.shotCountDidChange

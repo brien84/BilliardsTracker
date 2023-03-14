@@ -97,7 +97,7 @@ extension PersistenceClient {
         for i in 1..<4 {
             let drill = Drill(entity: Drill().entity, insertInto: nil)
             drill.title = "Preview Drill \(i)"
-            drill.attempts = i * 10
+            drill.shotCount = i * 10
             drill.isContinuous = i % 2 == 0
             drills.append(drill)
         }
@@ -105,8 +105,8 @@ extension PersistenceClient {
         drills.forEach { drill in
             for i in 1..<Int.random(in: 5...10) {
                 let result = DrillResult(entity: DrillResult.entity(), insertInto: nil)
-                result.potCount = Int.random(in: 0...drill.attempts)
-                result.missCount = drill.attempts - result.potCount
+                result.potCount = Int.random(in: 0...drill.shotCount)
+                result.missCount = drill.shotCount - result.potCount
                 result.date = Date(timeIntervalSinceNow: 3600)
                 result.drill = drill
                 drill.addToResultsValue(result)
@@ -165,9 +165,9 @@ private actor PersistentStore {
 
         let newDrill = Drill(context: persistentContainer.viewContext)
         newDrill.title = drill.title
-        newDrill.attempts = drill.attempts
         newDrill.isContinuous = drill.isContinuous
-        newDrill.dateCreated = Date()
+        newDrill.shotCount = drill.shotCount
+        newDrill.dateCreated = .now
 
         do {
             try newDrill.validateForInsert()

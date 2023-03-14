@@ -9,7 +9,7 @@ import Foundation
 
 struct DrillContext: Codable, Equatable {
     let isActive: Bool
-    let attempts: Int
     let isContinuous: Bool
+    let shotCount: Int
     let title: String
 }

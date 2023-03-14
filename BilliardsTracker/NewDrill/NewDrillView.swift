@@ -28,7 +28,7 @@ struct NewDrillView: View {
 
                         Section {
                             HStack {
-                                ListItemLabel(title: "Attempts", imageName: "checklist", fillColor: .customBlue)
+                                ListItemLabel(title: "Shots", imageName: "checklist", fillColor: .customBlue)
 
                                 Spacer()
 
@@ -37,8 +37,8 @@ struct NewDrillView: View {
                                         isShowingPicker.toggle()
                                     }
                                 } label: {
-                                    HStack(spacing: Self.attemptsSectionButtonSpacing) {
-                                        Text("\(viewStore.attempts)")
+                                    HStack(spacing: Self.shotCountSectionButtonSpacing) {
+                                        Text("\(viewStore.shotCount)")
 
                                         Image(systemName: "chevron.up.chevron.down")
                                             .imageScale(.small)
@@ -48,7 +48,7 @@ struct NewDrillView: View {
                             }
 
                             if isShowingPicker {
-                                Picker("Set attempts", selection: viewStore.binding(\.$attempts)) {
+                                Picker("Set Shot Count", selection: viewStore.binding(\.$shotCount)) {
                                     ForEach(1..<101) { i in
                                         Text("\(i)")
                                             .tag(i)
@@ -65,7 +65,7 @@ struct NewDrillView: View {
                             .toggleStyle(.switch)
                             .tint(.customBlue)
                         } footer: {
-                            Text("Deselecting this option will end the drill once the first shot is missed.")
+                            Text("Deselecting this option will end the drill once a shot is missed.")
                         }
                     }
                     .listStyle(.insetGrouped)
@@ -121,7 +121,7 @@ private extension ListItemLabel {
 }
 
 private extension NewDrillView {
-    static let attemptsSectionButtonSpacing: CGFloat = 4
+    static let shotCountSectionButtonSpacing: CGFloat = 4
     static let textFieldVerticalPadding: CGFloat = 2
 }
 

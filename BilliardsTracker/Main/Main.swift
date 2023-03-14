@@ -78,7 +78,7 @@ struct Main: ReducerProtocol {
             case .newDrill(.saveButtonDidTap):
                 state.isNavigationToNewDrillActive = false
                 let drill = Drill(entity: Drill.entity(), insertInto: nil)
-                drill.attempts = state.newDrill.attempts
+                drill.shotCount = state.newDrill.shotCount
                 drill.isContinuous = state.newDrill.isContinuous
                 drill.title = state.newDrill.title.isEmpty ? "Drill Title" : state.newDrill.title
                 return .task {
@@ -94,8 +94,8 @@ struct Main: ReducerProtocol {
                     state.session = Session.State(drill: drill, startDate: Date())
                     let context = DrillContext(
                         isActive: true,
-                        attempts: drill.attempts,
                         isContinuous: drill.isContinuous,
+                        shotCount: drill.shotCount,
                         title: drill.title
                     )
                     return .task {
@@ -117,7 +117,7 @@ struct Main: ReducerProtocol {
             case .session(.didTapExitButton):
                 state.isNavigationToSessionActive = false
                 return .fireAndForget {
-                    let context = DrillContext(isActive: false, attempts: 0, isContinuous: false, title: "")
+                    let context = DrillContext(isActive: false, isContinuous: false, shotCount: 0, title: "")
                     _ = await connectivityClient.sendDrillContext(context)
                 }
 

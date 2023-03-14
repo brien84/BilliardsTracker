@@ -48,7 +48,7 @@ struct Tracked: ReducerProtocol {
 
             case .connectivityClientDidReceiveDrillContext(let context):
                 if context.isActive {
-                    state.session = Session.State(title: context.title, shotCount: context.attempts, isContinuous: context.isContinuous)
+                    state.session = Session.State(title: context.title, shotCount: context.shotCount, isContinuous: context.isContinuous)
                 } else {
                     state.session = nil
                 }

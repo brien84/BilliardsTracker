@@ -44,16 +44,16 @@ struct Settings: ReducerProtocol {
 enum SortOption: Int, CaseIterable, Identifiable {
     var id: SortOption { self }
 
-    case attempts
     case dateCreated
+    case shotCount
     case title
 
     var descriptor: SortDescriptor<Drill> {
         switch self {
-        case .attempts:
-            return SortDescriptor(\Drill.attempts, order: .reverse)
         case .dateCreated:
             return SortDescriptor(\Drill.dateCreated, order: .reverse)
+        case .shotCount:
+            return SortDescriptor(\Drill.shotCount, order: .reverse)
         case .title:
             return SortDescriptor(\Drill.title, order: .forward)
         }
@@ -61,10 +61,10 @@ enum SortOption: Int, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .attempts:
-            return "Attempts"
         case .dateCreated:
             return "Creation Date"
+        case .shotCount:
+            return "Shots"
         case .title:
             return "Title"
         }
@@ -72,10 +72,10 @@ enum SortOption: Int, CaseIterable, Identifiable {
 
     var imageName: String {
         switch self {
-        case .attempts:
-            return "repeat"
         case .dateCreated:
             return "calendar"
+        case .shotCount:
+            return "repeat"
         case .title:
             return "textformat"
         }

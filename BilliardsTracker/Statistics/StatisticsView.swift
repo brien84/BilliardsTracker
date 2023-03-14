@@ -34,7 +34,7 @@ struct StatisticsView: View {
                             if viewStore.statistics.results.count < 2 {
                                 NotEnoughDataLabel()
                             } else {
-                                ChartView(dataPoints: viewStore.statistics.chartDataPoints, maxValue: viewStore.drill.attempts)
+                                ChartView(dataPoints: viewStore.statistics.chartDataPoints, maxValue: viewStore.drill.shotCount)
                                     .padding()
                             }
                         }

@@ -21,7 +21,7 @@ struct DrillItemView: View {
                         ZStack {
                             Text("100")
                                 .opacity(.zero)
-                            Text("\(viewStore.drill.attempts)")
+                            Text("\(viewStore.drill.shotCount)")
                         }
                         .font(.title.weight(.semibold))
                         .foregroundColor(.primaryElement)

@@ -50,15 +50,15 @@ struct StatisticsPanel: View {
 
             Spacer()
 
-            if statistics.totalAttemptsCount == 1 {
+            if statistics.totalShotCount == 1 {
                 Text("1 shot")
             } else {
-                Text("\(statistics.totalAttemptsCount) shots")
+                Text("\(statistics.totalShotCount) shots")
             }
         }
-        .frame(maxWidth: .infinity)
-        .font(Font.subheadline.weight(.light))
+        .font(.subheadline.weight(.light))
         .foregroundColor(.primaryElement)
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -74,7 +74,7 @@ private struct StatisticLabel: View {
                 .font(.title2)
                 .foregroundColor(titleColor)
             Text(title)
-                .font(Font.subheadline.weight(.light))
+                .font(.subheadline.weight(.light))
                 .foregroundColor(.secondaryElement)
         }
         .frame(maxWidth: .infinity)

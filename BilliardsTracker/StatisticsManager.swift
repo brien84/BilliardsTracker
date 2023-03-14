@@ -21,7 +21,7 @@ struct StatisticsManager {
         }
     }
 
-    var totalAttemptsCount: Int {
+    var totalShotCount: Int {
         results.reduce(0, { $0 + $1.potCount + $1.missCount })
     }
 
@@ -58,9 +58,9 @@ struct StatisticsManager {
     }
 
     var chartDataPoints: [CGFloat] {
-        guard drill.attempts > 0 else { return [] }
+        guard drill.shotCount > 0 else { return [] }
 
-        var dataPoints = results.map { CGFloat($0.potCount) / CGFloat(drill.attempts) }
+        var dataPoints = results.map { CGFloat($0.potCount) / CGFloat(drill.shotCount) }
 
         if dataPoints.count > 100 {
             dataPoints = dataPoints[0..<100].map { $0 }

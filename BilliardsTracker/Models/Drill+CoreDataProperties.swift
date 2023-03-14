@@ -20,15 +20,6 @@ extension Drill {
     @NSManaged private var dateCreatedValue: Date
     @NSManaged private var resultsValue: NSSet?
 
-    @objc var attempts: Int {
-        get {
-            Int(attemptsValue)
-        }
-        set {
-            attemptsValue = Int64(newValue)
-        }
-    }
-
     @objc var dateCreated: Date {
         get {
             dateCreatedValue
@@ -49,6 +40,18 @@ extension Drill {
         }
         set {
             isFailableValue = !newValue
+        }
+    }
+
+    /// To improve clarity, the `attempts` property has been renamed to `shotCount`.
+    ///
+    /// Underlying CoreData value will be renamed when a wider migration is performed.
+    @objc var shotCount: Int {
+        get {
+            Int(attemptsValue)
+        }
+        set {
+            attemptsValue = Int64(newValue)
         }
     }
 
