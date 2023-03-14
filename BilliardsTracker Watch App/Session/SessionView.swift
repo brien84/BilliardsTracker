@@ -77,7 +77,7 @@ struct SessionView: View {
                     then: ResultView.init(store:)
                 )
                 .transition(.move(edge: .bottom))
-                .zIndex(1000)
+                .zIndex(1)
             }
             .alert(
                 store.scope(state: \.alert),

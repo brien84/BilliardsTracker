@@ -35,7 +35,7 @@ struct TrackedView: View {
                     then: SessionView.init(store:)
                 )
                 .transition(.slide)
-                .zIndex(100)
+                .zIndex(1)
             }
             .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
             .onAppear {
