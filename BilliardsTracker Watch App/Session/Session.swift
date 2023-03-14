@@ -223,7 +223,7 @@ private extension Session {
             TextState(
                 """
                 BilliardsTracker could not initiate gesture tracking.
-                Make sure other workout apps are not actively running.
+                Make sure no other workout apps are not actively running.
                 """
             )
         }
