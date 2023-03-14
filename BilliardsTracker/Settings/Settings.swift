@@ -75,7 +75,7 @@ enum SortOption: Int, CaseIterable, Identifiable {
         case .dateCreated:
             return "calendar"
         case .shotCount:
-            return "repeat"
+            return "checklist"
         case .title:
             return "textformat"
         }
