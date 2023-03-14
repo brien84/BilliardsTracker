@@ -24,11 +24,11 @@ struct NewDrillView: View {
                         TextField("Drill Title", text: viewStore.binding(\.$title))
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
-                            .padding(.vertical, Self.textFieldVerticalPadding)
 
                         Section {
                             HStack {
-                                ListItemLabel(title: "Shots", imageName: "checklist", fillColor: .customBlue)
+                                ListItemLabel(title: "Shots", imageName: "checklist")
+                                    .foregroundColor(.customBlue)
 
                                 Spacer()
 
@@ -60,7 +60,8 @@ struct NewDrillView: View {
 
                         Section {
                             Toggle(isOn: viewStore.binding(\.$isContinuous)) {
-                                ListItemLabel(title: "Continuous", imageName: "repeat", fillColor: .customRed)
+                                ListItemLabel(title: "Continuous", imageName: "repeat")
+                                    .foregroundColor(.customRed)
                             }
                             .toggleStyle(.switch)
                             .tint(.customBlue)
@@ -69,7 +70,7 @@ struct NewDrillView: View {
                         }
                     }
                     .listStyle(.insetGrouped)
-                    .environment(\.defaultMinListRowHeight, .zero)
+                    .environment(\.defaultMinListRowHeight, Self.defaultMinListRowHeight)
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -92,18 +93,22 @@ struct NewDrillView: View {
 }
 
 private struct ListItemLabel: View {
+    @ScaledMetric private var scale: CGFloat = 1
+
     let title: String
     let imageName: String
-    let fillColor: Color
 
     var body: some View {
         Label {
             Text(title)
+                .foregroundColor(.primaryElement)
         } icon: {
             ZStack {
-                RoundedRectangle(cornerRadius: Self.cornerRadius)
-                    .fill(fillColor)
-                    .frame(width: Self.imageSize.width, height: Self.imageSize.height)
+                RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous)
+                    .frame(
+                        width: Self.imageBackgroundSize.width * scale,
+                        height: Self.imageBackgroundSize.height * scale
+                    )
 
                 Image(systemName: imageName)
                     .imageScale(.medium)
@@ -116,13 +121,13 @@ private struct ListItemLabel: View {
 // MARK: - Constants
 
 private extension ListItemLabel {
-    static let cornerRadius: CGFloat = 4
-    static let imageSize: CGSize = CGSize(width: 28, height: 28)
+    static let cornerRadius: CGFloat = 6
+    static let imageBackgroundSize: CGSize = CGSize(width: 28, height: 28)
 }
 
 private extension NewDrillView {
+    static let defaultMinListRowHeight: CGFloat = 50
     static let shotCountSectionButtonSpacing: CGFloat = 4
-    static let textFieldVerticalPadding: CGFloat = 2
 }
 
 // MARK: - Previews
