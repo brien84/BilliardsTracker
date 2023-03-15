@@ -38,6 +38,7 @@ struct DrillItemView: View {
                                 .font(.title3.weight(.semibold))
                                 .foregroundColor(.customRed)
                                 .imageScale(.small)
+                                .opacity(viewStore.drill.isContinuous ? 1 : 0)
 
                             Button {
                                 viewStore.send(.didTapStatisticsButton)
