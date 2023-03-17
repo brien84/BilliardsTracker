@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatisticsPanel: View {
-    let statistics: StatisticsManager
+    let statistics: StatisticsClient
 
     var body: some View {
         VStack(spacing: Self.verticalSpacing) {
@@ -88,6 +88,6 @@ private extension StatisticsPanel {
 
 struct StatisticsPanel_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsPanel(statistics: StatisticsManager(drill: PersistenceClient.previewDrill))
+        StatisticsPanel(statistics: StatisticsClient(drill: PersistenceClient.previewDrill))
     }
 }

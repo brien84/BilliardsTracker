@@ -12,12 +12,12 @@ struct Session: ReducerProtocol {
     struct State: Equatable {
         let drill: Drill
         let startDate: Date
-        let statistics: StatisticsManager
+        let statistics: StatisticsClient
 
         init(drill: Drill, startDate: Date) {
             self.drill = drill
             self.startDate = startDate
-            self.statistics = StatisticsManager(drill: drill, startDate: startDate)
+            self.statistics = StatisticsClient(drill: drill, startDate: startDate)
         }
     }
 
