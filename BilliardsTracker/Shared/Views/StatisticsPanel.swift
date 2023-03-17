@@ -11,99 +11,83 @@ struct StatisticsPanel: View {
     let statistics: StatisticsManager
 
     var body: some View {
-        VStack(spacing: .zero) {
-            headerView
-                .padding()
+        VStack(spacing: Self.verticalSpacing) {
+            HStack {
+                if statistics.results.count == 1 {
+                    Text("1 attempt")
+                } else {
+                    Text("\(statistics.results.count) attempts")
+                }
+
+                Spacer()
+
+                if statistics.totalShotCount == 1 {
+                    Text("1 shot")
+                } else {
+                    Text("\(statistics.totalShotCount) shots")
+                }
+            }
+            .font(.subheadline.weight(.light))
+            .foregroundColor(.primaryElement)
+            .frame(maxWidth: .infinity)
 
             HStack {
                 if statistics.drill.isContinuous {
-                    StatisticLabel(title: "Pots", value: "\(statistics.totalPotCount)")
-                        .titleColor(.customGreen)
+                    StatisticsLabel(title: "Pots", value: "\(statistics.totalPotCount)")
+                        .foregroundColor(.customGreen)
 
-                    StatisticLabel(title: "Potting", value: "\(statistics.pottingPercentage)%")
-                        .titleColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
+                    StatisticsLabel(title: "Potting", value: "\(statistics.pottingPercentage)%")
+                        .foregroundColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
 
-                    StatisticLabel(title: "Misses", value: "\(statistics.totalMissCount)")
-                        .titleColor(.customRed)
+                    StatisticsLabel(title: "Misses", value: "\(statistics.totalMissCount)")
+                        .foregroundColor(.customRed)
                 } else {
-                    StatisticLabel(title: "Completed", value: "\(statistics.completionCount)")
-                        .titleColor(.customGreen)
+                    StatisticsLabel(title: "Completed", value: "\(statistics.completionCount)")
+                        .foregroundColor(.customGreen)
 
-                    StatisticLabel(title: "Completion", value: "\(statistics.completionPercentage)%")
-                        .titleColor(statistics.completionPercentage > 50 ? .customGreen : .customRed)
+                    StatisticsLabel(title: "Completion", value: "\(statistics.completionPercentage)%")
+                        .foregroundColor(statistics.completionPercentage > 50 ? .customGreen : .customRed)
 
-                    StatisticLabel(title: "Average Pots", value: "\(statistics.averagePots)")
-                        .titleColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
+                    StatisticsLabel(title: "Average Pots", value: "\(statistics.averagePots)")
+                        .foregroundColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
                 }
             }
-            .padding()
         }
-    }
-
-    private var headerView: some View {
-        HStack {
-            if statistics.results.count == 1 {
-                Text("1 attempt")
-            } else {
-                Text("\(statistics.results.count) attempts")
-            }
-
-            Spacer()
-
-            if statistics.totalShotCount == 1 {
-                Text("1 shot")
-            } else {
-                Text("\(statistics.totalShotCount) shots")
-            }
-        }
-        .font(.subheadline.weight(.light))
-        .foregroundColor(.primaryElement)
-        .frame(maxWidth: .infinity)
+        .padding()
     }
 }
 
-private struct StatisticLabel: View {
-    private var title: String
-    private var value: String
-
-    @State private var titleColor = Color.secondaryElement
+private struct StatisticsLabel: View {
+    let title: String
+    let value: String
 
     var body: some View {
-        VStack(spacing: .labelVerticalSpacing) {
+        VStack(spacing: Self.verticalSpacing) {
             Text(value)
                 .font(.title2)
-                .foregroundColor(titleColor)
+
             Text(title)
                 .font(.subheadline.weight(.light))
                 .foregroundColor(.secondaryElement)
         }
         .frame(maxWidth: .infinity)
     }
-
-    init(title: String, value: String) {
-        self.title = title
-        self.value = value
-    }
-
-    func titleColor(_ color: Color) -> some View {
-        var view = self
-        view._titleColor = State(initialValue: color)
-        return view.id(UUID())
-    }
 }
 
 // MARK: - Constants
 
-private extension CGFloat {
-    static var labelVerticalSpacing: CGFloat {
-        8
-    }
+private extension StatisticsLabel {
+    static let verticalSpacing: CGFloat = 8
+}
+
+private extension StatisticsPanel {
+    static let verticalSpacing: CGFloat = 32
 }
 
 // MARK: - Previews
 
 struct StatisticsPanel_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsPanel(statistics: StatisticsManager(drill: PersistenceClient.previewData.first!))
+        StatisticsPanel(statistics: StatisticsManager(drill: PersistenceClient.previewDrill))
     }
 }

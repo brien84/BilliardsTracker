@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct ChartView: View {
-    private let maxValue: Int
-    private let dataPoints: [CGFloat]
 
-    @State private var isReady = false
+    private let dataPoints: [CGFloat]
+    private let maxValue: Int
 
     var body: some View {
         ZStack {
@@ -22,12 +21,12 @@ struct ChartView: View {
                 }
             }
 
-            Chart(dataPoints: dataPoints)
-                .stroke(Color.customBlue, style: StrokeStyle(lineWidth: .lineWidth(for: dataPoints.count), lineCap: .round, lineJoin: .round))
-                .padding(.leading, .chartPadding)
-        }
-        .onAppear {
-            isReady = true
+            ChartLine(dataPoints: dataPoints)
+                .stroke(
+                    Color.customBlue,
+                    style: StrokeStyle(lineWidth: Self.lineWidth(for: dataPoints.count), lineCap: .round, lineJoin: .round)
+                )
+                .padding(.leading, Self.leadingPadding)
         }
     }
 
@@ -41,15 +40,12 @@ struct ChartView: View {
 
         let height = height * (1 - CGFloat(label) / CGFloat(maxValue))
 
-        return CGSize(width: 0, height: height - .labelHeight / 2)
+        return CGSize(width: 0, height: height - Self.labelHeight / 2)
     }
 
     private func calculateLabelValues(in size: CGSize) -> [Int] {
         let values = Array(0...maxValue)
-
-        guard isReady else { return values }
-
-        let maxLabelCount = Int(size.height / (2 * .labelHeight))
+        let maxLabelCount = Int(size.height / (2 * Self.labelHeight))
 
         if maxValue <= maxLabelCount {
             return values
@@ -72,21 +68,7 @@ struct ChartView: View {
     }
 }
 
-private extension CGFloat {
-    static var chartPadding: CGFloat {
-        30
-    }
-
-    static var labelHeight: CGFloat {
-        UIFont.preferredFont(forTextStyle: .caption1).lineHeight
-    }
-
-    static func lineWidth(for dataPointsCount: Int) -> CGFloat {
-        5 - 0.04 * CGFloat(dataPointsCount)
-    }
-}
-
-private struct Chart: Shape {
+private struct ChartLine: Shape {
     var dataPoints: [CGFloat]
 
     func path(in rect: CGRect) -> Path {
@@ -117,26 +99,44 @@ private struct ChartLabel: View {
     var body: some View {
         HStack {
             ZStack {
-                Text("100").opacity(0)
+                Text("100")
+                    .opacity(0)
                 Text("\(value)")
             }
-            .font(Font.caption.bold())
+            .font(.caption.bold())
             .foregroundColor(.primaryElement)
 
-            LabelLine()
-                .stroke(Color.secondaryElement, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [5, 10]))
+            ChartLabelLine()
+                .stroke(
+                    Color.secondaryElement,
+                    style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [5, 10])
+                )
                 .frame(height: 1)
                 .offset(x: 0, y: 0.5)
         }
     }
 
-    struct LabelLine: Shape {
+    struct ChartLabelLine: Shape {
         func path(in rect: CGRect) -> Path {
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 0))
                 path.addLine(to: CGPoint(x: rect.maxX, y: 0))
             }
         }
+    }
+}
+
+// MARK: - Constants
+
+private extension ChartView {
+    static var labelHeight: CGFloat {
+        UIFont.preferredFont(forTextStyle: .caption1).lineHeight
+    }
+
+    static let leadingPadding: CGFloat = 32
+
+    static func lineWidth(for dataPointsCount: Int) -> CGFloat {
+        5 - 0.04 * CGFloat(dataPointsCount)
     }
 }
 

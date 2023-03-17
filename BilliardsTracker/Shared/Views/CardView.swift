@@ -8,110 +8,87 @@
 import SwiftUI
 
 struct CardView<Content: View>: View {
+
+    private let title: String
+    private let infoMessage: String?
     private let content: Content
 
-    @State private var title = ""
-    @State private var infoMessage: String?
-    @State private var showInfo = false
+    @State private var showInfoMessage = false
 
-    init(@ViewBuilder content: () -> Content) {
+    init(title: String, infoMessage: String? = nil, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.infoMessage = infoMessage
         self.content = content()
     }
 
     var body: some View {
         ZStack {
             Rectangle()
-                .modifier(CornerRadiusStyle(radius: .cornerRadius, corners: [.topLeft, .topRight]))
-                .ignoresSafeArea(edges: .bottom)
                 .foregroundColor(.secondaryBackground)
+                .modifier(CornerRadiusStyle(radius: Self.cornerRadius, corners: [.topLeft, .topRight]))
+                .ignoresSafeArea(edges: .bottom)
 
             VStack(spacing: .zero) {
                 HStack {
                     Text(title)
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                        .font(Font.title.weight(.bold))
-                        .padding(.titlePadding)
+                        .font(.title.weight(.bold))
                         .foregroundColor(.primaryElement)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(Self.titlePadding)
 
                     if infoMessage != nil {
-                        infoButton
+                        InfoMessageButton {
+                            withAnimation {
+                                showInfoMessage.toggle()
+                            }
+                        }
                     }
                 }
                 .overlay(
-                    Group {
-                        if showInfo {
-                            infoOverlay
+                    InfoMessageView(message: infoMessage)
+                        .opacity(showInfoMessage ? 1 : 0)
+                        .onTapGesture {
+                            withAnimation {
+                                showInfoMessage = false
+                            }
                         }
-                    }
                 )
 
                 content
             }
-
         }
-    }
-
-    private var infoButton: some View {
-        Button(
-            action: {
-                withAnimation {
-                    showInfo.toggle()
-                }
-            },
-            label: {
-                Image(systemName: "info.circle")
-                    .imageScale(.small)
-                    .font(Font.title)
-                    .foregroundColor(.secondaryElement)
-            }
-        )
-        .padding(.horizontal, .titlePadding)
-    }
-
-    private var infoOverlay: some View {
-        Group {
-            if let infoMessage = infoMessage {
-                Text(infoMessage)
-                    .padding()
-                    .background(Color.primaryBackground)
-                    .font(.footnote)
-                    .foregroundColor(.primaryElement)
-                    .cornerRadius(.infoOverlayCornerRadius)
-                    .padding()
-                    .transition(.opacity)
-                    .onTapGesture {
-                        withAnimation {
-                            showInfo.toggle()
-                        }
-                    }
-            }
-        }
-    }
-
-    func setTitle(_ title: String) -> CardView {
-        var view = self
-        view._title = State(initialValue: title)
-        return view
-    }
-
-    func setInfo(_ message: String?) -> CardView {
-        var view = self
-        view._infoMessage = State(initialValue: message)
-        return view
     }
 }
 
-private extension CGFloat {
-    static var cornerRadius: CGFloat {
-        50
-    }
+private struct InfoMessageButton: View {
+    let action: () -> Void
 
-    static var titlePadding: CGFloat {
-        32
+    var body: some View {
+        Button(
+            action: {
+                action()
+            },
+            label: {
+                Image(systemName: "info.circle")
+                    .font(.title3)
+                    .foregroundColor(.secondaryElement)
+            }
+        )
+        .padding(.horizontal, Self.padding)
     }
+}
 
-    static var infoOverlayCornerRadius: CGFloat {
-        25
+private struct InfoMessageView: View {
+    let message: String?
+
+    var body: some View {
+        Text(message ?? "")
+            .font(.footnote)
+            .foregroundColor(.primaryElement)
+            .padding()
+            .background(Color.primaryBackground)
+            .cornerRadius(Self.cornerRadius)
+            .padding()
     }
 }
 
@@ -139,6 +116,26 @@ private struct CornerRadiusStyle: ViewModifier {
     }
 }
 
+// MARK: - Constants
+
+private extension CardView {
+    static var cornerRadius: CGFloat {
+        40
+    }
+
+    static var titlePadding: CGFloat {
+        24
+    }
+}
+
+private extension InfoMessageButton {
+    static let padding: CGFloat = 24
+}
+
+private extension InfoMessageView {
+    static let cornerRadius: CGFloat = 16
+}
+
 // MARK: - Previews
 
 struct CardView_Previews: PreviewProvider {
@@ -147,12 +144,14 @@ struct CardView_Previews: PreviewProvider {
             Color.gray
                 .ignoresSafeArea()
 
-            CardView {
+            CardView(
+                title: "Preview",
+                infoMessage: "Some important information!"
+            ) {
                 Text("Some content")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.customRed)
             }
-            .setTitle("Preview")
             .aspectRatio(0.8, contentMode: .fit)
         }
     }

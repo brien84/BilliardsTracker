@@ -14,8 +14,15 @@ struct StatisticsView: View {
     @State private var isShowingHistory = false
     @State private var isShowingDeleteAlert = false
 
+    private var infoMessage: String? {
+        guard !isShowingHistory else { return nil }
+        return "Only latest 100 results are shown."
+    }
+
     var body: some View {
         WithViewStore(store) { viewStore in
+            let isDataSufficient = viewStore.statistics.results.count > 2
+
             ZStack {
                 Color.primaryBackground
                     .ignoresSafeArea()
@@ -23,25 +30,25 @@ struct StatisticsView: View {
                 VStack(spacing: .zero) {
                     StatisticsPanel(statistics: viewStore.statistics)
 
-                    CardView {
-                        if isShowingHistory {
-                            if viewStore.statistics.results.count < 1 {
-                                NotEnoughDataLabel()
-                            } else {
+                    CardView(
+                        title: isShowingHistory ? "History" : "Performance",
+                        infoMessage: viewStore.statistics.results.count > 100 ? infoMessage : nil
+                    ) {
+                        if isDataSufficient {
+                            if isShowingHistory {
                                 ResultsView(results: viewStore.statistics.results)
+                            } else {
+                                ChartView(
+                                    dataPoints: viewStore.statistics.chartDataPoints,
+                                    maxValue: viewStore.drill.shotCount
+                                )
+                                .padding()
                             }
                         } else {
-                            if viewStore.statistics.results.count < 2 {
-                                NotEnoughDataLabel()
-                            } else {
-                                ChartView(dataPoints: viewStore.statistics.chartDataPoints, maxValue: viewStore.drill.shotCount)
-                                    .padding()
-                            }
+                            NotEnoughDataLabel()
                         }
                     }
-                    .setTitle(isShowingHistory ? "History" : "Performance")
-                    .setInfo(isShowingHistory ? nil : viewStore.statistics.results.count > 100 ? "Only latest 100 results are shown" : nil)
-                    .id(UUID())
+                    .id(isShowingHistory)
                     .transition(
                         .asymmetric(
                             insertion: .move(edge: isShowingHistory ? .trailing : .leading),
@@ -61,14 +68,15 @@ struct StatisticsView: View {
                 )
             }
             .toolbar {
-                ToolbarItemGroup {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
                     deleteButton
                         .frame(width: Self.toolbarItemWidth)
 
                     toggleViewButton
-                        .foregroundColor(viewStore.statistics.results.isEmpty ? .secondaryElement : .primaryElement)
-                        .disabled(viewStore.statistics.results.isEmpty)
+                        .foregroundColor(isDataSufficient ? .primaryElement : .secondaryElement)
+                        .disabled(!isDataSufficient)
                         .frame(width: Self.toolbarItemWidth)
+                        .animation(.none, value: isShowingHistory)
                 }
             }
             .navigationTitle(viewStore.drill.title)
@@ -108,7 +116,7 @@ private struct NotEnoughDataLabel: View {
                 .frame(width: Self.width, height: Self.height)
 
             Text("Not enough data")
-                .font(.title3)
+                .font(.headline)
                 .foregroundColor(.primaryElement)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -126,18 +134,42 @@ private extension NotEnoughDataLabel {
     static let verticalSpacing: CGFloat = 16
     static let height: CGFloat = 100
     static let width: CGFloat = 100
-    static let offset: CGSize = CGSize(width: 0, height: -32)
+    static let offset: CGSize = CGSize(width: 0, height: -24)
 }
 
 // MARK: - Previews
 
 struct StatisticsView_Previews: PreviewProvider {
     static let store = Store(
-        initialState: Statistics.State(drill: PersistenceClient.previewData.first!),
+        initialState: Statistics.State(
+            drill: PersistenceClient.previewDrill
+        ),
         reducer: Statistics()
     )
 
     static var previews: some View {
-        StatisticsView(store: store)
+        NavigationView {
+            StatisticsView(store: store)
+        }
+    }
+}
+
+struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
+    static let drill = {
+        let drill = PersistenceClient.previewDrill
+        let results = drill.results
+        results.forEach { drill.removeFromResultsValue($0) }
+        return drill
+    }()
+
+    static let store = Store(
+        initialState: Statistics.State(drill: drill),
+        reducer: Statistics()
+    )
+
+    static var previews: some View {
+        NavigationView {
+            StatisticsView(store: store)
+        }
     }
 }

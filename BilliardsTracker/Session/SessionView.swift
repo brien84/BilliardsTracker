@@ -33,17 +33,15 @@ struct SessionView: View {
                     .padding()
 
                     StatisticsPanel(statistics: viewStore.statistics)
-                        .transition(.identity)
+                        .animation(.none, value: viewStore.statistics)
 
-                    CardView {
+                    CardView(title: "Results") {
                         if viewStore.statistics.results.isEmpty {
                             WaitingLabelView()
-                                .offset(Self.waitingLabelOffset)
                         } else {
                             ResultsView(results: viewStore.statistics.results)
                         }
                     }
-                    .setTitle("Results")
                 }
             }
         }
@@ -52,37 +50,53 @@ struct SessionView: View {
 
 private struct WaitingLabelView: View {
     var body: some View {
-        VStack(spacing: Self.spacing) {
+        VStack(spacing: Self.verticalSpacing) {
             Image("table")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: Self.width, height: Self.height)
 
             Text("Waiting for results...")
-                .font(.title3)
+                .font(.headline)
                 .foregroundColor(.primaryElement)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .offset(Self.offset)
     }
 }
 
 // MARK: - Constants
 
-private extension SessionView {
-    static let waitingLabelOffset: CGSize = CGSize(width: 0, height: -32)
-}
-
 private extension WaitingLabelView {
-    static let spacing: CGFloat = 16
+    static let verticalSpacing: CGFloat = 16
     static let width: CGFloat = 100
     static let height: CGFloat = 100
+    static let offset: CGSize = CGSize(width: 0, height: -24)
 }
 
 // MARK: - Previews
 
 struct SessionView_Previews: PreviewProvider {
     static let store = Store(
-        initialState: Session.State(drill: PersistenceClient.previewData.first!, startDate: Date()),
+        initialState: Session.State(drill: PersistenceClient.previewDrill, startDate: Date()),
+        reducer: Session()
+    )
+
+    static var previews: some View {
+        SessionView(store: store)
+    }
+}
+
+struct SessionViewWaitingLabel_Previews: PreviewProvider {
+    static let drill = {
+        let drill = PersistenceClient.previewDrill
+        let results = drill.results
+        results.forEach { drill.removeFromResultsValue($0) }
+        return drill
+    }()
+
+    static let store = Store(
+        initialState: Session.State(drill: drill, startDate: Date()),
         reducer: Session()
     )
 
