@@ -37,8 +37,16 @@ private extension DrillListView {
 // MARK: - Previews
 
 struct DrillListView_Previews: PreviewProvider {
+    static let drills = [
+        PersistenceClient.previewDrill,
+        PersistenceClient.previewDrill,
+        PersistenceClient.previewDrill,
+        PersistenceClient.previewDrill,
+        PersistenceClient.previewDrill
+    ]
+
     static let store = Store(
-        initialState: DrillList.State(drills: PersistenceClient.previewData),
+        initialState: DrillList.State(drills: drills),
         reducer: DrillList()
     )
 

@@ -71,7 +71,7 @@ private extension DrillItemView {
 
 struct DrillItemView_Previews: PreviewProvider {
     static let store = Store(
-        initialState: DrillItem.State(drill: PersistenceClient.previewData.first!),
+        initialState: DrillItem.State(drill: PersistenceClient.previewDrill),
         reducer: DrillItem()
     )
 
