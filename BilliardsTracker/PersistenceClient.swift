@@ -79,16 +79,27 @@ extension PersistenceClient: DependencyKey {
             }
         )
     }
-}
 
-extension DependencyValues {
-    var persistenceClient: PersistenceClient {
-        get { self[PersistenceClient.self] }
-        set { self[PersistenceClient.self] = newValue }
+    static var previewDrill: Drill {
+        let store = PersistentStore(inMemory: true)
+        let drill = Drill(entity: Drill().entity, insertInto: nil)
+        let i = Int.random(in: 1...100)
+        drill.title = "Preview Drill \(i)"
+        drill.shotCount = i
+        drill.isContinuous = Bool.random()
+
+        for _ in 1..<Int.random(in: 5...10) {
+            let result = DrillResult(entity: DrillResult.entity(), insertInto: nil)
+            result.potCount = Int.random(in: 0...drill.shotCount)
+            result.missCount = drill.shotCount - result.potCount
+            result.date = Date(timeIntervalSinceNow: 3600)
+            result.drill = drill
+            drill.addToResultsValue(result)
+        }
+
+        return drill
     }
-}
 
-extension PersistenceClient {
     static var previewData: [Drill] = {
         let store = PersistentStore(inMemory: true)
 
@@ -115,6 +126,13 @@ extension PersistenceClient {
 
         return drills
     }()
+}
+
+extension DependencyValues {
+    var persistenceClient: PersistenceClient {
+        get { self[PersistenceClient.self] }
+        set { self[PersistenceClient.self] = newValue }
+    }
 }
 
 private actor PersistentStore {
