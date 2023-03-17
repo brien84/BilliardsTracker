@@ -254,16 +254,14 @@
 			isa = PBXGroup;
 			children = (
 				2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */,
-				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
-				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
-				29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */,
-				29A0789F297EFBEC00A5012A /* NewDrill */,
+				294AD366261F74C40086E808 /* Models */,
+				2961238929C4BBAF00000E2D /* Clients */,
 				29A078AA2980194400A5012A /* DrillList */,
 				29A078A2297F0C5B00A5012A /* Main */,
-				29C554AB298E7D080045DFCB /* Settings */,
+				29A0789F297EFBEC00A5012A /* NewDrill */,
 				29A07897297C22EB00A5012A /* Session */,
+				29C554AB298E7D080045DFCB /* Settings */,
 				29A078A7298015D100A5012A /* Statistics */,
-				294AD366261F74C40086E808 /* Models */,
 				29558FD426432F26006BA300 /* Shared */,
 				2926E0FB26150FE500E95DBB /* Assets.xcassets */,
 				2926E10026150FE500E95DBB /* Info.plist */,
@@ -337,11 +335,28 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		2961238929C4BBAF00000E2D /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
+				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
+				29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		2961238A29C4BBC800000E2D /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				2994521B26407CAD0051F4A7 /* ChartView.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		29642E3D262CD7BB00A967D6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				292E6F61266BFD1B0078C033 /* CardView.swift */,
-				2994521B26407CAD0051F4A7 /* ChartView.swift */,
 				29C554B4299296860045DFCB /* ExitButtonView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */,
@@ -392,6 +407,7 @@
 			children = (
 				29A078A8298015E900A5012A /* Statistics.swift */,
 				29BB85FB262E26AB0055A8BB /* StatisticsView.swift */,
+				2961238A29C4BBC800000E2D /* Subviews */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
