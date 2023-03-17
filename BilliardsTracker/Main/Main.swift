@@ -123,11 +123,10 @@ struct Main: ReducerProtocol {
                 }
 
             case .settings(.didSelectSortOption):
-                return .task {
-                    await .persistenceClientDidLoad(
-                        TaskResult { try await persistenceClient.loadDrills() }
-                    )
-                }.animation()
+                let drills = state.drillList.drillItems.map { $0.drill }
+                let sortedDrills = drills.sorted(using: state.settings.sortOption.descriptor)
+                state.drillList = DrillList.State(drills: sortedDrills)
+                return .none
 
             case .statistics(.didTapDeleteButton):
                 guard let drill = state.statistics?.drill else { return .none }
