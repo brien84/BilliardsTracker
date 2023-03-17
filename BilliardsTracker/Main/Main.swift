@@ -41,7 +41,6 @@ struct Main: ReducerProtocol {
         case connectivityClientDidReceiveResponse(ConnectivityResponse)
 
         case loadDrills
-        case persistenceClientDidLoad(TaskResult<[Drill]>)
         case persistenceClient(PersistenceResponse)
     }
 
@@ -174,30 +173,13 @@ struct Main: ReducerProtocol {
 
             case .persistenceClient(let response):
                 switch response {
-                case .success:
+                case .didSucceed:
                     return .task {
-                        await .persistenceClientDidLoad(
-                            TaskResult { try await persistenceClient.loadDrills() }
-                        )
+                        .persistenceClient(await persistenceClient.loadDrills())
                     }.animation()
 
-                case .failure(.saving):
-                    state.alert = savingAlert
-                    return .none
-
-                case .failure(.initialization):
-                    state.alert = initializationAlert
-                    return .none
-
-                case .failure:
-                    return .none
-                }
-
-            case .persistenceClientDidLoad(let result):
-                switch result {
-                case .success(let drills):
+                case .didLoad(let drills):
                     let drills = drills.sorted(using: state.settings.sortOption.descriptor)
-
                     state.drillList = DrillList.State(drills: drills)
 
                     if let session = state.session {
@@ -206,25 +188,23 @@ struct Main: ReducerProtocol {
 
                     return .none
 
-                case .failure(let error):
-                    switch error {
-                    case PersistenceResponse.Failure.initialization:
-                        state.alert = initializationAlert
-                    case PersistenceResponse.Failure.loading:
-                        state.alert = loadingAlert
-                    default:
-                        return .none
-                    }
+                case .didFail(.initialization):
+                    state.alert = initializationAlert
+                    return .none
+
+                case .didFail(.loading):
+                    state.alert = loadingAlert
+                    return .none
+
+                case .didFail(.saving):
+                    state.alert = savingAlert
                     return .none
                 }
 
             case .loadDrills:
                 return .task {
-                    await .persistenceClientDidLoad(
-                        TaskResult { try await persistenceClient.loadDrills() }
-                    )
+                    .persistenceClient(await persistenceClient.loadDrills())
                 }
-
             }
         }
         .ifLet(\.session, action: /Action.session) {
