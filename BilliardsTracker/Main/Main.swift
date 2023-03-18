@@ -26,21 +26,19 @@ struct Main: ReducerProtocol {
     }
 
     enum Action: BindableAction, Equatable {
-        case binding(BindingAction<State>)
-
-        case newDrill(NewDrill.Action)
         case drillList(DrillList.Action)
+        case newDrill(NewDrill.Action)
         case session(Session.Action)
         case settings(Settings.Action)
         case statistics(Statistics.Action)
 
         case alertDidDismiss
+        case binding(BindingAction<State>)
+        case onAppear
 
-        case beginReceivingResults
         case connectivityClientDidReceiveResult(ResultContext)
         case connectivityClientDidReceiveResponse(ConnectivityResponse)
 
-        case loadDrills
         case persistenceClient(PersistenceResponse)
     }
 
@@ -60,32 +58,6 @@ struct Main: ReducerProtocol {
 
         Reduce { state, action in
             switch action {
-
-            case .binding(\.$isNavigationToNewDrillActive):
-                if state.isNavigationToNewDrillActive {
-                    state.newDrill = NewDrill.State()
-                }
-                return .none
-
-            case .binding:
-                return .none
-
-            case .newDrill(.cancelButtonDidTap):
-                state.isNavigationToNewDrillActive = false
-                return .none
-
-            case .newDrill(.saveButtonDidTap):
-                state.isNavigationToNewDrillActive = false
-                let drill = Drill(entity: Drill.entity(), insertInto: nil)
-                drill.shotCount = state.newDrill.shotCount
-                drill.isContinuous = state.newDrill.isContinuous
-                drill.title = state.newDrill.title.isEmpty ? "Drill Title" : state.newDrill.title
-                return .task {
-                    .persistenceClient(await persistenceClient.createDrill(drill))
-                }
-
-            case .newDrill:
-                return .none
 
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
@@ -114,6 +86,23 @@ struct Main: ReducerProtocol {
                 }
                 return .none
 
+            case .newDrill(.cancelButtonDidTap):
+                state.isNavigationToNewDrillActive = false
+                return .none
+
+            case .newDrill(.saveButtonDidTap):
+                state.isNavigationToNewDrillActive = false
+                let drill = Drill(entity: Drill.entity(), insertInto: nil)
+                drill.shotCount = state.newDrill.shotCount
+                drill.isContinuous = state.newDrill.isContinuous
+                drill.title = state.newDrill.title.isEmpty ? "Drill Title" : state.newDrill.title
+                return .task {
+                    .persistenceClient(await persistenceClient.createDrill(drill))
+                }
+
+            case .newDrill:
+                return .none
+
             case .session(.didTapExitButton):
                 state.isNavigationToSessionActive = false
                 return .fireAndForget {
@@ -134,12 +123,33 @@ struct Main: ReducerProtocol {
                     .persistenceClient(await persistenceClient.deleteDrill(drill))
                 }
 
-            case .beginReceivingResults:
-                return .run { send in
-                    for await result in await connectivityClient.receiveResults() {
-                        await send(.connectivityClientDidReceiveResult(result))
-                    }
+            case .alertDidDismiss:
+                if state.alert == initializationAlert {
+                    fatalError()
                 }
+                state.alert = nil
+                return .none
+
+            case .binding(\.$isNavigationToNewDrillActive):
+                if state.isNavigationToNewDrillActive {
+                    state.newDrill = NewDrill.State()
+                }
+                return .none
+
+            case .binding:
+                return .none
+
+            case .onAppear:
+                return .merge(
+                    .task {
+                        .persistenceClient(await persistenceClient.loadDrills())
+                    }.animation(),
+                    .run { send in
+                        for await result in await connectivityClient.receiveResults() {
+                            await send(.connectivityClientDidReceiveResult(result))
+                        }
+                    }
+                )
 
             case .connectivityClientDidReceiveResponse(let response):
                 state.isShowingLoadingIndicator = false
@@ -164,13 +174,6 @@ struct Main: ReducerProtocol {
                     .persistenceClient(await persistenceClient.insertResult(result, drill))
                 }
 
-            case .alertDidDismiss:
-                if state.alert == initializationAlert {
-                    fatalError()
-                }
-                state.alert = nil
-                return .none
-
             case .persistenceClient(let response):
                 switch response {
                 case .didSucceed:
@@ -179,6 +182,7 @@ struct Main: ReducerProtocol {
                     }.animation()
 
                 case .didLoad(let drills):
+                    state.isShowingLoadingIndicator = false
                     let drills = drills.sorted(using: state.settings.sortOption.descriptor)
                     state.drillList = DrillList.State(drills: drills)
 
@@ -200,11 +204,6 @@ struct Main: ReducerProtocol {
                     state.alert = savingAlert
                     return .none
                 }
-
-            case .loadDrills:
-                return .task {
-                    .persistenceClient(await persistenceClient.loadDrills())
-                }
             }
         }
         .ifLet(\.session, action: /Action.session) {
@@ -213,7 +212,6 @@ struct Main: ReducerProtocol {
         .ifLet(\.statistics, action: /Action.statistics) {
             Statistics()
         }
-
     }
 }
 

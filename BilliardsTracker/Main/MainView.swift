@@ -81,8 +81,7 @@ struct MainView: View {
                 dismiss: .alertDidDismiss
             )
             .onAppear {
-                viewStore.send(.loadDrills)
-                viewStore.send(.beginReceivingResults)
+                viewStore.send(.onAppear)
             }
         }
     }
