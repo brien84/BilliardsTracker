@@ -18,7 +18,7 @@ struct MotionClient {
 }
 
 extension MotionClient: DependencyKey {
-    static var liveValue = Self(
+    static let liveValue = Self(
         start: {
             AsyncThrowingStream { continuation in
                 let manager = CMMotionManager()
@@ -56,6 +56,12 @@ extension MotionClient: DependencyKey {
                     manager.stopDeviceMotionUpdates()
                 }
             }
+        }
+    )
+
+    static let testValue = Self(
+        start: {
+            unimplemented("\(Self.self).start")
         }
     )
 }
