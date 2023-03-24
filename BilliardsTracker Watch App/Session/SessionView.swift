@@ -22,7 +22,7 @@ private extension SessionView {
     }
 
     enum Action: Equatable {
-        case alertDidDismiss
+        case didDismissGestureTrackingError
         case beginGestureTracking
         case didChangeCurrentTab(Session.Tab)
     }
@@ -37,8 +37,8 @@ private extension Session.State {
 private extension SessionView.Action {
     var action: Session.Action {
         switch self {
-        case .alertDidDismiss:
-            return .alertDidDismiss
+        case .didDismissGestureTrackingError:
+            return .didDismissGestureTrackingError
 
         case .beginGestureTracking:
             return .beginGestureTracking
@@ -81,7 +81,7 @@ struct SessionView: View {
             }
             .alert(
                 store.scope(state: \.alert),
-                dismiss: .alertDidDismiss
+                dismiss: .didDismissGestureTrackingError
             )
             .onAppear {
                 viewStore.send(.beginGestureTracking)

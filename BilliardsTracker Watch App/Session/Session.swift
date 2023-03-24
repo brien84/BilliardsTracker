@@ -44,10 +44,9 @@ struct Session: ReducerProtocol {
     }
 
     enum Action: Equatable {
-        case alertDidDismiss
-        case didChangeCurrentTab(Session.Tab)
         case result(Result.Action)
 
+        case didChangeCurrentTab(Session.Tab)
         case didRegisterShot(isSuccess: Bool)
         case pauseButtonDidTap
         case resumeButtonDidTap
@@ -55,7 +54,8 @@ struct Session: ReducerProtocol {
         case undoButtonDidTap
 
         case beginGestureTracking
-        case gestureTrackingDidFail
+        case didDismissGestureTrackingError
+        case didEncounterGestureTrackingError
         case didReceiveRuntimeClientExpirationStatus(Bool)
     }
 
@@ -84,7 +84,7 @@ struct Session: ReducerProtocol {
                     }
                 }
             } catch {
-                await send(.gestureTrackingDidFail)
+                await send(.didEncounterGestureTrackingError)
             }
         }
         .cancellable(id: MotionID.self, cancelInFlight: true)
@@ -97,7 +97,7 @@ struct Session: ReducerProtocol {
             case .none, .expired:
                 return
             case .error, .resignedFrontmost, .sessionInProgress, .suppressedBySystem:
-                await send(.gestureTrackingDidFail)
+                await send(.didEncounterGestureTrackingError)
             @unknown default:
                 return
             }
@@ -108,14 +108,6 @@ struct Session: ReducerProtocol {
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-
-            case .alertDidDismiss:
-                state.alert = nil
-                return .none
-
-            case .didChangeCurrentTab(let tab):
-                state.currentTab = tab
-                return .none
 
             case .result(.doneButtonDidTap):
                 state.result = nil
@@ -132,6 +124,10 @@ struct Session: ReducerProtocol {
                     startRuntimeClient(state: &state),
                     sendResultContext
                 )
+
+            case .didChangeCurrentTab(let tab):
+                state.currentTab = tab
+                return .none
 
             case .didRegisterShot(let isSuccess):
                 guard state.remainingShots > 0 else { return .none }
@@ -152,7 +148,11 @@ struct Session: ReducerProtocol {
                     return .cancel(ids: [MotionID.self, RuntimeID.self])
                 }
 
-                return .none
+                return .task {
+                    .didReceiveRuntimeClientExpirationStatus(
+                        await runtimeClient.getExpirationStatus()
+                    )
+                }
 
             case .pauseButtonDidTap:
                 state.isPaused = true
@@ -187,12 +187,16 @@ struct Session: ReducerProtocol {
                 return .none
 
             case .beginGestureTracking:
+                guard state.alert == nil else { return .none }
                 return .merge(
                     startMotionClient(state: &state),
                     startRuntimeClient(state: &state)
                 )
 
-            case .gestureTrackingDidFail:
+            case .didDismissGestureTrackingError:
+                return .none
+
+            case .didEncounterGestureTrackingError:
                 guard state.alert == nil else { return .none }
                 state.alert = gestureTrackingAlert
                 return .cancel(ids: [MotionID.self, RuntimeID.self])
@@ -219,7 +223,7 @@ private extension Session {
         AlertState {
             TextState("Attention!")
         } actions: {
-            ButtonState(role: .cancel) {
+            ButtonState(role: .cancel, action: .didDismissGestureTrackingError) {
                 TextState("OK")
             }
         } message: {

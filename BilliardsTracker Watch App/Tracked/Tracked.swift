@@ -15,8 +15,8 @@ struct Tracked: ReducerProtocol {
     enum Action: Equatable {
         case session(Session.Action)
 
-        case beginReceivingDrillContexts
-        case stopReceivingDrillContexts
+        case establishConnection
+        case stopConnection
         case connectivityClientDidReceiveDrillContext(DrillContext)
     }
 
@@ -28,14 +28,18 @@ struct Tracked: ReducerProtocol {
         Reduce { state, action in
             switch action {
 
-            case .session(.stopButtonDidTap), .session(.result(.doneButtonDidTap)):
+            case .session(.stopButtonDidTap), .session(.didDismissGestureTrackingError):
+                state.session = nil
+                return .none
+
+            case .session(.result(.doneButtonDidTap)):
                 state.session = nil
                 return .none
 
             case .session:
                 return .none
 
-            case .beginReceivingDrillContexts:
+            case .establishConnection:
                 return .run { send in
                     for await drillContext in await connectivityClient.receiveDrillContext() {
                         await send(.connectivityClientDidReceiveDrillContext(drillContext))
@@ -43,7 +47,7 @@ struct Tracked: ReducerProtocol {
                 }
                 .cancellable(id: ConnectivityID.self, cancelInFlight: true)
 
-            case .stopReceivingDrillContexts:
+            case .stopConnection:
                 return .cancel(id: ConnectivityID.self)
 
             case .connectivityClientDidReceiveDrillContext(let context):

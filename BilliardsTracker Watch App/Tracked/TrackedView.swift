@@ -39,10 +39,10 @@ struct TrackedView: View {
             }
             .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
             .onAppear {
-                viewStore.send(.beginReceivingDrillContexts)
+                viewStore.send(.establishConnection)
             }
             .onDisappear {
-                viewStore.send(.stopReceivingDrillContexts)
+                viewStore.send(.stopConnection)
             }
         }
     }

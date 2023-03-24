@@ -22,7 +22,11 @@ struct Standalone: ReducerProtocol {
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .session(.stopButtonDidTap), .session(.result(.doneButtonDidTap)):
+            case .session(.stopButtonDidTap), .session(.didDismissGestureTrackingError):
+                state.session = nil
+                return .none
+
+            case .session(.result(.doneButtonDidTap)):
                 state.session = nil
                 return .none
 
