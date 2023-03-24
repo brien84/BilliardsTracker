@@ -9,7 +9,7 @@ import ComposableArchitecture
 import WatchConnectivity
 
 struct ConnectivityClient {
-    var receiveDrillContext: @Sendable  () async -> AsyncStream<DrillContext>
+    var receiveDrillContext: @Sendable () async -> AsyncStream<DrillContext>
     var sendResultContext: @Sendable (ResultContext) async -> Void
 }
 
@@ -26,6 +26,15 @@ extension ConnectivityClient: DependencyKey {
             }
         )
     }
+
+    static let testValue = Self(
+        receiveDrillContext: {
+            unimplemented("\(Self.self).receiveDrillContext")
+        },
+        sendResultContext: { _ in
+            unimplemented("\(Self.self).sendResultContext")
+        }
+    )
 }
 
 extension DependencyValues {
