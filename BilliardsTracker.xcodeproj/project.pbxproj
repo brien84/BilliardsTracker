@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
+		291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2C29CDFAF0007DA116 /* SessionTests.swift */; };
+		291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */; };
+		291F7C3129CDFB4F007DA116 /* TrackedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3029CDFB4F007DA116 /* TrackedTests.swift */; };
 		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
 		292002D92682572C00DCA308 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292002D82682572C00DCA308 /* MarqueeText.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
@@ -121,6 +125,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
+		291F7C2C29CDFAF0007DA116 /* SessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTests.swift; sourceTree = "<group>"; };
+		291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneTests.swift; sourceTree = "<group>"; };
+		291F7C3029CDFB4F007DA116 /* TrackedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedTests.swift; sourceTree = "<group>"; };
 		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		292002D82682572C00DCA308 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -376,6 +384,10 @@
 			isa = PBXGroup;
 			children = (
 				2961239129C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift */,
+				291F7C2A29CDFA9A007DA116 /* MainTests.swift */,
+				291F7C2C29CDFAF0007DA116 /* SessionTests.swift */,
+				291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */,
+				291F7C3029CDFB4F007DA116 /* TrackedTests.swift */,
 			);
 			path = BilliardsTrackerWatchAppTests;
 			sourceTree = "<group>";
@@ -833,6 +845,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				291F7C3129CDFB4F007DA116 /* TrackedTests.swift in Sources */,
+				291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */,
+				291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */,
+				291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */,
 				2961239229C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
