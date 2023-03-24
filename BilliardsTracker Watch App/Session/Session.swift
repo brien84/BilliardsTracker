@@ -56,7 +56,7 @@ struct Session: ReducerProtocol {
 
         case beginGestureTracking
         case gestureTrackingDidFail
-        case runtimeClient(ExtendedRuntimeClient.Action?)
+        case didReceiveRuntimeClientExpirationStatus(Bool)
     }
 
     @Dependency(\.connectivityClient) var connectivityClient
@@ -91,8 +91,16 @@ struct Session: ReducerProtocol {
     }
 
     private func startRuntimeClient(state: inout State) -> EffectTask<Action> {
-        .task {
-            .runtimeClient(await runtimeClient.start())
+        .run { send in
+            let invalidationReason = await runtimeClient.start()
+            switch invalidationReason {
+            case .none, .expired:
+                return
+            case .error, .resignedFrontmost, .sessionInProgress, .suppressedBySystem:
+                await send(.gestureTrackingDidFail)
+            @unknown default:
+                return
+            }
         }
         .cancellable(id: RuntimeID.self, cancelInFlight: true)
     }
@@ -189,17 +197,12 @@ struct Session: ReducerProtocol {
                 state.alert = gestureTrackingAlert
                 return .cancel(ids: [MotionID.self, RuntimeID.self])
 
-            case .runtimeClient(.didInvalidate(let reason)):
-                if reason != .none {
-                    return EffectTask.task { .gestureTrackingDidFail }
-                }
-                return .none
-
-            case .runtimeClient(.willExpire):
-                return startRuntimeClient(state: &state)
-
-            case .runtimeClient:
-                return .none
+            case .didReceiveRuntimeClientExpirationStatus(let isExpiring):
+                guard isExpiring else { return .none }
+                return .concatenate(
+                    .cancel(id: RuntimeID.self),
+                    startRuntimeClient(state: &state)
+                )
 
             }
         }

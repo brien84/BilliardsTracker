@@ -9,12 +9,8 @@ import ComposableArchitecture
 import WatchKit
 
 struct ExtendedRuntimeClient {
-    var start: @Sendable () async -> Action?
-
-    enum Action: Equatable {
-        case didInvalidate(WKExtendedRuntimeSessionInvalidationReason)
-        case willExpire
-    }
+    var getExpirationStatus: @Sendable () async -> Bool
+    var start: @Sendable () async -> WKExtendedRuntimeSessionInvalidationReason
 }
 
 extension ExtendedRuntimeClient: DependencyKey {
@@ -22,11 +18,24 @@ extension ExtendedRuntimeClient: DependencyKey {
         let runtime = ExtendedRuntime()
 
         return Self(
+            getExpirationStatus: {
+                await runtime.isExpiring
+            },
             start: {
-                await runtime.start().first(where: { _ in true })
+                try? await Task.sleep(nanoseconds: 250_000_000)
+                return await runtime.start()
             }
         )
     }
+
+    static let testValue = Self(
+        getExpirationStatus: {
+            unimplemented("\(Self.self).isExpiring")
+        },
+        start: {
+            unimplemented("\(Self.self).start")
+        }
+    )
 }
 
 extension DependencyValues {
@@ -37,46 +46,44 @@ extension DependencyValues {
 }
 
 private actor ExtendedRuntime {
+    private var delegate: ExtendedRuntimeSessionDelegate?
     private var session: WKExtendedRuntimeSession?
 
-    func start() async -> AsyncStream<ExtendedRuntimeClient.Action> {
-        AsyncStream<ExtendedRuntimeClient.Action> { continuation in
+    /// `session` is considered expiring if it has less than 5 minutes of run time remaining.
+    var isExpiring: Bool {
+        guard let startDate = delegate?.startDate else { return false }
+        return startDate.distance(to: .now) > 3300
+    }
+
+    func start() async -> WKExtendedRuntimeSessionInvalidationReason {
+        await AsyncStream<WKExtendedRuntimeSessionInvalidationReason> { continuation in
             session = WKExtendedRuntimeSession()
 
-            let sessionDelegate = ExtendedRuntimeSessionDelegate(
+            delegate = ExtendedRuntimeSessionDelegate(
                 didInvalidate: { reason, _ in
-                    continuation.yield(.didInvalidate(reason))
-                    continuation.finish()
-                },
-                willExpire: {
-                    continuation.yield(.willExpire)
+                    continuation.yield(reason)
                     continuation.finish()
                 }
             )
 
-            session?.delegate = sessionDelegate
+            session?.delegate = delegate
             session?.start()
 
             continuation.onTermination = { @Sendable _ in
                 Task {
-                    _ = sessionDelegate
                     await self.session?.invalidate()
                 }
             }
-        }
+        }.first { _ in true } ?? .none
     }
 }
 
 private class ExtendedRuntimeSessionDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
     var didInvalidate: (WKExtendedRuntimeSessionInvalidationReason, Error?) -> Void
-    var willExpire: () -> Void
+    private(set) var startDate: Date?
 
-    init(
-        didInvalidate: @escaping (WKExtendedRuntimeSessionInvalidationReason, Error?) -> Void,
-        willExpire: @escaping () -> Void
-    ) {
+    init(didInvalidate: @escaping (WKExtendedRuntimeSessionInvalidationReason, Error?) -> Void) {
         self.didInvalidate = didInvalidate
-        self.willExpire = willExpire
     }
 
     func extendedRuntimeSession(
@@ -90,10 +97,11 @@ private class ExtendedRuntimeSessionDelegate: NSObject, WKExtendedRuntimeSession
 
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("extendedRuntimeSessionDidStart")
+        startDate = .now
     }
 
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-        willExpire()
+
     }
 }
 
