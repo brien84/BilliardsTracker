@@ -1,17 +1,12 @@
 //
-//  ExtendedRuntimeClient.swift
-//  BilliardsTracker Watch App
+//  LiveExtendedRuntimeClient.swift
+//  BilliardsTrackerWatchApp
 //
-//  Created by Marius on 2023-02-15.
+//  Created by Marius on 2023-03-24.
 //
 
-import ComposableArchitecture
+import Dependencies
 import WatchKit
-
-struct ExtendedRuntimeClient {
-    var getExpirationStatus: @Sendable () async -> Bool
-    var start: @Sendable () async -> WKExtendedRuntimeSessionInvalidationReason
-}
 
 extension ExtendedRuntimeClient: DependencyKey {
     static var liveValue: Self {
@@ -26,22 +21,6 @@ extension ExtendedRuntimeClient: DependencyKey {
                 return await runtime.start()
             }
         )
-    }
-
-    static let testValue = Self(
-        getExpirationStatus: {
-            unimplemented("\(Self.self).isExpiring")
-        },
-        start: {
-            unimplemented("\(Self.self).start")
-        }
-    )
-}
-
-extension DependencyValues {
-    var runtimeClient: ExtendedRuntimeClient {
-        get { self[ExtendedRuntimeClient.self] }
-        set { self[ExtendedRuntimeClient.self] = newValue }
     }
 }
 

@@ -11,6 +11,9 @@
 		291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2C29CDFAF0007DA116 /* SessionTests.swift */; };
 		291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */; };
 		291F7C3129CDFB4F007DA116 /* TrackedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3029CDFB4F007DA116 /* TrackedTests.swift */; };
+		291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */; };
+		291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3829CE500A007DA116 /* LiveMotionClient.swift */; };
+		291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */; };
 		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
 		292002D92682572C00DCA308 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292002D82682572C00DCA308 /* MarqueeText.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
@@ -31,7 +34,6 @@
 		294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */; };
 		295389DA26696C4D0028E5B8 /* StatisticsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295389D926696C4D0028E5B8 /* StatisticsPanel.swift */; };
 		29558FD626432F46006BA300 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29558FD526432F46006BA300 /* Extensions.swift */; };
-		2961239229C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2961239129C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift */; };
 		29642E4B262E058C00A967D6 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E4A262E058C00A967D6 /* SessionView.swift */; };
 		297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E8FF8268B649C0091F086 /* OnboardView.swift */; };
 		297FD9C2268522EB00DFBFFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */; };
@@ -129,6 +131,9 @@
 		291F7C2C29CDFAF0007DA116 /* SessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTests.swift; sourceTree = "<group>"; };
 		291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneTests.swift; sourceTree = "<group>"; };
 		291F7C3029CDFB4F007DA116 /* TrackedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedTests.swift; sourceTree = "<group>"; };
+		291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
+		291F7C3829CE500A007DA116 /* LiveMotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMotionClient.swift; sourceTree = "<group>"; };
+		291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveExtendedRuntimeClient.swift; sourceTree = "<group>"; };
 		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		292002D82682572C00DCA308 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,7 +162,6 @@
 		295389D926696C4D0028E5B8 /* StatisticsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsPanel.swift; sourceTree = "<group>"; };
 		29558FD526432F46006BA300 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2961238F29C636FC00000E2D /* BilliardsTrackerWatchAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerWatchAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2961239129C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerWatchAppTests.swift; sourceTree = "<group>"; };
 		29642E4A262E058C00A967D6 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		297E8FF8268B649C0091F086 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -241,6 +245,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		291F7C3229CE4E7D007DA116 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				291F7C3529CE4FB5007DA116 /* ConnectivityClient */,
+				291F7C3629CE4FDF007DA116 /* ExtendedRuntimeClient */,
+				291F7C3729CE4FE9007DA116 /* MotionClient */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		291F7C3529CE4FB5007DA116 /* ConnectivityClient */ = {
+			isa = PBXGroup;
+			children = (
+				29A0F3D329B77504000302AF /* ConnectivityClient.swift */,
+				291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */,
+			);
+			path = ConnectivityClient;
+			sourceTree = "<group>";
+		};
+		291F7C3629CE4FDF007DA116 /* ExtendedRuntimeClient */ = {
+			isa = PBXGroup;
+			children = (
+				29A0F399299D642F000302AF /* ExtendedRuntimeClient.swift */,
+				291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */,
+			);
+			path = ExtendedRuntimeClient;
+			sourceTree = "<group>";
+		};
+		291F7C3729CE4FE9007DA116 /* MotionClient */ = {
+			isa = PBXGroup;
+			children = (
+				29A0F3CD29A3BC14000302AF /* MotionClient.swift */,
+				291F7C3829CE500A007DA116 /* LiveMotionClient.swift */,
+			);
+			path = MotionClient;
+			sourceTree = "<group>";
+		};
 		29200293267FC76D00DCA308 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
+				291F7C3229CE4E7D007DA116 /* Clients */,
 				29DB1462299ADE78004029D1 /* Main */,
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
@@ -383,7 +425,6 @@
 		2961239029C636FD00000E2D /* BilliardsTrackerWatchAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				2961239129C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift */,
 				291F7C2A29CDFA9A007DA116 /* MainTests.swift */,
 				291F7C2C29CDFAF0007DA116 /* SessionTests.swift */,
 				291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */,
@@ -465,8 +506,6 @@
 		29A0F396299D54EA000302AF /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				29A0F399299D642F000302AF /* ExtendedRuntimeClient.swift */,
-				29A0F3CD29A3BC14000302AF /* MotionClient.swift */,
 				29A0F397299D54FC000302AF /* Session.swift */,
 				29A0F39F299ED9CC000302AF /* SessionView.swift */,
 				29D0343F29BE821C00BA7865 /* Subviews */,
@@ -477,7 +516,6 @@
 		29A0F3A329A2BAA4000302AF /* Tracked */ = {
 			isa = PBXGroup;
 			children = (
-				29A0F3D329B77504000302AF /* ConnectivityClient.swift */,
 				29A0F3A429A2BAB7000302AF /* Tracked.swift */,
 				29A0F3D129B656C4000302AF /* TrackedView.swift */,
 			);
@@ -820,12 +858,15 @@
 				29A0F3A0299ED9CC000302AF /* SessionView.swift in Sources */,
 				29A0F39C299ED466000302AF /* SessionProgressView.swift in Sources */,
 				29A0F398299D54FC000302AF /* Session.swift in Sources */,
+				291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */,
 				29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */,
+				291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				29A0F39A299D642F000302AF /* ExtendedRuntimeClient.swift in Sources */,
 				29DB1469299C3437004029D1 /* Standalone.swift in Sources */,
 				29A0F3D229B656C4000302AF /* TrackedView.swift in Sources */,
 				29A0F3D029B633D8000302AF /* ResultView.swift in Sources */,
+				291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */,
 				29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
@@ -849,7 +890,6 @@
 				291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */,
 				291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */,
 				291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */,
-				2961239229C636FD00000E2D /* BilliardsTrackerWatchAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

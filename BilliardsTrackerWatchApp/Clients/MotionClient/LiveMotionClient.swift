@@ -1,21 +1,12 @@
 //
-//  MotionClient.swift
-//  BilliardsTracker Watch App
+//  LiveMotionClient.swift
+//  BilliardsTrackerWatchApp
 //
-//  Created by Marius on 2023-02-20.
+//  Created by Marius on 2023-03-24.
 //
 
-import ComposableArchitecture
+import Dependencies
 import CoreMotion
-
-enum Gesture {
-    case axisX
-    case axisZ
-}
-
-struct MotionClient {
-    var start: @Sendable () async -> AsyncThrowingStream<Gesture, Error>
-}
 
 extension MotionClient: DependencyKey {
     static let liveValue = Self(
@@ -58,19 +49,6 @@ extension MotionClient: DependencyKey {
             }
         }
     )
-
-    static let testValue = Self(
-        start: {
-            unimplemented("\(Self.self).start")
-        }
-    )
-}
-
-extension DependencyValues {
-    var motionClient: MotionClient {
-        get { self[MotionClient.self] }
-        set { self[MotionClient.self] = newValue }
-    }
 }
 
 private struct GestureRecognizer {
