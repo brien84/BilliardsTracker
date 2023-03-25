@@ -42,7 +42,7 @@ struct TrackedView: View {
                 viewStore.send(.establishConnection)
             }
             .onDisappear {
-                viewStore.send(.stopConnection)
+                viewStore.send(.endConnection)
             }
         }
     }

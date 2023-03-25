@@ -16,7 +16,7 @@ struct Tracked: ReducerProtocol {
         case session(Session.Action)
 
         case establishConnection
-        case stopConnection
+        case endConnection
         case connectivityClientDidReceiveDrillContext(DrillContext)
     }
 
@@ -47,7 +47,7 @@ struct Tracked: ReducerProtocol {
                 }
                 .cancellable(id: ConnectivityID.self, cancelInFlight: true)
 
-            case .stopConnection:
+            case .endConnection:
                 return .cancel(id: ConnectivityID.self)
 
             case .connectivityClientDidReceiveDrillContext(let context):
