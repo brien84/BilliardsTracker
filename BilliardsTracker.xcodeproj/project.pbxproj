@@ -297,7 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				29200294267FC78500DCA308 /* Extensions+Color.swift */,
-				292002D82682572C00DCA308 /* MarqueeText.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -554,6 +553,7 @@
 		29D0343F29BE821C00BA7865 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				292002D82682572C00DCA308 /* MarqueeText.swift */,
 				29A0F39D299ED5D1000302AF /* SessionControlView.swift */,
 				29A0F39B299ED466000302AF /* SessionProgressView.swift */,
 			);

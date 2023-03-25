@@ -58,9 +58,10 @@ struct SessionProgressView: View {
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             VStack {
-                MarqueeText(viewStore.title, font: .headline)
-                    .padding(.top)
+                MarqueeText(viewStore.title)
+                    .font(.headline)
                     .foregroundColor(.primaryElement)
+                    .padding(.top)
 
                 Spacer()
 
