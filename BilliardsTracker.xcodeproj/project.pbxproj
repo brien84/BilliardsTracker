@@ -14,6 +14,7 @@
 		291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */; };
 		291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3829CE500A007DA116 /* LiveMotionClient.swift */; };
 		291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */; };
+		291F7C3F29CF876A007DA116 /* OnboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */; };
 		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
 		292002D92682572C00DCA308 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292002D82682572C00DCA308 /* MarqueeText.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
@@ -134,6 +135,7 @@
 		291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
 		291F7C3829CE500A007DA116 /* LiveMotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMotionClient.swift; sourceTree = "<group>"; };
 		291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveExtendedRuntimeClient.swift; sourceTree = "<group>"; };
+		291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardAnimation.swift; sourceTree = "<group>"; };
 		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		292002D82682572C00DCA308 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,12 +284,20 @@
 			path = MotionClient;
 			sourceTree = "<group>";
 		};
+		291F7C3D29CF873E007DA116 /* Onboard */ = {
+			isa = PBXGroup;
+			children = (
+				291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */,
+				297E8FF8268B649C0091F086 /* OnboardView.swift */,
+			);
+			path = Onboard;
+			sourceTree = "<group>";
+		};
 		29200293267FC76D00DCA308 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				29200294267FC78500DCA308 /* Extensions+Color.swift */,
 				292002D82682572C00DCA308 /* MarqueeText.swift */,
-				297E8FF8268B649C0091F086 /* OnboardView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -371,6 +381,7 @@
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				291F7C3229CE4E7D007DA116 /* Clients */,
 				29DB1462299ADE78004029D1 /* Main */,
+				291F7C3D29CF873E007DA116 /* Onboard */,
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
 				29DB146A299C343C004029D1 /* Standalone */,
@@ -878,6 +889,7 @@
 				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */,
+				291F7C3F29CF876A007DA116 /* OnboardAnimation.swift in Sources */,
 				29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
