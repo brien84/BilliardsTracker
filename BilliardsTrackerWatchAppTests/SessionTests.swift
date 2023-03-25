@@ -190,4 +190,96 @@ final class SessionTests: XCTestCase {
         }
     }
 
+    func testTrackingGestures() async throws {
+        store.dependencies.motionClient.start = { @Sendable in
+            AsyncThrowingStream { continuation in
+                continuation.yield(.axisX)
+            }
+        }
+
+        await store.send(.beginGestureTracking)
+
+        await store.receive(.didRegisterShot(isSuccess: true)) {
+            $0.potCount = 1
+            $0.didPotLastShot = true
+        }
+
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
+
+        await store.skipInFlightEffects()
+    }
+
+    func testHandlingGestureTrackingErrorThrownByMotionClient() async throws {
+        enum TestError: Error {
+            case error
+        }
+
+        store.dependencies.motionClient.start = { @Sendable in
+            AsyncThrowingStream { throw TestError.error }
+        }
+
+        await store.send(.beginGestureTracking)
+
+        await store.receive(.didEncounterGestureTrackingError) {
+            $0.alert = AlertState {
+                TextState("Attention!")
+            } actions: {
+                ButtonState(role: .cancel, action: .didDismissGestureTrackingError) {
+                    TextState("OK")
+                }
+            } message: {
+                TextState(
+                    """
+                    BilliardsTracker could not initiate gesture tracking.
+                    Make sure no other workout apps are not actively running.
+                    """
+                )
+            }
+        }
+    }
+
+    func testHandlingGestureTrackingErrorThrownByRuntimeClient() async throws {
+        enum TestError: Error {
+            case error
+        }
+
+        store.dependencies.runtimeClient.start = { @Sendable in
+            WKExtendedRuntimeSessionInvalidationReason.error
+        }
+
+        await store.send(.beginGestureTracking)
+
+        await store.receive(.didEncounterGestureTrackingError) {
+            $0.alert = AlertState {
+                TextState("Attention!")
+            } actions: {
+                ButtonState(role: .cancel, action: .didDismissGestureTrackingError) {
+                    TextState("OK")
+                }
+            } message: {
+                TextState(
+                    """
+                    BilliardsTracker could not initiate gesture tracking.
+                    Make sure no other workout apps are not actively running.
+                    """
+                )
+            }
+        }
+    }
+
+    func testExpiringRuntimeClientIsRestarted() async throws {
+        store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in
+            true
+        }
+
+        await store.send(.didRegisterShot(isSuccess: true)) {
+            $0.didPotLastShot = true
+            $0.potCount = 1
+        }
+
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(true))
+
+        await store.send(.stopButtonDidTap)
+    }
+
 }
