@@ -111,6 +111,7 @@ struct Session: ReducerProtocol {
 
             case .result(.doneButtonDidTap):
                 state.result = nil
+                WKInterfaceDevice().play(.stop)
                 return sendResultContext(state: &state)
 
             case .result(.restartButtonDidTap):
@@ -119,6 +120,7 @@ struct Session: ReducerProtocol {
                 state.missCount = 0
                 state.didPotLastShot = nil
                 state.result = nil
+                WKInterfaceDevice().play(.start)
                 return .merge(
                     startMotionClient(state: &state),
                     startRuntimeClient(state: &state),
@@ -170,6 +172,7 @@ struct Session: ReducerProtocol {
                 )
 
             case .stopButtonDidTap:
+                WKInterfaceDevice().play(.stop)
                 return .cancel(ids: [MotionID.self, RuntimeID.self])
 
             case .undoButtonDidTap:
@@ -183,11 +186,12 @@ struct Session: ReducerProtocol {
 
                 state.didPotLastShot = nil
                 state.currentTab = .progress
-                WKInterfaceDevice().play(.directionDown)
+                WKInterfaceDevice().play(.retry)
                 return .none
 
             case .beginGestureTracking:
                 guard state.alert == nil else { return .none }
+                WKInterfaceDevice().play(.start)
                 return .merge(
                     startMotionClient(state: &state),
                     startRuntimeClient(state: &state)
