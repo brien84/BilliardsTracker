@@ -15,6 +15,8 @@
 		291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3829CE500A007DA116 /* LiveMotionClient.swift */; };
 		291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */; };
 		291F7C3F29CF876A007DA116 /* OnboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */; };
+		291F7C4229D0A1F4007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */; };
+		291F7C4529D0A2F0007DA116 /* LivePersistenceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */; };
 		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
 		292002D92682572C00DCA308 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292002D82682572C00DCA308 /* MarqueeText.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
@@ -34,7 +36,6 @@
 		294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */; };
 		294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */; };
 		295389DA26696C4D0028E5B8 /* StatisticsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295389D926696C4D0028E5B8 /* StatisticsPanel.swift */; };
-		29558FD626432F46006BA300 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29558FD526432F46006BA300 /* Extensions.swift */; };
 		29642E4B262E058C00A967D6 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E4A262E058C00A967D6 /* SessionView.swift */; };
 		297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E8FF8268B649C0091F086 /* OnboardView.swift */; };
 		297FD9C2268522EB00DFBFFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */; };
@@ -136,6 +137,8 @@
 		291F7C3829CE500A007DA116 /* LiveMotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMotionClient.swift; sourceTree = "<group>"; };
 		291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveExtendedRuntimeClient.swift; sourceTree = "<group>"; };
 		291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardAnimation.swift; sourceTree = "<group>"; };
+		291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
+		291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePersistenceClient.swift; sourceTree = "<group>"; };
 		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		292002D82682572C00DCA308 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,7 +165,6 @@
 		294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrillResult+CoreDataClass.swift"; sourceTree = "<group>"; };
 		294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrillResult+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		295389D926696C4D0028E5B8 /* StatisticsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsPanel.swift; sourceTree = "<group>"; };
-		29558FD526432F46006BA300 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2961238F29C636FC00000E2D /* BilliardsTrackerWatchAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerWatchAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		29642E4A262E058C00A967D6 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		297E8FF8268B649C0091F086 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
@@ -293,6 +295,24 @@
 			path = Onboard;
 			sourceTree = "<group>";
 		};
+		291F7C4029D0A1A7007DA116 /* ConnectivityClient */ = {
+			isa = PBXGroup;
+			children = (
+				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
+				291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */,
+			);
+			path = ConnectivityClient;
+			sourceTree = "<group>";
+		};
+		291F7C4329D0A2DE007DA116 /* PersistenceClient */ = {
+			isa = PBXGroup;
+			children = (
+				291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */,
+				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
+			);
+			path = PersistenceClient;
+			sourceTree = "<group>";
+		};
 		29200293267FC76D00DCA308 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,7 +428,6 @@
 			isa = PBXGroup;
 			children = (
 				29D0344029C10ED600BA7865 /* Extensions+Color.swift */,
-				29558FD526432F46006BA300 /* Extensions.swift */,
 				29642E3D262CD7BB00A967D6 /* Views */,
 			);
 			path = Shared;
@@ -417,8 +436,8 @@
 		2961238929C4BBAF00000E2D /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				29A078AF2986EFFB00A5012A /* ConnectivityClient.swift */,
-				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
+				291F7C4329D0A2DE007DA116 /* PersistenceClient */,
+				291F7C4029D0A1A7007DA116 /* ConnectivityClient */,
 				29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */,
 			);
 			path = Clients;
@@ -815,12 +834,12 @@
 				29C554B1298EC8A90045DFCB /* DrillItem.swift in Sources */,
 				29BB85FC262E26AB0055A8BB /* StatisticsView.swift in Sources */,
 				29A0789E297C75ED00A5012A /* PassiveNavigationLink.swift in Sources */,
+				291F7C4229D0A1F4007DA116 /* LiveConnectivityClient.swift in Sources */,
 				2926E0FA26150FE400E95DBB /* DrillListView.swift in Sources */,
 				29C554B5299296860045DFCB /* ExitButtonView.swift in Sources */,
 				298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */,
 				2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */,
-				29558FD626432F46006BA300 /* Extensions.swift in Sources */,
 				29BB8603262EECE00055A8BB /* NewDrillView.swift in Sources */,
 				293433C8267676C100FA4768 /* SettingsView.swift in Sources */,
 				29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */,
@@ -831,6 +850,7 @@
 				29A078AE29808AA300A5012A /* PersistenceClient.swift in Sources */,
 				295389DA26696C4D0028E5B8 /* StatisticsPanel.swift in Sources */,
 				29A078AC2980195600A5012A /* DrillList.swift in Sources */,
+				291F7C4529D0A2F0007DA116 /* LivePersistenceClient.swift in Sources */,
 				29A078A9298015E900A5012A /* Statistics.swift in Sources */,
 				29A078B02986EFFB00A5012A /* ConnectivityClient.swift in Sources */,
 				29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */,
