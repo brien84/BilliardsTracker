@@ -37,10 +37,11 @@ struct MainView: View {
                     ))
                     .disabled(viewStore.isShowingLoadingIndicator)
 
-                    NewDrillBackgroundButton(
-                        isNavigationActive: viewStore.binding(\.$isNavigationToNewDrillActive)
-                    )
-                    .opacity(viewStore.drillList.drillItems.count == 0 ? 1 : 0)
+                    if viewStore.drillList.drillItems.isEmpty && !viewStore.isShowingLoadingIndicator {
+                        NewDrillBackgroundButton(
+                            isNavigationActive: viewStore.binding(\.$isNavigationToNewDrillActive)
+                        )
+                    }
 
                     LoadingView()
                         .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)

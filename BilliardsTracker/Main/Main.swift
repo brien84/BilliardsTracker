@@ -62,7 +62,7 @@ struct Main: ReducerProtocol {
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.isShowingLoadingIndicator = true
-                    state.session = Session.State(drill: drill, startDate: Date())
+                    state.session = Session.State(drill: drill, startDate: .now)
                     let context = DrillContext(
                         isActive: true,
                         isContinuous: drill.isContinuous,
@@ -140,9 +140,11 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .onAppear:
+                state.isShowingLoadingIndicator = true
                 return .merge(
                     .task {
-                        .persistenceClient(await persistenceClient.loadDrills())
+                        try await Task.sleep(nanoseconds: 250_000_000)
+                        return .persistenceClient(await persistenceClient.loadDrills())
                     }.animation(),
                     .run { send in
                         for await result in await connectivityClient.receiveResults() {
