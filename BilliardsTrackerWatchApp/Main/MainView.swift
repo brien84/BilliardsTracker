@@ -102,6 +102,8 @@ private struct TabViewButton: View {
             Text(title)
                 .font(.title3)
                 .scaleEffect(titleScale)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black)
         }
         .buttonStyle(.plain)
         .task {
