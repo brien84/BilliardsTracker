@@ -118,7 +118,7 @@ final class SessionTests: XCTestCase {
         localStore.dependencies.motionClient = store.dependencies.motionClient
         localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
 
-        await localStore.send(.beginGestureTracking)
+        await localStore.send(.onAppear)
 
         await localStore.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
@@ -141,7 +141,7 @@ final class SessionTests: XCTestCase {
         localStore.dependencies.motionClient = store.dependencies.motionClient
         localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
 
-        await localStore.send(.beginGestureTracking)
+        await localStore.send(.onAppear)
 
         await localStore.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = false
@@ -171,7 +171,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testStoppingSessionStopsGestureTracking() async throws {
-        await store.send(.beginGestureTracking)
+        await store.send(.onAppear)
 
         await store.send(.stopButtonDidTap)
     }
@@ -197,7 +197,7 @@ final class SessionTests: XCTestCase {
             }
         }
 
-        await store.send(.beginGestureTracking)
+        await store.send(.onAppear)
 
         await store.receive(.didRegisterShot(isSuccess: true)) {
             $0.potCount = 1
@@ -218,7 +218,7 @@ final class SessionTests: XCTestCase {
             AsyncThrowingStream { throw TestError.error }
         }
 
-        await store.send(.beginGestureTracking)
+        await store.send(.onAppear)
 
         await store.receive(.didEncounterGestureTrackingError) {
             $0.alert = AlertState {
@@ -247,7 +247,7 @@ final class SessionTests: XCTestCase {
             WKExtendedRuntimeSessionInvalidationReason.error
         }
 
-        await store.send(.beginGestureTracking)
+        await store.send(.onAppear)
 
         await store.receive(.didEncounterGestureTrackingError) {
             $0.alert = AlertState {

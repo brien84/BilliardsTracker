@@ -53,7 +53,7 @@ struct Session: ReducerProtocol {
         case stopButtonDidTap
         case undoButtonDidTap
 
-        case beginGestureTracking
+        case onAppear
         case didDismissGestureTrackingError
         case didEncounterGestureTrackingError
         case didReceiveRuntimeClientExpirationStatus(Bool)
@@ -189,7 +189,7 @@ struct Session: ReducerProtocol {
                 WKInterfaceDevice().play(.retry)
                 return .none
 
-            case .beginGestureTracking:
+            case .onAppear:
                 guard state.alert == nil else { return .none }
                 WKInterfaceDevice().play(.start)
                 return .merge(

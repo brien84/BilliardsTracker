@@ -22,9 +22,9 @@ private extension SessionView {
     }
 
     enum Action: Equatable {
-        case didDismissGestureTrackingError
-        case beginGestureTracking
         case didChangeCurrentTab(Session.Tab)
+        case didDismissGestureTrackingError
+        case onAppear
     }
 }
 
@@ -37,14 +37,14 @@ private extension Session.State {
 private extension SessionView.Action {
     var action: Session.Action {
         switch self {
+        case .didChangeCurrentTab(let tab):
+            return .didChangeCurrentTab(tab)
+
         case .didDismissGestureTrackingError:
             return .didDismissGestureTrackingError
 
-        case .beginGestureTracking:
-            return .beginGestureTracking
-
-        case .didChangeCurrentTab(let tab):
-            return .didChangeCurrentTab(tab)
+        case .onAppear:
+            return .onAppear
         }
     }
 }
@@ -84,7 +84,7 @@ struct SessionView: View {
                 dismiss: .didDismissGestureTrackingError
             )
             .onAppear {
-                viewStore.send(.beginGestureTracking)
+                viewStore.send(.onAppear)
             }
         }
     }
