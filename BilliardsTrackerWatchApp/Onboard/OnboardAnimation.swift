@@ -32,9 +32,9 @@ enum OnboardAnimation {
     var subtitle: String {
         switch self {
         case .missGesture:
-            return "Flick your wrist back and forth to register potted ball"
-        case .potGesture:
             return "Flick your arm up and down to register missed ball"
+        case .potGesture:
+            return "Flick your wrist back and forth to register potted ball"
         }
     }
 
