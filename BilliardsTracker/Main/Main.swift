@@ -45,6 +45,8 @@ struct Main: ReducerProtocol {
     @Dependency(\.connectivityClient) var connectivityClient
     @Dependency(\.persistenceClient) var persistenceClient
 
+    @Dependency(\.date.now) var now
+
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
 
@@ -62,13 +64,15 @@ struct Main: ReducerProtocol {
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.isShowingLoadingIndicator = true
-                    state.session = Session.State(drill: drill, startDate: .now)
+                    state.session = Session.State(drill: drill, startDate: now)
+
                     let context = DrillContext(
                         isActive: true,
                         isContinuous: drill.isContinuous,
                         shotCount: drill.shotCount,
                         title: drill.title
                     )
+
                     return .task {
                         try await Task.sleep(nanoseconds: 500_000_000)
                         return .connectivityClientDidReceiveResponse(
