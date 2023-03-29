@@ -22,6 +22,145 @@ final class MainTests: XCTestCase {
         store = nil
     }
 
+    func testSuccessfullyNavigatingToSessionAndReceivingResult() async throws {
+        let drill = PersistenceClient.mockDrill
+        let testDate = Date(timeIntervalSince1970: .zero)
+        let result = ResultContext(potCount: 10, missCount: 10, date: testDate)
+
+        let mainQueue = DispatchQueue.test
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
+
+        store.dependencies.date.now = testDate
+
+        store.dependencies.connectivityClient.sendDrillContext = { @Sendable _ in .success }
+
+        store.dependencies.connectivityClient.receiveResults = { @Sendable in
+            AsyncStream<ResultContext> {
+                try? await mainQueue.sleep(for: .seconds(10))
+                return result
+            }
+        }
+
+        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([drill]) }
+        store.dependencies.persistenceClient.insertResult = { @Sendable _, _ in .didSucceed }
+
+        await store.send(.onAppear) {
+            $0.isShowingLoadingIndicator = true
+        }
+
+        await mainQueue.advance(by: .milliseconds(250))
+
+        await store.receive(.persistenceClient(.didLoad([drill]))) {
+            $0.isShowingLoadingIndicator = false
+            $0.drillList = DrillList.State(drills: [drill])
+        }
+
+        await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
+            $0.isShowingLoadingIndicator = true
+            $0.session = Session.State(drill: drill, startDate: testDate)
+        }
+
+        await mainQueue.advance(by: .milliseconds(500))
+
+        await store.receive(.connectivityClientDidReceiveResponse(.success)) {
+            $0.isShowingLoadingIndicator = false
+            $0.isNavigationToSessionActive = true
+        }
+
+        await mainQueue.advance(by: .seconds(15))
+
+        await store.receive(.connectivityClientDidReceiveResult(result))
+        await store.receive(.persistenceClient(.didSucceed))
+        await store.receive(.persistenceClient(.didLoad([drill])))
+
+        await store.send(.session(.didTapExitButton)) {
+            $0.isNavigationToSessionActive = false
+        }
+
+        await store.skipInFlightEffects()
+    }
+
+    func testFailingNavigationToSessionWhenWatchIsNotReachable() async throws {
+        let drill = PersistenceClient.mockDrill
+        let drillList = DrillList.State(drills: [drill])
+        let main = Main.State(drillList: drillList)
+
+        let store = TestStore(initialState: main, reducer: Main())
+
+        let mainQueue = DispatchQueue.test
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
+
+        let testDate = Date(timeIntervalSince1970: .zero)
+        store.dependencies.date.now = testDate
+
+        store.dependencies.connectivityClient.sendDrillContext = { _ in .failure(.notReachable) }
+
+        await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
+            $0.isShowingLoadingIndicator = true
+            $0.session = Session.State(drill: drill, startDate: testDate)
+        }
+
+        await mainQueue.advance(by: .milliseconds(500))
+
+        await store.receive(.connectivityClientDidReceiveResponse(.failure(.notReachable))) {
+            $0.isShowingLoadingIndicator = false
+            $0.alert = AlertState {
+                TextState("Watch app is not reachable!")
+            } actions: {
+                ButtonState(role: .cancel) {
+                    TextState("OK")
+                }
+            } message: {
+                TextState("Make sure BilliardsTracker Watch app is installed and running.")
+            }
+        }
+
+        await store.send(.alertDidDismiss) {
+            $0.alert = nil
+        }
+    }
+
+    func testFailingNavigationToSessionWhenWatchIsNotReady() async throws {
+        let drill = PersistenceClient.mockDrill
+        let drillList = DrillList.State(drills: [drill])
+        let main = Main.State(drillList: drillList)
+
+        let store = TestStore(initialState: main, reducer: Main())
+
+        let mainQueue = DispatchQueue.test
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
+
+        let testDate = Date(timeIntervalSince1970: .zero)
+        store.dependencies.date.now = testDate
+
+        store.dependencies.connectivityClient.sendDrillContext = { _ in .failure(.notReady) }
+
+        await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
+            $0.isShowingLoadingIndicator = true
+            $0.session = Session.State(drill: drill, startDate: testDate)
+        }
+
+        await mainQueue.advance(by: .milliseconds(500))
+
+        await store.receive(.connectivityClientDidReceiveResponse(.failure(.notReady))) {
+            $0.isShowingLoadingIndicator = false
+
+            $0.alert = AlertState {
+                TextState("Watch app is not in Tracked mode!")
+            } actions: {
+                ButtonState(role: .cancel) {
+                    TextState("OK")
+                }
+            } message: {
+                TextState("Make sure Tracked mode is selected in Watch app.")
+            }
+        }
+
+        await store.send(.alertDidDismiss) {
+            $0.alert = nil
+        }
+    }
+
     func testNavigatingToNewDrillAndThenCancelling() async throws {
         await store.send(.binding(.set(\.$isNavigationToNewDrillActive, true))) {
             $0.isNavigationToNewDrillActive = true
