@@ -18,7 +18,9 @@ struct BilliardsTrackerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView(store: Store(initialState: Main.State(), reducer: Main()))
+            if !_XCTIsTesting {
+                MainView(store: Store(initialState: Main.State(), reducer: Main()))
+            }
         }
     }
 
