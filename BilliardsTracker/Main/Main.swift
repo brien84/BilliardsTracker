@@ -46,6 +46,7 @@ struct Main: ReducerProtocol {
     @Dependency(\.persistenceClient) var persistenceClient
 
     @Dependency(\.date.now) var now
+    @Dependency(\.mainQueue) var mainQueue
 
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
@@ -74,7 +75,7 @@ struct Main: ReducerProtocol {
                     )
 
                     return .task {
-                        try await Task.sleep(nanoseconds: 500_000_000)
+                        try await mainQueue.sleep(for: .milliseconds(500))
                         return .connectivityClientDidReceiveResponse(
                             await connectivityClient.sendDrillContext(context)
                         )
@@ -147,7 +148,7 @@ struct Main: ReducerProtocol {
                 state.isShowingLoadingIndicator = true
                 return .merge(
                     .task {
-                        try await Task.sleep(nanoseconds: 250_000_000)
+                        try await mainQueue.sleep(for: .milliseconds(250))
                         return .persistenceClient(await persistenceClient.loadDrills())
                     }.animation(),
                     .run { send in
