@@ -142,7 +142,7 @@ private extension NotEnoughDataLabel {
 struct StatisticsView_Previews: PreviewProvider {
     static let store = Store(
         initialState: Statistics.State(
-            drill: PersistenceClient.previewDrill
+            drill: PersistenceClient.mockDrill
         ),
         reducer: Statistics()
     )
@@ -156,7 +156,7 @@ struct StatisticsView_Previews: PreviewProvider {
 
 struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
     static let drill = {
-        let drill = PersistenceClient.previewDrill
+        let drill = PersistenceClient.mockDrill
         let results = drill.results
         results.forEach { drill.removeFromResultsValue($0) }
         return drill

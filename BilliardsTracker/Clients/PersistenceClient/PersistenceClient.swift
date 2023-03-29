@@ -27,7 +27,6 @@ struct PersistenceClient {
     var loadDrills: @Sendable () async -> PersistenceResponse
 }
 
-// swiftlint:disable force_try
 extension PersistenceClient: TestDependencyKey {
     static let testValue = Self(
         createDrill: { _ in
@@ -45,26 +44,26 @@ extension PersistenceClient: TestDependencyKey {
     )
 
     static var previewValue: Self {
-        let store = try! PersistentStore(inMemory: true)
+        let store = try? PersistentStore(inMemory: true)
 
         return Self(
             createDrill: { drill in
-                await store.create(drill: drill)
+                await store!.create(drill: drill)
             },
             deleteDrill: { drill in
-                await store.delete(drill: drill)
+                await store!.delete(drill: drill)
             },
             insertResult: { context, drill in
-                await store.insertResult(context: context, to: drill)
+                await store!.insertResult(context: context, to: drill)
             },
             loadDrills: {
-                await store.load()
+                await store!.load()
             }
         )
     }
 
-    static var previewDrill: Drill {
-        _ = try! PersistentStore(inMemory: true)
+    static var mockDrill: Drill {
+        _ = try? PersistentStore(inMemory: true)
         let drill = Drill(entity: Drill().entity, insertInto: nil)
         let i = Int.random(in: 1...100)
         drill.title = "Preview Drill \(i)"

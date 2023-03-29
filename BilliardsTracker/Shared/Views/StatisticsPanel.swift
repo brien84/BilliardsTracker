@@ -88,6 +88,6 @@ private extension StatisticsPanel {
 
 struct StatisticsPanel_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticsPanel(statistics: StatisticsClient(drill: PersistenceClient.previewDrill))
+        StatisticsPanel(statistics: StatisticsClient(drill: PersistenceClient.mockDrill))
     }
 }

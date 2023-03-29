@@ -61,6 +61,6 @@ private extension Date {
 
 struct ResultsView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultsView(results: PersistenceClient.previewDrill.results)
+        ResultsView(results: PersistenceClient.mockDrill.results)
     }
 }

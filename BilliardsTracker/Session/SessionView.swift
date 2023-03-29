@@ -78,7 +78,7 @@ private extension WaitingLabelView {
 
 struct SessionView_Previews: PreviewProvider {
     static let store = Store(
-        initialState: Session.State(drill: PersistenceClient.previewDrill, startDate: Date()),
+        initialState: Session.State(drill: PersistenceClient.mockDrill, startDate: Date()),
         reducer: Session()
     )
 
@@ -89,7 +89,7 @@ struct SessionView_Previews: PreviewProvider {
 
 struct SessionViewWaitingLabel_Previews: PreviewProvider {
     static let drill = {
-        let drill = PersistenceClient.previewDrill
+        let drill = PersistenceClient.mockDrill
         let results = drill.results
         results.forEach { drill.removeFromResultsValue($0) }
         return drill
