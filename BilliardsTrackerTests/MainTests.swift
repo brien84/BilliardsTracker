@@ -321,4 +321,42 @@ final class MainTests: XCTestCase {
 
         await store.skipInFlightEffects()
     }
+
+    func testSortingDrills() async throws {
+        var drill0 = PersistenceClient.mockDrill
+        drill0.title = "Z"
+        drill0.shotCount = 1
+        var drill1 = PersistenceClient.mockDrill
+        drill1.title = "A"
+        drill0.shotCount = 10
+
+        let userDefaults = UserDefaults(suiteName: #file)!
+        userDefaults.removePersistentDomain(forName: #file)
+        let settings = Settings.State(userDefaults: userDefaults)
+
+        // sorted by descending title:
+        let drillList = DrillList.State(drills: [drill0, drill1])
+
+        let main = Main.State(drillList: drillList, settings: settings)
+
+        let store = TestStore(initialState: main, reducer: Main())
+
+        await store.send(.settings(.didSelectSortOption(.shotCount))) {
+            // sorted by descending shot count:
+            $0.drillList = DrillList.State(drills: [drill1, drill0])
+            $0.settings.sortOption = .shotCount
+        }
+
+        await store.send(.settings(.didSelectSortOrder(.forward))) {
+            // sorted by ascending shot count:
+            $0.drillList = DrillList.State(drills: [drill0, drill1])
+            $0.settings.sortOrder = .forward
+        }
+
+        await store.send(.settings(.didSelectSortOption(.title))) {
+            // sorted by ascending title:
+            $0.drillList = DrillList.State(drills: [drill1, drill0])
+            $0.settings.sortOption = .title
+        }
+    }
 }
