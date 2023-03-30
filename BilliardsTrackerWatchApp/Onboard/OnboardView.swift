@@ -22,16 +22,21 @@ struct OnboardView: View {
 }
 
 private struct OnboardAnimationView: View {
+    private let animation: OnboardAnimation
+    private let images: [UIImage]
 
-    let animation: OnboardAnimation
+    @State private var isAnimating = false
 
-    @State private var shouldAnimate = false
+    init(animation: OnboardAnimation) {
+        self.animation = animation
+        self.images = Self.getImages(for: animation)
+    }
 
     var body: some View {
         VStack {
-            ImageAnimationView(shouldAnimate: shouldAnimate, images: animation.images) {
+            ImageAnimationView(images: images, isAnimating: isAnimating) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Self.endDelay) {
-                    shouldAnimate = false
+                    isAnimating = false
                     beginAnimating()
                 }
             }
@@ -51,15 +56,15 @@ private struct OnboardAnimationView: View {
             .linear(duration: animation.duration)
             .delay(Self.startDelay)
         ) {
-            shouldAnimate = true
+            isAnimating = true
         }
     }
 
-    private func getAnimationImages(from assetsPath: String) -> [UIImage] {
+    private static func getImages(for animation: OnboardAnimation) -> [UIImage] {
         var images = [UIImage]()
         var index = 0
 
-        while let image = UIImage(named: "\(assetsPath)\(index)") {
+        while let image = UIImage(named: "\(animation.assetsPath)\(index)") {
             images.append(image)
             index += 1
         }
@@ -74,15 +79,15 @@ private extension OnboardAnimationView {
 }
 
 private struct ImageAnimationView: Animatable, View {
-    private let images: [UIImage]
     private var currentImageIndex = 0
+    private let images: [UIImage]
     private let completion: () -> Void
 
-    init(shouldAnimate: Bool, images: [UIImage], completion: @escaping () -> Void) {
+    init(images: [UIImage], isAnimating: Bool, completion: @escaping () -> Void) {
         self.images = images
         self.completion = completion
 
-        if shouldAnimate {
+        if isAnimating {
             currentImageIndex = images.indices.last ?? 0
         } else {
             currentImageIndex = 0
@@ -94,6 +99,7 @@ private struct ImageAnimationView: Animatable, View {
             CGFloat(currentImageIndex)
         }
         set {
+            guard newValue > 0 else { return }
             currentImageIndex = Int(newValue)
             notifyCompletionIfFinished()
         }
