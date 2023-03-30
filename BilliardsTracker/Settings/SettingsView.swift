@@ -22,7 +22,19 @@ struct SettingsView: View {
                     label: Text("Sorting options")
                 ) {
                     ForEach(SortOption.allCases) {
-                        Label($0.label, systemImage: $0.imageName)
+                        Label($0.title, systemImage: $0.imageName)
+                    }
+                }
+
+                Picker(
+                    selection: viewStore.binding(
+                        get: \.sortOrder,
+                        send: Settings.Action.didSelectSortOrder
+                    ).animation(),
+                    label: Text("Sorting order")
+                ) {
+                    ForEach(SortOrder.allCases) {
+                        Text($0.getTitle(for: viewStore.sortOption))
                     }
                 }
             }

@@ -115,9 +115,9 @@ struct Main: ReducerProtocol {
                     _ = await connectivityClient.sendDrillContext(context)
                 }
 
-            case .settings(.didSelectSortOption):
+            case .settings(.didSelectSortOption), .settings(.didSelectSortOrder):
                 let drills = state.drillList.drillItems.map { $0.drill }
-                let sortedDrills = drills.sorted(using: state.settings.sortOption.descriptor)
+                let sortedDrills = drills.sorted(using: state.settings.sortDescriptor)
                 state.drillList = DrillList.State(drills: sortedDrills)
                 return .none
 
@@ -190,7 +190,7 @@ struct Main: ReducerProtocol {
 
                 case .didLoad(let drills):
                     state.isShowingLoadingIndicator = false
-                    let drills = drills.sorted(using: state.settings.sortOption.descriptor)
+                    let drills = drills.sorted(using: state.settings.sortDescriptor)
                     state.drillList = DrillList.State(drills: drills)
 
                     if let session = state.session {
