@@ -76,7 +76,7 @@ final class MainTests: XCTestCase {
         await store.receive(.persistenceClient(.didSucceed))
         await store.receive(.persistenceClient(.didLoad([drill])))
 
-        await store.send(.session(.didTapExitButton)) {
+        await store.send(.session(.sessionDidExit)) {
             $0.isNavigationToSessionActive = false
         }
 
