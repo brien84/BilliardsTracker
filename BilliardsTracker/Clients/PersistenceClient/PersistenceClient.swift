@@ -5,7 +5,7 @@
 //  Created by Marius on 2023-01-24.
 //
 
-import ComposableArchitecture
+import Dependencies
 import CoreData
 
 enum PersistenceResponse: Equatable {
