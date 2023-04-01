@@ -38,6 +38,8 @@
 		295389DA26696C4D0028E5B8 /* StatisticsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295389D926696C4D0028E5B8 /* StatisticsPanel.swift */; };
 		29642E4B262E058C00A967D6 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E4A262E058C00A967D6 /* SessionView.swift */; };
 		297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E8FF8268B649C0091F086 /* OnboardView.swift */; };
+		297EDA5229D8B241004F17EB /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297EDA5129D8B241004F17EB /* UserDefaultsClient.swift */; };
+		297EDA5429D8B269004F17EB /* LiveUserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297EDA5329D8B269004F17EB /* LiveUserDefaultsClient.swift */; };
 		297FD9C2268522EB00DFBFFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */; };
 		298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
 		298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
@@ -168,6 +170,8 @@
 		2961238F29C636FC00000E2D /* BilliardsTrackerWatchAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerWatchAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		29642E4A262E058C00A967D6 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		297E8FF8268B649C0091F086 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
+		297EDA5129D8B241004F17EB /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
+		297EDA5329D8B269004F17EB /* LiveUserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserDefaultsClient.swift; sourceTree = "<group>"; };
 		297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		298E3537261A1C4F00CCDDEE /* DrillContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillContext.swift; sourceTree = "<group>"; };
 		2994521B26407CAD0051F4A7 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
@@ -436,8 +440,9 @@
 		2961238929C4BBAF00000E2D /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				291F7C4329D0A2DE007DA116 /* PersistenceClient */,
 				291F7C4029D0A1A7007DA116 /* ConnectivityClient */,
+				291F7C4329D0A2DE007DA116 /* PersistenceClient */,
+				297EDA5029D8B22C004F17EB /* UserDefaultsClient */,
 				29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */,
 			);
 			path = Clients;
@@ -472,6 +477,15 @@
 				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		297EDA5029D8B22C004F17EB /* UserDefaultsClient */ = {
+			isa = PBXGroup;
+			children = (
+				297EDA5329D8B269004F17EB /* LiveUserDefaultsClient.swift */,
+				297EDA5129D8B241004F17EB /* UserDefaultsClient.swift */,
+			);
+			path = UserDefaultsClient;
 			sourceTree = "<group>";
 		};
 		298E3536261A1C3200CCDDEE /* Shared */ = {
@@ -848,10 +862,12 @@
 				294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */,
 				293433CF267764FD00FA4768 /* MainView.swift in Sources */,
 				29A078AE29808AA300A5012A /* PersistenceClient.swift in Sources */,
+				297EDA5429D8B269004F17EB /* LiveUserDefaultsClient.swift in Sources */,
 				295389DA26696C4D0028E5B8 /* StatisticsPanel.swift in Sources */,
 				29A078AC2980195600A5012A /* DrillList.swift in Sources */,
 				291F7C4529D0A2F0007DA116 /* LivePersistenceClient.swift in Sources */,
 				29A078A9298015E900A5012A /* Statistics.swift in Sources */,
+				297EDA5229D8B241004F17EB /* UserDefaultsClient.swift in Sources */,
 				29A078B02986EFFB00A5012A /* ConnectivityClient.swift in Sources */,
 				29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */,
 				29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */,
