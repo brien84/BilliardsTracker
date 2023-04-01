@@ -9,6 +9,7 @@ import ComposableArchitecture
 import XCTest
 @testable import BilliardsTracker
 
+// swiftlint:disable type_body_length
 @MainActor
 final class MainTests: XCTestCase {
 
@@ -33,7 +34,6 @@ final class MainTests: XCTestCase {
         store.dependencies.date.now = testDate
 
         store.dependencies.connectivityClient.sendDrillContext = { @Sendable _ in .success }
-
         store.dependencies.connectivityClient.receiveResults = { @Sendable in
             AsyncStream<ResultContext> {
                 try? await mainQueue.sleep(for: .seconds(10))
@@ -43,6 +43,9 @@ final class MainTests: XCTestCase {
 
         store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([drill]) }
         store.dependencies.persistenceClient.insertResult = { @Sendable _, _ in .didSucceed }
+
+        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
+        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -268,6 +271,8 @@ final class MainTests: XCTestCase {
 
         store.dependencies.connectivityClient.receiveResults = { @Sendable in AsyncStream<ResultContext> { _ in } }
         store.dependencies.persistenceClient.loadDrills = { @Sendable in .didFail(.loading) }
+        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
+        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -300,6 +305,8 @@ final class MainTests: XCTestCase {
 
         store.dependencies.connectivityClient.receiveResults = { @Sendable in AsyncStream<ResultContext> { _ in } }
         store.dependencies.persistenceClient.loadDrills = { @Sendable in .didFail(.initialization) }
+        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
+        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -323,40 +330,57 @@ final class MainTests: XCTestCase {
     }
 
     func testSortingDrills() async throws {
-        var drill0 = PersistenceClient.mockDrill
+        let drill0 = PersistenceClient.mockDrill
         drill0.title = "Z"
         drill0.shotCount = 1
-        var drill1 = PersistenceClient.mockDrill
+        let drill1 = PersistenceClient.mockDrill
         drill1.title = "A"
-        drill0.shotCount = 10
+        drill1.shotCount = 10
 
-        let userDefaults = UserDefaults(suiteName: #file)!
-        userDefaults.removePersistentDomain(forName: #file)
-        let settings = Settings.State(userDefaults: userDefaults)
+        let settings = Settings.State(sortOption: .dateCreated, sortOrder: .forward)
 
-        // sorted by descending title:
-        let drillList = DrillList.State(drills: [drill0, drill1])
-
+        // sorted by earliest `dateCreated`:
+        let drillList = DrillList.State(drills: [drill1, drill0])
         let main = Main.State(drillList: drillList, settings: settings)
 
         let store = TestStore(initialState: main, reducer: Main())
 
-        await store.send(.settings(.didSelectSortOption(.shotCount))) {
-            // sorted by descending shot count:
-            $0.drillList = DrillList.State(drills: [drill1, drill0])
-            $0.settings.sortOption = .shotCount
-        }
+        let userDefaults = { UserDefaults(suiteName: "UserDefaultsClient.tests")! }
+        userDefaults().removePersistentDomain(forName: "UserDefaultsClient.tests")
 
-        await store.send(.settings(.didSelectSortOrder(.forward))) {
-            // sorted by ascending shot count:
-            $0.drillList = DrillList.State(drills: [drill0, drill1])
-            $0.settings.sortOrder = .forward
-        }
+        store.dependencies.userDefaults = UserDefaultsClient(
+            getSortOption: {
+                let rawValue = userDefaults().integer(forKey: "sortOptionKey")
+                return SortOption(rawValue: rawValue) ?? .title
+            },
+            setSortOption: { option in
+                userDefaults().set(option.rawValue, forKey: "sortOptionKey")
+            },
+            getSortOrder: {
+                let rawValue = userDefaults().bool(forKey: "sortOrderKey")
+                return rawValue ? .forward : .reverse
+            },
+            setSortOrder: { order in
+                userDefaults().set(order == .forward, forKey: "sortOrderKey")
+            }
+        )
 
         await store.send(.settings(.didSelectSortOption(.title))) {
-            // sorted by ascending title:
+            // sorted by descending `title`:
             $0.drillList = DrillList.State(drills: [drill1, drill0])
             $0.settings.sortOption = .title
+        }
+
+        await store.send(.settings(.didSelectSortOrder(.reverse))) {
+            // sorted by ascending `title`:
+            $0.drillList = DrillList.State(drills: [drill0, drill1])
+            $0.settings.sortOrder = .reverse
+        }
+
+        await store.send(.settings(.didSelectSortOption(.shotCount))) {
+            // sorted by ascending `shotCount`:
+            $0.drillList = DrillList.State(drills: [drill1, drill0])
+            $0.settings.sortOption = .shotCount
         }
     }
 }
