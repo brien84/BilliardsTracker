@@ -44,6 +44,10 @@ struct SessionView: View {
                     }
                 }
             }
+            .alert(
+                store.scope(state: \.alert),
+                dismiss: .alertDidDismiss
+            )
         }
     }
 }

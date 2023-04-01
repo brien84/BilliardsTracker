@@ -109,12 +109,15 @@ struct Main: ReducerProtocol {
             case .newDrill:
                 return .none
 
-            case .session(.didTapExitButton):
+            case .session(.sessionDidExit):
                 state.isNavigationToSessionActive = false
                 return .fireAndForget {
                     let context = DrillContext(isActive: false, isContinuous: false, shotCount: 0, title: "")
                     _ = await connectivityClient.sendDrillContext(context)
                 }
+
+            case .session:
+                return .none
 
             case .settings(.didSelectSortOption), .settings(.didSelectSortOrder):
                 let drills = state.drillList.drillItems.map { $0.drill }
@@ -230,7 +233,6 @@ struct Main: ReducerProtocol {
 // MARK: - Alerts
 
 private extension Main {
-
     var initializationAlert: AlertState<Main.Action> {
         AlertState {
             TextState("Something went terribly wrong!")
@@ -290,5 +292,4 @@ private extension Main {
             TextState("Latest changes will not be saved.")
         }
     }
-
 }
