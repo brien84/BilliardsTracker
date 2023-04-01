@@ -9,27 +9,9 @@ import ComposableArchitecture
 import Foundation
 
 struct Settings: ReducerProtocol {
-
     struct State: Equatable {
-        private let userDefaults: UserDefaults
-
-        var sortOption: SortOption {
-            didSet {
-                userDefaults.sortOption = sortOption
-            }
-        }
-
-        var sortOrder: SortOrder {
-            didSet {
-                userDefaults.sortOrder = sortOrder
-            }
-        }
-
-        init(userDefaults: UserDefaults = .standard) {
-            self.userDefaults = userDefaults
-            self.sortOption = userDefaults.sortOption
-            self.sortOrder = userDefaults.sortOrder
-        }
+        var sortOption = SortOption.title
+        var sortOrder = SortOrder.forward
 
         var sortDescriptor: SortDescriptor<Drill> {
             switch sortOption {
@@ -48,16 +30,22 @@ struct Settings: ReducerProtocol {
         case didSelectSortOrder(SortOrder)
     }
 
+    @Dependency(\.userDefaults) var userDefaults
+
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
             case .didSelectSortOption(let sortOption):
                 state.sortOption = sortOption
-                return .none
+                return .fireAndForget {
+                    await userDefaults.setSortOption(sortOption)
+                }
 
             case .didSelectSortOrder(let sortOrder):
                 state.sortOrder = sortOrder
-                return .none
+                return .fireAndForget {
+                    await userDefaults.setSortOrder(sortOrder)
+                }
             }
         }
     }

@@ -44,6 +44,7 @@ struct Main: ReducerProtocol {
 
     @Dependency(\.connectivityClient) var connectivityClient
     @Dependency(\.persistenceClient) var persistenceClient
+    @Dependency(\.userDefaults) var userDefaults
 
     @Dependency(\.date.now) var now
     @Dependency(\.mainQueue) var mainQueue
@@ -146,6 +147,10 @@ struct Main: ReducerProtocol {
 
             case .onAppear:
                 state.isShowingLoadingIndicator = true
+                state.settings = Settings.State(
+                    sortOption: userDefaults.getSortOption(),
+                    sortOrder: userDefaults.getSortOrder()
+                )
                 return .merge(
                     .task {
                         try await mainQueue.sleep(for: .milliseconds(250))
