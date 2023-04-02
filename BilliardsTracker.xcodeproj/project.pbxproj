@@ -79,6 +79,7 @@
 		29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D0344029C10ED600BA7865 /* Extensions+Color.swift */; };
 		29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892829D9B11F0066041B /* UserDefaultsClient.swift */; };
 		29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */; };
+		29D8892E29DA10490066041B /* SessionSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892D29DA10490066041B /* SessionSetup.swift */; };
 		29DB145E2998168A004029D1 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB145D2998168A004029D1 /* MainTests.swift */; };
 		29DB1461299ADA77004029D1 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29DB1460299ADA77004029D1 /* ComposableArchitecture */; };
 		29DB1464299ADE8B004029D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1463299ADE8B004029D1 /* Main.swift */; };
@@ -210,6 +211,7 @@
 		29D0344029C10ED600BA7865 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
 		29D8892829D9B11F0066041B /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
 		29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserDefaultsClient.swift; sourceTree = "<group>"; };
+		29D8892D29DA10490066041B /* SessionSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetup.swift; sourceTree = "<group>"; };
 		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29DB1465299ADF1B004029D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				291F7C3D29CF873E007DA116 /* Onboard */,
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
+				29D8892C29DA10300066041B /* SessionSetup */,
 				29DB146A299C343C004029D1 /* Standalone */,
 				29A0F3A329A2BAA4000302AF /* Tracked */,
 				29200293267FC76D00DCA308 /* Shared */,
@@ -605,6 +608,14 @@
 				29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */,
 			);
 			path = UserDefaultsClient;
+			sourceTree = "<group>";
+		};
+		29D8892C29DA10300066041B /* SessionSetup */ = {
+			isa = PBXGroup;
+			children = (
+				29D8892D29DA10490066041B /* SessionSetup.swift */,
+			);
+			path = SessionSetup;
 			sourceTree = "<group>";
 		};
 		29DB145F299ADA77004029D1 /* Frameworks */ = {
@@ -933,6 +944,7 @@
 				29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
+				29D8892E29DA10490066041B /* SessionSetup.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */,
 				29DB1466299ADF1B004029D1 /* MainView.swift in Sources */,
