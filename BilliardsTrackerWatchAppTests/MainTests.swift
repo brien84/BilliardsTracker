@@ -16,6 +16,7 @@ final class MainTests: XCTestCase {
 
     override func setUp() async throws {
         store = TestStore(initialState: Main.State(), reducer: Main())
+        store.dependencies.userDefaults.hasOnboardBeenShown = { @Sendable in true }
     }
 
     override func tearDown() async throws {
@@ -55,6 +56,14 @@ final class MainTests: XCTestCase {
 
         await store.send(.setNavigationToOnboard(isActive: false)) {
             $0.isNavigationToOnboardActive = false
+        }
+    }
+
+    func testNavigatingtoOnboardOnAppear() async throws {
+        store.dependencies.userDefaults.hasOnboardBeenShown = { @Sendable in false }
+
+        await store.send(.onAppear) {
+            $0.isNavigationToOnboardActive = true
         }
     }
 
