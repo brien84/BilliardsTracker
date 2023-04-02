@@ -80,6 +80,7 @@
 		29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892829D9B11F0066041B /* UserDefaultsClient.swift */; };
 		29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */; };
 		29D8892E29DA10490066041B /* SessionSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892D29DA10490066041B /* SessionSetup.swift */; };
+		29D8893029DA113F0066041B /* SessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892F29DA113E0066041B /* SessionSetupView.swift */; };
 		29DB145E2998168A004029D1 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB145D2998168A004029D1 /* MainTests.swift */; };
 		29DB1461299ADA77004029D1 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29DB1460299ADA77004029D1 /* ComposableArchitecture */; };
 		29DB1464299ADE8B004029D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1463299ADE8B004029D1 /* Main.swift */; };
@@ -212,6 +213,7 @@
 		29D8892829D9B11F0066041B /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
 		29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserDefaultsClient.swift; sourceTree = "<group>"; };
 		29D8892D29DA10490066041B /* SessionSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetup.swift; sourceTree = "<group>"; };
+		29D8892F29DA113E0066041B /* SessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupView.swift; sourceTree = "<group>"; };
 		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29DB1465299ADF1B004029D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -614,6 +616,7 @@
 			isa = PBXGroup;
 			children = (
 				29D8892D29DA10490066041B /* SessionSetup.swift */,
+				29D8892F29DA113E0066041B /* SessionSetupView.swift */,
 			);
 			path = SessionSetup;
 			sourceTree = "<group>";
@@ -949,6 +952,7 @@
 				29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */,
 				29DB1466299ADF1B004029D1 /* MainView.swift in Sources */,
 				297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */,
+				29D8893029DA113F0066041B /* SessionSetupView.swift in Sources */,
 				29A0F3A529A2BAB7000302AF /* Tracked.swift in Sources */,
 				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
