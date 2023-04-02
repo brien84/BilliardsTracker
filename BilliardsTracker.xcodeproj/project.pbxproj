@@ -77,6 +77,8 @@
 		29C554B3298EEDEB0045DFCB /* DrillItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B2298EEDEB0045DFCB /* DrillItemView.swift */; };
 		29C554B5299296860045DFCB /* ExitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B4299296860045DFCB /* ExitButtonView.swift */; };
 		29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D0344029C10ED600BA7865 /* Extensions+Color.swift */; };
+		29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892829D9B11F0066041B /* UserDefaultsClient.swift */; };
+		29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */; };
 		29DB145E2998168A004029D1 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB145D2998168A004029D1 /* MainTests.swift */; };
 		29DB1461299ADA77004029D1 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29DB1460299ADA77004029D1 /* ComposableArchitecture */; };
 		29DB1464299ADE8B004029D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1463299ADE8B004029D1 /* Main.swift */; };
@@ -206,6 +208,8 @@
 		29C554B2298EEDEB0045DFCB /* DrillItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillItemView.swift; sourceTree = "<group>"; };
 		29C554B4299296860045DFCB /* ExitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitButtonView.swift; sourceTree = "<group>"; };
 		29D0344029C10ED600BA7865 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
+		29D8892829D9B11F0066041B /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
+		29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserDefaultsClient.swift; sourceTree = "<group>"; };
 		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29DB1465299ADF1B004029D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 		291F7C3229CE4E7D007DA116 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				29D8892729D9B1050066041B /* UserDefaultsClient */,
 				291F7C3529CE4FB5007DA116 /* ConnectivityClient */,
 				291F7C3629CE4FDF007DA116 /* ExtendedRuntimeClient */,
 				291F7C3729CE4FE9007DA116 /* MotionClient */,
@@ -593,6 +598,15 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
+		29D8892729D9B1050066041B /* UserDefaultsClient */ = {
+			isa = PBXGroup;
+			children = (
+				29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */,
+				29D8892829D9B11F0066041B /* UserDefaultsClient.swift */,
+			);
+			path = UserDefaultsClient;
+			sourceTree = "<group>";
+		};
 		29DB145F299ADA77004029D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -908,11 +922,13 @@
 				291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */,
 				29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */,
 				291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */,
+				29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				29A0F39A299D642F000302AF /* ExtendedRuntimeClient.swift in Sources */,
 				29DB1469299C3437004029D1 /* Standalone.swift in Sources */,
 				29A0F3D229B656C4000302AF /* TrackedView.swift in Sources */,
 				29A0F3D029B633D8000302AF /* ResultView.swift in Sources */,
+				29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */,
 				291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */,
 				29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
