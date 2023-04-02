@@ -11,24 +11,8 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
-    struct ViewState: Equatable {
-        let currentTab: Main.Tab
-
-        let isNavigationToOnboardActive: Bool
-        let isNavigationToStandaloneActive: Bool
-        let isNavigationToTrackedActive: Bool
-
-        init(state: Main.State) {
-            self.currentTab = state.currentTab
-
-            self.isNavigationToOnboardActive = state.isNavigationToOnboardActive
-            self.isNavigationToStandaloneActive = state.isNavigationToStandaloneActive
-            self.isNavigationToTrackedActive = state.isNavigationToTrackedActive
-        }
-    }
-
     var body: some View {
-        WithViewStore(store.scope(state: ViewState.init)) { viewStore in
+        WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
@@ -41,26 +25,13 @@ struct MainView: View {
 
                     PassiveNavigationLink(
                         isActive: viewStore.binding(
-                            get: \.isNavigationToStandaloneActive,
-                            send: Main.Action.setNavigationToStandalone(isActive:)
+                            get: \.isNavigationToSessionSetupActive,
+                            send: Main.Action.setNavigationToSessionSetup(isActive:)
                         ),
                         destination: {
-                            StandaloneView(store: store.scope(
-                                state: \.standalone,
-                                action: Main.Action.standalone
-                            ))
-                        }
-                    )
-
-                    PassiveNavigationLink(
-                        isActive: viewStore.binding(
-                            get: \.isNavigationToTrackedActive,
-                            send: Main.Action.setNavigationToTracked(isActive:)
-                        ),
-                        destination: {
-                            TrackedView(store: store.scope(
-                                state: \.tracked,
-                                action: Main.Action.tracked
+                            SessionSetupView(store: store.scope(
+                                state: \.sessionSetup,
+                                action: Main.Action.sessionSetup
                             ))
                         }
                     )
@@ -72,16 +43,16 @@ struct MainView: View {
                         )
                     ) {
                         TabViewButton(title: "Standalone") {
-                            viewStore.send(.setNavigationToStandalone(isActive: true))
+                            viewStore.send(.setNavigationToSessionSetup(isActive: true))
                         }
                         .foregroundColor(.customBlue)
-                        .tag(Main.Tab.standalone)
+                        .tag(Mode.standalone)
 
                         TabViewButton(title: "Tracked") {
-                            viewStore.send(.setNavigationToTracked(isActive: true))
+                            viewStore.send(.setNavigationToSessionSetup(isActive: true))
                         }
                         .foregroundColor(.customRed)
-                        .tag(Main.Tab.tracked)
+                        .tag(Mode.tracked)
                     }
                 }
                 .onAppear {

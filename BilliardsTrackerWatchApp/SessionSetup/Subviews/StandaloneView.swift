@@ -8,21 +8,45 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct StandaloneView: View {
-    let store: StoreOf<Standalone>
+private extension StandaloneView {
+    struct State: Equatable {
+        var isNavigationToSessionActive: Bool
+        var shotCount: Int
 
-    struct ViewState: Equatable {
-        let isNavigationToSessionActive: Bool
-        let shotCount: Int
-
-        init(state: Standalone.State) {
+        init(_ state: SessionSetup.State) {
             self.isNavigationToSessionActive = state.session != nil
             self.shotCount = state.shotCount
         }
     }
 
+    enum Action: Equatable {
+        case setNavigationToSession(isActive: Bool)
+        case shotCountDidChange(Int)
+    }
+}
+
+private extension SessionSetup.State {
+    var state: StandaloneView.State {
+        .init(self)
+    }
+}
+
+private extension StandaloneView.Action {
+    var action: SessionSetup.Action {
+        switch self {
+        case .setNavigationToSession(isActive: let isActive):
+            return .setNavigationToSession(isActive: isActive)
+        case .shotCountDidChange(let count):
+            return .shotCountDidChange(count)
+        }
+    }
+}
+
+struct StandaloneView: View {
+    let store: StoreOf<SessionSetup>
+
     var body: some View {
-        WithViewStore(store.scope(state: ViewState.init)) { viewStore in
+        WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             ZStack {
                 VStack {
                     Text("Shots")
@@ -33,7 +57,7 @@ struct StandaloneView: View {
                     Picker("Set Shots",
                         selection: viewStore.binding(
                             get: \.shotCount,
-                            send: Standalone.Action.shotCountDidChange
+                            send: Action.shotCountDidChange
                         )
                     ) {
                         ForEach(1..<101) { i in
@@ -54,16 +78,6 @@ struct StandaloneView: View {
                     .buttonStyle(.bordered)
                     .tint(.customBlue)
                 }
-
-                IfLetStore(
-                    store.scope(
-                        state: \.session,
-                        action: Standalone.Action.session
-                    ),
-                    then: SessionView.init(store:)
-                )
-                .transition(.slide)
-                .zIndex(1)
             }
             .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
         }
@@ -82,7 +96,12 @@ private extension Picker {
 // MARK: - Previews
 
 struct StandaloneView_Previews: PreviewProvider {
+    static let store = Store(
+        initialState: SessionSetup.State(mode: .standalone),
+        reducer: SessionSetup()
+    )
+
     static var previews: some View {
-        StandaloneView(store: Store(initialState: Standalone.State(), reducer: Standalone()))
+        StandaloneView(store: store)
     }
 }

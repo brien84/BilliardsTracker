@@ -8,44 +8,36 @@
 import ComposableArchitecture
 import Foundation
 
+enum Mode: Int {
+    case standalone
+    case tracked
+}
+
 struct Main: ReducerProtocol {
-    enum Tab: Int {
-        case standalone
-        case tracked
-    }
-
     struct State: Equatable {
-        var currentTab: Main.Tab = .standalone
+        var currentTab = Mode.standalone
 
-        var standalone = Standalone.State()
-        var tracked = Tracked.State()
-
-        var isNavigationToStandaloneActive = false
-        var isNavigationToTrackedActive = false
         var isNavigationToOnboardActive = false
+        var isNavigationToSessionSetupActive = false
+
+        var sessionSetup = SessionSetup.State(mode: .tracked)
     }
 
     enum Action: Equatable {
-        case didChangeCurrentTab(Main.Tab)
+        case didChangeCurrentTab(Mode)
         case onAppear
 
-        case standalone(Standalone.Action)
-        case tracked(Tracked.Action)
-
-        case setNavigationToStandalone(isActive: Bool)
-        case setNavigationToTracked(isActive: Bool)
         case setNavigationToOnboard(isActive: Bool)
+        case setNavigationToSessionSetup(isActive: Bool)
+
+        case sessionSetup(SessionSetup.Action)
     }
 
     @Dependency(\.userDefaults) var userDefaults
 
     var body: some ReducerProtocol<State, Action> {
-        Scope(state: \.standalone, action: /Action.standalone) {
-            Standalone()
-        }
-
-        Scope(state: \.tracked, action: /Action.tracked) {
-            Tracked()
+        Scope(state: \.sessionSetup, action: /Action.sessionSetup) {
+            SessionSetup()
         }
 
         Reduce { state, action in
@@ -62,23 +54,20 @@ struct Main: ReducerProtocol {
                     await userDefaults.setHasOnboardBeenShown(true)
                 }
 
-            case .standalone:
-                return .none
-
-            case .tracked:
-                return .none
-
-            case .setNavigationToStandalone(isActive: let isActive):
-                state.isNavigationToStandaloneActive = isActive
-                return .none
-
-            case .setNavigationToTracked(isActive: let isActive):
-                state.isNavigationToTrackedActive = isActive
-                return .none
-
             case .setNavigationToOnboard(isActive: let isActive):
                 state.isNavigationToOnboardActive = isActive
                 return .none
+
+            case .setNavigationToSessionSetup(isActive: let isActive):
+                if isActive {
+                    state.sessionSetup = SessionSetup.State(mode: state.currentTab)
+                }
+                state.isNavigationToSessionSetupActive = isActive
+                return .none
+
+            case .sessionSetup:
+                return .none
+
             }
         }
     }

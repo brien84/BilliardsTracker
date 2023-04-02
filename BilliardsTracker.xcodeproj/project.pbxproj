@@ -59,7 +59,6 @@
 		29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F39D299ED5D1000302AF /* SessionControlView.swift */; };
 		29A0F3A0299ED9CC000302AF /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F39F299ED9CC000302AF /* SessionView.swift */; };
 		29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A129A285ED000302AF /* StandaloneView.swift */; };
-		29A0F3A529A2BAB7000302AF /* Tracked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A429A2BAB7000302AF /* Tracked.swift */; };
 		29A0F3A829A2DBB8000302AF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A729A2DBB8000302AF /* Result.swift */; };
 		29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CD29A3BC14000302AF /* MotionClient.swift */; };
 		29A0F3D029B633D8000302AF /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CF29B633D7000302AF /* ResultView.swift */; };
@@ -86,7 +85,6 @@
 		29DB1464299ADE8B004029D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1463299ADE8B004029D1 /* Main.swift */; };
 		29DB1466299ADF1B004029D1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1465299ADF1B004029D1 /* MainView.swift */; };
 		29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0789D297C75ED00A5012A /* PassiveNavigationLink.swift */; };
-		29DB1469299C3437004029D1 /* Standalone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1468299C3437004029D1 /* Standalone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,7 +191,6 @@
 		29A0F39D299ED5D1000302AF /* SessionControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionControlView.swift; sourceTree = "<group>"; };
 		29A0F39F299ED9CC000302AF /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		29A0F3A129A285ED000302AF /* StandaloneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneView.swift; sourceTree = "<group>"; };
-		29A0F3A429A2BAB7000302AF /* Tracked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracked.swift; sourceTree = "<group>"; };
 		29A0F3A729A2DBB8000302AF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		29A0F3CD29A3BC14000302AF /* MotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionClient.swift; sourceTree = "<group>"; };
 		29A0F3CF29B633D7000302AF /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
@@ -217,7 +214,6 @@
 		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29DB1465299ADF1B004029D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		29DB1468299C3437004029D1 /* Standalone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Standalone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -417,8 +413,6 @@
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
 				29D8892C29DA10300066041B /* SessionSetup */,
-				29DB146A299C343C004029D1 /* Standalone */,
-				29A0F3A329A2BAA4000302AF /* Tracked */,
 				29200293267FC76D00DCA308 /* Shared */,
 				2926E11E26150FE600E95DBB /* Assets.xcassets */,
 				2926E12026150FE600E95DBB /* Info.plist */,
@@ -566,15 +560,6 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
-		29A0F3A329A2BAA4000302AF /* Tracked */ = {
-			isa = PBXGroup;
-			children = (
-				29A0F3A429A2BAB7000302AF /* Tracked.swift */,
-				29A0F3D129B656C4000302AF /* TrackedView.swift */,
-			);
-			path = Tracked;
-			sourceTree = "<group>";
-		};
 		29A0F3A629A2DBA7000302AF /* Result */ = {
 			isa = PBXGroup;
 			children = (
@@ -617,8 +602,18 @@
 			children = (
 				29D8892D29DA10490066041B /* SessionSetup.swift */,
 				29D8892F29DA113E0066041B /* SessionSetupView.swift */,
+				29D8893129DA22EF0066041B /* Subviews */,
 			);
 			path = SessionSetup;
+			sourceTree = "<group>";
+		};
+		29D8893129DA22EF0066041B /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				29A0F3A129A285ED000302AF /* StandaloneView.swift */,
+				29A0F3D129B656C4000302AF /* TrackedView.swift */,
+			);
+			path = Subviews;
 			sourceTree = "<group>";
 		};
 		29DB145F299ADA77004029D1 /* Frameworks */ = {
@@ -635,15 +630,6 @@
 				29DB1465299ADF1B004029D1 /* MainView.swift */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		29DB146A299C343C004029D1 /* Standalone */ = {
-			isa = PBXGroup;
-			children = (
-				29DB1468299C3437004029D1 /* Standalone.swift */,
-				29A0F3A129A285ED000302AF /* StandaloneView.swift */,
-			);
-			path = Standalone;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -939,7 +925,6 @@
 				29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				29A0F39A299D642F000302AF /* ExtendedRuntimeClient.swift in Sources */,
-				29DB1469299C3437004029D1 /* Standalone.swift in Sources */,
 				29A0F3D229B656C4000302AF /* TrackedView.swift in Sources */,
 				29A0F3D029B633D8000302AF /* ResultView.swift in Sources */,
 				29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */,
@@ -953,7 +938,6 @@
 				29DB1466299ADF1B004029D1 /* MainView.swift in Sources */,
 				297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */,
 				29D8893029DA113F0066041B /* SessionSetupView.swift in Sources */,
-				29A0F3A529A2BAB7000302AF /* Tracked.swift in Sources */,
 				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */,
