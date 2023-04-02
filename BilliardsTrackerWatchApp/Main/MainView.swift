@@ -84,6 +84,9 @@ struct MainView: View {
                         .tag(Main.Tab.tracked)
                     }
                 }
+                .onAppear {
+                    viewStore.send(.onAppear)
+                }
             }
         }
     }

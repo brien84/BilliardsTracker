@@ -23,17 +23,11 @@ struct Main: ReducerProtocol {
         var isNavigationToStandaloneActive = false
         var isNavigationToTrackedActive = false
         var isNavigationToOnboardActive = false
-
-        init() {
-            if !UserDefaults.standard.hasOnboardBeenShown {
-                isNavigationToOnboardActive = true
-                UserDefaults.standard.hasOnboardBeenShown = true
-            }
-        }
     }
 
     enum Action: Equatable {
         case didChangeCurrentTab(Main.Tab)
+        case onAppear
 
         case standalone(Standalone.Action)
         case tracked(Tracked.Action)
@@ -42,6 +36,8 @@ struct Main: ReducerProtocol {
         case setNavigationToTracked(isActive: Bool)
         case setNavigationToOnboard(isActive: Bool)
     }
+
+    @Dependency(\.userDefaults) var userDefaults
 
     var body: some ReducerProtocol<State, Action> {
         Scope(state: \.standalone, action: /Action.standalone) {
@@ -58,6 +54,13 @@ struct Main: ReducerProtocol {
             case .didChangeCurrentTab(let tab):
                 state.currentTab = tab
                 return .none
+
+            case .onAppear:
+                guard !userDefaults.hasOnboardBeenShown() else { return .none }
+                state.isNavigationToOnboardActive = true
+                return .fireAndForget {
+                    await userDefaults.setHasOnboardBeenShown(true)
+                }
 
             case .standalone:
                 return .none
@@ -77,19 +80,6 @@ struct Main: ReducerProtocol {
                 state.isNavigationToOnboardActive = isActive
                 return .none
             }
-        }
-    }
-}
-
-private extension UserDefaults {
-    private static let hasOnboardBeenShownKey = "hasOnboardBeenShownKey"
-
-    var hasOnboardBeenShown: Bool {
-        get {
-            bool(forKey: Self.hasOnboardBeenShownKey)
-        }
-        set {
-            set(newValue, forKey: Self.hasOnboardBeenShownKey)
         }
     }
 }
