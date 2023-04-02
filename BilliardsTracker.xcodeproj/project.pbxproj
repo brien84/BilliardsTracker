@@ -260,10 +260,10 @@
 		291F7C3229CE4E7D007DA116 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				29D8892729D9B1050066041B /* UserDefaultsClient */,
 				291F7C3529CE4FB5007DA116 /* ConnectivityClient */,
 				291F7C3629CE4FDF007DA116 /* ExtendedRuntimeClient */,
 				291F7C3729CE4FE9007DA116 /* MotionClient */,
+				29D8892729D9B1050066041B /* UserDefaultsClient */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -316,8 +316,8 @@
 		291F7C4329D0A2DE007DA116 /* PersistenceClient */ = {
 			isa = PBXGroup;
 			children = (
-				291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */,
 				29A078AD29808AA200A5012A /* PersistenceClient.swift */,
+				291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */,
 			);
 			path = PersistenceClient;
 			sourceTree = "<group>";
@@ -487,8 +487,8 @@
 		297EDA5029D8B22C004F17EB /* UserDefaultsClient */ = {
 			isa = PBXGroup;
 			children = (
-				297EDA5329D8B269004F17EB /* LiveUserDefaultsClient.swift */,
 				297EDA5129D8B241004F17EB /* UserDefaultsClient.swift */,
+				297EDA5329D8B269004F17EB /* LiveUserDefaultsClient.swift */,
 			);
 			path = UserDefaultsClient;
 			sourceTree = "<group>";
@@ -601,8 +601,8 @@
 		29D8892729D9B1050066041B /* UserDefaultsClient */ = {
 			isa = PBXGroup;
 			children = (
-				29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */,
 				29D8892829D9B11F0066041B /* UserDefaultsClient.swift */,
+				29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */,
 			);
 			path = UserDefaultsClient;
 			sourceTree = "<group>";
