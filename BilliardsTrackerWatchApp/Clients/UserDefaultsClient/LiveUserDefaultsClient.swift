@@ -10,6 +10,15 @@ import Foundation
 
 extension UserDefaultsClient: DependencyKey {
     static let liveValue = Self(
-
+        hasOnboardBeenShown: {
+            UserDefaults.standard.bool(forKey: Self.hasOnboardBeenShownKey)
+        },
+        setHasOnboardBeenShown: { hasBeenShown in
+            UserDefaults.standard.set(hasBeenShown, forKey: Self.hasOnboardBeenShownKey)
+        }
     )
+}
+
+private extension UserDefaultsClient {
+    static let hasOnboardBeenShownKey = "hasOnboardBeenShownKey"
 }
