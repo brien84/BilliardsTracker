@@ -10,8 +10,6 @@
 		291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* SessionSetupTests.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
 		291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2C29CDFAF0007DA116 /* SessionTests.swift */; };
-		291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */; };
-		291F7C3129CDFB4F007DA116 /* TrackedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3029CDFB4F007DA116 /* TrackedTests.swift */; };
 		291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */; };
 		291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3829CE500A007DA116 /* LiveMotionClient.swift */; };
 		291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */; };
@@ -137,8 +135,6 @@
 		291F27B229DAD79F0004960C /* SessionSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupTests.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		291F7C2C29CDFAF0007DA116 /* SessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTests.swift; sourceTree = "<group>"; };
-		291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneTests.swift; sourceTree = "<group>"; };
-		291F7C3029CDFB4F007DA116 /* TrackedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedTests.swift; sourceTree = "<group>"; };
 		291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
 		291F7C3829CE500A007DA116 /* LiveMotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMotionClient.swift; sourceTree = "<group>"; };
 		291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveExtendedRuntimeClient.swift; sourceTree = "<group>"; };
@@ -468,8 +464,6 @@
 				291F7C2A29CDFA9A007DA116 /* MainTests.swift */,
 				291F27B229DAD79F0004960C /* SessionSetupTests.swift */,
 				291F7C2C29CDFAF0007DA116 /* SessionTests.swift */,
-				291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */,
-				291F7C3029CDFB4F007DA116 /* TrackedTests.swift */,
 			);
 			path = BilliardsTrackerWatchAppTests;
 			sourceTree = "<group>";
@@ -953,8 +947,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				291F7C3129CDFB4F007DA116 /* TrackedTests.swift in Sources */,
-				291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */,
 				291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */,
 				291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */,
 				291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */,
