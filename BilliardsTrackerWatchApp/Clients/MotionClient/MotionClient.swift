@@ -22,6 +22,12 @@ extension MotionClient: TestDependencyKey {
             unimplemented("\(Self.self).start")
         }
     )
+
+    static let previewValue = Self(
+        start: {
+            AsyncThrowingStream { _ in }
+        }
+    )
 }
 
 extension DependencyValues {

@@ -22,6 +22,15 @@ extension ExtendedRuntimeClient: TestDependencyKey {
             unimplemented("\(Self.self).start")
         }
     )
+
+    static let previewValue = Self(
+        getExpirationStatus: {
+            false
+        },
+        start: {
+            await AsyncStream { _ in }.first { _ in true } ?? .none
+        }
+    )
 }
 
 extension DependencyValues {
