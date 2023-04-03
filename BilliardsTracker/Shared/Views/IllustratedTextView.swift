@@ -17,9 +17,10 @@ struct IllustratedTextView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: Self.width, height: Self.height)
+                .shadow(color: .black, radius: Self.shadowRadius)
 
             Text(text)
-                .font(.headline)
+                .font(.title3)
                 .foregroundColor(.primaryElement)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -32,6 +33,7 @@ private extension IllustratedTextView {
     static let verticalSpacing: CGFloat = 16
     static let width: CGFloat = 100
     static let height: CGFloat = 100
+    static let shadowRadius: CGFloat = 8
 }
 
 // MARK: - Previews
