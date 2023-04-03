@@ -16,8 +16,8 @@ struct SessionSetup: ReducerProtocol {
 
     enum Action: Equatable {
         case session(Session.Action)
-        case setNavigationToSession(isActive: Bool)
         case shotCountDidChange(Int)
+        case navigateToStandaloneSession
 
         case establishConnection
         case endConnection
@@ -43,17 +43,17 @@ struct SessionSetup: ReducerProtocol {
             case .session:
                 return .none
 
-            case .setNavigationToSession(isActive: let isActive):
-                guard isActive else { return .none }
+            case .shotCountDidChange(let count):
+                state.shotCount = count
+                return .none
+
+            case .navigateToStandaloneSession:
+                guard state.session == nil else { return .none }
                 state.session = Session.State(
                     title: "Standalone",
                     shotCount: state.shotCount,
                     isContinuous: true
                 )
-                return .none
-
-            case .shotCountDidChange(let count):
-                state.shotCount = count
                 return .none
 
             case .establishConnection:

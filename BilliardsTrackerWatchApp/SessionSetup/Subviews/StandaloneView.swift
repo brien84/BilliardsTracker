@@ -20,8 +20,8 @@ private extension StandaloneView {
     }
 
     enum Action: Equatable {
-        case setNavigationToSession(isActive: Bool)
         case shotCountDidChange(Int)
+        case navigateToStandaloneSession
     }
 }
 
@@ -34,10 +34,10 @@ private extension SessionSetup.State {
 private extension StandaloneView.Action {
     var action: SessionSetup.Action {
         switch self {
-        case .setNavigationToSession(isActive: let isActive):
-            return .setNavigationToSession(isActive: isActive)
         case .shotCountDidChange(let count):
             return .shotCountDidChange(count)
+        case .navigateToStandaloneSession:
+            return .navigateToStandaloneSession
         }
     }
 }
@@ -73,7 +73,7 @@ struct StandaloneView: View {
                     Divider()
 
                     Button("Start") {
-                        viewStore.send(.setNavigationToSession(isActive: true), animation: .default)
+                        viewStore.send(.navigateToStandaloneSession, animation: .default)
                     }
                     .buttonStyle(.bordered)
                     .tint(.customBlue)
