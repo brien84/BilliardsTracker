@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* SessionSetupTests.swift */; };
+		291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B429DB0CB50004960C /* IllustratedTextView.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
 		291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2C29CDFAF0007DA116 /* SessionTests.swift */; };
 		291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */; };
@@ -133,6 +134,7 @@
 
 /* Begin PBXFileReference section */
 		291F27B229DAD79F0004960C /* SessionSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupTests.swift; sourceTree = "<group>"; };
+		291F27B429DB0CB50004960C /* IllustratedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustratedTextView.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		291F7C2C29CDFAF0007DA116 /* SessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTests.swift; sourceTree = "<group>"; };
 		291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 			children = (
 				292E6F61266BFD1B0078C033 /* CardView.swift */,
 				29C554B4299296860045DFCB /* ExitButtonView.swift */,
+				291F27B429DB0CB50004960C /* IllustratedTextView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */,
 				295389D926696C4D0028E5B8 /* StatisticsPanel.swift */,
@@ -883,6 +886,7 @@
 				29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */,
 				29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */,
 				29BB860F2631F2BA0055A8BB /* StatisticsClient.swift in Sources */,
+				291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */,
 				29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */,
 				294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */,
 				292E6F69266C0A0E0078C033 /* ResultsView.swift in Sources */,
