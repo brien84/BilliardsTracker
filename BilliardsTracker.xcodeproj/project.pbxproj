@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* SessionSetupTests.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
 		291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2C29CDFAF0007DA116 /* SessionTests.swift */; };
 		291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */; };
@@ -133,6 +134,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		291F27B229DAD79F0004960C /* SessionSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupTests.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		291F7C2C29CDFAF0007DA116 /* SessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTests.swift; sourceTree = "<group>"; };
 		291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneTests.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 			isa = PBXGroup;
 			children = (
 				291F7C2A29CDFA9A007DA116 /* MainTests.swift */,
+				291F27B229DAD79F0004960C /* SessionSetupTests.swift */,
 				291F7C2C29CDFAF0007DA116 /* SessionTests.swift */,
 				291F7C2E29CDFB39007DA116 /* StandaloneTests.swift */,
 				291F7C3029CDFB4F007DA116 /* TrackedTests.swift */,
@@ -954,6 +957,7 @@
 				291F7C2F29CDFB39007DA116 /* StandaloneTests.swift in Sources */,
 				291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */,
 				291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */,
+				291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
