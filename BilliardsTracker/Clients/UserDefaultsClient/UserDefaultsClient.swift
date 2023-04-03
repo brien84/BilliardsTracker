@@ -16,6 +16,21 @@ struct UserDefaultsClient {
 }
 
 extension UserDefaultsClient: TestDependencyKey {
+    static let testValue = Self(
+        getSortOption: {
+            unimplemented("\(Self.self).getSortOption")
+        },
+        setSortOption: { _ in
+            unimplemented("\(Self.self).setSortOption")
+        },
+        getSortOrder: {
+            unimplemented("\(Self.self).getSortOrder")
+        },
+        setSortOrder: { _ in
+            unimplemented("\(Self.self).setSortOrder")
+        }
+    )
+
     static let previewValue: Self = {
         let userDefaults = { UserDefaults(suiteName: "UserDefaultsClient.preview")! }
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.preview")
@@ -37,21 +52,6 @@ extension UserDefaultsClient: TestDependencyKey {
             }
         )
     }()
-
-    static let testValue = Self(
-        getSortOption: {
-            unimplemented("\(Self.self).getSortOption")
-        },
-        setSortOption: { _ in
-            unimplemented("\(Self.self).setSortOption")
-        },
-        getSortOrder: {
-            unimplemented("\(Self.self).getSortOrder")
-        },
-        setSortOrder: { _ in
-            unimplemented("\(Self.self).setSortOrder")
-        }
-    )
 }
 
 extension DependencyValues {

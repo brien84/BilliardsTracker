@@ -14,6 +14,15 @@ struct UserDefaultsClient {
 }
 
 extension UserDefaultsClient: TestDependencyKey {
+    static let testValue = Self(
+        hasOnboardBeenShown: {
+            unimplemented("\(Self.self).hasOnboardBeenShown")
+        },
+        setHasOnboardBeenShown: { _ in
+            unimplemented("\(Self.self).setHasOnboardBeenShown")
+        }
+    )
+
     static let previewValue: Self = {
         let userDefaults = { UserDefaults(suiteName: "UserDefaultsClient.preview")! }
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.preview")
@@ -27,15 +36,6 @@ extension UserDefaultsClient: TestDependencyKey {
             }
         )
     }()
-
-    static let testValue = Self(
-        hasOnboardBeenShown: {
-            unimplemented("\(Self.self).hasOnboardBeenShown")
-        },
-        setHasOnboardBeenShown: { _ in
-            unimplemented("\(Self.self).setHasOnboardBeenShown")
-        }
-    )
 }
 
 extension DependencyValues {
