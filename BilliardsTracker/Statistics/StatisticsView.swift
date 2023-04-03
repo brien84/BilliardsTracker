@@ -45,7 +45,11 @@ struct StatisticsView: View {
                                 .padding()
                             }
                         } else {
-                            NotEnoughDataLabel()
+                            IllustratedTextView(
+                                imageName: "pocket",
+                                text: "Not enough data"
+                            )
+                            .offset(Self.textViewOffset)
                         }
                     }
                     .id(isShowingHistory)
@@ -107,34 +111,11 @@ struct StatisticsView: View {
     }
 }
 
-private struct NotEnoughDataLabel: View {
-    var body: some View {
-        VStack(spacing: Self.verticalSpacing) {
-            Image("pocket")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: Self.width, height: Self.height)
-
-            Text("Not enough data")
-                .font(.headline)
-                .foregroundColor(.primaryElement)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .offset(Self.offset)
-    }
-}
-
 // MARK: - Constants
 
 private extension StatisticsView {
     static let toolbarItemWidth: CGFloat = 32
-}
-
-private extension NotEnoughDataLabel {
-    static let verticalSpacing: CGFloat = 16
-    static let height: CGFloat = 100
-    static let width: CGFloat = 100
-    static let offset: CGSize = CGSize(width: 0, height: -24)
+    static let textViewOffset: CGSize = CGSize(width: 0, height: -24)
 }
 
 // MARK: - Previews

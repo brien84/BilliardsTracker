@@ -37,7 +37,11 @@ struct SessionView: View {
 
                     CardView(title: "Results") {
                         if viewStore.statistics.results.isEmpty {
-                            WaitingLabelView()
+                            IllustratedTextView(
+                                imageName: "table",
+                                text: "Waiting for results..."
+                            )
+                            .offset(Self.textViewOffset)
                         } else {
                             ResultsView(results: viewStore.statistics.results)
                         }
@@ -52,30 +56,10 @@ struct SessionView: View {
     }
 }
 
-private struct WaitingLabelView: View {
-    var body: some View {
-        VStack(spacing: Self.verticalSpacing) {
-            Image("table")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: Self.width, height: Self.height)
-
-            Text("Waiting for results...")
-                .font(.headline)
-                .foregroundColor(.primaryElement)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .offset(Self.offset)
-    }
-}
-
 // MARK: - Constants
 
-private extension WaitingLabelView {
-    static let verticalSpacing: CGFloat = 16
-    static let width: CGFloat = 100
-    static let height: CGFloat = 100
-    static let offset: CGSize = CGSize(width: 0, height: -24)
+private extension SessionView {
+    static let textViewOffset: CGSize = CGSize(width: 0, height: -24)
 }
 
 // MARK: - Previews
