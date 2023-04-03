@@ -33,3 +33,11 @@ private extension IllustratedTextView {
     static let width: CGFloat = 100
     static let height: CGFloat = 100
 }
+
+// MARK: - Previews
+
+struct IllustratedTextView_Previews: PreviewProvider {
+    static var previews: some View {
+        IllustratedTextView(imageName: "chalk", text: "This is preview!")
+    }
+}
