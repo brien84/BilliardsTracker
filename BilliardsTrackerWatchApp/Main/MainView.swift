@@ -11,8 +11,22 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
+    struct ViewState: Equatable {
+        let currentTab: Mode
+
+        let isNavigationToOnboardActive: Bool
+        let isNavigationToSessionSetupActive: Bool
+
+        init(state: Main.State) {
+            self.currentTab = state.currentTab
+
+            self.isNavigationToOnboardActive = state.isNavigationToOnboardActive
+            self.isNavigationToSessionSetupActive = state.isNavigationToSessionSetupActive
+        }
+    }
+
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: ViewState.init)) { viewStore in
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
