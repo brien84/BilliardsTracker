@@ -74,7 +74,7 @@ private struct TabViewButton: View {
             action()
         } label: {
             Text(title)
-                .font(.title3)
+                .font(.title3.weight(.medium))
                 .scaleEffect(titleScale)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.black)

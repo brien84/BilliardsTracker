@@ -67,7 +67,7 @@ struct SessionProgressView: View {
 
                 ProgressView(value: viewStore.remainingShotsPercentage) {
                     Text("\(viewStore.remainingShots)")
-                        .bold()
+                        .font(.title3.bold())
                         .foregroundColor(.primaryElement)
                 }
                 .progressViewStyle(.circular)
@@ -80,6 +80,7 @@ struct SessionProgressView: View {
                         viewStore.send(.didRegisterShot(isSuccess: true), animation: .default)
                     } label: {
                         Text("\(viewStore.potCount)")
+                            .font(.title3.bold())
                             .foregroundColor(.customGreen)
                     }
                     .buttonStyle(.bordered)
@@ -89,6 +90,7 @@ struct SessionProgressView: View {
                         viewStore.send(.didRegisterShot(isSuccess: false), animation: .default)
                     } label: {
                         Text("\(viewStore.missCount)")
+                            .font(.title3.bold())
                             .foregroundColor(.customRed)
                     }
                     .buttonStyle(.bordered)

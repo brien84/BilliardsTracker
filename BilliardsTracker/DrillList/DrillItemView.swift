@@ -35,8 +35,8 @@ struct DrillItemView: View {
 
                         VStack(spacing: Self.iconsSpacing) {
                             Image(systemName: "repeat")
-                                .font(.title3.weight(.semibold))
-                                .foregroundColor(.customRed)
+                                .font(.title3.weight(.bold))
+                                .foregroundColor(.customGreen)
                                 .imageScale(.small)
                                 .opacity(viewStore.drill.isContinuous ? 1 : 0)
 

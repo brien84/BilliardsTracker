@@ -61,10 +61,10 @@ struct NewDrillView: View {
                         Section {
                             Toggle(isOn: viewStore.binding(\.$isContinuous)) {
                                 ListItemLabel(title: "Continuous", imageName: "repeat")
-                                    .foregroundColor(.customRed)
+                                    .foregroundColor(.customGreen)
                             }
                             .toggleStyle(.switch)
-                            .tint(.customBlue)
+                            .tint(.customGreen)
                         } footer: {
                             Text("Deselecting this option will end the drill once a shot is missed.")
                         }

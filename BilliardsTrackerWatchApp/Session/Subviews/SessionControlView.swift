@@ -120,6 +120,7 @@ private struct SessionControlButton: View {
 
             Text(title)
                 .font(.footnote)
+                .fontWeight(isEnabled ? .medium : .regular)
                 .foregroundColor(isEnabled ? .primaryElement : .secondaryElement)
         }
     }

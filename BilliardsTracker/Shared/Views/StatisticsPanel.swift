@@ -64,11 +64,11 @@ private struct StatisticsLabel: View {
     var body: some View {
         VStack(spacing: Self.verticalSpacing) {
             Text(value)
-                .font(.title2)
+                .font(.title2.weight(.medium))
 
             Text(title)
                 .font(.subheadline.weight(.light))
-                .foregroundColor(.secondaryElement)
+                .foregroundColor(.primaryElement)
         }
         .frame(maxWidth: .infinity)
     }
