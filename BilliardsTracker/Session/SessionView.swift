@@ -38,7 +38,7 @@ struct SessionView: View {
                     CardView(title: "Results") {
                         if viewStore.statistics.results.isEmpty {
                             IllustratedTextView(
-                                imageName: "table",
+                                imageName: "rebound",
                                 text: "Waiting for results..."
                             )
                             .offset(Self.textViewOffset)
