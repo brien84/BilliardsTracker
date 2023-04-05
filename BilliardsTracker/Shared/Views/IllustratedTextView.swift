@@ -20,7 +20,7 @@ struct IllustratedTextView: View {
                 .shadow(color: .black, radius: Self.shadowRadius)
 
             Text(text)
-                .font(.title3)
+                .font(.title3.weight(.medium))
                 .foregroundColor(.primaryElement)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
