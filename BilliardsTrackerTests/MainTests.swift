@@ -173,6 +173,15 @@ final class MainTests: XCTestCase {
         await store.send(.newDrill(.cancelButtonDidTap)) {
             $0.isNavigationToNewDrillActive = false
         }
+
+        await store.send(.drillList(.didTapNewDrillButton)) {
+            $0.isNavigationToNewDrillActive = true
+            $0.newDrill = NewDrill.State()
+        }
+
+        await store.send(.newDrill(.cancelButtonDidTap)) {
+            $0.isNavigationToNewDrillActive = false
+        }
     }
 
     func testSavingNewDrill() async throws {
