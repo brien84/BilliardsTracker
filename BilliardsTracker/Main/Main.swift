@@ -62,6 +62,10 @@ struct Main: ReducerProtocol {
 
         Reduce { state, action in
             switch action {
+            case .drillList(.didTapNewDrillButton):
+                state.newDrill = NewDrill.State()
+                state.isNavigationToNewDrillActive = true
+                return .none
 
             case .drillList(.drillItem(id: let id, action: .didSelectDrill)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {

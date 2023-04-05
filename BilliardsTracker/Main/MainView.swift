@@ -37,12 +37,6 @@ struct MainView: View {
                     ))
                     .disabled(viewStore.isShowingLoadingIndicator)
 
-                    if viewStore.drillList.drillItems.isEmpty && !viewStore.isShowingLoadingIndicator {
-                        NewDrillBackgroundButton(
-                            isNavigationActive: viewStore.binding(\.$isNavigationToNewDrillActive)
-                        )
-                    }
-
                     LoadingView()
                         .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
                 }
@@ -109,31 +103,6 @@ private struct LoadingView: View {
     }
 }
 
-private struct NewDrillBackgroundButton: View {
-    @Binding var isNavigationActive: Bool
-
-    var body: some View {
-        Button(
-            action: {
-                isNavigationActive = true
-            },
-            label: {
-                VStack {
-                    Image(systemName: "plus")
-                        .font(.largeTitle)
-                        .imageScale(.large)
-                        .scaleEffect(Self.imageScale)
-
-                    Text("Create drill")
-                        .font(.title)
-                        .padding(Self.textPadding)
-                }
-            }
-        )
-        .foregroundColor(.primaryElement)
-    }
-}
-
 private struct NewDrillNavigationBarButton: View {
     @Binding var isNavigationActive: Bool
 
@@ -156,11 +125,6 @@ private extension LoadingView {
     static let backgroundOpacity: CGFloat = 0.5
     static let cornerRadius: CGFloat = 10
     static let lineWidth: CGFloat = 1
-}
-
-private extension NewDrillBackgroundButton {
-    static let imageScale: CGFloat = 2.0
-    static let textPadding: CGFloat = 32
 }
 
 // MARK: - Previews

@@ -11,12 +11,25 @@ import SwiftUI
 struct DrillListView: View {
     let store: StoreOf<DrillList>
 
+    @Environment(\.isEnabled) var isEnabled
+
     var body: some View {
-        WithViewStore(store) { _ in
+        WithViewStore(store) { viewStore in
             ScrollView {
+                if viewStore.drillItems.isEmpty && isEnabled {
+                    EmptyDrillListPrompt {
+                        viewStore.send(.didTapNewDrillButton)
+                    }
+                    .padding()
+                    .transition(.slide)
+                }
+
                 LazyVStack(spacing: Self.verticalSpacing) {
                     ForEachStore(
-                        store.scope(state: \.drillItems, action: DrillList.Action.drillItem(id:action:))
+                        store.scope(
+                            state: \.drillItems,
+                            action: DrillList.Action.drillItem(id:action:)
+                        )
                     ) {
                         DrillItemView(store: $0)
                             .padding(.horizontal)
