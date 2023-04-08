@@ -23,6 +23,7 @@ struct Main: ReducerProtocol {
         @BindingState var isNavigationToNewDrillActive = false
         @BindingState var isNavigationToSessionActive = false
         @BindingState var isNavigationToStatisticsActive = false
+        @BindingState var isNavigationToOnboardViewActive = false
     }
 
     enum Action: BindableAction, Equatable {
@@ -35,6 +36,7 @@ struct Main: ReducerProtocol {
         case alertDidDismiss
         case binding(BindingAction<State>)
         case onAppear
+        case onboardViewDidDismiss
 
         case connectivityClientDidReceiveResult(ResultContext)
         case connectivityClientDidReceiveResponse(ConnectivityResponse)
@@ -153,6 +155,7 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .onAppear:
+                state.isNavigationToOnboardViewActive = !userDefaults.getHasOnboardBeenShown()
                 state.isShowingLoadingIndicator = true
                 state.settings = Settings.State(
                     sortOption: userDefaults.getSortOption(),
@@ -169,6 +172,12 @@ struct Main: ReducerProtocol {
                         }
                     }
                 )
+
+            case .onboardViewDidDismiss:
+                state.isNavigationToOnboardViewActive = false
+                return .fireAndForget {
+                    await userDefaults.setHasOnboardBeenShown(true)
+                }
 
             case .connectivityClientDidReceiveResponse(let response):
                 state.isShowingLoadingIndicator = false
