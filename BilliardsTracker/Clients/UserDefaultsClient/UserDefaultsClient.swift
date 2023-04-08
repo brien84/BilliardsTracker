@@ -9,6 +9,8 @@ import Dependencies
 import Foundation
 
 struct UserDefaultsClient {
+    var getHasOnboardBeenShown: @Sendable () -> Bool
+    var setHasOnboardBeenShown: @Sendable (Bool) async -> Void
     var getSortOption: @Sendable () -> SortOption
     var setSortOption: @Sendable (SortOption) async -> Void
     var getSortOrder: @Sendable () -> SortOrder
@@ -17,6 +19,12 @@ struct UserDefaultsClient {
 
 extension UserDefaultsClient: TestDependencyKey {
     static let testValue = Self(
+        getHasOnboardBeenShown: {
+            unimplemented("\(Self.self).getSortOption")
+        },
+        setHasOnboardBeenShown: { _ in
+            unimplemented("\(Self.self).setSortOption")
+        },
         getSortOption: {
             unimplemented("\(Self.self).getSortOption")
         },
@@ -36,6 +44,12 @@ extension UserDefaultsClient: TestDependencyKey {
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.preview")
 
         return Self(
+            getHasOnboardBeenShown: {
+                userDefaults().bool(forKey: "getHasOnboardBeenShownKey")
+            },
+            setHasOnboardBeenShown: { hasBeenShown in
+                userDefaults().set(hasBeenShown, forKey: "getHasOnboardBeenShownKey")
+            },
             getSortOption: {
                 let rawValue = userDefaults().integer(forKey: "sortOptionKey")
                 return SortOption(rawValue: rawValue) ?? .title
