@@ -48,7 +48,7 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .onAppear:
-                guard !userDefaults.hasOnboardBeenShown() else { return .none }
+                guard !userDefaults.getHasOnboardBeenShown() else { return .none }
                 state.isNavigationToOnboardActive = true
                 return .fireAndForget {
                     await userDefaults.setHasOnboardBeenShown(true)

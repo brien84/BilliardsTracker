@@ -62,7 +62,7 @@ struct MainView: View {
                     action: Main.Action.newDrill
                 ))
             }
-            .sheet(isPresented: viewStore.binding(\.$isNavigationToOnboardViewActive)) {
+            .sheet(isPresented: viewStore.binding(\.$isNavigationToOnboardActive)) {
                 OnboardView { viewStore.send(.onboardViewDidDismiss) }
             }
             .fullScreenCover(isPresented: viewStore.binding(\.$isNavigationToSessionActive)) {

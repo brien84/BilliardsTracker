@@ -11,12 +11,11 @@ import XCTest
 
 @MainActor
 final class MainTests: XCTestCase {
-
     var store: TestStore<Main.State, Main.Action, Main.State, Main.Action, ()>!
 
     override func setUp() async throws {
         store = TestStore(initialState: Main.State(), reducer: Main())
-        store.dependencies.userDefaults.hasOnboardBeenShown = { @Sendable in true }
+        store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
     }
 
     override func tearDown() async throws {
@@ -40,7 +39,7 @@ final class MainTests: XCTestCase {
     }
 
     func testNavigatingtoOnboardOnAppear() async throws {
-        store.dependencies.userDefaults.hasOnboardBeenShown = { @Sendable in false }
+        store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in false }
         store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
 
         await store.send(.onAppear) {
@@ -71,5 +70,4 @@ final class MainTests: XCTestCase {
             $0.isNavigationToSessionSetupActive = false
         }
     }
-
 }

@@ -9,13 +9,13 @@ import Dependencies
 import Foundation
 
 struct UserDefaultsClient {
-    var hasOnboardBeenShown: @Sendable () -> Bool
+    var getHasOnboardBeenShown: @Sendable () -> Bool
     var setHasOnboardBeenShown: @Sendable (Bool) async -> Void
 }
 
 extension UserDefaultsClient: TestDependencyKey {
     static let testValue = Self(
-        hasOnboardBeenShown: {
+        getHasOnboardBeenShown: {
             unimplemented("\(Self.self).hasOnboardBeenShown")
         },
         setHasOnboardBeenShown: { _ in
@@ -28,7 +28,7 @@ extension UserDefaultsClient: TestDependencyKey {
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.preview")
 
         return Self(
-            hasOnboardBeenShown: {
+            getHasOnboardBeenShown: {
                 userDefaults().bool(forKey: "hasOnboardBeenShownKey")
             },
             setHasOnboardBeenShown: { hasBeenShown in

@@ -10,7 +10,7 @@ import Foundation
 
 extension UserDefaultsClient: DependencyKey {
     static let liveValue = Self(
-        hasOnboardBeenShown: {
+        getHasOnboardBeenShown: {
             UserDefaults.standard.bool(forKey: Self.hasOnboardBeenShownKey)
         },
         setHasOnboardBeenShown: { hasBeenShown in
