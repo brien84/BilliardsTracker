@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct OnboardView: View {
+    let buttonAction: () -> Void
+
     var body: some View {
         GeometryReader { proxy in
             VStack {
@@ -22,8 +24,10 @@ struct OnboardView: View {
                 VStack {
                     WarningView()
 
-                    FullWidthButtonView(text: "Continue") { }
-                        .foregroundColor(.customBlue)
+                    FullWidthButtonView(text: "Continue") {
+                        buttonAction()
+                    }
+                    .foregroundColor(.customBlue)
                 }
                 .padding(.horizontal, Self.horizontalPadding)
                 .padding(.vertical, Self.verticalPadding)
@@ -87,7 +91,7 @@ struct OnboardView_Previews: PreviewProvider {
         Color.green
             .ignoresSafeArea()
             .sheet(isPresented: .constant(true)) {
-                OnboardView()
+                OnboardView { }
             }
     }
 }
