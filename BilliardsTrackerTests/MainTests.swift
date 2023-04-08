@@ -12,40 +12,59 @@ import XCTest
 // swiftlint:disable type_body_length
 @MainActor
 final class MainTests: XCTestCase {
-
     var store: TestStore<Main.State, Main.Action, Main.State, Main.Action, ()>!
+    var mainQueue: TestSchedulerOf<DispatchQueue>!
+    let now = Date(timeIntervalSince1970: .zero)
 
     override func setUp() async throws {
         store = TestStore(initialState: Main.State(), reducer: Main())
+
+        store.dependencies.connectivityClient.receiveResults = { @Sendable in AsyncStream<ResultContext> { _ in } }
+        store.dependencies.date.now = now
+        mainQueue = DispatchQueue.test
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
+        store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
+        store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
+        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
+        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
     }
 
     override func tearDown() async throws {
+        mainQueue = nil
         store = nil
     }
 
-    func testSuccessfullyNavigatingToSessionAndReceivingResult() async throws {
+    func testNavigationToOnboardView() async throws {
+        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([]) }
+
+        store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in false }
+
+        await store.send(.onAppear) {
+            $0.isShowingLoadingIndicator = true
+            $0.isNavigationToOnboardActive = true
+        }
+
+        await store.send(.onboardViewDidDismiss) {
+            $0.isNavigationToOnboardActive = false
+        }
+
+        await store.skipInFlightEffects()
+    }
+
+    func testSuccessfullyNavigatingToSessionAndReceivingResults() async throws {
         let drill = PersistenceClient.mockDrill
-        let testDate = Date(timeIntervalSince1970: .zero)
-        let result = ResultContext(potCount: 10, missCount: 10, date: testDate)
-
-        let mainQueue = DispatchQueue.test
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        store.dependencies.date.now = testDate
+        let result = ResultContext(potCount: 10, missCount: 10, date: now)
 
         store.dependencies.connectivityClient.sendDrillContext = { @Sendable _ in .success }
         store.dependencies.connectivityClient.receiveResults = { @Sendable in
             AsyncStream<ResultContext> {
-                try? await mainQueue.sleep(for: .seconds(10))
+                try? await self.mainQueue.sleep(for: .seconds(10))
                 return result
             }
         }
 
-        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([drill]) }
         store.dependencies.persistenceClient.insertResult = { @Sendable _, _ in .didSucceed }
-
-        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
-        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
+        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([drill]) }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -60,7 +79,7 @@ final class MainTests: XCTestCase {
 
         await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
             $0.isShowingLoadingIndicator = true
-            $0.session = Session.State(drill: drill, startDate: testDate)
+            $0.session = Session.State(drill: drill, startDate: self.now)
         }
 
         await mainQueue.advance(by: .milliseconds(500))
@@ -90,17 +109,13 @@ final class MainTests: XCTestCase {
 
         let store = TestStore(initialState: main, reducer: Main())
 
-        let mainQueue = DispatchQueue.test
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        let testDate = Date(timeIntervalSince1970: .zero)
-        store.dependencies.date.now = testDate
-
         store.dependencies.connectivityClient.sendDrillContext = { _ in .failure(.notReachable) }
+        store.dependencies.date.now = now
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
 
         await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
             $0.isShowingLoadingIndicator = true
-            $0.session = Session.State(drill: drill, startDate: testDate)
+            $0.session = Session.State(drill: drill, startDate: self.now)
         }
 
         await mainQueue.advance(by: .milliseconds(500))
@@ -130,17 +145,13 @@ final class MainTests: XCTestCase {
 
         let store = TestStore(initialState: main, reducer: Main())
 
-        let mainQueue = DispatchQueue.test
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        let testDate = Date(timeIntervalSince1970: .zero)
-        store.dependencies.date.now = testDate
-
         store.dependencies.connectivityClient.sendDrillContext = { _ in .failure(.notReady) }
+        store.dependencies.date.now = now
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
 
         await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
             $0.isShowingLoadingIndicator = true
-            $0.session = Session.State(drill: drill, startDate: testDate)
+            $0.session = Session.State(drill: drill, startDate: self.now)
         }
 
         await mainQueue.advance(by: .milliseconds(500))
@@ -275,13 +286,7 @@ final class MainTests: XCTestCase {
     }
 
     func testFailingToLoadDrills() async throws {
-        let mainQueue = DispatchQueue.test
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        store.dependencies.connectivityClient.receiveResults = { @Sendable in AsyncStream<ResultContext> { _ in } }
         store.dependencies.persistenceClient.loadDrills = { @Sendable in .didFail(.loading) }
-        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
-        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -309,13 +314,7 @@ final class MainTests: XCTestCase {
     }
 
     func testFailingToInitializePersistenceClient() async throws {
-        let mainQueue = DispatchQueue.test
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        store.dependencies.connectivityClient.receiveResults = { @Sendable in AsyncStream<ResultContext> { _ in } }
         store.dependencies.persistenceClient.loadDrills = { @Sendable in .didFail(.initialization) }
-        store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
-        store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -358,6 +357,8 @@ final class MainTests: XCTestCase {
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.tests")
 
         store.dependencies.userDefaults = UserDefaultsClient(
+            getHasOnboardBeenShown: { true },
+            setHasOnboardBeenShown: { _ in },
             getSortOption: {
                 let rawValue = userDefaults().integer(forKey: "sortOptionKey")
                 return SortOption(rawValue: rawValue) ?? .title
