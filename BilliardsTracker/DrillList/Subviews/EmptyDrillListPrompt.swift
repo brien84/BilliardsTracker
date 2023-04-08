@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EmptyDrillListPrompt: View {
-    var buttonAction: () -> Void
+    let buttonAction: () -> Void
 
     var body: some View {
         ZStack {
@@ -28,25 +28,15 @@ struct EmptyDrillListPrompt: View {
                         .font(.title3.weight(.semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Text("Begin by adding a drill and start tracking your training performance.")
+                    Text("Start by adding a drill and begin tracking your training progress.")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .foregroundColor(.primaryElement)
 
-                Button {
+                FullWidthButtonView(text: "Add Drill") {
                     buttonAction()
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: Self.buttonRadius)
-                            .foregroundColor(.customBlue)
-
-                        Text("Add Drill")
-                            .font(.body.weight(.semibold))
-                            .foregroundColor(.white)
-                            .padding(.vertical, Self.buttonPadding)
-                    }
                 }
-                .fixedSize(horizontal: false, vertical: true)
+                .foregroundColor(.customBlue)
             }
             .padding()
         }
@@ -56,8 +46,6 @@ struct EmptyDrillListPrompt: View {
 // MARK: - Constants
 
 private extension EmptyDrillListPrompt {
-    static let buttonRadius: CGFloat = 12
-    static let buttonPadding: CGFloat = 15
     static let cornerRadius: CGFloat = 16
     static let imageHeight: CGFloat = 100
     static let imageWidth: CGFloat = 100
