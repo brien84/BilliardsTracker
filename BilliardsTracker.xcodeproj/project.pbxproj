@@ -44,7 +44,7 @@
 		298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
 		298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
 		298F3B5929DDF9BE00668192 /* EmptyDrillListPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5829DDF9BE00668192 /* EmptyDrillListPrompt.swift */; };
-		298F3B5B29E0C3FC00668192 /* FullWidthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5A29E0C3FC00668192 /* FullWidthButton.swift */; };
+		298F3B5B29E0C3FC00668192 /* FullWidthButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5A29E0C3FC00668192 /* FullWidthButtonView.swift */; };
 		298F3B5E29E1646700668192 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5D29E1646700668192 /* OnboardView.swift */; };
 		2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2994521B26407CAD0051F4A7 /* ChartView.swift */; };
 		29A07896297C117400A5012A /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29A07895297C117400A5012A /* ComposableArchitecture */; };
@@ -180,7 +180,7 @@
 		297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		298E3537261A1C4F00CCDDEE /* DrillContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillContext.swift; sourceTree = "<group>"; };
 		298F3B5829DDF9BE00668192 /* EmptyDrillListPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDrillListPrompt.swift; sourceTree = "<group>"; };
-		298F3B5A29E0C3FC00668192 /* FullWidthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButton.swift; sourceTree = "<group>"; };
+		298F3B5A29E0C3FC00668192 /* FullWidthButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButtonView.swift; sourceTree = "<group>"; };
 		298F3B5D29E1646700668192 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		2994521B26407CAD0051F4A7 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		29A07898297C230000A5012A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -481,7 +481,7 @@
 			children = (
 				292E6F61266BFD1B0078C033 /* CardView.swift */,
 				29C554B4299296860045DFCB /* ExitButtonView.swift */,
-				298F3B5A29E0C3FC00668192 /* FullWidthButton.swift */,
+				298F3B5A29E0C3FC00668192 /* FullWidthButtonView.swift */,
 				291F27B429DB0CB50004960C /* IllustratedTextView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */,
@@ -912,7 +912,7 @@
 				29A078B02986EFFB00A5012A /* ConnectivityClient.swift in Sources */,
 				29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */,
 				29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */,
-				298F3B5B29E0C3FC00668192 /* FullWidthButton.swift in Sources */,
+				298F3B5B29E0C3FC00668192 /* FullWidthButtonView.swift in Sources */,
 				29BB860F2631F2BA0055A8BB /* StatisticsClient.swift in Sources */,
 				291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */,
 				29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */,
