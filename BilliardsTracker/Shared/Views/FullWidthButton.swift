@@ -1,5 +1,5 @@
 //
-//  FullWidthButton.swift
+//  FullWidthButtonView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2023-04-08.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FullWidthButton: View {
+struct FullWidthButtonView: View {
     let text: String
     let action: () -> Void
 
@@ -30,19 +30,19 @@ struct FullWidthButton: View {
 
 // MARK: - Constants
 
-private extension FullWidthButton {
+private extension FullWidthButtonView {
     static let cornerRadius: CGFloat = 12
 }
 
 // MARK: - Previews
 
-struct FullWidthButton_Previews: PreviewProvider {
+struct FullWidthButtonView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.green
                 .ignoresSafeArea()
 
-            FullWidthButton(text: "Preview") { }
+            FullWidthButtonView(text: "Preview") { }
                 .foregroundColor(.customBlue)
                 .padding()
         }

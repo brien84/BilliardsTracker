@@ -45,6 +45,7 @@
 		298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E3537261A1C4F00CCDDEE /* DrillContext.swift */; };
 		298F3B5929DDF9BE00668192 /* EmptyDrillListPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5829DDF9BE00668192 /* EmptyDrillListPrompt.swift */; };
 		298F3B5B29E0C3FC00668192 /* FullWidthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5A29E0C3FC00668192 /* FullWidthButton.swift */; };
+		298F3B5E29E1646700668192 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F3B5D29E1646700668192 /* OnboardView.swift */; };
 		2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2994521B26407CAD0051F4A7 /* ChartView.swift */; };
 		29A07896297C117400A5012A /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29A07895297C117400A5012A /* ComposableArchitecture */; };
 		29A07899297C230000A5012A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A07898297C230000A5012A /* Session.swift */; };
@@ -180,6 +181,7 @@
 		298E3537261A1C4F00CCDDEE /* DrillContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillContext.swift; sourceTree = "<group>"; };
 		298F3B5829DDF9BE00668192 /* EmptyDrillListPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDrillListPrompt.swift; sourceTree = "<group>"; };
 		298F3B5A29E0C3FC00668192 /* FullWidthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButton.swift; sourceTree = "<group>"; };
+		298F3B5D29E1646700668192 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		2994521B26407CAD0051F4A7 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		29A07898297C230000A5012A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		29A0789D297C75ED00A5012A /* PassiveNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassiveNavigationLink.swift; sourceTree = "<group>"; };
@@ -515,6 +517,14 @@
 			path = Subviews;
 			sourceTree = "<group>";
 		};
+		298F3B5C29E1645800668192 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				298F3B5D29E1646700668192 /* OnboardView.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		29A07897297C22EB00A5012A /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +548,7 @@
 			children = (
 				29A078A3297F0C6C00A5012A /* Main.swift */,
 				293433CE267764FD00FA4768 /* MainView.swift */,
+				298F3B5C29E1645800668192 /* Subviews */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -882,6 +893,7 @@
 				29C554B5299296860045DFCB /* ExitButtonView.swift in Sources */,
 				298E3538261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				2994521C26407CAD0051F4A7 /* ChartView.swift in Sources */,
+				298F3B5E29E1646700668192 /* OnboardView.swift in Sources */,
 				2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				29BB8603262EECE00055A8BB /* NewDrillView.swift in Sources */,
 				293433C8267676C100FA4768 /* SettingsView.swift in Sources */,
