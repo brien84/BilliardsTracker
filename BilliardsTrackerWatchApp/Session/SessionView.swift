@@ -52,6 +52,12 @@ private extension SessionView.Action {
 struct SessionView: View {
     let store: StoreOf<Session>
 
+    @Environment(\.isLuminanceReduced) var isLuminanceReduced
+
+    init(store: StoreOf<Session>) {
+        self.store = store
+    }
+
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             ZStack {
@@ -83,6 +89,13 @@ struct SessionView: View {
                 store.scope(state: \.alert),
                 dismiss: .didDismissGestureTrackingError
             )
+            .onChange(of: isLuminanceReduced, perform: { isReduced in
+                if isReduced, viewStore.currentTab == .control {
+                    Task { @MainActor in
+                        viewStore.send(.didChangeCurrentTab(.progress), animation: .default)
+                    }
+                }
+            })
             .onAppear {
                 viewStore.send(.onAppear)
             }
