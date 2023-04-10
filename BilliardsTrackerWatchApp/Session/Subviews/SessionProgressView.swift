@@ -55,6 +55,8 @@ private extension SessionProgressView.Action {
 struct SessionProgressView: View {
     let store: StoreOf<Session>
 
+    @Environment(\.isLuminanceReduced) var isLuminanceReduced
+
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             VStack {
@@ -62,6 +64,7 @@ struct SessionProgressView: View {
                     .font(.headline)
                     .foregroundColor(.primaryElement)
                     .padding(.top)
+                    .opacity(isLuminanceReduced ? 0 : 1)
 
                 Spacer()
 

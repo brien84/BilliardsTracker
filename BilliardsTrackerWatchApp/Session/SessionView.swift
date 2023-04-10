@@ -61,6 +61,7 @@ struct SessionView: View {
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             ZStack {
+                let shouldDisplayTabViewIndex = viewStore.isNavigationToResultActive || isLuminanceReduced
                 TabView(selection:
                     viewStore.binding(
                         get: \.currentTab,
@@ -73,7 +74,7 @@ struct SessionView: View {
                     SessionControlView(store: store)
                         .tag(Session.Tab.control)
                 }
-                .tabViewStyle(.page(indexDisplayMode: viewStore.isNavigationToResultActive ? .never : .always))
+                .tabViewStyle(.page(indexDisplayMode: shouldDisplayTabViewIndex ? .never : .always))
 
                 IfLetStore(
                     store.scope(
@@ -89,13 +90,13 @@ struct SessionView: View {
                 store.scope(state: \.alert),
                 dismiss: .didDismissGestureTrackingError
             )
-            .onChange(of: isLuminanceReduced, perform: { isReduced in
+            .onChange(of: isLuminanceReduced) { isReduced in
                 if isReduced, viewStore.currentTab == .control {
                     Task { @MainActor in
                         viewStore.send(.didChangeCurrentTab(.progress), animation: .default)
                     }
                 }
-            })
+            }
             .onAppear {
                 viewStore.send(.onAppear)
             }
