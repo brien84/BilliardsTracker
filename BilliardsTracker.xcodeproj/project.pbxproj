@@ -14,7 +14,6 @@
 		291F7C3429CE4F03007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */; };
 		291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3829CE500A007DA116 /* LiveMotionClient.swift */; };
 		291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */; };
-		291F7C3F29CF876A007DA116 /* OnboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */; };
 		291F7C4229D0A1F4007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */; };
 		291F7C4529D0A2F0007DA116 /* LivePersistenceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */; };
 		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
@@ -143,7 +142,6 @@
 		291F7C3329CE4F03007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
 		291F7C3829CE500A007DA116 /* LiveMotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMotionClient.swift; sourceTree = "<group>"; };
 		291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveExtendedRuntimeClient.swift; sourceTree = "<group>"; };
-		291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardAnimation.swift; sourceTree = "<group>"; };
 		291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
 		291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePersistenceClient.swift; sourceTree = "<group>"; };
 		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
@@ -301,15 +299,6 @@
 			path = MotionClient;
 			sourceTree = "<group>";
 		};
-		291F7C3D29CF873E007DA116 /* Onboard */ = {
-			isa = PBXGroup;
-			children = (
-				291F7C3E29CF876A007DA116 /* OnboardAnimation.swift */,
-				297E8FF8268B649C0091F086 /* OnboardView.swift */,
-			);
-			path = Onboard;
-			sourceTree = "<group>";
-		};
 		291F7C4029D0A1A7007DA116 /* ConnectivityClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,7 +404,6 @@
 				2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */,
 				291F7C3229CE4E7D007DA116 /* Clients */,
 				29DB1462299ADE78004029D1 /* Main */,
-				291F7C3D29CF873E007DA116 /* Onboard */,
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
 				29D8892C29DA10300066041B /* SessionSetup */,
@@ -603,6 +591,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		29CDE33E29E48F5A003F4F1B /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				297E8FF8268B649C0091F086 /* OnboardView.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
 		29D0343F29BE821C00BA7865 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -653,6 +649,7 @@
 			children = (
 				29DB1463299ADE8B004029D1 /* Main.swift */,
 				29DB1465299ADF1B004029D1 /* MainView.swift */,
+				29CDE33E29E48F5A003F4F1B /* Subviews */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -970,7 +967,6 @@
 				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */,
-				291F7C3F29CF876A007DA116 /* OnboardAnimation.swift in Sources */,
 				29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
