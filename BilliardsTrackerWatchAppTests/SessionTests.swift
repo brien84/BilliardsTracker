@@ -12,7 +12,6 @@ import WatchKit
 
 @MainActor
 final class SessionTests: XCTestCase {
-
     var session: Session.State!
     var store: TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>!
 
@@ -170,12 +169,6 @@ final class SessionTests: XCTestCase {
         }
     }
 
-    func testStoppingSessionStopsGestureTracking() async throws {
-        await store.send(.onAppear)
-
-        await store.send(.stopButtonDidTap)
-    }
-
     func testUndoingShot() async throws {
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
@@ -188,6 +181,12 @@ final class SessionTests: XCTestCase {
             $0.didPotLastShot = nil
             $0.potCount = 0
         }
+    }
+
+    func testonDisappearStopsGestureTracking() async throws {
+        await store.send(.onAppear)
+
+        await store.send(.onDisappear)
     }
 
     func testTrackingGestures() async throws {
@@ -279,7 +278,7 @@ final class SessionTests: XCTestCase {
 
         await store.receive(.didReceiveRuntimeClientExpirationStatus(true))
 
-        await store.send(.stopButtonDidTap)
+        await store.skipInFlightEffects()
     }
 
 }

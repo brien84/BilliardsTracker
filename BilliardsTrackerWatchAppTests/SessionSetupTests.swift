@@ -13,28 +13,24 @@ import XCTest
 final class SessionSetupTests: XCTestCase {
 
     func testStoppingSessionByTappingSessionStopButton() async throws {
-        let session = Session.State(title: "", shotCount: 9, isContinuous: true)
-
         let store = TestStore(
-            initialState: SessionSetup.State(mode: .standalone, session: session),
+            initialState: SessionSetup.State(mode: .standalone, isNavigationToSessionActive: true),
             reducer: SessionSetup()
         )
 
         await store.send(.session(.stopButtonDidTap)) {
-            $0.session = nil
+            $0.isNavigationToSessionActive = false
         }
     }
 
     func testStoppingSessionAfterGestureTrackingFailure() async throws {
-        let session = Session.State(title: "", shotCount: 9, isContinuous: true)
-
         let store = TestStore(
-            initialState: SessionSetup.State(mode: .standalone, session: session),
+            initialState: SessionSetup.State(mode: .standalone, isNavigationToSessionActive: true),
             reducer: SessionSetup()
         )
 
         await store.send(.session(.didDismissGestureTrackingError)) {
-            $0.session = nil
+            $0.isNavigationToSessionActive = false
         }
     }
 
@@ -43,14 +39,19 @@ final class SessionSetupTests: XCTestCase {
         let session = Session.State(result: result, title: "", shotCount: 9, isContinuous: true)
 
         let store = TestStore(
-            initialState: SessionSetup.State(mode: .standalone, session: session),
+            initialState: SessionSetup.State(
+                mode: .standalone,
+                isNavigationToSessionActive: true,
+                session: session
+            ),
             reducer: SessionSetup()
         )
 
         store.dependencies.connectivityClient.sendResultContext = { _ in return () }
 
         await store.send(.session(.result(.doneButtonDidTap))) {
-            $0.session = nil
+            $0.isNavigationToSessionActive = false
+            $0.session.result = nil
         }
     }
 
@@ -67,12 +68,13 @@ final class SessionSetupTests: XCTestCase {
 
     func testNavigatingToStandaloneSession() async throws {
         let store = TestStore(
-            initialState: SessionSetup.State(mode: .standalone),
+            initialState: SessionSetup.State(mode: .standalone, shotCount: 69),
             reducer: SessionSetup()
         )
 
-        await store.send(.navigateToStandaloneSession) {
-            $0.session = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
+        await store.send(.startStandaloneSession) {
+            $0.isNavigationToSessionActive = true
+            $0.session = Session.State(title: "Standalone", shotCount: 69, isContinuous: true)
         }
     }
 
@@ -93,6 +95,7 @@ final class SessionSetupTests: XCTestCase {
         await store.send(.establishConnection)
 
         await store.receive(.connectivityClientDidReceiveDrillContext(drillContext)) {
+            $0.isNavigationToSessionActive = true
             $0.session = Session.State(
                 title: drillContext.title,
                 shotCount: drillContext.shotCount,
@@ -111,7 +114,7 @@ final class SessionSetupTests: XCTestCase {
         await store.send(.establishConnection)
 
         await store.receive(.connectivityClientDidReceiveDrillContext(drillContext0)) {
-            $0.session = nil
+            $0.isNavigationToSessionActive = false
         }
 
         await store.send(.endConnection)
