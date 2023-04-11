@@ -54,6 +54,7 @@ struct Session: ReducerProtocol {
         case undoButtonDidTap
 
         case onAppear
+        case onDisappear
         case didDismissGestureTrackingError
         case didEncounterGestureTrackingError
         case didReceiveRuntimeClientExpirationStatus(Bool)
@@ -173,7 +174,7 @@ struct Session: ReducerProtocol {
 
             case .stopButtonDidTap:
                 WKInterfaceDevice().play(.stop)
-                return .cancel(ids: [MotionID.self, RuntimeID.self])
+                return .none
 
             case .undoButtonDidTap:
                 guard let didPotLastShot = state.didPotLastShot else { return .none }
@@ -196,6 +197,9 @@ struct Session: ReducerProtocol {
                     startMotionClient(state: &state),
                     startRuntimeClient(state: &state)
                 )
+
+            case .onDisappear:
+                return .cancel(ids: [MotionID.self, RuntimeID.self])
 
             case .didDismissGestureTrackingError:
                 return .none

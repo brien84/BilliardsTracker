@@ -10,18 +10,18 @@ import SwiftUI
 
 private extension StandaloneView {
     struct State: Equatable {
-        var isNavigationToSessionActive: Bool
         var shotCount: Int
+        var isNavigationToSessionActive: Bool
 
         init(_ state: SessionSetup.State) {
-            self.isNavigationToSessionActive = state.session != nil
             self.shotCount = state.shotCount
+            self.isNavigationToSessionActive = state.isNavigationToSessionActive
         }
     }
 
     enum Action: Equatable {
         case shotCountDidChange(Int)
-        case navigateToStandaloneSession
+        case startStandaloneSession
     }
 }
 
@@ -36,8 +36,8 @@ private extension StandaloneView.Action {
         switch self {
         case .shotCountDidChange(let count):
             return .shotCountDidChange(count)
-        case .navigateToStandaloneSession:
-            return .navigateToStandaloneSession
+        case .startStandaloneSession:
+            return .startStandaloneSession
         }
     }
 }
@@ -73,7 +73,7 @@ struct StandaloneView: View {
                     Divider()
 
                     Button("Start") {
-                        viewStore.send(.navigateToStandaloneSession, animation: .default)
+                        viewStore.send(.startStandaloneSession, animation: .default)
                     }
                     .buttonStyle(.bordered)
                     .tint(.customBlue)

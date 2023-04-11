@@ -11,13 +11,15 @@ struct SessionSetup: ReducerProtocol {
     struct State: Equatable {
         let mode: Mode
         var shotCount = 9
-        var session: Session.State?
+
+        var isNavigationToSessionActive = false
+        var session = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
     }
 
     enum Action: Equatable {
         case session(Session.Action)
         case shotCountDidChange(Int)
-        case navigateToStandaloneSession
+        case startStandaloneSession
 
         case establishConnection
         case endConnection
@@ -29,15 +31,19 @@ struct SessionSetup: ReducerProtocol {
     private enum ConnectivityID { }
 
     var body: some ReducerProtocol<State, Action> {
+        Scope(state: \.session, action: /Action.session) {
+            Session()
+        }
+
         Reduce { state, action in
             switch action {
 
             case .session(.stopButtonDidTap), .session(.didDismissGestureTrackingError):
-                state.session = nil
+                state.isNavigationToSessionActive = false
                 return .none
 
             case .session(.result(.doneButtonDidTap)):
-                state.session = nil
+                state.isNavigationToSessionActive = false
                 return .none
 
             case .session:
@@ -47,13 +53,14 @@ struct SessionSetup: ReducerProtocol {
                 state.shotCount = count
                 return .none
 
-            case .navigateToStandaloneSession:
-                guard state.session == nil else { return .none }
+            case .startStandaloneSession:
                 state.session = Session.State(
                     title: "Standalone",
                     shotCount: state.shotCount,
                     isContinuous: true
                 )
+
+                state.isNavigationToSessionActive = true
                 return .none
 
             case .establishConnection:
@@ -71,15 +78,13 @@ struct SessionSetup: ReducerProtocol {
             case .connectivityClientDidReceiveDrillContext(let context):
                 if context.isActive {
                     state.session = Session.State(title: context.title, shotCount: context.shotCount, isContinuous: context.isContinuous)
+                    state.isNavigationToSessionActive = true
                 } else {
-                    state.session = nil
+                    state.isNavigationToSessionActive = false
                 }
 
                 return .none
             }
-        }
-        .ifLet(\.session, action: /Action.session) {
-            Session()
         }
     }
 }

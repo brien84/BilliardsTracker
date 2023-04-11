@@ -22,15 +22,14 @@ struct SessionSetupView: View {
                     TrackedView(store: store)
                 }
 
-                IfLetStore(
-                    store.scope(
+                if viewStore.isNavigationToSessionActive {
+                    SessionView(store: store.scope(
                         state: \.session,
                         action: SessionSetup.Action.session
-                    ),
-                    then: SessionView.init(store:)
-                )
-                .transition(.slide)
-                .zIndex(1)
+                    ))
+                    .transition(.slide)
+                    .zIndex(1)
+                }
             }
         }
     }

@@ -25,6 +25,7 @@ private extension SessionView {
         case didChangeCurrentTab(Session.Tab)
         case didDismissGestureTrackingError
         case onAppear
+        case onDisappear
     }
 }
 
@@ -39,12 +40,12 @@ private extension SessionView.Action {
         switch self {
         case .didChangeCurrentTab(let tab):
             return .didChangeCurrentTab(tab)
-
         case .didDismissGestureTrackingError:
             return .didDismissGestureTrackingError
-
         case .onAppear:
             return .onAppear
+        case .onDisappear:
+            return .onDisappear
         }
     }
 }
@@ -99,6 +100,9 @@ struct SessionView: View {
             }
             .onAppear {
                 viewStore.send(.onAppear)
+            }
+            .onDisappear {
+                viewStore.send(.onDisappear)
             }
         }
     }

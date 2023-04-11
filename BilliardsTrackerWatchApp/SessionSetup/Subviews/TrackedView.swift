@@ -21,7 +21,7 @@ private extension TrackedView {
 
 private extension SessionSetup.State {
     var state: TrackedView.State {
-        .init(isNavigationToSessionActive: self.session != nil)
+        .init(isNavigationToSessionActive: isNavigationToSessionActive)
     }
 }
 
