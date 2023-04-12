@@ -9,6 +9,8 @@ import Dependencies
 import Foundation
 
 struct UserDefaultsClient {
+    var getAppearance: @Sendable () -> Appearance
+    var setAppearance: @Sendable (Appearance) async -> Void
     var getHasOnboardBeenShown: @Sendable () -> Bool
     var setHasOnboardBeenShown: @Sendable (Bool) async -> Void
     var getSortOption: @Sendable () -> SortOption
@@ -19,11 +21,17 @@ struct UserDefaultsClient {
 
 extension UserDefaultsClient: TestDependencyKey {
     static let testValue = Self(
+        getAppearance: {
+            unimplemented("\(Self.self).getAppearance")
+        },
+        setAppearance: { _ in
+            unimplemented("\(Self.self).setAppearance")
+        },
         getHasOnboardBeenShown: {
-            unimplemented("\(Self.self).getSortOption")
+            unimplemented("\(Self.self).getHasOnboardBeenShown")
         },
         setHasOnboardBeenShown: { _ in
-            unimplemented("\(Self.self).setSortOption")
+            unimplemented("\(Self.self).setHasOnboardBeenShown")
         },
         getSortOption: {
             unimplemented("\(Self.self).getSortOption")
@@ -44,11 +52,18 @@ extension UserDefaultsClient: TestDependencyKey {
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.preview")
 
         return Self(
+            getAppearance: {
+                let rawValue = userDefaults().integer(forKey: "appearanceKey")
+                return Appearance(rawValue: rawValue) ?? .system
+            },
+            setAppearance: { appearance in
+                userDefaults().set(appearance.rawValue, forKey: "appearanceKey")
+            },
             getHasOnboardBeenShown: {
-                userDefaults().bool(forKey: "getHasOnboardBeenShownKey")
+                userDefaults().bool(forKey: "hasOnboardBeenShownKey")
             },
             setHasOnboardBeenShown: { hasBeenShown in
-                userDefaults().set(hasBeenShown, forKey: "getHasOnboardBeenShownKey")
+                userDefaults().set(hasBeenShown, forKey: "hasOnboardBeenShownKey")
             },
             getSortOption: {
                 let rawValue = userDefaults().integer(forKey: "sortOptionKey")

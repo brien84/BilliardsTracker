@@ -7,9 +7,11 @@
 
 import ComposableArchitecture
 import Foundation
+import SwiftUI
 
 struct Settings: ReducerProtocol {
     struct State: Equatable {
+        var appearance = Appearance.system
         var sortOption = SortOption.title
         var sortOrder = SortOrder.forward
 
@@ -26,6 +28,7 @@ struct Settings: ReducerProtocol {
     }
 
     enum Action: Equatable {
+        case didSelectAppearance(Appearance)
         case didSelectSortOption(SortOption)
         case didSelectSortOrder(SortOrder)
     }
@@ -35,6 +38,12 @@ struct Settings: ReducerProtocol {
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
+            case .didSelectAppearance(let appearance):
+                state.appearance = appearance
+                return .fireAndForget {
+                    await userDefaults.setAppearance(appearance)
+                }
+
             case .didSelectSortOption(let sortOption):
                 state.sortOption = sortOption
                 return .fireAndForget {
@@ -47,6 +56,47 @@ struct Settings: ReducerProtocol {
                     await userDefaults.setSortOrder(sortOrder)
                 }
             }
+        }
+    }
+}
+
+enum Appearance: Int, CaseIterable, Identifiable {
+    var id: Appearance { self }
+
+    case system
+    case light
+    case dark
+
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system:
+            return nil
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
+
+    var imageName: String {
+        switch self {
+        case .system:
+            return "gearshape"
+        case .light:
+            return "sun.max"
+        case .dark:
+            return "moon"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .system:
+            return "System"
+        case .light:
+            return "Light"
+        case .dark:
+            return "Dark"
         }
     }
 }

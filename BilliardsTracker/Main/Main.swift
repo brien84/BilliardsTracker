@@ -131,6 +131,9 @@ struct Main: ReducerProtocol {
                 state.drillList = DrillList.State(drills: sortedDrills)
                 return .none
 
+            case .settings(.didSelectAppearance):
+                return .none
+
             case .statistics(.didTapDeleteButton):
                 guard let drill = state.statistics?.drill else { return .none }
                 state.isNavigationToStatisticsActive = false
@@ -158,6 +161,7 @@ struct Main: ReducerProtocol {
                 state.isNavigationToOnboardActive = !userDefaults.getHasOnboardBeenShown()
                 state.isShowingLoadingIndicator = true
                 state.settings = Settings.State(
+                    appearance: userDefaults.getAppearance(),
                     sortOption: userDefaults.getSortOption(),
                     sortOrder: userDefaults.getSortOrder()
                 )

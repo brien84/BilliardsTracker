@@ -55,6 +55,7 @@ struct MainView: View {
                         .disabled(viewStore.isShowingLoadingIndicator)
                 )
             }
+            .preferredColorScheme(viewStore.settings.appearance.colorScheme)
             .navigationViewStyle(.stack)
             .sheet(isPresented: viewStore.binding(\.$isNavigationToNewDrillActive)) {
                 NewDrillView(store: store.scope(

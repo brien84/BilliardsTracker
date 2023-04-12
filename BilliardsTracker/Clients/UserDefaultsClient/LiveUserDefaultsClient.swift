@@ -10,6 +10,13 @@ import Foundation
 
 extension UserDefaultsClient: DependencyKey {
     static let liveValue = Self(
+        getAppearance: {
+            let rawValue = UserDefaults.standard.integer(forKey: Self.appearanceKey)
+            return Appearance(rawValue: rawValue) ?? .system
+        },
+        setAppearance: { appearance in
+            UserDefaults.standard.set(appearance.rawValue, forKey: Self.appearanceKey)
+        },
         getHasOnboardBeenShown: {
             UserDefaults.standard.bool(forKey: Self.hasOnboardBeenShownKey)
         },
@@ -34,6 +41,7 @@ extension UserDefaultsClient: DependencyKey {
 }
 
 private extension UserDefaultsClient {
+    static let appearanceKey = "appearanceKey"
     static let hasOnboardBeenShownKey = "hasOnboardBeenShownKey"
     static let sortOptionKey = "sortOptionKey"
     static let sortOrderKey = "sortOrderKey"
