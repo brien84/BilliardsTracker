@@ -18,9 +18,9 @@ struct ResultView: View {
 
                 VStack {
                     Text("Completed!")
-                        .padding(.top)
                         .font(.headline)
                         .foregroundColor(.primaryElement)
+                        .padding(.top)
 
                     Spacer()
 
@@ -28,35 +28,29 @@ struct ResultView: View {
 
                     HStack {
                         Text("\(viewStore.potCount)")
-                            .frame(maxWidth: .infinity)
                             .foregroundColor(.customGreen)
+                            .frame(maxWidth: .infinity)
 
                         Text("\(viewStore.missCount)")
-                            .frame(maxWidth: .infinity)
                             .foregroundColor(.customRed)
+                            .frame(maxWidth: .infinity)
                     }
-                    .font(.title2)
+                    .font(.title2.weight(.medium))
 
                     Divider()
 
                     Spacer()
 
                     HStack {
-                        ResultButton(
-                            imageName: "checkmark",
-                            color: .customGreen,
-                            action: {
-                                viewStore.send(.doneButtonDidTap, animation: .default)
-                            }
-                        )
+                        ResultButton(imageName: "checkmark") {
+                            viewStore.send(.doneButtonDidTap, animation: .default)
+                        }
+                        .tint(.customGreen)
 
-                        ResultButton(
-                            imageName: "arrow.counterclockwise",
-                            color: .customBlue,
-                            action: {
-                                viewStore.send(.restartButtonDidTap, animation: .default)
-                            }
-                        )
+                        ResultButton(imageName: "arrow.counterclockwise") {
+                            viewStore.send(.restartButtonDidTap, animation: .default)
+                        }
+                        .tint(.customBlue)
                     }
                 }
             }
@@ -66,20 +60,16 @@ struct ResultView: View {
 
 private struct ResultButton: View {
     let imageName: String
-    let color: Color
     let action: () -> Void
 
     var body: some View {
-        VStack {
-            Button {
-                action()
-            } label: {
-                Image(systemName: imageName)
-                    .font(.title3.weight(.semibold))
-            }
-            .buttonStyle(.bordered)
-            .tint(color)
+        Button {
+            action()
+        } label: {
+            Image(systemName: imageName)
+                .font(.title3.weight(.bold))
         }
+        .buttonStyle(.bordered)
     }
 }
 
