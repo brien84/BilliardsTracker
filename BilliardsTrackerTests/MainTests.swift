@@ -23,6 +23,8 @@ final class MainTests: XCTestCase {
         store.dependencies.date.now = now
         mainQueue = DispatchQueue.test
         store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
+        store.dependencies.userDefaults.getAppearance = { @Sendable in .system }
+        store.dependencies.userDefaults.setAppearance = { @Sendable _ in }
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
         store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
@@ -357,6 +359,8 @@ final class MainTests: XCTestCase {
         userDefaults().removePersistentDomain(forName: "UserDefaultsClient.tests")
 
         store.dependencies.userDefaults = UserDefaultsClient(
+            getAppearance: { .system },
+            setAppearance: { _ in },
             getHasOnboardBeenShown: { true },
             setHasOnboardBeenShown: { _ in },
             getSortOption: {
