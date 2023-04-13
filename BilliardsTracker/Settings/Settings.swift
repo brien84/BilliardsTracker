@@ -157,28 +157,3 @@ extension SortOrder: CaseIterable, Identifiable {
         }
     }
 }
-
-private extension UserDefaults {
-    private static let sortOptionKey = "sortOptionKey"
-    private static let sortOrderKey = "sortOrderKey"
-
-    var sortOption: SortOption {
-        get {
-            let rawValue = integer(forKey: Self.sortOptionKey)
-            return SortOption(rawValue: rawValue) ?? .title
-        }
-        set {
-            set(newValue.rawValue, forKey: Self.sortOptionKey)
-        }
-    }
-
-    var sortOrder: SortOrder {
-        get {
-            let rawValue = bool(forKey: Self.sortOrderKey)
-            return rawValue ? .forward : .reverse
-        }
-        set {
-            set(newValue == .forward, forKey: Self.sortOptionKey)
-        }
-    }
-}
