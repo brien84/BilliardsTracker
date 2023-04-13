@@ -41,19 +41,17 @@ struct TrackedView: View {
 
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
-            ZStack {
-                Text("Select a drill on BilliardsTracker iPhone app.")
-                    .multilineTextAlignment(.center)
-                    .font(.caption)
-                    .foregroundColor(.primaryElement)
-            }
-            .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
-            .onAppear {
-                viewStore.send(.establishConnection)
-            }
-            .onDisappear {
-                viewStore.send(.endConnection)
-            }
+            Text("Select a drill on BilliardsTracker iPhone application")
+                .multilineTextAlignment(.center)
+                .font(.caption)
+                .foregroundColor(.primaryElement)
+                .navigationBarBackButtonHidden(viewStore.isNavigationToSessionActive)
+                .onAppear {
+                    viewStore.send(.establishConnection)
+                }
+                .onDisappear {
+                    viewStore.send(.endConnection)
+                }
         }
     }
 }
