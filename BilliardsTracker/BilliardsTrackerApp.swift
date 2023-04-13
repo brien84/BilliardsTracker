@@ -10,12 +10,6 @@ import SwiftUI
 
 @main
 struct BilliardsTrackerApp: App {
-
-    init() {
-        // Changes alert tint color.
-        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .label
-    }
-
     var body: some Scene {
         WindowGroup {
             if !_XCTIsTesting {
@@ -23,5 +17,4 @@ struct BilliardsTrackerApp: App {
             }
         }
     }
-
 }

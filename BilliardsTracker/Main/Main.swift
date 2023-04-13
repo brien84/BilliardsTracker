@@ -131,7 +131,8 @@ struct Main: ReducerProtocol {
                 state.drillList = DrillList.State(drills: sortedDrills)
                 return .none
 
-            case .settings(.didSelectAppearance):
+            case .settings(.didSelectAppearance(let appearance)):
+                setAlert(appearance: appearance)
                 return .none
 
             case .statistics(.didTapDeleteButton):
@@ -165,6 +166,7 @@ struct Main: ReducerProtocol {
                     sortOption: userDefaults.getSortOption(),
                     sortOrder: userDefaults.getSortOrder()
                 )
+                setAlert(appearance: state.settings.appearance)
                 return .merge(
                     .task {
                         try await mainQueue.sleep(for: .milliseconds(250))
@@ -308,5 +310,25 @@ private extension Main {
         } message: {
             TextState("Latest changes will not be saved.")
         }
+    }
+
+    /// Updates alert color scheme and tint color to match the current user interface style.
+    ///
+    /// This function should be called whenever the user changes the appearance of the app.
+    /// While `preferredColorScheme(_:)` `View` modifier sets the global app color scheme,
+    /// it does not update the alert color scheme. Therefore, this function handles the process of setting
+    /// the `overrideUserInterfaceStyle` property to ensure that the alert color scheme and
+    /// tint color are updated correctly.
+    func setAlert(appearance: Appearance) {
+        switch appearance {
+        case .light:
+            UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+        case .dark:
+            UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .dark
+        case .system:
+            UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .unspecified
+        }
+
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .label
     }
 }
