@@ -88,6 +88,32 @@ private final class SessionDelegate: NSObject, WCSessionDelegate {
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
     ) {
+        print("activationDidCompleteWith - \(session.debug)")
+    }
 
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        print("sessionReachabilityDidChange - \(session.debug)")
+
+    }
+}
+
+extension WCSession {
+    var debug: String {
+        "activationState: \(self.activationState), isReachable: \(self.isReachable)"
+    }
+}
+
+extension WCSessionActivationState: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .activated:
+            return "activated"
+        case .inactive:
+            return "inactive"
+        case .notActivated:
+            return "notActivated"
+        @unknown default:
+            return "unknown"
+        }
     }
 }
