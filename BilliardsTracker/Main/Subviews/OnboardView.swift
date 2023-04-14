@@ -58,7 +58,7 @@ private struct WarningView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: Self.iconSize.width, height: Self.iconSize.height)
 
-            Text("Please note that Apple Watch is required to use this app.")
+            Text("Please note that Apple Watch is required to use this application")
                 .font(.headline)
                 .foregroundColor(.primaryElement)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -69,6 +69,12 @@ private struct WarningView: View {
 
 // MARK: - Constants
 
+private extension OnboardView {
+    static let horizontalPadding: CGFloat = 16
+    static let verticalPadding: CGFloat = 32
+    static let titleYPositionModifier: CGFloat = 0.35
+}
+
 private extension TitleView {
     static let shadowRadius: CGFloat = 4
 }
@@ -76,12 +82,6 @@ private extension TitleView {
 private extension WarningView {
     static let iconSize: CGSize = CGSize(width: 50, height: 50)
     static let padding: CGFloat = 16
-}
-
-private extension OnboardView {
-    static let horizontalPadding: CGFloat = 16
-    static let verticalPadding: CGFloat = 32
-    static let titleYPositionModifier: CGFloat = 0.35
 }
 
 // MARK: - Previews
