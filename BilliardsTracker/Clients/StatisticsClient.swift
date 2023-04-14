@@ -76,3 +76,11 @@ extension StatisticsClient: Equatable {
         lhs.results == rhs.results
     }
 }
+
+extension DrillResult {
+    var pottingPercentage: Int {
+        guard let drill = drill else { return 0 }
+
+        return Int(Double(potCount) / Double(drill.shotCount) * 100)
+    }
+}
