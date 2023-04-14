@@ -10,11 +10,11 @@ import ComposableArchitecture
 struct DrillLog: ReducerProtocol {
     struct State: Equatable {
         let drill: Drill
-        let statistics: StatisticsClient
+        let statistics: Statistics
 
         init(drill: Drill) {
             self.drill = drill
-            self.statistics = StatisticsClient(drill: drill)
+            self.statistics = Statistics(drill: drill)
         }
     }
 

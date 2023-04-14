@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailedStatisticsView: View {
-    let statistics: StatisticsClient
+    let statistics: Statistics
 
     var body: some View {
         Text("\(statistics.results.count)")

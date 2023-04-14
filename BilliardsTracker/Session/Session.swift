@@ -13,12 +13,12 @@ struct Session: ReducerProtocol {
         var alert: AlertState<Action>?
         let drill: Drill
         let startDate: Date
-        let statistics: StatisticsClient
+        let statistics: Statistics
 
         init(drill: Drill, startDate: Date) {
             self.drill = drill
             self.startDate = startDate
-            self.statistics = StatisticsClient(drill: drill, startDate: startDate)
+            self.statistics = Statistics(drill: drill, startDate: startDate)
         }
     }
 

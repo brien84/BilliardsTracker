@@ -71,7 +71,7 @@
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29BB85FC262E26AB0055A8BB /* DrillLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB85FB262E26AB0055A8BB /* DrillLogView.swift */; };
 		29BB8603262EECE00055A8BB /* NewDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* NewDrillView.swift */; };
-		29BB860F2631F2BA0055A8BB /* StatisticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */; };
+		29BB860F2631F2BA0055A8BB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* Statistics.swift */; };
 		29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AC298E7D1B0045DFCB /* Settings.swift */; };
 		29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */; };
 		29C554B1298EC8A90045DFCB /* DrillItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B0298EC8A90045DFCB /* DrillItem.swift */; };
@@ -205,7 +205,7 @@
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29BB85FB262E26AB0055A8BB /* DrillLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillLogView.swift; sourceTree = "<group>"; };
 		29BB8602262EECE00055A8BB /* NewDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrillView.swift; sourceTree = "<group>"; };
-		29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsClient.swift; sourceTree = "<group>"; };
+		29BB860E2631F2BA0055A8BB /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		29C554AC298E7D1B0045DFCB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOnPressView.swift; sourceTree = "<group>"; };
 		29C554B0298EC8A90045DFCB /* DrillItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillItem.swift; sourceTree = "<group>"; };
@@ -444,7 +444,7 @@
 				291F7C4029D0A1A7007DA116 /* ConnectivityClient */,
 				291F7C4329D0A2DE007DA116 /* PersistenceClient */,
 				297EDA5029D8B22C004F17EB /* UserDefaultsClient */,
-				29BB860E2631F2BA0055A8BB /* StatisticsClient.swift */,
+				29BB860E2631F2BA0055A8BB /* Statistics.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -921,7 +921,7 @@
 				29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */,
 				29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */,
 				298F3B5B29E0C3FC00668192 /* FullWidthButtonView.swift in Sources */,
-				29BB860F2631F2BA0055A8BB /* StatisticsClient.swift in Sources */,
+				29BB860F2631F2BA0055A8BB /* Statistics.swift in Sources */,
 				291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */,
 				29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */,
 				294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */,

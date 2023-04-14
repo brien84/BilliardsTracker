@@ -1,5 +1,5 @@
 //
-//  StatisticsClient.swift
+//  Statistics.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-04-22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StatisticsClient {
+struct Statistics {
     let drill: Drill
     let results: [DrillResult]
 
@@ -71,8 +71,8 @@ struct StatisticsClient {
     }
 }
 
-extension StatisticsClient: Equatable {
-    static func == (lhs: StatisticsClient, rhs: StatisticsClient) -> Bool {
+extension Statistics: Equatable {
+    static func == (lhs: Statistics, rhs: Statistics) -> Bool {
         lhs.results == rhs.results
     }
 }
