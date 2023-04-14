@@ -6,15 +6,10 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension DrillResult {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<DrillResult> {
-        return NSFetchRequest<DrillResult>(entityName: "DrillResult")
-    }
-
     @NSManaged private var dateValue: Date?
     @NSManaged private var potCountValue: Int64
     @NSManaged private var missCountValue: Int64
@@ -55,8 +50,10 @@ extension DrillResult {
             drillValue = newValue
         }
     }
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<DrillResult> {
+        return NSFetchRequest<DrillResult>(entityName: "DrillResult")
+    }
 }
 
-extension DrillResult: Identifiable {
-
-}
+extension DrillResult: Identifiable { }

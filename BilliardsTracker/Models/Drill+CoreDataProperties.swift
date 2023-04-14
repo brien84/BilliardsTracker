@@ -10,10 +10,6 @@ import CoreData
 import Foundation
 
 extension Drill {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Drill> {
-        NSFetchRequest<Drill>(entityName: "Drill")
-    }
-
     @NSManaged private var attemptsValue: Int64
     @NSManaged private var titleValue: String?
     @NSManaged private var isFailableValue: Bool
@@ -69,11 +65,16 @@ extension Drill {
         return Array(resultsSet).sorted { $0.date > $1.date }
     }
 
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Drill> {
+        NSFetchRequest<Drill>(entityName: "Drill")
+    }
 }
 
-// MARK: Generated accessors for resultsValue
-extension Drill {
+extension Drill: Identifiable { }
 
+// MARK: Generated accessors for resultsValue
+
+extension Drill {
     @objc(addResultsValueObject:)
     @NSManaged public func addToResultsValue(_ value: DrillResult)
 
@@ -85,9 +86,4 @@ extension Drill {
 
     @objc(removeResultsValue:)
     @NSManaged public func removeFromResultsValue(_ values: NSSet)
-
-}
-
-extension Drill: Identifiable {
-
 }
