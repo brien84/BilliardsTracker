@@ -41,7 +41,7 @@ struct DrillItemView: View {
                                 .opacity(viewStore.drill.isContinuous ? 1 : 0)
 
                             Button {
-                                viewStore.send(.didTapStatisticsButton)
+                                viewStore.send(.didPressDrillLogButton)
                             } label: {
                                 Image(systemName: "chart.bar.xaxis")
                                     .foregroundColor(.customBlue)

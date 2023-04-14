@@ -1,5 +1,5 @@
 //
-//  Statistics.swift
+//  DrillLog.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2023-01-24.
@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-struct Statistics: ReducerProtocol {
+struct DrillLog: ReducerProtocol {
     struct State: Equatable {
         let drill: Drill
         let statistics: StatisticsClient

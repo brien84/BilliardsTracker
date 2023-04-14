@@ -8,7 +8,6 @@
 import ComposableArchitecture
 
 struct DrillItem: ReducerProtocol {
-
     struct State: Equatable, Identifiable {
         let drill: Drill
 
@@ -19,18 +18,17 @@ struct DrillItem: ReducerProtocol {
 
     enum Action: Equatable {
         case didSelectDrill
-        case didTapStatisticsButton
+        case didPressDrillLogButton
     }
 
     var body: some ReducerProtocol<State, Action> {
         Reduce { _, action in
             switch action {
-            case .didSelectDrill:
+            case .didPressDrillLogButton:
                 return .none
-            case .didTapStatisticsButton:
+            case .didSelectDrill:
                 return .none
             }
         }
     }
-
 }

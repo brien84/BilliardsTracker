@@ -16,14 +16,14 @@ struct MainView: View {
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
-                        isActive: viewStore.binding(\.$isNavigationToStatisticsActive),
+                        isActive: viewStore.binding(\.$isNavigationToDrillLogActive),
                         destination: {
                             IfLetStore(
                                 store.scope(
-                                    state: \.statistics,
-                                    action: Main.Action.statistics
+                                    state: \.drillLog,
+                                    action: Main.Action.drillLog
                                 ),
-                                then: StatisticsView.init(store:)
+                                then: DrillLogView.init(store:)
                             )
                         }
                     )

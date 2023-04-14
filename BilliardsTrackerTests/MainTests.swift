@@ -272,13 +272,13 @@ final class MainTests: XCTestCase {
         store.dependencies.persistenceClient.deleteDrill = { _ in .didSucceed }
         store.dependencies.persistenceClient.loadDrills = { .didLoad([]) }
 
-        await store.send(.drillList(.drillItem(id: drill.id, action: .didTapStatisticsButton))) {
-            $0.statistics = Statistics.State(drill: drill)
-            $0.isNavigationToStatisticsActive = true
+        await store.send(.drillList(.drillItem(id: drill.id, action: .didPressDrillLogButton))) {
+            $0.drillLog = DrillLog.State(drill: drill)
+            $0.isNavigationToDrillLogActive = true
         }
 
-        await store.send(.statistics(.didTapDeleteButton)) {
-            $0.isNavigationToStatisticsActive = false
+        await store.send(.drillLog(.didTapDeleteButton)) {
+            $0.isNavigationToDrillLogActive = false
         }
 
         await store.receive(.persistenceClient(.didSucceed))

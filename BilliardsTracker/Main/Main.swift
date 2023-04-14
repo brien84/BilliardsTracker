@@ -11,27 +11,27 @@ import SwiftUI
 struct Main: ReducerProtocol {
     struct State: Equatable {
         var drillList = DrillList.State()
+        var drillLog: DrillLog.State?
         var newDrill = NewDrill.State()
         var session: Session.State?
         var settings = Settings.State()
-        var statistics: Statistics.State?
 
         var alert: AlertState<Action>?
 
         var isShowingLoadingIndicator = false
 
+        @BindingState var isNavigationToDrillLogActive = false
         @BindingState var isNavigationToNewDrillActive = false
         @BindingState var isNavigationToSessionActive = false
-        @BindingState var isNavigationToStatisticsActive = false
         @BindingState var isNavigationToOnboardActive = false
     }
 
     enum Action: BindableAction, Equatable {
         case drillList(DrillList.Action)
+        case drillLog(DrillLog.Action)
         case newDrill(NewDrill.Action)
         case session(Session.Action)
         case settings(Settings.Action)
-        case statistics(Statistics.Action)
 
         case alertDidDismiss
         case binding(BindingAction<State>)
@@ -91,12 +91,19 @@ struct Main: ReducerProtocol {
                     return .none
                 }
 
-            case .drillList(.drillItem(id: let id, action: .didTapStatisticsButton)):
+            case .drillList(.drillItem(id: let id, action: .didPressDrillLogButton)):
                 if let drill = state.drillList.drillItems[id: id]?.drill {
-                    state.statistics = Statistics.State(drill: drill)
-                    state.isNavigationToStatisticsActive = true
+                    state.drillLog = DrillLog.State(drill: drill)
+                    state.isNavigationToDrillLogActive = true
                 }
                 return .none
+
+            case .drillLog(.didTapDeleteButton):
+                guard let drill = state.drillLog?.drill else { return .none }
+                state.isNavigationToDrillLogActive = false
+                return .task {
+                    .persistenceClient(await persistenceClient.deleteDrill(drill))
+                }
 
             case .newDrill(.cancelButtonDidTap):
                 state.isNavigationToNewDrillActive = false
@@ -134,13 +141,6 @@ struct Main: ReducerProtocol {
             case .settings(.didSelectAppearance(let appearance)):
                 setAlert(appearance: appearance)
                 return .none
-
-            case .statistics(.didTapDeleteButton):
-                guard let drill = state.statistics?.drill else { return .none }
-                state.isNavigationToStatisticsActive = false
-                return .task {
-                    .persistenceClient(await persistenceClient.deleteDrill(drill))
-                }
 
             case .alertDidDismiss:
                 if state.alert == initializationAlert {
@@ -243,8 +243,8 @@ struct Main: ReducerProtocol {
         .ifLet(\.session, action: /Action.session) {
             Session()
         }
-        .ifLet(\.statistics, action: /Action.statistics) {
-            Statistics()
+        .ifLet(\.drillLog, action: /Action.drillLog) {
+            DrillLog()
         }
     }
 }

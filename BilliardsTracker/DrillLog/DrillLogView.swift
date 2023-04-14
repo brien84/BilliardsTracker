@@ -1,5 +1,5 @@
 //
-//  StatisticsView.swift
+//  DrillLogView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-04-19.
@@ -8,8 +8,8 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct StatisticsView: View {
-    let store: StoreOf<Statistics>
+struct DrillLogView: View {
+    let store: StoreOf<DrillLog>
 
     @State private var isShowingHistory = false
     @State private var isShowingDeleteAlert = false
@@ -113,29 +113,29 @@ struct StatisticsView: View {
 
 // MARK: - Constants
 
-private extension StatisticsView {
+private extension DrillLogView {
     static let toolbarItemWidth: CGFloat = 32
     static let textViewOffset: CGSize = CGSize(width: 0, height: -24)
 }
 
 // MARK: - Previews
 
-struct StatisticsView_Previews: PreviewProvider {
+struct DrillLogView_Previews: PreviewProvider {
     static let store = Store(
-        initialState: Statistics.State(
+        initialState: DrillLog.State(
             drill: PersistenceClient.mockDrill
         ),
-        reducer: Statistics()
+        reducer: DrillLog()
     )
 
     static var previews: some View {
         NavigationView {
-            StatisticsView(store: store)
+            DrillLogView(store: store)
         }
     }
 }
 
-struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
+struct DrillLogViewNotEnoughData_Previews: PreviewProvider {
     static let drill = {
         let drill = PersistenceClient.mockDrill
         let results = drill.results
@@ -144,13 +144,13 @@ struct StatisticsViewNotEnoughData_Previews: PreviewProvider {
     }()
 
     static let store = Store(
-        initialState: Statistics.State(drill: drill),
-        reducer: Statistics()
+        initialState: DrillLog.State(drill: drill),
+        reducer: DrillLog()
     )
 
     static var previews: some View {
         NavigationView {
-            StatisticsView(store: store)
+            DrillLogView(store: store)
         }
     }
 }

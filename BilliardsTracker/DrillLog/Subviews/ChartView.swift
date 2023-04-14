@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ChartView: View {
-
     private let dataPoints: [CGFloat]
     private let maxValue: Int
 
