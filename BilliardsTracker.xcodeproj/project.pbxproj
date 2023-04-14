@@ -448,14 +448,6 @@
 			path = Clients;
 			sourceTree = "<group>";
 		};
-		2961238A29C4BBC800000E2D /* Subviews */ = {
-			isa = PBXGroup;
-			children = (
-				2994521B26407CAD0051F4A7 /* ChartView.swift */,
-			);
-			path = Subviews;
-			sourceTree = "<group>";
-		};
 		2961239029C636FD00000E2D /* BilliardsTrackerWatchAppTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,7 +538,6 @@
 			children = (
 				29A078A8298015E900A5012A /* DrillLog.swift */,
 				29BB85FB262E26AB0055A8BB /* DrillLogView.swift */,
-				2961238A29C4BBC800000E2D /* Subviews */,
 			);
 			path = DrillLog;
 			sourceTree = "<group>";
@@ -602,6 +593,7 @@
 		29CDE33F29E9A998003F4F1B /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				2994521B26407CAD0051F4A7 /* ChartView.swift */,
 				29CDE34029E9A9BD003F4F1B /* DetailedStatisticsView.swift */,
 				292E6F68266C0A0E0078C033 /* ResultsView.swift */,
 				29BB860E2631F2BA0055A8BB /* Statistics.swift */,
