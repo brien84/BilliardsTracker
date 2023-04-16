@@ -28,7 +28,7 @@ struct DrillLogView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: .zero) {
-                    StatisticsPanel(statistics: viewStore.statistics)
+                    StatisticsView(statistics: viewStore.statistics)
 
                     CardView(
                         title: isShowingHistory ? "History" : "Performance",

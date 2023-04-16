@@ -32,7 +32,7 @@ struct SessionView: View {
                     }
                     .padding()
 
-                    StatisticsPanel(statistics: viewStore.statistics)
+                    StatisticsView(statistics: viewStore.statistics)
                         .animation(.none, value: viewStore.statistics)
 
                     CardView(title: "Results") {
