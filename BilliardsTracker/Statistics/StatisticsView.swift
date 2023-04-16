@@ -21,10 +21,10 @@ struct StatisticsView: View {
 
                 Spacer()
 
-                if statistics.totalShotCount == 1 {
+                if statistics.shotCount == 1 {
                     Text("1 shot")
                 } else {
-                    Text("\(statistics.totalShotCount) shots")
+                    Text("\(statistics.shotCount) shots")
                 }
             }
             .font(.subheadline.weight(.light))
@@ -33,13 +33,13 @@ struct StatisticsView: View {
 
             HStack {
                 if statistics.drill.isContinuous {
-                    StatisticsLabel(title: "Pots", value: "\(statistics.totalPotCount)")
+                    StatisticsLabel(title: "Pots", value: "\(statistics.potCount)")
                         .foregroundColor(.customGreen)
 
-                    StatisticsLabel(title: "Potting", value: "\(statistics.pottingPercentage)%")
-                        .foregroundColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
+                    StatisticsLabel(title: "Potting", value: "\(statistics.potPercentage)%")
+                        .foregroundColor(statistics.potPercentage > 50 ? .customGreen : .customRed)
 
-                    StatisticsLabel(title: "Misses", value: "\(statistics.totalMissCount)")
+                    StatisticsLabel(title: "Misses", value: "\(statistics.missCount)")
                         .foregroundColor(.customRed)
                 } else {
                     StatisticsLabel(title: "Completed", value: "\(statistics.completionCount)")
@@ -48,8 +48,8 @@ struct StatisticsView: View {
                     StatisticsLabel(title: "Completion", value: "\(statistics.completionPercentage)%")
                         .foregroundColor(statistics.completionPercentage > 50 ? .customGreen : .customRed)
 
-                    StatisticsLabel(title: "Average Pots", value: "\(statistics.averagePots)")
-                        .foregroundColor(statistics.pottingPercentage > 50 ? .customGreen : .customRed)
+                    StatisticsLabel(title: "Average Pots", value: "\(statistics.potAverage)")
+                        .foregroundColor(statistics.potPercentage > 50 ? .customGreen : .customRed)
                 }
             }
         }

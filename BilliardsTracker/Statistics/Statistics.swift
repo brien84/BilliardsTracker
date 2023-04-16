@@ -21,40 +21,49 @@ struct Statistics {
         }
     }
 
-    var totalShotCount: Int {
+    var attemptsCount: Int {
+        results.count
+    }
+
+    var shotCount: Int {
         results.reduce(0, { $0 + $1.potCount + $1.missCount })
     }
 
-    var totalPotCount: Int {
+    var potCount: Int {
         results.reduce(0, { $0 + $1.potCount })
     }
 
-    var totalMissCount: Int {
+    var missCount: Int {
         results.reduce(0, { $0 + $1.missCount })
     }
 
-    var averagePots: Double {
+    var potAverage: Double {
         guard results.count > 0 else { return 0 }
-
-        let result = Double(totalPotCount) / Double(results.count)
-
-        return floor(result * 10) / 10.0
+        return Double(potCount) / Double(results.count)
     }
 
-    var pottingPercentage: Int {
+    var missAverage: Double {
         guard results.count > 0 else { return 0 }
+        return Double(missCount) / Double(results.count)
+    }
 
-        return results.reduce(0, { $0 + $1.pottingPercentage }) / results.count
+    var potPercentage: Double {
+        guard results.count > 0 else { return 0 }
+        return results.reduce(0, { $0 + $1.potPercentage }) / Double(results.count)
+    }
+
+    var missPercentage: Double {
+        guard results.count > 0 else { return 0 }
+        return results.reduce(0, { $0 + $1.missPercentage }) / Double(results.count)
     }
 
     var completionCount: Int {
         results.filter { $0.missCount == 0 }.count
     }
 
-    var completionPercentage: Int {
+    var completionPercentage: Double {
         guard results.count > 0 else { return 0 }
-
-        return completionCount * 100 / results.count
+        return Double(completionCount * 100) / Double(results.count)
     }
 
     var chartDataPoints: [CGFloat] {
@@ -66,7 +75,8 @@ struct Statistics {
             dataPoints = dataPoints[0..<100].map { $0 }
         }
 
-        // Reverse latest points to the end of array.
+        // Reverses the order of the array, placing
+        // the latest data points at the front of the array.
         return dataPoints.reversed()
     }
 }
@@ -77,10 +87,14 @@ extension Statistics: Equatable {
     }
 }
 
-extension DrillResult {
-    var pottingPercentage: Int {
+private extension DrillResult {
+    var potPercentage: Double {
         guard let drill = drill else { return 0 }
+        return Double(potCount) / Double(drill.shotCount) * 100
+    }
 
-        return Int(Double(potCount) / Double(drill.shotCount) * 100)
+    var missPercentage: Double {
+        guard let drill = drill else { return 0 }
+        return Double(missCount) / Double(drill.shotCount) * 100
     }
 }
