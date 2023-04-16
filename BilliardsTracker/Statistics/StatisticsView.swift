@@ -1,5 +1,5 @@
 //
-//  DetailedStatisticsView.swift
+//  StatisticsView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2023-04-14.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailedStatisticsView: View {
+struct StatisticsView: View {
     let statistics: Statistics
 
     var body: some View {
