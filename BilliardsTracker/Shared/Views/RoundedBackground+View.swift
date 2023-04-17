@@ -32,7 +32,7 @@ private extension RoundedBackground {
 
 struct RoundedBackground_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack{
+        ZStack {
             Color.green
                 .ignoresSafeArea()
 
