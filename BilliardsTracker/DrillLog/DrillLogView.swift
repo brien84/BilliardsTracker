@@ -38,7 +38,7 @@ struct DrillLogView: View {
 
                             SectionLabelView(title: "History")
 
-                            ResultsView(results: Array(viewStore.statistics.results.prefix(5)))
+                            ResultListView(results: Array(viewStore.statistics.results.prefix(5)))
                                 .roundedBackground()
                                 .padding(.bottom)
                         }

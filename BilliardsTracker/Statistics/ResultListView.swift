@@ -1,5 +1,5 @@
 //
-//  ResultsView.swift
+//  ResultListView.swift
 //  BilliardsTracker
 //
 //  Created by Marius on 2021-06-05.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ResultsView: View {
+struct ResultListView: View {
     let results: [DrillResult]
 
     var body: some View {
@@ -56,14 +56,14 @@ private extension Date {
 
 // MARK: - Constants
 
-private extension ResultsView {
+private extension ResultListView {
     static let verticalSpacing: CGFloat = 8
 }
 
 // MARK: - Previews
 
-struct ResultsView_Previews: PreviewProvider {
+struct ResultListView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultsView(results: PersistenceClient.mockDrill.results)
+        ResultListView(results: PersistenceClient.mockDrill.results)
     }
 }

@@ -42,7 +42,7 @@ struct SessionView: View {
                     .padding(.bottom)
 
                 } else {
-                    ResultsView(results: viewStore.statistics.results)
+                    ResultListView(results: viewStore.statistics.results)
                         .roundedBackground()
                         .padding(.bottom)
                 }
