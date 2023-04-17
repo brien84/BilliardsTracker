@@ -13,53 +13,47 @@ struct SessionView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            ZStack {
-                Color.primaryBackground
-                    .ignoresSafeArea()
+            VStack(spacing: .zero) {
+                HStack {
+                    Text(viewStore.drill.title)
+                        .lineLimit(2)
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.primaryElement)
 
-                VStack(spacing: .zero) {
-                    HStack {
-                        Text(viewStore.drill.title)
-                            .lineLimit(2)
-                            .font(.largeTitle.bold())
-                            .foregroundColor(.primaryElement)
+                    Spacer()
 
-                        Spacer()
-
-                        ExitButtonView {
-                            viewStore.send(.didTapExitButton)
-                        }
-                    }
-                    .padding()
-
-                    StatisticsView(statistics: viewStore.statistics)
-                        .animation(.none, value: viewStore.statistics)
-
-                    CardView(title: "Results") {
-                        if viewStore.statistics.results.isEmpty {
-                            IllustratedTextView(
-                                imageName: "rebound",
-                                text: "Waiting for results..."
-                            )
-                            .offset(Self.textViewOffset)
-                        } else {
-                            ResultsView(results: viewStore.statistics.results)
-                        }
+                    ExitButtonView {
+                        viewStore.send(.didTapExitButton)
                     }
                 }
+                .padding()
+
+                StatisticsView(mode: .compact, statistics: viewStore.statistics)
+                    .animation(.none, value: viewStore.statistics)
+
+                SectionLabelView(title: "Results")
+
+                if viewStore.statistics.results.isEmpty {
+                    IllustratedTextView(
+                        imageName: "rebound",
+                        text: "Waiting for results..."
+                    )
+                    .roundedBackground()
+                    .padding(.bottom)
+
+                } else {
+                    ResultsView(results: viewStore.statistics.results)
+                        .roundedBackground()
+                        .padding(.bottom)
+                }
             }
+            .background(Color.primaryBackground)
             .alert(
                 store.scope(state: \.alert),
                 dismiss: .alertDidDismiss
             )
         }
     }
-}
-
-// MARK: - Constants
-
-private extension SessionView {
-    static let textViewOffset: CGSize = CGSize(width: 0, height: -24)
 }
 
 // MARK: - Previews
