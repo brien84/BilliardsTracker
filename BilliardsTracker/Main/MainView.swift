@@ -86,27 +86,6 @@ struct MainView: View {
     }
 }
 
-private struct LoadingView: View {
-    var body: some View {
-        ZStack {
-            Color.black
-                .ignoresSafeArea()
-                .opacity(Self.backgroundOpacity)
-
-            ProgressView()
-                .padding()
-                .progressViewStyle(.circular)
-                .tint(.primaryElement)
-                .background(Color.secondaryBackground)
-                .cornerRadius(Self.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: Self.cornerRadius)
-                        .stroke(Color.secondaryElement, lineWidth: Self.lineWidth)
-                )
-        }
-    }
-}
-
 private struct NewDrillNavigationBarButton: View {
     @Binding var isNavigationActive: Bool
 
@@ -121,14 +100,6 @@ private struct NewDrillNavigationBarButton: View {
             }
         )
     }
-}
-
-// MARK: - Constants
-
-private extension LoadingView {
-    static let backgroundOpacity: CGFloat = 0.5
-    static let cornerRadius: CGFloat = 10
-    static let lineWidth: CGFloat = 1
 }
 
 // MARK: - Previews

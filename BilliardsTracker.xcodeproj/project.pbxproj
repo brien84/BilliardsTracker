@@ -503,8 +503,8 @@
 		298F3B5C29E1645800668192 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
-				298F3B5D29E1646700668192 /* OnboardView.swift */,
 				296A934C29EDE69800D4C89B /* LoadingView.swift */,
+				298F3B5D29E1646700668192 /* OnboardView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
