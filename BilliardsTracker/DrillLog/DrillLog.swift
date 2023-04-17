@@ -9,6 +9,7 @@ import ComposableArchitecture
 
 struct DrillLog: ReducerProtocol {
     struct State: Equatable {
+        var alert: AlertState<Action>?
         let drill: Drill
         let statistics: Statistics
 
@@ -19,15 +20,40 @@ struct DrillLog: ReducerProtocol {
     }
 
     enum Action: Equatable {
-        case didTapDeleteButton
+        case alertDidDismiss
+        case didDeleteDrill
+        case didPressDeleteButton
     }
 
     var body: some ReducerProtocol<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .didTapDeleteButton:
+            case .alertDidDismiss:
+                state.alert = nil
+                return .none
+
+            case .didDeleteDrill:
+                return .none
+
+            case .didPressDeleteButton:
+                state.alert = deletionAlert
                 return .none
             }
+        }
+    }
+
+    var deletionAlert: AlertState<DrillLog.Action> {
+        AlertState {
+            TextState("Confirmation")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("Cancel")
+            }
+            ButtonState(role: .destructive, action: .didDeleteDrill) {
+                TextState("Delete")
+            }
+        } message: {
+            TextState("Are you sure you want to delete this drill?")
         }
     }
 }

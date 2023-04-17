@@ -11,8 +11,6 @@ import SwiftUI
 struct DrillLogView: View {
     let store: StoreOf<DrillLog>
 
-    @State private var isShowingDeleteAlert = false
-
     var body: some View {
         WithViewStore(store) { viewStore in
             ZStack {
@@ -52,20 +50,14 @@ struct DrillLogView: View {
             }
             .background(Color.primaryBackground)
             .navigationTitle(viewStore.drill.title)
-            .alert(isPresented: $isShowingDeleteAlert) {
-                Alert(
-                    title: Text("Confirmation"),
-                    message: Text("Are you sure you want to delete this drill?"),
-                    primaryButton: .destructive(Text("Delete")) {
-                        viewStore.send(.didTapDeleteButton)
-                    },
-                    secondaryButton: .cancel()
-                )
-            }
+            .alert(
+                store.scope(state: \.alert),
+                dismiss: .alertDidDismiss
+            )
             .toolbar {
                 ToolbarItem {
                     Button {
-                        isShowingDeleteAlert = true
+                        viewStore.send(.didPressDeleteButton)
                     } label: {
                         Image(systemName: "trash")
                             .font(.body)

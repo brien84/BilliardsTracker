@@ -98,12 +98,15 @@ struct Main: ReducerProtocol {
                 }
                 return .none
 
-            case .drillLog(.didTapDeleteButton):
+            case .drillLog(.didDeleteDrill):
                 guard let drill = state.drillLog?.drill else { return .none }
                 state.isNavigationToDrillLogActive = false
                 return .task {
                     .persistenceClient(await persistenceClient.deleteDrill(drill))
                 }
+
+            case .drillLog:
+                return .none
 
             case .newDrill(.cancelButtonDidTap):
                 state.isNavigationToNewDrillActive = false
