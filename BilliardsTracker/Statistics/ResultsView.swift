@@ -11,40 +11,37 @@ struct ResultsView: View {
     let results: [DrillResult]
 
     var body: some View {
-        ZStack {
-            Color.secondaryBackground
-
-            ScrollView {
-                LazyVStack {
-                    ForEach(results) { result in
+        ScrollView {
+            LazyVStack(spacing: Self.verticalSpacing) {
+                ForEach(results) { result in
+                    VStack {
                         Text(result.date.asString)
                             .font(.caption)
                             .foregroundColor(.secondaryElement)
-                            .padding([.horizontal, .top])
 
                         HStack {
                             Text("\(result.potCount)")
-                                .font(.title.weight(.medium))
+                                .font(.title3.weight(.medium))
                                 .foregroundColor(.customGreen)
                                 .frame(maxWidth: .infinity)
 
-                            Text("\(result.pottingPercentage)%")
-                                .font(.title3)
+                            Text("-")
+                                .font(.title3.weight(.medium))
                                 .foregroundColor(.secondaryElement)
-                                .frame(maxWidth: .infinity)
 
                             Text("\(result.missCount)")
-                                .font(.title.weight(.medium))
+                                .font(.title3.weight(.medium))
                                 .foregroundColor(.customRed)
                                 .frame(maxWidth: .infinity)
                         }
-                        .padding()
-
-                        Divider()
                     }
+
+                    Divider()
                 }
             }
+            .padding(.vertical)
         }
+        .background(Color.secondaryBackground)
     }
 }
 
@@ -55,6 +52,12 @@ private extension Date {
         formatter.timeStyle = .short
         return formatter.string(from: self)
     }
+}
+
+// MARK: - Constants
+
+private extension ResultsView {
+    static let verticalSpacing: CGFloat = 8
 }
 
 // MARK: - Previews
