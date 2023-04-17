@@ -34,7 +34,16 @@ struct DrillLogView: View {
                             .padding(.top)
                             .roundedBackground()
 
-                            SectionLabelView(title: "History")
+                            HStack(alignment: .bottom) {
+                                SectionLabelView(title: "History")
+
+                                Button("Show More") {
+                                    viewStore.send(.didPressShowFullHistoryButton)
+                                }
+                                .foregroundColor(.customBlue)
+                                .padding(.horizontal)
+                                .padding(.bottom, Self.showFullHistoryButtonBottomPadding)
+                            }
 
                             ResultListView(results: Array(viewStore.statistics.results.prefix(5)))
                                 .roundedBackground()
@@ -54,6 +63,20 @@ struct DrillLogView: View {
                 store.scope(state: \.alert),
                 dismiss: .alertDidDismiss
             )
+            .sheet(isPresented: viewStore.binding(\.$isNavigationToFullHistoryActive)) {
+                NavigationView {
+                    ResultListView(results: viewStore.statistics.results)
+                        .navigationTitle("History")
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+                .overlay(
+                    ExitButtonView {
+                        viewStore.send(.didPressExitFullHistoryButton)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                    .padding(Self.exitFullHistoryButtonPadding)
+                )
+            }
             .toolbar {
                 ToolbarItem {
                     Button {
@@ -75,6 +98,8 @@ struct DrillLogView: View {
 private extension DrillLogView {
     static let chartAspectRatio: CGFloat = 0.9
     static let minimumResultCount: Int = 2
+    static let exitFullHistoryButtonPadding: CGFloat = 12
+    static let showFullHistoryButtonBottomPadding: CGFloat = 8
 }
 
 // MARK: - Previews

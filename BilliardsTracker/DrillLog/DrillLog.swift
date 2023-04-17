@@ -9,9 +9,11 @@ import ComposableArchitecture
 
 struct DrillLog: ReducerProtocol {
     struct State: Equatable {
-        var alert: AlertState<Action>?
         let drill: Drill
         let statistics: Statistics
+        var alert: AlertState<Action>?
+
+        @BindableState var isNavigationToFullHistoryActive = false
 
         init(drill: Drill) {
             self.drill = drill
@@ -19,17 +21,25 @@ struct DrillLog: ReducerProtocol {
         }
     }
 
-    enum Action: Equatable {
+    enum Action: BindableAction, Equatable {
         case alertDidDismiss
+        case binding(BindingAction<State>)
         case didDeleteDrill
         case didPressDeleteButton
+        case didPressExitFullHistoryButton
+        case didPressShowFullHistoryButton
     }
 
     var body: some ReducerProtocol<State, Action> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
             case .alertDidDismiss:
                 state.alert = nil
+                return .none
+
+            case .binding:
                 return .none
 
             case .didDeleteDrill:
@@ -37,6 +47,14 @@ struct DrillLog: ReducerProtocol {
 
             case .didPressDeleteButton:
                 state.alert = deletionAlert
+                return .none
+
+            case .didPressExitFullHistoryButton:
+                state.isNavigationToFullHistoryActive = false
+                return .none
+
+            case .didPressShowFullHistoryButton:
+                state.isNavigationToFullHistoryActive = true
                 return .none
             }
         }
