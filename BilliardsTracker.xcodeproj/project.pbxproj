@@ -26,7 +26,6 @@
 		2926E11A26150FE500E95DBB /* BilliardsTrackerWatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2926E11926150FE500E95DBB /* BilliardsTrackerWatchApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2926E11F26150FE600E95DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2926E11E26150FE600E95DBB /* Assets.xcassets */; };
 		2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */; };
-		292E6F62266BFD1B0078C033 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292E6F61266BFD1B0078C033 /* CardView.swift */; };
 		292E6F69266C0A0E0078C033 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292E6F68266C0A0E0078C033 /* ResultsView.swift */; };
 		293433C8267676C100FA4768 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433C7267676C000FA4768 /* SettingsView.swift */; };
 		293433CF267764FD00FA4768 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433CE267764FD00FA4768 /* MainView.swift */; };
@@ -163,7 +162,6 @@
 		2926E11E26150FE600E95DBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2926E12026150FE600E95DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2926E12C26150FE600E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
-		292E6F61266BFD1B0078C033 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		292E6F68266C0A0E0078C033 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		293433C7267676C000FA4768 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		293433CE267764FD00FA4768 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -463,7 +461,6 @@
 		29642E3D262CD7BB00A967D6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				292E6F61266BFD1B0078C033 /* CardView.swift */,
 				29C554B4299296860045DFCB /* ExitButtonView.swift */,
 				298F3B5A29E0C3FC00668192 /* FullWidthButtonView.swift */,
 				291F27B429DB0CB50004960C /* IllustratedTextView.swift */,
@@ -924,7 +921,6 @@
 				29CDE34129E9A9BD003F4F1B /* StatisticsView.swift in Sources */,
 				29642E4B262E058C00A967D6 /* SessionView.swift in Sources */,
 				29CDE34329EC9872003F4F1B /* SectionLabelView.swift in Sources */,
-				292E6F62266BFD1B0078C033 /* CardView.swift in Sources */,
 				294AD35D261F74340086E808 /* Drill+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
