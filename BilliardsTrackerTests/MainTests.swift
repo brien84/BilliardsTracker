@@ -277,7 +277,7 @@ final class MainTests: XCTestCase {
             $0.isNavigationToDrillLogActive = true
         }
 
-        await store.send(.drillLog(.didTapDeleteButton)) {
+        await store.send(.drillLog(.didDeleteDrill)) {
             $0.isNavigationToDrillLogActive = false
         }
 
