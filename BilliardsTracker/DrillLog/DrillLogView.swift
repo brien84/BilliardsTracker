@@ -11,56 +11,47 @@ import SwiftUI
 struct DrillLogView: View {
     let store: StoreOf<DrillLog>
 
-    @State private var isShowingHistory = false
     @State private var isShowingDeleteAlert = false
-
-    private var infoMessage: String? {
-        guard !isShowingHistory else { return nil }
-        return "Only latest 100 results are shown."
-    }
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            let isDataSufficient = viewStore.statistics.results.count > 2
-
             ZStack {
-                Color.primaryBackground
-                    .ignoresSafeArea()
+                if viewStore.statistics.results.count > Self.minimumResultCount {
+                    ScrollView {
+                        VStack(spacing: .zero) {
+                            SectionLabelView(title: "Statistics")
 
-                VStack(spacing: .zero) {
-                    StatisticsView(statistics: viewStore.statistics)
+                            StatisticsView(mode: .full, statistics: viewStore.statistics)
+                                .roundedBackground()
 
-                    CardView(
-                        title: isShowingHistory ? "History" : "Performance",
-                        infoMessage: viewStore.statistics.results.count > 100 ? infoMessage : nil
-                    ) {
-                        if isDataSufficient {
-                            if isShowingHistory {
-                                ResultsView(results: viewStore.statistics.results)
-                            } else {
-                                ChartView(
-                                    dataPoints: viewStore.statistics.chartDataPoints,
-                                    maxValue: viewStore.drill.shotCount
-                                )
-                                .padding()
-                            }
-                        } else {
-                            IllustratedTextView(
-                                imageName: "pocket",
-                                text: "Not enough data"
+                            SectionLabelView(title: "Performance")
+
+                            ChartView(
+                                dataPoints: viewStore.statistics.chartDataPoints,
+                                maxValue: viewStore.drill.shotCount
                             )
-                            .offset(Self.textViewOffset)
+                            .frame(maxWidth: .infinity)
+                            .aspectRatio(Self.chartAspectRatio, contentMode: .fit)
+                            .padding()
+                            .padding(.top)
+                            .roundedBackground()
+
+                            SectionLabelView(title: "History")
+
+                            ResultsView(results: Array(viewStore.statistics.results.prefix(5)))
+                                .roundedBackground()
+                                .padding(.bottom)
                         }
                     }
-                    .id(isShowingHistory)
-                    .transition(
-                        .asymmetric(
-                            insertion: .move(edge: isShowingHistory ? .trailing : .leading),
-                            removal: .move(edge: isShowingHistory ? .leading : .trailing)
-                        )
+                } else {
+                    IllustratedTextView(
+                        imageName: "pocket",
+                        text: "Not enough data"
                     )
                 }
             }
+            .background(Color.primaryBackground)
+            .navigationTitle(viewStore.drill.title)
             .alert(isPresented: $isShowingDeleteAlert) {
                 Alert(
                     title: Text("Confirmation"),
@@ -72,41 +63,17 @@ struct DrillLogView: View {
                 )
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    deleteButton
-                        .frame(width: Self.toolbarItemWidth)
-
-                    toggleViewButton
-                        .foregroundColor(isDataSufficient ? .primaryElement : .secondaryElement)
-                        .disabled(!isDataSufficient)
-                        .frame(width: Self.toolbarItemWidth)
-                        .animation(.none, value: isShowingHistory)
+                ToolbarItem {
+                    Button {
+                        isShowingDeleteAlert = true
+                    } label: {
+                        Image(systemName: "trash")
+                            .font(.body)
+                            .imageScale(.large)
+                            .foregroundColor(.customRed)
+                    }
                 }
             }
-            .navigationTitle(viewStore.drill.title)
-        }
-    }
-
-    private var deleteButton: some View {
-        Button {
-            isShowingDeleteAlert = true
-        } label: {
-            Image(systemName: "trash")
-                .font(.body)
-                .imageScale(.large)
-                .foregroundColor(.customRed)
-        }
-    }
-
-    private var toggleViewButton: some View {
-        Button {
-            withAnimation {
-                isShowingHistory.toggle()
-            }
-        } label: {
-            Image(systemName: isShowingHistory ? "chart.bar.xaxis" : "tray.full")
-                .font(.body)
-                .imageScale(.large)
         }
     }
 }
@@ -114,8 +81,8 @@ struct DrillLogView: View {
 // MARK: - Constants
 
 private extension DrillLogView {
-    static let toolbarItemWidth: CGFloat = 32
-    static let textViewOffset: CGSize = CGSize(width: 0, height: -24)
+    static let chartAspectRatio: CGFloat = 0.9
+    static let minimumResultCount: Int = 2
 }
 
 // MARK: - Previews
@@ -135,7 +102,7 @@ struct DrillLogView_Previews: PreviewProvider {
     }
 }
 
-struct DrillLogViewNotEnoughData_Previews: PreviewProvider {
+struct EmptyDrillLogView_Previews: PreviewProvider {
     static let drill = {
         let drill = PersistenceClient.mockDrill
         let results = drill.results
