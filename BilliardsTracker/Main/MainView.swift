@@ -37,8 +37,9 @@ struct MainView: View {
                     ))
                     .disabled(viewStore.isShowingLoadingIndicator)
 
-                    LoadingView()
-                        .opacity(viewStore.isShowingLoadingIndicator ? 1 : 0)
+                    if viewStore.isShowingLoadingIndicator {
+                        LoadingView()
+                    }
                 }
                 .navigationBarTitle("Drills")
                 .navigationBarItems(
