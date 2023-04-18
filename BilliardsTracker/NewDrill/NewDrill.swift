@@ -25,16 +25,12 @@ struct NewDrill: ReducerProtocol {
 
         Reduce { _, action in
             switch action {
-
             case .binding:
                 return .none
-
             case .cancelButtonDidTap:
                 return .none
-
             case .saveButtonDidTap:
                 return .none
-
             }
         }
     }
