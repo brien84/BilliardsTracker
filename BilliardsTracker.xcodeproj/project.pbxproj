@@ -71,6 +71,7 @@
 		29BB85FC262E26AB0055A8BB /* DrillLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB85FB262E26AB0055A8BB /* DrillLogView.swift */; };
 		29BB8603262EECE00055A8BB /* NewDrillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB8602262EECE00055A8BB /* NewDrillView.swift */; };
 		29BB860F2631F2BA0055A8BB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB860E2631F2BA0055A8BB /* Statistics.swift */; };
+		29BC4A3229EF267500756E57 /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BC4A3129EF267500756E57 /* IntegrationTests.swift */; };
 		29C554AD298E7D1B0045DFCB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AC298E7D1B0045DFCB /* Settings.swift */; };
 		29C554AF298EBC7B0045DFCB /* ShrinkOnPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */; };
 		29C554B1298EC8A90045DFCB /* DrillItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C554B0298EC8A90045DFCB /* DrillItem.swift */; };
@@ -206,6 +207,7 @@
 		29BB85FB262E26AB0055A8BB /* DrillLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillLogView.swift; sourceTree = "<group>"; };
 		29BB8602262EECE00055A8BB /* NewDrillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrillView.swift; sourceTree = "<group>"; };
 		29BB860E2631F2BA0055A8BB /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		29BC4A3129EF267500756E57 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
 		29C554AC298E7D1B0045DFCB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		29C554AE298EBC7B0045DFCB /* ShrinkOnPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkOnPressView.swift; sourceTree = "<group>"; };
 		29C554B0298EC8A90045DFCB /* DrillItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillItem.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 		2926E10826150FE500E95DBB /* BilliardsTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
+				29BC4A3129EF267500756E57 /* IntegrationTests.swift */,
 				29DB145D2998168A004029D1 /* MainTests.swift */,
 				2926E10B26150FE500E95DBB /* Info.plist */,
 			);
@@ -941,6 +944,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29BC4A3229EF267500756E57 /* IntegrationTests.swift in Sources */,
 				29DB145E2998168A004029D1 /* MainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
