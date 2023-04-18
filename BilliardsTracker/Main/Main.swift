@@ -35,8 +35,8 @@ struct Main: ReducerProtocol {
 
         case alertDidDismiss
         case binding(BindingAction<State>)
+        case didDismissOnboardView
         case onAppear
-        case onboardViewDidDismiss
 
         case connectivityClientDidReceiveResult(ResultContext)
         case connectivityClientDidReceiveResponse(ConnectivityResponse)
@@ -73,14 +73,12 @@ struct Main: ReducerProtocol {
                 if let drill = state.drillList.drillItems[id: id]?.drill {
                     state.isShowingLoadingIndicator = true
                     state.session = Session.State(drill: drill, startDate: now)
-
                     let context = DrillContext(
                         isActive: true,
                         isContinuous: drill.isContinuous,
                         shotCount: drill.shotCount,
                         title: drill.title
                     )
-
                     return .task {
                         try await mainQueue.sleep(for: .milliseconds(500))
                         return .connectivityClientDidReceiveResponse(
@@ -161,6 +159,12 @@ struct Main: ReducerProtocol {
             case .binding:
                 return .none
 
+            case .didDismissOnboardView:
+                state.isNavigationToOnboardActive = false
+                return .fireAndForget {
+                    await userDefaults.setHasOnboardBeenShown(true)
+                }
+
             case .onAppear:
                 state.isNavigationToOnboardActive = !userDefaults.getHasOnboardBeenShown()
                 state.isShowingLoadingIndicator = true
@@ -181,12 +185,6 @@ struct Main: ReducerProtocol {
                         }
                     }
                 )
-
-            case .onboardViewDidDismiss:
-                state.isNavigationToOnboardActive = false
-                return .fireAndForget {
-                    await userDefaults.setHasOnboardBeenShown(true)
-                }
 
             case .connectivityClientDidReceiveResponse(let response):
                 state.isShowingLoadingIndicator = false

@@ -64,7 +64,7 @@ struct MainView: View {
                 ))
             }
             .sheet(isPresented: viewStore.binding(\.$isNavigationToOnboardActive)) {
-                OnboardView { viewStore.send(.onboardViewDidDismiss) }
+                OnboardView { viewStore.send(.didDismissOnboardView) }
             }
             .fullScreenCover(isPresented: viewStore.binding(\.$isNavigationToSessionActive)) {
                 IfLetStore(
