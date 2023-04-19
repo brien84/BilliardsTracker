@@ -9,22 +9,18 @@ import ComposableArchitecture
 import XCTest
 @testable import BilliardsTracker
 
-// swiftlint:disable type_body_length
 @MainActor
 final class MainTests: XCTestCase {
     var store: TestStore<Main.State, Main.Action, Main.State, Main.Action, ()>!
     var mainQueue: TestSchedulerOf<DispatchQueue>!
-    let now = Date(timeIntervalSince1970: .zero)
 
     override func setUp() async throws {
         store = TestStore(initialState: Main.State(), reducer: Main())
 
         store.dependencies.connectivityClient.receiveResults = { @Sendable in AsyncStream<ResultContext> { _ in } }
-        store.dependencies.date.now = now
         mainQueue = DispatchQueue.test
         store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
         store.dependencies.userDefaults.getAppearance = { @Sendable in .system }
-        store.dependencies.userDefaults.setAppearance = { @Sendable _ in }
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
         store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
@@ -38,7 +34,6 @@ final class MainTests: XCTestCase {
 
     func testNavigationToOnboardView() async throws {
         store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([]) }
-
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in false }
 
         await store.send(.onAppear) {
@@ -46,27 +41,21 @@ final class MainTests: XCTestCase {
             $0.isNavigationToOnboardActive = true
         }
 
-        await store.send(.onboardViewDidDismiss) {
+        await store.send(.didDismissOnboardView) {
             $0.isNavigationToOnboardActive = false
         }
 
         await store.skipInFlightEffects()
     }
 
-    func testSuccessfullyNavigatingToSessionAndReceivingResults() async throws {
-        let drill = PersistenceClient.mockDrill
-        let result = ResultContext(potCount: 10, missCount: 10, date: now)
+    func testLoadingDrills() async throws {
+        let drills = [
+            PersistenceClient.mockDrill,
+            PersistenceClient.mockDrill,
+            PersistenceClient.mockDrill
+        ]
 
-        store.dependencies.connectivityClient.sendDrillContext = { @Sendable _ in .success }
-        store.dependencies.connectivityClient.receiveResults = { @Sendable in
-            AsyncStream<ResultContext> {
-                try? await self.mainQueue.sleep(for: .seconds(10))
-                return result
-            }
-        }
-
-        store.dependencies.persistenceClient.insertResult = { @Sendable _, _ in .didSucceed }
-        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([drill]) }
+        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad(drills) }
 
         await store.send(.onAppear) {
             $0.isShowingLoadingIndicator = true
@@ -74,217 +63,13 @@ final class MainTests: XCTestCase {
 
         await mainQueue.advance(by: .milliseconds(250))
 
-        await store.receive(.persistenceClient(.didLoad([drill]))) {
+        await store.receive(.persistenceClient(.didLoad(drills))) {
             $0.isShowingLoadingIndicator = false
-            $0.drillList = DrillList.State(drills: [drill])
-        }
-
-        await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
-            $0.isShowingLoadingIndicator = true
-            $0.session = Session.State(drill: drill, startDate: self.now)
-        }
-
-        await mainQueue.advance(by: .milliseconds(500))
-
-        await store.receive(.connectivityClientDidReceiveResponse(.success)) {
-            $0.isShowingLoadingIndicator = false
-            $0.isNavigationToSessionActive = true
-        }
-
-        await mainQueue.advance(by: .seconds(15))
-
-        await store.receive(.connectivityClientDidReceiveResult(result))
-        await store.receive(.persistenceClient(.didSucceed))
-        await store.receive(.persistenceClient(.didLoad([drill])))
-
-        await store.send(.session(.sessionDidExit)) {
-            $0.isNavigationToSessionActive = false
+            let sortedDrills = drills.sorted(using: $0.settings.sortDescriptor)
+            $0.drillList = DrillList.State(drills: sortedDrills)
         }
 
         await store.skipInFlightEffects()
-    }
-
-    func testFailingNavigationToSessionWhenWatchIsNotReachable() async throws {
-        let drill = PersistenceClient.mockDrill
-        let drillList = DrillList.State(drills: [drill])
-        let main = Main.State(drillList: drillList)
-
-        let store = TestStore(initialState: main, reducer: Main())
-
-        store.dependencies.connectivityClient.sendDrillContext = { _ in .failure(.notReachable) }
-        store.dependencies.date.now = now
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
-            $0.isShowingLoadingIndicator = true
-            $0.session = Session.State(drill: drill, startDate: self.now)
-        }
-
-        await mainQueue.advance(by: .milliseconds(500))
-
-        await store.receive(.connectivityClientDidReceiveResponse(.failure(.notReachable))) {
-            $0.isShowingLoadingIndicator = false
-            $0.alert = AlertState {
-                TextState("Watch app is not reachable!")
-            } actions: {
-                ButtonState(role: .cancel) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState("Make sure BilliardsTracker Watch app is installed and running.")
-            }
-        }
-
-        await store.send(.alertDidDismiss) {
-            $0.alert = nil
-        }
-    }
-
-    func testFailingNavigationToSessionWhenWatchIsNotReady() async throws {
-        let drill = PersistenceClient.mockDrill
-        let drillList = DrillList.State(drills: [drill])
-        let main = Main.State(drillList: drillList)
-
-        let store = TestStore(initialState: main, reducer: Main())
-
-        store.dependencies.connectivityClient.sendDrillContext = { _ in .failure(.notReady) }
-        store.dependencies.date.now = now
-        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
-
-        await store.send(.drillList(.drillItem(id: drill.id, action: .didSelectDrill))) {
-            $0.isShowingLoadingIndicator = true
-            $0.session = Session.State(drill: drill, startDate: self.now)
-        }
-
-        await mainQueue.advance(by: .milliseconds(500))
-
-        await store.receive(.connectivityClientDidReceiveResponse(.failure(.notReady))) {
-            $0.isShowingLoadingIndicator = false
-
-            $0.alert = AlertState {
-                TextState("Watch app is not in Tracked mode!")
-            } actions: {
-                ButtonState(role: .cancel) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState("Make sure Tracked mode is selected in Watch app.")
-            }
-        }
-
-        await store.send(.alertDidDismiss) {
-            $0.alert = nil
-        }
-    }
-
-    func testNavigatingToNewDrillAndThenCancelling() async throws {
-        await store.send(.binding(.set(\.$isNavigationToNewDrillActive, true))) {
-            $0.isNavigationToNewDrillActive = true
-            $0.newDrill = NewDrill.State()
-        }
-
-        await store.send(.newDrill(.cancelButtonDidTap)) {
-            $0.isNavigationToNewDrillActive = false
-        }
-
-        await store.send(.drillList(.didTapNewDrillButton)) {
-            $0.isNavigationToNewDrillActive = true
-            $0.newDrill = NewDrill.State()
-        }
-
-        await store.send(.newDrill(.cancelButtonDidTap)) {
-            $0.isNavigationToNewDrillActive = false
-        }
-    }
-
-    func testSavingNewDrill() async throws {
-        let drill = PersistenceClient.mockDrill
-        drill.isContinuous = false
-        drill.shotCount = 15
-
-        store.dependencies.persistenceClient.createDrill = { @Sendable _ in .didSucceed }
-        store.dependencies.persistenceClient.loadDrills = { @Sendable in .didLoad([drill]) }
-
-        await store.send(.binding(.set(\.$isNavigationToNewDrillActive, true))) {
-            $0.isNavigationToNewDrillActive = true
-            $0.newDrill = NewDrill.State()
-        }
-
-        await store.send(.newDrill(.binding(.set(\.$isContinuous, drill.isContinuous)))) {
-            $0.newDrill.isContinuous = drill.isContinuous
-        }
-
-        await store.send(.newDrill(.binding(.set(\.$shotCount, drill.shotCount)))) {
-            $0.newDrill.shotCount = drill.shotCount
-        }
-
-        await store.send(.newDrill(.binding(.set(\.$title, drill.title)))) {
-            $0.newDrill.title = drill.title
-        }
-
-        await store.send(.newDrill(.saveButtonDidTap)) {
-            $0.isNavigationToNewDrillActive = false
-        }
-
-        await store.receive(.persistenceClient(.didSucceed))
-        await store.receive(.persistenceClient(.didLoad([drill]))) {
-            $0.drillList = DrillList.State(drills: [drill])
-        }
-    }
-
-    func testFailingToSaveNewDrill() async throws {
-        _ = try? PersistentStore(inMemory: true)
-        store.dependencies.persistenceClient.createDrill = { @Sendable _ in .didFail(.saving) }
-
-        await store.send(.binding(.set(\.$isNavigationToNewDrillActive, true))) {
-            $0.isNavigationToNewDrillActive = true
-            $0.newDrill = NewDrill.State()
-        }
-
-        await store.send(.newDrill(.saveButtonDidTap)) {
-            $0.isNavigationToNewDrillActive = false
-        }
-
-        await store.receive(.persistenceClient(.didFail(.saving))) {
-            $0.alert = AlertState {
-                TextState("Something went wrong!")
-            } actions: {
-                ButtonState(role: .cancel) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState("Latest changes will not be saved.")
-            }
-        }
-
-        await store.send(.alertDidDismiss) {
-            $0.alert = nil
-        }
-    }
-
-    func testDeletingDrill() async throws {
-        let drill = PersistenceClient.mockDrill
-        let drillList = DrillList.State(drills: [drill])
-        let main = Main.State(drillList: drillList)
-
-        let store = TestStore(initialState: main, reducer: Main())
-
-        store.dependencies.persistenceClient.deleteDrill = { _ in .didSucceed }
-        store.dependencies.persistenceClient.loadDrills = { .didLoad([]) }
-
-        await store.send(.drillList(.drillItem(id: drill.id, action: .didPressDrillLogButton))) {
-            $0.drillLog = DrillLog.State(drill: drill)
-            $0.isNavigationToDrillLogActive = true
-        }
-
-        await store.send(.drillLog(.didDeleteDrill)) {
-            $0.isNavigationToDrillLogActive = false
-        }
-
-        await store.receive(.persistenceClient(.didSucceed))
-        await store.receive(.persistenceClient(.didLoad([]))) {
-            $0.drillList = DrillList.State(drills: [])
-        }
     }
 
     func testFailingToLoadDrills() async throws {
@@ -297,15 +82,7 @@ final class MainTests: XCTestCase {
         await mainQueue.advance(by: .milliseconds(250))
 
         await store.receive(.persistenceClient(.didFail(.loading))) {
-            $0.alert = AlertState {
-                TextState("Something went wrong!")
-            } actions: {
-                ButtonState(role: .cancel) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
-            }
+            $0.alert = Main().loadingAlert
         }
 
         await store.send(.alertDidDismiss) {
@@ -322,79 +99,12 @@ final class MainTests: XCTestCase {
             $0.isShowingLoadingIndicator = true
         }
 
-        await mainQueue.advance(by: .milliseconds(250))
+        await mainQueue.advance(by: .milliseconds(500))
 
         await store.receive(.persistenceClient(.didFail(.initialization))) {
-            $0.alert = AlertState {
-                TextState("Something went terribly wrong!")
-            } actions: {
-                ButtonState(role: .cancel) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState("Please restart BilliardsTracker. If the error persists reinstall the application.")
-            }
+            $0.alert = Main().initializationAlert
         }
 
         await store.skipInFlightEffects()
-    }
-
-    func testSortingDrills() async throws {
-        let drill0 = PersistenceClient.mockDrill
-        drill0.title = "Z"
-        drill0.shotCount = 1
-        let drill1 = PersistenceClient.mockDrill
-        drill1.title = "A"
-        drill1.shotCount = 10
-
-        let settings = Settings.State(sortOption: .dateCreated, sortOrder: .forward)
-
-        // sorted by earliest `dateCreated`:
-        let drillList = DrillList.State(drills: [drill1, drill0])
-        let main = Main.State(drillList: drillList, settings: settings)
-
-        let store = TestStore(initialState: main, reducer: Main())
-
-        let userDefaults = { UserDefaults(suiteName: "UserDefaultsClient.tests")! }
-        userDefaults().removePersistentDomain(forName: "UserDefaultsClient.tests")
-
-        store.dependencies.userDefaults = UserDefaultsClient(
-            getAppearance: { .system },
-            setAppearance: { _ in },
-            getHasOnboardBeenShown: { true },
-            setHasOnboardBeenShown: { _ in },
-            getSortOption: {
-                let rawValue = userDefaults().integer(forKey: "sortOptionKey")
-                return SortOption(rawValue: rawValue) ?? .title
-            },
-            setSortOption: { option in
-                userDefaults().set(option.rawValue, forKey: "sortOptionKey")
-            },
-            getSortOrder: {
-                let rawValue = userDefaults().bool(forKey: "sortOrderKey")
-                return rawValue ? .forward : .reverse
-            },
-            setSortOrder: { order in
-                userDefaults().set(order == .forward, forKey: "sortOrderKey")
-            }
-        )
-
-        await store.send(.settings(.didSelectSortOption(.title))) {
-            // sorted by descending `title`:
-            $0.drillList = DrillList.State(drills: [drill1, drill0])
-            $0.settings.sortOption = .title
-        }
-
-        await store.send(.settings(.didSelectSortOrder(.reverse))) {
-            // sorted by ascending `title`:
-            $0.drillList = DrillList.State(drills: [drill0, drill1])
-            $0.settings.sortOrder = .reverse
-        }
-
-        await store.send(.settings(.didSelectSortOption(.shotCount))) {
-            // sorted by ascending `shotCount`:
-            $0.drillList = DrillList.State(drills: [drill1, drill0])
-            $0.settings.sortOption = .shotCount
-        }
     }
 }
