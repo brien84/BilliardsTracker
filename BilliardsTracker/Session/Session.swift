@@ -45,7 +45,7 @@ struct Session: ReducerProtocol {
         }
     }
 
-    private var exitConfirmationAlert: AlertState<Session.Action> {
+    var exitConfirmationAlert: AlertState<Session.Action> {
         AlertState {
             TextState("Confirmation")
         } actions: {
