@@ -11,5 +11,16 @@ import XCTest
 
 @MainActor
 final class SessionTests: XCTestCase {
+    func testAlertConfirmationBeforeExitingSession() async throws {
+        let drill = PersistenceClient.mockDrill
+        let store = TestStore(initialState: Session.State(drill: drill, startDate: .now), reducer: Session())
 
+        await store.send(.didTapExitButton) {
+            $0.alert = Session().exitConfirmationAlert
+        }
+
+        await store.send(.alertDidDismiss) {
+            $0.alert = nil
+        }
+    }
 }
