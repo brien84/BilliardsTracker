@@ -16,7 +16,7 @@
 		291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */; };
 		291F7C4229D0A1F4007DA116 /* LiveConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */; };
 		291F7C4529D0A2F0007DA116 /* LivePersistenceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */; };
-		29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extensions+Color.swift */; };
+		29200295267FC78500DCA308 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29200294267FC78500DCA308 /* Extension+Color.swift */; };
 		292002D92682572C00DCA308 /* MarqueeText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292002D82682572C00DCA308 /* MarqueeText.swift */; };
 		2926E0F826150FE400E95DBB /* BilliardsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */; };
 		2926E0FA26150FE400E95DBB /* DrillListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2926E0F926150FE400E95DBB /* DrillListView.swift */; };
@@ -87,7 +87,7 @@
 		29CDE34129E9A9BD003F4F1B /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CDE34029E9A9BD003F4F1B /* StatisticsView.swift */; };
 		29CDE34329EC9872003F4F1B /* SectionLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CDE34229EC9872003F4F1B /* SectionLabelView.swift */; };
 		29CDE34529EC9A9B003F4F1B /* RoundedBackground+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CDE34429EC9A9B003F4F1B /* RoundedBackground+View.swift */; };
-		29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D0344029C10ED600BA7865 /* Extensions+Color.swift */; };
+		29D0344129C10ED600BA7865 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D0344029C10ED600BA7865 /* Extension+Color.swift */; };
 		29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892829D9B11F0066041B /* UserDefaultsClient.swift */; };
 		29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */; };
 		29D8892E29DA10490066041B /* SessionSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892D29DA10490066041B /* SessionSetup.swift */; };
@@ -161,7 +161,7 @@
 		291F7C3A29CE5015007DA116 /* LiveExtendedRuntimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveExtendedRuntimeClient.swift; sourceTree = "<group>"; };
 		291F7C4129D0A1F4007DA116 /* LiveConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConnectivityClient.swift; sourceTree = "<group>"; };
 		291F7C4429D0A2F0007DA116 /* LivePersistenceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePersistenceClient.swift; sourceTree = "<group>"; };
-		29200294267FC78500DCA308 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
+		29200294267FC78500DCA308 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		292002D82682572C00DCA308 /* MarqueeText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeText.swift; sourceTree = "<group>"; };
 		2926E0F426150FE400E95DBB /* BilliardsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BilliardsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2926E0F726150FE400E95DBB /* BilliardsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BilliardsTrackerApp.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		29CDE34029E9A9BD003F4F1B /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		29CDE34229EC9872003F4F1B /* SectionLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabelView.swift; sourceTree = "<group>"; };
 		29CDE34429EC9A9B003F4F1B /* RoundedBackground+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoundedBackground+View.swift"; sourceTree = "<group>"; };
-		29D0344029C10ED600BA7865 /* Extensions+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Color.swift"; sourceTree = "<group>"; };
+		29D0344029C10ED600BA7865 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		29D8892829D9B11F0066041B /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
 		29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserDefaultsClient.swift; sourceTree = "<group>"; };
 		29D8892D29DA10490066041B /* SessionSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetup.swift; sourceTree = "<group>"; };
@@ -354,7 +354,7 @@
 		29200293267FC76D00DCA308 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				29200294267FC78500DCA308 /* Extensions+Color.swift */,
+				29200294267FC78500DCA308 /* Extension+Color.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -470,7 +470,7 @@
 		29558FD426432F26006BA300 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				29D0344029C10ED600BA7865 /* Extensions+Color.swift */,
+				29D0344029C10ED600BA7865 /* Extension+Color.swift */,
 				29642E3D262CD7BB00A967D6 /* Views */,
 			);
 			path = Shared;
@@ -999,7 +999,7 @@
 				29A078A9298015E900A5012A /* DrillLog.swift in Sources */,
 				297EDA5229D8B241004F17EB /* UserDefaultsClient.swift in Sources */,
 				29A078B02986EFFB00A5012A /* ConnectivityClient.swift in Sources */,
-				29D0344129C10ED600BA7865 /* Extensions+Color.swift in Sources */,
+				29D0344129C10ED600BA7865 /* Extension+Color.swift in Sources */,
 				29CDE34529EC9A9B003F4F1B /* RoundedBackground+View.swift in Sources */,
 				29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */,
 				298F3B5B29E0C3FC00668192 /* FullWidthButtonView.swift in Sources */,
@@ -1065,7 +1065,7 @@
 				29D8893029DA113F0066041B /* SessionSetupView.swift in Sources */,
 				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
-				29200295267FC78500DCA308 /* Extensions+Color.swift in Sources */,
+				29200295267FC78500DCA308 /* Extension+Color.swift in Sources */,
 				29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
