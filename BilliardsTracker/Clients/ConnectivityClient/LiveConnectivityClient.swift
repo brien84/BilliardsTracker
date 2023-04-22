@@ -17,7 +17,8 @@ extension ConnectivityClient: DependencyKey {
                 await connectivity.receive()
             },
             sendDrillContext: { context in
-                await connectivity.send(context: context)
+                if CommandLine.isUITesting { return .success }
+                return await connectivity.send(context: context)
             }
         )
     }

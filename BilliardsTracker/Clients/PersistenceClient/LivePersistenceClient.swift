@@ -10,7 +10,7 @@ import CoreData
 
 extension PersistenceClient: DependencyKey {
     static var liveValue: Self {
-        let store = try? PersistentStore()
+        let store = try? PersistentStore(inMemory: CommandLine.isUITesting)
 
         return Self(
             createDrill: { drill in

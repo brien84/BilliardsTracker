@@ -14,12 +14,20 @@ extension ConnectivityClient: DependencyKey {
 
         return Self(
             receiveDrillContext: {
-                await connectivity.receiveDrillContext()
+                if CommandLine.isUITesting { return Self.receiveDrillContextWhileUITesting() }
+                return await connectivity.receiveDrillContext()
             },
             sendResultContext: { context in
                 await connectivity.send(context: context)
             }
         )
+    }
+
+    private static func receiveDrillContextWhileUITesting() -> AsyncStream<DrillContext> {
+        AsyncStream {
+            $0.yield(DrillContext(isActive: true, isContinuous: true, shotCount: 1, title: "UI TEST"))
+            $0.finish()
+        }
     }
 }
 

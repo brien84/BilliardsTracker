@@ -11,7 +11,8 @@ import Foundation
 extension UserDefaultsClient: DependencyKey {
     static let liveValue = Self(
         getHasOnboardBeenShown: {
-            UserDefaults.standard.bool(forKey: Self.hasOnboardBeenShownKey)
+            if CommandLine.isUITesting { return false }
+            return UserDefaults.standard.bool(forKey: Self.hasOnboardBeenShownKey)
         },
         setHasOnboardBeenShown: { hasBeenShown in
             UserDefaults.standard.set(hasBeenShown, forKey: Self.hasOnboardBeenShownKey)
