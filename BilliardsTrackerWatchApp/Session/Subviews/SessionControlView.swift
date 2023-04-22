@@ -62,6 +62,7 @@ struct SessionControlView: View {
                     ) {
                         viewStore.send(.stopButtonDidTap, animation: .default)
                     }
+                    .accessibilityLabel("Stop Session")
 
                     SessionControlButton(
                         title: "Undo",
@@ -71,6 +72,7 @@ struct SessionControlView: View {
                         viewStore.send(.undoButtonDidTap, animation: .default)
                     }
                     .disabled(viewStore.didPotLastShot == nil)
+                    .accessibilityLabel("Undo Session")
                 }
 
                 HStack {
@@ -82,6 +84,7 @@ struct SessionControlView: View {
                         viewStore.send(.pauseButtonDidTap, animation: .default)
                     }
                     .disabled(viewStore.isPaused)
+                    .accessibilityLabel("Pause Session")
 
                     SessionControlButton(
                         title: "Resume",
@@ -91,6 +94,7 @@ struct SessionControlView: View {
                         viewStore.send(.resumeButtonDidTap, animation: .default)
                     }
                     .disabled(!viewStore.isPaused)
+                    .accessibilityLabel("Resume Session")
                 }
             }
         }

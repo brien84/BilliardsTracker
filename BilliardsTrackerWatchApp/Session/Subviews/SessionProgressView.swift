@@ -88,6 +88,7 @@ struct SessionProgressView: View {
                     }
                     .buttonStyle(.bordered)
                     .tint(.customGreen)
+                    .accessibilityLabel("Register Potted Ball")
 
                     Button {
                         viewStore.send(.didRegisterShot(isSuccess: false), animation: .default)
@@ -98,6 +99,7 @@ struct SessionProgressView: View {
                     }
                     .buttonStyle(.bordered)
                     .tint(.customRed)
+                    .accessibilityLabel("Register Missed Ball")
                 }
                 .disabled(viewStore.isPaused)
             }

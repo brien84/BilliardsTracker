@@ -47,6 +47,7 @@ struct DrillItemView: View {
                                     .foregroundColor(.customBlue)
                                     .imageScale(.large)
                             }
+                            .accessibilityLabel("Open Drill Log")
                         }
                         .padding()
                     }

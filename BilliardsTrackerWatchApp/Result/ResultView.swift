@@ -46,11 +46,13 @@ struct ResultView: View {
                             viewStore.send(.doneButtonDidTap, animation: .default)
                         }
                         .tint(.customGreen)
+                        .accessibilityLabel("Done")
 
                         ResultButton(imageName: "arrow.counterclockwise") {
                             viewStore.send(.restartButtonDidTap, animation: .default)
                         }
                         .tint(.customBlue)
+                        .accessibilityLabel("Restart")
                     }
                 }
             }
