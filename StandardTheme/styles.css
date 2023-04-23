@@ -233,7 +233,8 @@ body,
 
 .content-container--small .phone-mockup img {
     position: absolute;
-    height: 420px;
+    height: 450px;
+/*    height: 420px;*/
     width: auto;
 }
 
