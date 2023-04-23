@@ -241,7 +241,7 @@ body,
 .content-container--large .phone-mockup {
     display: grid;
     position: relative;
-    width: 300px;
+    width: 301px;
 /*    width: 320px;*/
     height: 600px;
     opacity: 1;
