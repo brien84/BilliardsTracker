@@ -69,7 +69,7 @@ struct MainView: View {
                         .tag(Mode.tracked)
                     }
                 }
-                .onAppear {
+                .task {
                     viewStore.send(.onAppear)
                 }
             }
