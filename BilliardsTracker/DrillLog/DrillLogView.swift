@@ -14,7 +14,7 @@ struct DrillLogView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             ZStack {
-                if viewStore.statistics.results.count > Self.minimumResultCount {
+                if viewStore.statistics.results.count >= Self.minimumResultCount {
                     ScrollView {
                         VStack(spacing: .zero) {
                             SectionLabelView(title: "Statistics")
@@ -53,7 +53,8 @@ struct DrillLogView: View {
                 } else {
                     IllustratedTextView(
                         imageName: "pocket",
-                        text: "Not enough data"
+                        title: "Not enough data",
+                        subtitle: "Complete the drill twice to view statistics"
                     )
                 }
             }

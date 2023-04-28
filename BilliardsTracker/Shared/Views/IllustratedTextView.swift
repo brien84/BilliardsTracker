@@ -9,7 +9,8 @@ import SwiftUI
 
 struct IllustratedTextView: View {
     let imageName: String
-    let text: String
+    let title: String
+    let subtitle: String
 
     var body: some View {
         VStack(spacing: Self.verticalSpacing) {
@@ -19,9 +20,17 @@ struct IllustratedTextView: View {
                 .frame(width: Self.width, height: Self.height)
                 .shadow(color: .black, radius: Self.shadowRadius)
 
-            Text(text)
-                .font(.title3.weight(.medium))
-                .foregroundColor(.primaryElement)
+            VStack(spacing: Self.textSpacing) {
+                Text(title)
+                    .font(.title3.weight(.medium))
+                    .foregroundColor(.primaryElement)
+                    .multilineTextAlignment(.center)
+
+                Text(subtitle)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryElement)
+                    .multilineTextAlignment(.center)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -31,6 +40,7 @@ struct IllustratedTextView: View {
 
 private extension IllustratedTextView {
     static let verticalSpacing: CGFloat = 16
+    static let textSpacing: CGFloat = 4
     static let width: CGFloat = 100
     static let height: CGFloat = 100
     static let shadowRadius: CGFloat = 8
@@ -40,6 +50,10 @@ private extension IllustratedTextView {
 
 struct IllustratedTextView_Previews: PreviewProvider {
     static var previews: some View {
-        IllustratedTextView(imageName: "chalk", text: "This is preview!")
+        IllustratedTextView(
+            imageName: "chalk",
+            title: "Preview title",
+            subtitle: "This is preview subtitle!"
+        )
     }
 }
