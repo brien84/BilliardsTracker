@@ -37,7 +37,7 @@ struct LoadingView: View {
 private extension LoadingView {
     static let animationDuration: CGFloat = 0.95
     static let backgroundOpacity: CGFloat = 0.5
-    static let imageSize: CGSize = CGSize(width: 50, height: 50)
+    static let imageSize: CGSize = CGSize(width: 44, height: 44)
 }
 
 // MARK: - Previews
