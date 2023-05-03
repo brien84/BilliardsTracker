@@ -1,6 +1,6 @@
 # BilliardsTracker
 
-BilliardsTracker is an app that allows users to track their training using Apple Watch gestures and view  session progress and statistics on iPhone device.
+BilliardsTracker is an app that allows users to track their billiards training using Apple Watch gestures and monitor session progress and statistics on iPhone device.
 
 BilliardsTracker is built using the [Composable Architecture](https://github.com/pointfreeco/swift-composable-architecture) and SwiftUI.
 
