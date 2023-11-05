@@ -47,14 +47,13 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
     }
 
     func openStandaloneSetupView() {
-        let element = app.buttons["Standalone"]
+        let element = app.cells["Standalone"]
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
     }
 
     func openTrackedSetupView() {
-        app.swipeLeft()
-        let element = app.buttons["Tracked"]
+        let element = app.cells["Tracked"]
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
     }

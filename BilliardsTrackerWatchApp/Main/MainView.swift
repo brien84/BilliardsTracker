@@ -50,24 +50,28 @@ struct MainView: View {
                         }
                     )
 
-                    TabView(selection:
-                        viewStore.binding(
-                            get: \.currentTab,
-                            send: Main.Action.didChangeCurrentTab
-                        )
-                    ) {
-                        TabViewButton(title: "Standalone") {
+                    List {
+                        MenuButtonView(
+                            imageName: "applewatch",
+                            title: "Standalone",
+                            subtitle: ""
+                        ) {
+                            viewStore.send(.didChangeCurrentTab(.standalone))
                             viewStore.send(.setNavigationToSessionSetup(isActive: true))
                         }
-                        .foregroundColor(.customBlue)
-                        .tag(Mode.standalone)
+                        .setColor(.customBlue)
 
-                        TabViewButton(title: "Tracked") {
+                        MenuButtonView(
+                            imageName: "iphone",
+                            title: "Tracked",
+                            subtitle: ""
+                        ) {
+                            viewStore.send(.didChangeCurrentTab(.tracked))
                             viewStore.send(.setNavigationToSessionSetup(isActive: true))
                         }
-                        .foregroundColor(.customRed)
-                        .tag(Mode.tracked)
+                        .setColor(.customRed)
                     }
+                    .listStyle(.carousel)
                 }
                 .task {
                     viewStore.send(.onAppear)
@@ -75,39 +79,6 @@ struct MainView: View {
             }
         }
     }
-}
-
-private struct TabViewButton: View {
-    let title: String
-    let action: () -> Void
-
-    @State private var titleScale = Self.minimumTitleScale
-
-    var body: some View {
-        Button {
-            action()
-        } label: {
-            Text(title)
-                .font(.title3.weight(.medium))
-                .scaleEffect(titleScale)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black)
-        }
-        .buttonStyle(.plain)
-        .task {
-            withAnimation(Self.titleScaleAnimation) {
-                titleScale = Self.maximumTitleScale
-            }
-        }
-    }
-}
-
-// MARK: - Constants
-
-private extension TabViewButton {
-    static let minimumTitleScale: CGFloat = 1.0
-    static let maximumTitleScale: CGFloat = 1.1
-    static let titleScaleAnimation: Animation = .easeInOut(duration: 1.0).repeatForever()
 }
 
 // MARK: - Previews
