@@ -12,7 +12,7 @@ struct SectionLabelView: View {
 
     var body: some View {
         Text(title)
-            .font(.title2.bold())
+            .font(.title.bold())
             .foregroundColor(.primaryElement)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding([.horizontal, .top])
