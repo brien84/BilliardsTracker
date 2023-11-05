@@ -34,6 +34,7 @@ struct SettingsView: View {
             }
             label: {
                 Label("Settings", systemImage: "slider.horizontal.3")
+                    .foregroundStyle(Color.primaryElement)
             }
         }
     }

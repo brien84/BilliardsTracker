@@ -97,6 +97,7 @@ private struct NewDrillNavigationBarButton: View {
             },
             label: {
                 Image(systemName: "plus")
+                    .foregroundStyle(Color.primaryElement)
                     .imageScale(.large)
             }
         )
