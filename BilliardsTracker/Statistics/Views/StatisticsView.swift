@@ -132,7 +132,7 @@ private struct StatisticsLabel: View {
         self.mode = mode
 
         if isPercentage {
-            if value == 0 || value == 100 {
+            if value == 0 || value == 100 || floor(value) == value {
                 self.value = String(format: "%.0f", value) + "%"
             } else {
                 self.value = String(format: "%.1f", value) + "%"
