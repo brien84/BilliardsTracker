@@ -88,12 +88,6 @@ final class SessionTests: XCTestCase {
         await localStore.skipInFlightEffects()
     }
 
-    func testChangingCurrentTab() async throws {
-        await store.send(.didChangeCurrentTab(.control)) {
-            $0.currentTab = .control
-        }
-    }
-
     func testRegisteringShots() async throws {
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
@@ -160,12 +154,10 @@ final class SessionTests: XCTestCase {
 
         await localStore.send(.resumeButtonDidTap) {
             $0.isPaused = false
-            $0.currentTab = .progress
         }
 
         await localStore.send(.pauseButtonDidTap) {
             $0.isPaused = true
-            $0.currentTab = .progress
         }
     }
 

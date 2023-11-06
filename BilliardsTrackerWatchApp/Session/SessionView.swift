@@ -9,28 +9,38 @@ import ComposableArchitecture
 import SwiftUI
 
 private extension SessionView {
-    struct State: Equatable {
+    enum Tab: Int {
+        case control
+        case progress
+    }
+
+    struct ViewState: Equatable {
         let alert: AlertState<Session.Action>?
-        let currentTab: Session.Tab
+        let didPotLastShot: Bool?
+        let isPaused: Bool
         let isNavigationToResultActive: Bool
 
         init(state: Session.State) {
             self.alert = state.alert
-            self.currentTab = state.currentTab
+            self.didPotLastShot = state.didPotLastShot
+            self.isPaused = state.isPaused
             self.isNavigationToResultActive = state.result != nil
         }
     }
 
     enum Action: Equatable {
-        case didChangeCurrentTab(Session.Tab)
         case didDismissGestureTrackingError
         case onAppear
         case onDisappear
     }
+
+    func changeCurrentTab(to tab: Tab) {
+        withAnimation { currentTab = tab }
+    }
 }
 
 private extension Session.State {
-    var state: SessionView.State {
+    var state: SessionView.ViewState {
         .init(state: self)
     }
 }
@@ -38,8 +48,6 @@ private extension Session.State {
 private extension SessionView.Action {
     var action: Session.Action {
         switch self {
-        case .didChangeCurrentTab(let tab):
-            return .didChangeCurrentTab(tab)
         case .didDismissGestureTrackingError:
             return .didDismissGestureTrackingError
         case .onAppear:
@@ -55,6 +63,8 @@ struct SessionView: View {
 
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
 
+    @State private var currentTab = Tab.progress
+
     init(store: StoreOf<Session>) {
         self.store = store
     }
@@ -63,17 +73,12 @@ struct SessionView: View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             ZStack {
                 let shouldDisplayTabViewIndex = viewStore.isNavigationToResultActive || isLuminanceReduced
-                TabView(selection:
-                    viewStore.binding(
-                        get: \.currentTab,
-                        send: SessionView.Action.didChangeCurrentTab
-                    )
-                ) {
+                TabView(selection: $currentTab) {
                     SessionProgressView(store: store)
-                        .tag(Session.Tab.progress)
+                        .tag(Tab.progress)
 
                     SessionControlView(store: store)
-                        .tag(Session.Tab.control)
+                        .tag(Tab.control)
                 }
                 .tabViewStyle(.page(indexDisplayMode: shouldDisplayTabViewIndex ? .never : .always))
 
@@ -91,11 +96,16 @@ struct SessionView: View {
                 store.scope(state: \.alert),
                 dismiss: .didDismissGestureTrackingError
             )
+            .onChange(of: viewStore.isPaused) { _ in
+                changeCurrentTab(to: .progress)
+            }
+            .onChange(of: viewStore.didPotLastShot) { newValue in
+                guard newValue == nil else { return }
+                changeCurrentTab(to: .progress)
+            }
             .onChange(of: isLuminanceReduced) { isReduced in
-                if isReduced, viewStore.currentTab == .control {
-                    Task { @MainActor in
-                        viewStore.send(.didChangeCurrentTab(.progress), animation: .default)
-                    }
+                if isReduced, currentTab == .control {
+                    changeCurrentTab(to: .progress)
                 }
             }
             .onAppear {

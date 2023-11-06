@@ -10,14 +10,8 @@ import Foundation
 import WatchKit
 
 struct Session: ReducerProtocol {
-    enum Tab: Int {
-        case control
-        case progress
-    }
-
     struct State: Equatable {
         var alert: AlertState<Action>?
-        var currentTab: Session.Tab = .progress
         var result: Result.State?
 
         let title: String
@@ -46,7 +40,6 @@ struct Session: ReducerProtocol {
     enum Action: Equatable {
         case result(Result.Action)
 
-        case didChangeCurrentTab(Session.Tab)
         case didRegisterShot(isSuccess: Bool)
         case pauseButtonDidTap
         case resumeButtonDidTap
@@ -128,10 +121,6 @@ struct Session: ReducerProtocol {
                     sendResultContext
                 )
 
-            case .didChangeCurrentTab(let tab):
-                state.currentTab = tab
-                return .none
-
             case .didRegisterShot(let isSuccess):
                 guard state.remainingShots > 0 else { return .none }
 
@@ -159,13 +148,11 @@ struct Session: ReducerProtocol {
 
             case .pauseButtonDidTap:
                 state.isPaused = true
-                state.currentTab = .progress
                 WKInterfaceDevice().play(.directionDown)
                 return .cancel(ids: [MotionID.self, RuntimeID.self])
 
             case .resumeButtonDidTap:
                 state.isPaused = false
-                state.currentTab = .progress
                 WKInterfaceDevice().play(.directionUp)
                 return .merge(
                     startMotionClient(state: &state),
@@ -186,7 +173,6 @@ struct Session: ReducerProtocol {
                 }
 
                 state.didPotLastShot = nil
-                state.currentTab = .progress
                 WKInterfaceDevice().play(.retry)
                 return .none
 
