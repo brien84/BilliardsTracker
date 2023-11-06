@@ -38,7 +38,7 @@ struct SessionSetup: ReducerProtocol {
         Reduce { state, action in
             switch action {
 
-            case .session(.stopButtonDidTap), .session(.didDismissGestureTrackingError):
+            case .session(.stopButtonDidTap):
                 state.isNavigationToSessionActive = false
                 return .none
 

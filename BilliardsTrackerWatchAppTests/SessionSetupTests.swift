@@ -23,17 +23,6 @@ final class SessionSetupTests: XCTestCase {
         }
     }
 
-    func testStoppingSessionAfterGestureTrackingFailure() async throws {
-        let store = TestStore(
-            initialState: SessionSetup.State(mode: .standalone, isNavigationToSessionActive: true),
-            reducer: SessionSetup()
-        )
-
-        await store.send(.session(.didDismissGestureTrackingError)) {
-            $0.isNavigationToSessionActive = false
-        }
-    }
-
     func testStoppingSessionByTappingResultDoneButton() async throws {
         let result = Result.State(potCount: 6, missCount: 3)
         let session = Session.State(result: result, title: "", shotCount: 9, isContinuous: true)

@@ -239,6 +239,8 @@ private extension Session {
                 """
                 BilliardsTracker could not initiate gesture tracking.
                 Make sure no other workout apps are not actively running.
+                If you encounter this error during the session,
+                try pausing and then resuming the drill.
                 """
             )
         }
