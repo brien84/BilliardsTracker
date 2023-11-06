@@ -114,6 +114,7 @@ struct SessionView: View {
             .onDisappear {
                 viewStore.send(.onDisappear)
             }
+            .navigationBarBackButtonHidden()
         }
     }
 }
