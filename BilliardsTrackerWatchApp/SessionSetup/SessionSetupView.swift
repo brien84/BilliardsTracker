@@ -22,14 +22,18 @@ struct SessionSetupView: View {
                     TrackedView(store: store)
                 }
 
-                if viewStore.isNavigationToSessionActive {
-                    SessionView(store: store.scope(
-                        state: \.session,
-                        action: SessionSetup.Action.session
-                    ))
-                    .transition(.slide)
-                    .zIndex(1)
-                }
+                PassiveNavigationLink(
+                    isActive: viewStore.binding(
+                        get: \.isNavigationToSessionActive,
+                        send: SessionSetup.Action.setNavigationToSession
+                    ),
+                    destination: {
+                        SessionView(store: store.scope(
+                            state: \.session,
+                            action: SessionSetup.Action.session
+                        ))                       
+                    }
+                )
             }
         }
     }

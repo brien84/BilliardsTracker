@@ -21,6 +21,8 @@ struct SessionSetup: ReducerProtocol {
         case shotCountDidChange(Int)
         case startStandaloneSession
 
+        case setNavigationToSession(isActive: Bool)
+
         case establishConnection
         case endConnection
         case connectivityClientDidReceiveDrillContext(DrillContext)
@@ -63,6 +65,10 @@ struct SessionSetup: ReducerProtocol {
                 state.isNavigationToSessionActive = true
                 return .none
 
+            case .setNavigationToSession(isActive: let isActive):
+                state.isNavigationToSessionActive = isActive
+                return .none
+
             case .establishConnection:
                 return .run { send in
                     for await drillContext in await connectivityClient.receiveDrillContext() {
@@ -77,7 +83,11 @@ struct SessionSetup: ReducerProtocol {
 
             case .connectivityClientDidReceiveDrillContext(let context):
                 if context.isActive {
-                    state.session = Session.State(title: context.title, shotCount: context.shotCount, isContinuous: context.isContinuous)
+                    state.session = Session.State(
+                        title: context.title,
+                        shotCount: context.shotCount,
+                        isContinuous: context.isContinuous
+                    )
                     state.isNavigationToSessionActive = true
                 } else {
                     state.isNavigationToSessionActive = false
