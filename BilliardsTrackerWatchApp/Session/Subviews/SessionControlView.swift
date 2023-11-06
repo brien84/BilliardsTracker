@@ -52,7 +52,7 @@ struct SessionControlView: View {
     let store: StoreOf<Session>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
             VStack {
                 HStack {
                     SessionControlButton(
