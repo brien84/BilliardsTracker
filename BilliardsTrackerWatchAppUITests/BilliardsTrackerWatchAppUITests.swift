@@ -23,12 +23,10 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
 
     func testUI() throws {
         closeOnboardView()
-        openStandaloneSetupView()
         startStandaloneSession()
         registerShots()
         pauseAndResumeSession()
         stopSession()
-        closeSessionSetupView()
 
         closeOnboardView()
         openTrackedSetupView()
@@ -46,32 +44,16 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
         element.tap()
     }
 
-    func openStandaloneSetupView() {
-        let element = app.cells["Standalone"]
-        XCTAssertTrue(element.waitForExistence(timeout: 1.0))
-        element.tap()
-    }
-
     func openTrackedSetupView() {
         let element = app.cells["Tracked"]
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
     }
 
-    func closeSessionSetupView() {
-        let element = app.buttons["BackButton"]
+    func startStandaloneSession() {
+        let element = app.cells["Standalone"]
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
-    }
-
-    func startStandaloneSession() {
-        let picker = app.otherElements["Set Shots"]
-        XCTAssertTrue(picker.waitForExistence(timeout: 1.0))
-        picker.swipeUp()
-
-        let button = app.buttons["Start"]
-        XCTAssertTrue(button.waitForExistence(timeout: 1.0))
-        button.tap()
     }
 
     func stopSession() {

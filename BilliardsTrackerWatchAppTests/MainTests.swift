@@ -22,12 +22,6 @@ final class MainTests: XCTestCase {
         store = nil
     }
 
-    func testChangingCurrentTab() async throws {
-        await store.send(.didChangeCurrentTab(.tracked)) {
-            $0.currentTab = .tracked
-        }
-    }
-
     func testNavigatingToOnboard() async throws {
         await store.send(.setNavigationToOnboard(isActive: true)) {
             $0.isNavigationToOnboardActive = true
@@ -49,25 +43,50 @@ final class MainTests: XCTestCase {
 
     func testNavigationToSessionSetup() async throws {
         await store.send(.setNavigationToSessionSetup(isActive: true)) {
-            $0.sessionSetup = SessionSetup.State(mode: .standalone)
-            $0.isNavigationToSessionSetupActive = true
-        }
-
-        await store.send(.setNavigationToSessionSetup(isActive: false)) {
-            $0.isNavigationToSessionSetupActive = false
-        }
-
-        await store.send(.didChangeCurrentTab(.tracked)) {
-            $0.currentTab = .tracked
-        }
-
-        await store.send(.setNavigationToSessionSetup(isActive: true)) {
             $0.sessionSetup = SessionSetup.State(mode: .tracked)
             $0.isNavigationToSessionSetupActive = true
         }
 
         await store.send(.setNavigationToSessionSetup(isActive: false)) {
             $0.isNavigationToSessionSetupActive = false
+        }
+    }
+
+    func navigatingToStandaloneSession() async throws {
+        await store.send(.setNavigationToStandalone(isActive: true)) {
+            $0.standalone = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
+            $0.isNavigationToStandaloneActive = true
+        }
+    }
+
+    func testStoppingSessionByWithSessionStopButton() async throws {
+        let store = TestStore(
+            initialState: Main.State(isNavigationToStandaloneActive: true),
+            reducer: Main()
+        )
+
+        await store.send(.standalone(.stopButtonDidTap)) {
+            $0.isNavigationToStandaloneActive = false
+        }
+    }
+
+    func testStoppingStandaloneSessionWithResultDoneButton() async throws {
+        let result = Result.State(potCount: 6, missCount: 3)
+        let session = Session.State(result: result, title: "", shotCount: 9, isContinuous: true)
+
+        let store = TestStore(
+            initialState: Main.State(
+                isNavigationToStandaloneActive: true,
+                standalone: session
+            ),
+            reducer: Main()
+        )
+
+        store.dependencies.connectivityClient.sendResultContext = { _ in return () }
+
+        await store.send(.standalone(.result(.doneButtonDidTap))) {
+            $0.isNavigationToStandaloneActive = false
+            $0.standalone.result = nil
         }
     }
 }

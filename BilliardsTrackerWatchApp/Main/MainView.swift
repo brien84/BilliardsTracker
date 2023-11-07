@@ -11,22 +11,8 @@ import SwiftUI
 struct MainView: View {
     let store: StoreOf<Main>
 
-    struct ViewState: Equatable {
-        let currentTab: Mode
-
-        let isNavigationToOnboardActive: Bool
-        let isNavigationToSessionSetupActive: Bool
-
-        init(state: Main.State) {
-            self.currentTab = state.currentTab
-
-            self.isNavigationToOnboardActive = state.isNavigationToOnboardActive
-            self.isNavigationToSessionSetupActive = state.isNavigationToSessionSetupActive
-        }
-    }
-
     var body: some View {
-        WithViewStore(store.scope(state: ViewState.init)) { viewStore in
+        WithViewStore(store) { viewStore in
             NavigationView {
                 ZStack {
                     PassiveNavigationLink(
@@ -50,14 +36,26 @@ struct MainView: View {
                         }
                     )
 
+                    PassiveNavigationLink(
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToStandaloneActive,
+                            send: Main.Action.setNavigationToStandalone(isActive:)
+                        ),
+                        destination: {
+                            SessionView(store: store.scope(
+                                state: \.standalone,
+                                action: Main.Action.standalone
+                            ))
+                        }
+                    )
+
                     List {
                         MenuButtonView(
                             imageName: "applewatch",
                             title: "Standalone",
                             subtitle: ""
                         ) {
-                            viewStore.send(.didChangeCurrentTab(.standalone))
-                            viewStore.send(.setNavigationToSessionSetup(isActive: true))
+                            viewStore.send(.setNavigationToStandalone(isActive: true))
                         }
                         .setColor(.customBlue)
 
@@ -66,7 +64,6 @@ struct MainView: View {
                             title: "Tracked",
                             subtitle: ""
                         ) {
-                            viewStore.send(.didChangeCurrentTab(.tracked))
                             viewStore.send(.setNavigationToSessionSetup(isActive: true))
                         }
                         .setColor(.customRed)

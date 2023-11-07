@@ -15,22 +15,23 @@ enum Mode: Int {
 
 struct Main: ReducerProtocol {
     struct State: Equatable {
-        var currentTab = Mode.standalone
-
         var isNavigationToOnboardActive = false
         var isNavigationToSessionSetupActive = false
+        var isNavigationToStandaloneActive = false
 
         var sessionSetup = SessionSetup.State(mode: .tracked)
+        var standalone = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
     }
 
     enum Action: Equatable {
-        case didChangeCurrentTab(Mode)
         case onAppear
 
         case setNavigationToOnboard(isActive: Bool)
         case setNavigationToSessionSetup(isActive: Bool)
+        case setNavigationToStandalone(isActive: Bool)
 
         case sessionSetup(SessionSetup.Action)
+        case standalone(Session.Action)
     }
 
     @Dependency(\.userDefaults) var userDefaults
@@ -40,12 +41,12 @@ struct Main: ReducerProtocol {
             SessionSetup()
         }
 
+        Scope(state: \.standalone, action: /Action.standalone) {
+            Session()
+        }
+
         Reduce { state, action in
             switch action {
-
-            case .didChangeCurrentTab(let tab):
-                state.currentTab = tab
-                return .none
 
             case .onAppear:
                 guard !userDefaults.getHasOnboardBeenShown() else { return .none }
@@ -60,12 +61,25 @@ struct Main: ReducerProtocol {
 
             case .setNavigationToSessionSetup(isActive: let isActive):
                 if isActive {
-                    state.sessionSetup = SessionSetup.State(mode: state.currentTab)
+                    state.sessionSetup = SessionSetup.State(mode: .tracked)
                 }
                 state.isNavigationToSessionSetupActive = isActive
                 return .none
 
+            case .setNavigationToStandalone(let isActive):
+                guard isActive else { return .none }
+                state.standalone = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
+                state.isNavigationToStandaloneActive = true
+                return .none
+
             case .sessionSetup:
+                return .none
+
+            case .standalone(.stopButtonDidTap), .standalone(.result(.doneButtonDidTap)):
+                state.isNavigationToStandaloneActive = false
+                return .none
+
+            case .standalone:
                 return .none
 
             }

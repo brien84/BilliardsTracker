@@ -14,14 +14,6 @@ struct SessionSetupView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             ZStack {
-                if viewStore.mode == .standalone {
-                    StandaloneView(store: store)
-                }
-
-                if viewStore.mode == .tracked {
-                    TrackedView(store: store)
-                }
-
                 PassiveNavigationLink(
                     isActive: viewStore.binding(
                         get: \.isNavigationToSessionActive,
@@ -31,9 +23,11 @@ struct SessionSetupView: View {
                         SessionView(store: store.scope(
                             state: \.session,
                             action: SessionSetup.Action.session
-                        ))                       
+                        ))
                     }
                 )
+
+                TrackedView(store: store)
             }
         }
     }
@@ -42,18 +36,12 @@ struct SessionSetupView: View {
 // MARK: - Previews
 
 struct SessionSetupView_Previews: PreviewProvider {
-    static let standalone = Store(
-        initialState: SessionSetup.State(mode: .standalone),
-        reducer: SessionSetup()
-    )
-
-    static let tracked = Store(
+    static let store = Store(
         initialState: SessionSetup.State(mode: .tracked),
         reducer: SessionSetup()
     )
 
     static var previews: some View {
-        SessionSetupView(store: standalone)
-        SessionSetupView(store: tracked)
+        SessionSetupView(store: store)
     }
 }
