@@ -25,19 +25,6 @@ struct MainView: View {
 
                     PassiveNavigationLink(
                         isActive: viewStore.binding(
-                            get: \.isNavigationToSessionSetupActive,
-                            send: Main.Action.setNavigationToSessionSetup(isActive:)
-                        ),
-                        destination: {
-                            SessionSetupView(store: store.scope(
-                                state: \.sessionSetup,
-                                action: Main.Action.sessionSetup
-                            ))
-                        }
-                    )
-
-                    PassiveNavigationLink(
-                        isActive: viewStore.binding(
                             get: \.isNavigationToStandaloneActive,
                             send: Main.Action.setNavigationToStandalone(isActive:)
                         ),
@@ -45,6 +32,19 @@ struct MainView: View {
                             SessionView(store: store.scope(
                                 state: \.standalone,
                                 action: Main.Action.standalone
+                            ))
+                        }
+                    )
+
+                    PassiveNavigationLink(
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToTrackedActive,
+                            send: Main.Action.setNavigationToTracked(isActive:)
+                        ),
+                        destination: {
+                            TrackedActivationView(store: store.scope(
+                                state: \.tracked,
+                                action: Main.Action.tracked
                             ))
                         }
                     )
@@ -64,7 +64,7 @@ struct MainView: View {
                             title: "Tracked",
                             subtitle: ""
                         ) {
-                            viewStore.send(.setNavigationToSessionSetup(isActive: true))
+                            viewStore.send(.setNavigationToTracked(isActive: true))
                         }
                         .setColor(.customRed)
                     }

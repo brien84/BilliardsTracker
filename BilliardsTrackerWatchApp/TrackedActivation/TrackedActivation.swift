@@ -1,5 +1,5 @@
 //
-//  SessionSetup.swift
+//  TrackedActivation.swift
 //  BilliardsTrackerWatchApp
 //
 //  Created by Marius on 2023-04-02.
@@ -7,21 +7,16 @@
 
 import ComposableArchitecture
 
-struct SessionSetup: ReducerProtocol {
+struct TrackedActivation: ReducerProtocol {
     struct State: Equatable {
-        let mode: Mode
-        var shotCount = 9
-
         var isNavigationToSessionActive = false
-        var session = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
+        var session = Session.State(title: "", shotCount: 1, isContinuous: true)
     }
 
     enum Action: Equatable {
-        case session(Session.Action)
-        case shotCountDidChange(Int)
-        case startStandaloneSession
-
         case setNavigationToSession(isActive: Bool)
+
+        case session(Session.Action)
 
         case establishConnection
         case endConnection
@@ -40,6 +35,10 @@ struct SessionSetup: ReducerProtocol {
         Reduce { state, action in
             switch action {
 
+            case .setNavigationToSession(isActive: let isActive):
+                state.isNavigationToSessionActive = isActive
+                return .none
+
             case .session(.stopButtonDidTap):
                 state.isNavigationToSessionActive = false
                 return .none
@@ -49,24 +48,6 @@ struct SessionSetup: ReducerProtocol {
                 return .none
 
             case .session:
-                return .none
-
-            case .shotCountDidChange(let count):
-                state.shotCount = count
-                return .none
-
-            case .startStandaloneSession:
-                state.session = Session.State(
-                    title: "Standalone",
-                    shotCount: state.shotCount,
-                    isContinuous: true
-                )
-
-                state.isNavigationToSessionActive = true
-                return .none
-
-            case .setNavigationToSession(isActive: let isActive):
-                state.isNavigationToSessionActive = isActive
                 return .none
 
             case .establishConnection:

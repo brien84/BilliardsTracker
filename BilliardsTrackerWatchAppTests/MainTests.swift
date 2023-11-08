@@ -41,17 +41,6 @@ final class MainTests: XCTestCase {
         }
     }
 
-    func testNavigationToSessionSetup() async throws {
-        await store.send(.setNavigationToSessionSetup(isActive: true)) {
-            $0.sessionSetup = SessionSetup.State(mode: .tracked)
-            $0.isNavigationToSessionSetupActive = true
-        }
-
-        await store.send(.setNavigationToSessionSetup(isActive: false)) {
-            $0.isNavigationToSessionSetupActive = false
-        }
-    }
-
     func navigatingToStandaloneSession() async throws {
         await store.send(.setNavigationToStandalone(isActive: true)) {
             $0.standalone = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
@@ -89,4 +78,16 @@ final class MainTests: XCTestCase {
             $0.standalone.result = nil
         }
     }
+
+    func testNavigationToTracked() async throws {
+        await store.send(.setNavigationToTracked(isActive: true)) {
+            $0.tracked = TrackedActivation.State()
+            $0.isNavigationToTrackedActive = true
+        }
+
+        await store.send(.setNavigationToTracked(isActive: false)) {
+            $0.isNavigationToTrackedActive = false
+        }
+    }
+
 }

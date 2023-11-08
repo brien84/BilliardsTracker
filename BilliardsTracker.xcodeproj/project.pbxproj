@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* SessionSetupTests.swift */; };
+		291F27B329DAD79F0004960C /* TrackedActivationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* TrackedActivationTests.swift */; };
 		291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B429DB0CB50004960C /* IllustratedTextView.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
 		291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2C29CDFAF0007DA116 /* SessionTests.swift */; };
@@ -65,11 +65,9 @@
 		29A0F39C299ED466000302AF /* SessionProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F39B299ED466000302AF /* SessionProgressView.swift */; };
 		29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F39D299ED5D1000302AF /* SessionControlView.swift */; };
 		29A0F3A0299ED9CC000302AF /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F39F299ED9CC000302AF /* SessionView.swift */; };
-		29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A129A285ED000302AF /* StandaloneView.swift */; };
 		29A0F3A829A2DBB8000302AF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3A729A2DBB8000302AF /* Result.swift */; };
 		29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CD29A3BC14000302AF /* MotionClient.swift */; };
 		29A0F3D029B633D8000302AF /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CF29B633D7000302AF /* ResultView.swift */; };
-		29A0F3D229B656C4000302AF /* TrackedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3D129B656C4000302AF /* TrackedView.swift */; };
 		29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3D329B77504000302AF /* ConnectivityClient.swift */; };
 		29A342082AF7C146006B62D6 /* MenuButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A342072AF7C145006B62D6 /* MenuButtonView.swift */; };
 		29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */; };
@@ -91,8 +89,8 @@
 		29D0344129C10ED600BA7865 /* Extension+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D0344029C10ED600BA7865 /* Extension+Color.swift */; };
 		29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892829D9B11F0066041B /* UserDefaultsClient.swift */; };
 		29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */; };
-		29D8892E29DA10490066041B /* SessionSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892D29DA10490066041B /* SessionSetup.swift */; };
-		29D8893029DA113F0066041B /* SessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892F29DA113E0066041B /* SessionSetupView.swift */; };
+		29D8892E29DA10490066041B /* TrackedActivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892D29DA10490066041B /* TrackedActivation.swift */; };
+		29D8893029DA113F0066041B /* TrackedActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D8892F29DA113E0066041B /* TrackedActivationView.swift */; };
 		29DB145E2998168A004029D1 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB145D2998168A004029D1 /* MainTests.swift */; };
 		29DB1461299ADA77004029D1 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 29DB1460299ADA77004029D1 /* ComposableArchitecture */; };
 		29DB1464299ADE8B004029D1 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB1463299ADE8B004029D1 /* Main.swift */; };
@@ -153,7 +151,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		291F27B229DAD79F0004960C /* SessionSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupTests.swift; sourceTree = "<group>"; };
+		291F27B229DAD79F0004960C /* TrackedActivationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedActivationTests.swift; sourceTree = "<group>"; };
 		291F27B429DB0CB50004960C /* IllustratedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustratedTextView.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		291F7C2C29CDFAF0007DA116 /* SessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTests.swift; sourceTree = "<group>"; };
@@ -217,11 +215,9 @@
 		29A0F39B299ED466000302AF /* SessionProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProgressView.swift; sourceTree = "<group>"; };
 		29A0F39D299ED5D1000302AF /* SessionControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionControlView.swift; sourceTree = "<group>"; };
 		29A0F39F299ED9CC000302AF /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
-		29A0F3A129A285ED000302AF /* StandaloneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneView.swift; sourceTree = "<group>"; };
 		29A0F3A729A2DBB8000302AF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		29A0F3CD29A3BC14000302AF /* MotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionClient.swift; sourceTree = "<group>"; };
 		29A0F3CF29B633D7000302AF /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
-		29A0F3D129B656C4000302AF /* TrackedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedView.swift; sourceTree = "<group>"; };
 		29A0F3D329B77504000302AF /* ConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityClient.swift; sourceTree = "<group>"; };
 		29A342072AF7C145006B62D6 /* MenuButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonView.swift; sourceTree = "<group>"; };
 		29A64522261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BilliardsTrackerModel.xcdatamodel; sourceTree = "<group>"; };
@@ -242,8 +238,8 @@
 		29D0344029C10ED600BA7865 /* Extension+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Color.swift"; sourceTree = "<group>"; };
 		29D8892829D9B11F0066041B /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
 		29D8892A29D9B1290066041B /* LiveUserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserDefaultsClient.swift; sourceTree = "<group>"; };
-		29D8892D29DA10490066041B /* SessionSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetup.swift; sourceTree = "<group>"; };
-		29D8892F29DA113E0066041B /* SessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupView.swift; sourceTree = "<group>"; };
+		29D8892D29DA10490066041B /* TrackedActivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedActivation.swift; sourceTree = "<group>"; };
+		29D8892F29DA113E0066041B /* TrackedActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedActivationView.swift; sourceTree = "<group>"; };
 		29DB145D2998168A004029D1 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
 		29DB1463299ADE8B004029D1 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		29DB1465299ADF1B004029D1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -449,7 +445,7 @@
 				29DB1462299ADE78004029D1 /* Main */,
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
-				29D8892C29DA10300066041B /* SessionSetup */,
+				29D8892C29DA10300066041B /* TrackedActivation */,
 				29200293267FC76D00DCA308 /* Shared */,
 				2926E11E26150FE600E95DBB /* Assets.xcassets */,
 				2926E12026150FE600E95DBB /* Info.plist */,
@@ -492,8 +488,8 @@
 			isa = PBXGroup;
 			children = (
 				291F7C2A29CDFA9A007DA116 /* MainTests.swift */,
-				291F27B229DAD79F0004960C /* SessionSetupTests.swift */,
 				291F7C2C29CDFAF0007DA116 /* SessionTests.swift */,
+				291F27B229DAD79F0004960C /* TrackedActivationTests.swift */,
 			);
 			path = BilliardsTrackerWatchAppTests;
 			sourceTree = "<group>";
@@ -681,23 +677,13 @@
 			path = UserDefaultsClient;
 			sourceTree = "<group>";
 		};
-		29D8892C29DA10300066041B /* SessionSetup */ = {
+		29D8892C29DA10300066041B /* TrackedActivation */ = {
 			isa = PBXGroup;
 			children = (
-				29D8892D29DA10490066041B /* SessionSetup.swift */,
-				29D8892F29DA113E0066041B /* SessionSetupView.swift */,
-				29D8893129DA22EF0066041B /* Subviews */,
+				29D8892D29DA10490066041B /* TrackedActivation.swift */,
+				29D8892F29DA113E0066041B /* TrackedActivationView.swift */,
 			);
-			path = SessionSetup;
-			sourceTree = "<group>";
-		};
-		29D8893129DA22EF0066041B /* Subviews */ = {
-			isa = PBXGroup;
-			children = (
-				29A0F3A129A285ED000302AF /* StandaloneView.swift */,
-				29A0F3D129B656C4000302AF /* TrackedView.swift */,
-			);
-			path = Subviews;
+			path = TrackedActivation;
 			sourceTree = "<group>";
 		};
 		29DB145F299ADA77004029D1 /* Frameworks */ = {
@@ -1054,20 +1040,18 @@
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				297BF3AD29F46ED70034A250 /* Extension+CommandLine.swift in Sources */,
 				29A0F39A299D642F000302AF /* ExtendedRuntimeClient.swift in Sources */,
-				29A0F3D229B656C4000302AF /* TrackedView.swift in Sources */,
 				29A0F3D029B633D8000302AF /* ResultView.swift in Sources */,
 				29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */,
 				291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */,
 				29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
-				29D8892E29DA10490066041B /* SessionSetup.swift in Sources */,
+				29D8892E29DA10490066041B /* TrackedActivation.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */,
 				29DB1466299ADF1B004029D1 /* MainView.swift in Sources */,
 				297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */,
-				29D8893029DA113F0066041B /* SessionSetupView.swift in Sources */,
-				29A0F3A229A285ED000302AF /* StandaloneView.swift in Sources */,
+				29D8893029DA113F0066041B /* TrackedActivationView.swift in Sources */,
 				29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */,
 				29200295267FC78500DCA308 /* Extension+Color.swift in Sources */,
 				29DB1467299C02D0004029D1 /* PassiveNavigationLink.swift in Sources */,
@@ -1080,7 +1064,7 @@
 			files = (
 				291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */,
 				291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */,
-				291F27B329DAD79F0004960C /* SessionSetupTests.swift in Sources */,
+				291F27B329DAD79F0004960C /* TrackedActivationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,7 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
         stopSession()
 
         closeOnboardView()
-        openTrackedSetupView()
+        openTrackedActivationView()
         completeAndRestartSession()
         completeAndFinishSession()
     }
@@ -44,7 +44,7 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
         element.tap()
     }
 
-    func openTrackedSetupView() {
+    func openTrackedActivationView() {
         let element = app.cells["Tracked"]
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
