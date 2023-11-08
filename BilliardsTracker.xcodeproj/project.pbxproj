@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2900CEB42AFBBBE900F2FC9A /* SessionSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB32AFBBBE900F2FC9A /* SessionSetup.swift */; };
+		2900CEB62AFBBC3400F2FC9A /* SessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */; };
 		291F27B329DAD79F0004960C /* TrackedActivationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* TrackedActivationTests.swift */; };
 		291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B429DB0CB50004960C /* IllustratedTextView.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
@@ -151,6 +153,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2900CEB32AFBBBE900F2FC9A /* SessionSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetup.swift; sourceTree = "<group>"; };
+		2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupView.swift; sourceTree = "<group>"; };
 		291F27B229DAD79F0004960C /* TrackedActivationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedActivationTests.swift; sourceTree = "<group>"; };
 		291F27B429DB0CB50004960C /* IllustratedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustratedTextView.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
@@ -293,6 +297,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2900CEB22AFBBBCA00F2FC9A /* SessionSetup */ = {
+			isa = PBXGroup;
+			children = (
+				2900CEB32AFBBBE900F2FC9A /* SessionSetup.swift */,
+				2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */,
+			);
+			path = SessionSetup;
+			sourceTree = "<group>";
+		};
 		291F7C3229CE4E7D007DA116 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,6 +458,7 @@
 				29DB1462299ADE78004029D1 /* Main */,
 				29A0F3A629A2DBA7000302AF /* Result */,
 				29A0F396299D54EA000302AF /* Session */,
+				2900CEB22AFBBBCA00F2FC9A /* SessionSetup */,
 				29D8892C29DA10300066041B /* TrackedActivation */,
 				29200293267FC76D00DCA308 /* Shared */,
 				2926E11E26150FE600E95DBB /* Assets.xcassets */,
@@ -1038,7 +1052,9 @@
 				29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */,
 				29A342082AF7C146006B62D6 /* MenuButtonView.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
+				2900CEB42AFBBBE900F2FC9A /* SessionSetup.swift in Sources */,
 				297BF3AD29F46ED70034A250 /* Extension+CommandLine.swift in Sources */,
+				2900CEB62AFBBC3400F2FC9A /* SessionSetupView.swift in Sources */,
 				29A0F39A299D642F000302AF /* ExtendedRuntimeClient.swift in Sources */,
 				29A0F3D029B633D8000302AF /* ResultView.swift in Sources */,
 				29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */,
