@@ -50,23 +50,26 @@ struct MainView: View {
                     )
 
                     List {
-                        MenuButtonView(
-                            imageName: "applewatch",
+                        ListButtonView(
                             title: "Standalone",
-                            subtitle: ""
-                        ) {
-                            viewStore.send(.setNavigationToStandalone(isActive: true))
-                        }
-                        .setColor(.customBlue)
+                            action: {
+                                viewStore.send(.setNavigationToStandalone(isActive: true))
+                            },
+                            secondaryAction: { }
+                        )
+                        .color(.customBlue)
+                        .imageName("applewatch")
+                        .subtitle("\(viewStore.standaloneSetup.shotCount) shots")
 
-                        MenuButtonView(
-                            imageName: "iphone",
+                        ListButtonView(
                             title: "Tracked",
-                            subtitle: ""
-                        ) {
-                            viewStore.send(.setNavigationToTracked(isActive: true))
-                        }
-                        .setColor(.customRed)
+                            action: {
+                                viewStore.send(.setNavigationToTracked(isActive: true))
+                            },
+                            secondaryAction: { }
+                        )
+                        .color(.customRed)
+                        .imageName("iphone")
                     }
                     .listStyle(.carousel)
                 }

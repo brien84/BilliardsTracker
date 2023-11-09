@@ -71,7 +71,7 @@
 		29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CD29A3BC14000302AF /* MotionClient.swift */; };
 		29A0F3D029B633D8000302AF /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3CF29B633D7000302AF /* ResultView.swift */; };
 		29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A0F3D329B77504000302AF /* ConnectivityClient.swift */; };
-		29A342082AF7C146006B62D6 /* MenuButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A342072AF7C145006B62D6 /* MenuButtonView.swift */; };
+		29A342082AF7C146006B62D6 /* ListButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A342072AF7C145006B62D6 /* ListButtonView.swift */; };
 		29A64523261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 29A64521261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodeld */; };
 		29A64531261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
 		29A64532261DFB4300C42E41 /* ResultContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A64530261DFB4300C42E41 /* ResultContext.swift */; };
@@ -223,7 +223,7 @@
 		29A0F3CD29A3BC14000302AF /* MotionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionClient.swift; sourceTree = "<group>"; };
 		29A0F3CF29B633D7000302AF /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		29A0F3D329B77504000302AF /* ConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityClient.swift; sourceTree = "<group>"; };
-		29A342072AF7C145006B62D6 /* MenuButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonView.swift; sourceTree = "<group>"; };
+		29A342072AF7C145006B62D6 /* ListButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListButtonView.swift; sourceTree = "<group>"; };
 		29A64522261CDCE100C42E41 /* BilliardsTrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BilliardsTrackerModel.xcdatamodel; sourceTree = "<group>"; };
 		29A64530261DFB4300C42E41 /* ResultContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultContext.swift; sourceTree = "<group>"; };
 		29BB85FB262E26AB0055A8BB /* DrillLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillLogView.swift; sourceTree = "<group>"; };
@@ -657,7 +657,7 @@
 		29CDE33E29E48F5A003F4F1B /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
-				29A342072AF7C145006B62D6 /* MenuButtonView.swift */,
+				29A342072AF7C145006B62D6 /* ListButtonView.swift */,
 				297E8FF8268B649C0091F086 /* OnboardView.swift */,
 			);
 			path = Subviews;
@@ -1050,7 +1050,7 @@
 				29A0F3CE29A3BC14000302AF /* MotionClient.swift in Sources */,
 				291F7C3929CE500A007DA116 /* LiveMotionClient.swift in Sources */,
 				29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */,
-				29A342082AF7C146006B62D6 /* MenuButtonView.swift in Sources */,
+				29A342082AF7C146006B62D6 /* ListButtonView.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
 				2900CEB42AFBBBE900F2FC9A /* SessionSetup.swift in Sources */,
 				297BF3AD29F46ED70034A250 /* Extension+CommandLine.swift in Sources */,
