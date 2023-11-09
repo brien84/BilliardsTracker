@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2900CEB42AFBBBE900F2FC9A /* SessionSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB32AFBBBE900F2FC9A /* SessionSetup.swift */; };
 		2900CEB62AFBBC3400F2FC9A /* SessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */; };
+		2900CEB92AFD811400F2FC9A /* SetupButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */; };
+		2900CEBB2AFD850100F2FC9A /* SessionSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEBA2AFD850100F2FC9A /* SessionSetupTests.swift */; };
 		291F27B329DAD79F0004960C /* TrackedActivationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* TrackedActivationTests.swift */; };
 		291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B429DB0CB50004960C /* IllustratedTextView.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
@@ -155,6 +157,8 @@
 /* Begin PBXFileReference section */
 		2900CEB32AFBBBE900F2FC9A /* SessionSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetup.swift; sourceTree = "<group>"; };
 		2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupView.swift; sourceTree = "<group>"; };
+		2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupButtonView.swift; sourceTree = "<group>"; };
+		2900CEBA2AFD850100F2FC9A /* SessionSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupTests.swift; sourceTree = "<group>"; };
 		291F27B229DAD79F0004960C /* TrackedActivationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedActivationTests.swift; sourceTree = "<group>"; };
 		291F27B429DB0CB50004960C /* IllustratedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustratedTextView.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
@@ -302,8 +306,17 @@
 			children = (
 				2900CEB32AFBBBE900F2FC9A /* SessionSetup.swift */,
 				2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */,
+				2900CEB72AFD80ED00F2FC9A /* Subviews */,
 			);
 			path = SessionSetup;
+			sourceTree = "<group>";
+		};
+		2900CEB72AFD80ED00F2FC9A /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */,
+			);
+			path = Subviews;
 			sourceTree = "<group>";
 		};
 		291F7C3229CE4E7D007DA116 /* Clients */ = {
@@ -502,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				291F7C2A29CDFA9A007DA116 /* MainTests.swift */,
+				2900CEBA2AFD850100F2FC9A /* SessionSetupTests.swift */,
 				291F7C2C29CDFAF0007DA116 /* SessionTests.swift */,
 				291F27B229DAD79F0004960C /* TrackedActivationTests.swift */,
 			);
@@ -1060,6 +1074,7 @@
 				29D8892B29D9B1290066041B /* LiveUserDefaultsClient.swift in Sources */,
 				291F7C3B29CE5015007DA116 /* LiveExtendedRuntimeClient.swift in Sources */,
 				29A0F3D429B77504000302AF /* ConnectivityClient.swift in Sources */,
+				2900CEB92AFD811400F2FC9A /* SetupButtonView.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
 				29D8892E29DA10490066041B /* TrackedActivation.swift in Sources */,
@@ -1080,6 +1095,7 @@
 			files = (
 				291F7C2D29CDFAF0007DA116 /* SessionTests.swift in Sources */,
 				291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */,
+				2900CEBB2AFD850100F2FC9A /* SessionSetupTests.swift in Sources */,
 				291F27B329DAD79F0004960C /* TrackedActivationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
