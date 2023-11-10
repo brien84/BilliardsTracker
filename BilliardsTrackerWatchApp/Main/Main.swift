@@ -16,10 +16,12 @@ enum Mode: Int {
 struct Main: ReducerProtocol {
     struct State: Equatable {
         var isNavigationToOnboardActive = false
+        var isNavigationToStandaloneSetupActive = false
         var isNavigationToStandaloneActive = false
         var isNavigationToTrackedActive = false
 
         var standalone = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
+        var standaloneSetup = SessionSetup.State(mode: .standalone)
         var tracked = TrackedActivation.State()
     }
 
@@ -28,9 +30,11 @@ struct Main: ReducerProtocol {
 
         case setNavigationToOnboard(isActive: Bool)
         case setNavigationToStandalone(isActive: Bool)
+        case setNavigationToStandaloneSetup(isActive: Bool)
         case setNavigationToTracked(isActive: Bool)
 
         case standalone(Session.Action)
+        case standaloneSetup(SessionSetup.Action)
         case tracked(TrackedActivation.Action)
     }
 
@@ -41,6 +45,10 @@ struct Main: ReducerProtocol {
             Session()
         }
 
+        Scope(state: \.standaloneSetup, action: /Action.standaloneSetup) {
+            SessionSetup()
+        }
+
         Scope(state: \.tracked, action: /Action.tracked) {
             TrackedActivation()
         }
@@ -49,6 +57,7 @@ struct Main: ReducerProtocol {
             switch action {
 
             case .onAppear:
+                state.standaloneSetup.options = userDefaults.getOptionsFor(.standalone)
                 guard !userDefaults.getHasOnboardBeenShown() else { return .none }
                 state.isNavigationToOnboardActive = true
                 return .fireAndForget {
@@ -59,9 +68,17 @@ struct Main: ReducerProtocol {
                 state.isNavigationToOnboardActive = isActive
                 return .none
 
+            case .setNavigationToStandaloneSetup(let isActive):
+                state.isNavigationToStandaloneSetupActive = isActive
+                return .none
+
             case .setNavigationToStandalone(let isActive):
                 guard isActive else { return .none }
-                state.standalone = Session.State(title: "Standalone", shotCount: 9, isContinuous: true)
+                state.standalone = Session.State(
+                    title: "Standalone",
+                    shotCount: state.standaloneSetup.shotCount,
+                    isContinuous: true
+                )
                 state.isNavigationToStandaloneActive = true
                 return .none
 
@@ -74,6 +91,9 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .standalone:
+                return .none
+
+            case .standaloneSetup:
                 return .none
 
             case .tracked:

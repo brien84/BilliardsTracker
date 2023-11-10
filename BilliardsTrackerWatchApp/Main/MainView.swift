@@ -25,6 +25,19 @@ struct MainView: View {
 
                     PassiveNavigationLink(
                         isActive: viewStore.binding(
+                            get: \.isNavigationToStandaloneSetupActive,
+                            send: Main.Action.setNavigationToStandaloneSetup(isActive:)
+                        ),
+                        destination: {
+                            SessionSetupView(store: store.scope(
+                                state: \.standaloneSetup,
+                                action: Main.Action.standaloneSetup
+                            ))
+                        }
+                    )
+
+                    PassiveNavigationLink(
+                        isActive: viewStore.binding(
                             get: \.isNavigationToStandaloneActive,
                             send: Main.Action.setNavigationToStandalone(isActive:)
                         ),
@@ -55,7 +68,9 @@ struct MainView: View {
                             action: {
                                 viewStore.send(.setNavigationToStandalone(isActive: true))
                             },
-                            secondaryAction: { }
+                            secondaryAction: {
+                                viewStore.send(.setNavigationToStandaloneSetup(isActive: true))
+                            }
                         )
                         .color(.customBlue)
                         .imageName("applewatch")
@@ -66,7 +81,9 @@ struct MainView: View {
                             action: {
                                 viewStore.send(.setNavigationToTracked(isActive: true))
                             },
-                            secondaryAction: { }
+                            secondaryAction: {
+
+                            }
                         )
                         .color(.customRed)
                         .imageName("iphone")
