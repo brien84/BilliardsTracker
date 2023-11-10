@@ -7,6 +7,14 @@
 
 import ComposableArchitecture
 
+struct SessionOptions: Codable, Equatable {
+    var shotCount: Int?
+
+    init(shotCount: Int? = nil) {
+        self.shotCount = shotCount
+    }
+}
+
 struct SessionSetup: ReducerProtocol {
     struct State: Equatable {
 
