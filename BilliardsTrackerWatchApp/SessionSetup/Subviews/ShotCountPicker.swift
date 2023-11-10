@@ -46,7 +46,7 @@ struct ShotCountPicker: View {
                     get: \.shotCount,
                     send: Self.Action.shotCountDidChange
                 )) {
-                    ForEach(1..<101) { i in
+                    ForEach(2..<101) { i in
                         Text("\(i)")
                             .font(.title2)
                             .tag(i)
