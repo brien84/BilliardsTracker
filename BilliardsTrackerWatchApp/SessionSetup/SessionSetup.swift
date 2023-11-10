@@ -17,17 +17,33 @@ struct SessionOptions: Codable, Equatable {
 
 struct SessionSetup: ReducerProtocol {
     struct State: Equatable {
+        var mode: Mode
+        var options = SessionOptions()
 
+        var isNavigationToShotCountActive = false
+
+        var shotCount: Int {
+            options.shotCount ?? 9
+        }
     }
 
     enum Action: Equatable {
-        case none
+        case setNavigationToShotCount(isActive: Bool)
+        case shotCountDidChange(Int)
     }
 
+    @Dependency(\.userDefaults) var userDefaults
+
     var body: some ReducerProtocol<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .none:
+            case .setNavigationToShotCount(isActive: let isActive):
+                state.isNavigationToShotCountActive = isActive
+                return .none
+
+            case .shotCountDidChange(let shotCount):
+                state.options.shotCount = shotCount
+                userDefaults.setOptionsFor(state.mode, state.options)
                 return .none
             }
         }
