@@ -16,10 +16,12 @@ extension UserDefaultsClient: DependencyKey {
         },
         setHasOnboardBeenShown: { hasBeenShown in
             UserDefaults.standard.set(hasBeenShown, forKey: Self.hasOnboardBeenShownKey)
+        },
+        getOptionsFor: { mode in
+            Self.getOptionsFor(mode, in: UserDefaults.standard)
+        },
+        setOptionsFor: { mode, options in
+            Self.setOptionsFor(mode, options: options, in: UserDefaults.standard)
         }
     )
-}
-
-private extension UserDefaultsClient {
-    static let hasOnboardBeenShownKey = "hasOnboardBeenShownKey"
 }
