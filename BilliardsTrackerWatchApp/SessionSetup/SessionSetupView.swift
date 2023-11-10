@@ -16,8 +16,8 @@ struct SessionSetupView: View {
             ZStack {
                 PassiveNavigationLink(
                     isActive: viewStore.binding(
-                        get: \.isNavigationToShotCountActive,
-                        send: SessionSetup.Action.setNavigationToShotCount(isActive:)
+                        get: \.isNavigationToShotCountPickerActive,
+                        send: SessionSetup.Action.setNavigationToShotCountPicker(isActive:)
                     ),
                     destination: {
                         ShotCountPicker(store: store)
@@ -28,7 +28,7 @@ struct SessionSetupView: View {
 
                 List {
                     SetupButtonView(
-                        action: { viewStore.send(.setNavigationToShotCount(isActive: true)) },
+                        action: { viewStore.send(.setNavigationToShotCountPicker(isActive: true)) },
                         imageName: "checklist",
                         title: "Shot Count",
                         subtitle: "\(viewStore.shotCount)"

@@ -24,13 +24,13 @@ final class SessionSetupTests: XCTestCase {
         store = nil
     }
 
-    func testNavigatingToShotCount() async throws {
-        await store.send(.setNavigationToShotCount(isActive: true)) {
-            $0.isNavigationToShotCountActive = true
+    func testNavigatingToShotCountPicker() async throws {
+        await store.send(.setNavigationToShotCountPicker(isActive: true)) {
+            $0.isNavigationToShotCountPickerActive = true
         }
 
-        await store.send(.setNavigationToShotCount(isActive: false)) {
-            $0.isNavigationToShotCountActive = false
+        await store.send(.setNavigationToShotCountPicker(isActive: false)) {
+            $0.isNavigationToShotCountPickerActive = false
         }
     }
 

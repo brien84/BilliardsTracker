@@ -14,7 +14,7 @@ private extension ShotCountPicker {
     }
 
     enum Action: Equatable {
-        case setNavigationToShotCount(isActive: Bool)
+        case setNavigationToShotCountPicker(isActive: Bool)
         case shotCountDidChange(Int)
     }
 }
@@ -28,8 +28,8 @@ private extension SessionSetup.State {
 private extension ShotCountPicker.Action {
     var action: SessionSetup.Action {
         switch self {
-        case .setNavigationToShotCount(let isActive):
-            return .setNavigationToShotCount(isActive: isActive)
+        case .setNavigationToShotCountPicker(let isActive):
+            return .setNavigationToShotCountPicker(isActive: isActive)
         case .shotCountDidChange(let shotCount):
             return .shotCountDidChange(shotCount)
         }
@@ -57,7 +57,7 @@ struct ShotCountPicker: View {
                 }
 
                 Button("Done") {
-                    viewStore.send(.setNavigationToShotCount(isActive: false))
+                    viewStore.send(.setNavigationToShotCountPicker(isActive: false))
                 }
             }
         }
