@@ -23,7 +23,7 @@ final class MainTests: XCTestCase {
     }
 
     func testGettingStandaloneSetupOptionsOnAppear() async throws {
-        let options = SessionOptions(shotCount: 15)
+        let options = SessionOptions(isContinuous: Bool.random(), shotCount: 15)
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.getOptionsFor = { @Sendable _ in options }
 
@@ -63,7 +63,7 @@ final class MainTests: XCTestCase {
     }
 
     func testNavigatingToStandaloneSession() async throws {
-        let options = SessionOptions(shotCount: 64)
+        let options = SessionOptions(isContinuous: Bool.random(), shotCount: 64)
 
         let store = TestStore(
             initialState: Main.State(standaloneSetup: SessionSetup.State(mode: .standalone, options: options)),
@@ -71,7 +71,11 @@ final class MainTests: XCTestCase {
         )
 
         await store.send(.setNavigationToStandalone(isActive: true)) {
-            $0.standalone = Session.State(title: "Standalone", shotCount: options.shotCount!, isContinuous: true)
+            $0.standalone = Session.State(
+                title: "Standalone",
+                shotCount: options.shotCount!,
+                isContinuous: options.isContinuous!
+            )
             $0.isNavigationToStandaloneActive = true
         }
     }

@@ -24,6 +24,16 @@ final class SessionSetupTests: XCTestCase {
         store = nil
     }
 
+    func testNavigatingToContinuousToggle() async throws {
+        await store.send(.setNavigationToContinuousToggle(isActive: true)) {
+            $0.isNavigationToContinuousToggleActive = true
+        }
+
+        await store.send(.setNavigationToContinuousToggle(isActive: false)) {
+            $0.isNavigationToContinuousToggleActive = false
+        }
+    }
+
     func testNavigatingToShotCountPicker() async throws {
         await store.send(.setNavigationToShotCountPicker(isActive: true)) {
             $0.isNavigationToShotCountPickerActive = true
@@ -31,6 +41,18 @@ final class SessionSetupTests: XCTestCase {
 
         await store.send(.setNavigationToShotCountPicker(isActive: false)) {
             $0.isNavigationToShotCountPickerActive = false
+        }
+    }
+
+    func testTogglingIsContinuous() async throws {
+        let isContinuous = store.state.options.isContinuous ?? true
+
+        store.dependencies.userDefaults.setOptionsFor = { @Sendable _, options in
+            XCTAssertEqual(options.isContinuous, !isContinuous)
+        }
+
+        await store.send(.isContinuousDidChange(!isContinuous)) {
+            $0.options.isContinuous = !isContinuous
         }
     }
 
