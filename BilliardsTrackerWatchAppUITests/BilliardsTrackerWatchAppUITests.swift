@@ -23,6 +23,8 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
 
     func testUI() throws {
         closeOnboardView()
+        configureStandaloneSession()
+        closeOnboardView()
         startStandaloneSession()
         registerShots()
         pauseAndResumeSession()
@@ -45,15 +47,37 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
     }
 
     func openTrackedActivationView() {
-        let element = app.cells["Tracked"]
+        let element = app.cells.allElementsBoundByIndex.first { $0.label.contains("Tracked") }!
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
     }
 
     func startStandaloneSession() {
-        let element = app.cells["Standalone"]
+        let element = app.cells.allElementsBoundByIndex.first { $0.label.contains("Standalone") }!
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
+    }
+
+    func configureStandaloneSession() {
+        let element = app.buttons["More"].firstMatch
+        XCTAssertTrue(element.waitForExistence(timeout: 1.0))
+        element.tap()
+
+        let menuItem = app.cells.allElementsBoundByIndex.first { $0.label.contains("Shot Count") }!
+        XCTAssertTrue(menuItem.waitForExistence(timeout: 1.0))
+        menuItem.tap()
+
+        let picker = app.otherElements["Shot Count"]
+        XCTAssertTrue(picker.waitForExistence(timeout: 1.0))
+        picker.swipeUp(velocity: .fast)
+
+        let doneButton = app.buttons["Done"]
+        XCTAssertTrue(doneButton.waitForExistence(timeout: 1.0))
+        doneButton.tap()
+
+        let backButton = app.buttons["BackButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 1.0))
+        backButton.tap()
     }
 
     func stopSession() {
