@@ -11,6 +11,7 @@
 		2900CEB62AFBBC3400F2FC9A /* SessionSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */; };
 		2900CEB92AFD811400F2FC9A /* SetupButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */; };
 		2900CEBB2AFD850100F2FC9A /* SessionSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEBA2AFD850100F2FC9A /* SessionSetupTests.swift */; };
+		2900CEBD2AFE37D500F2FC9A /* ShotCountPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2900CEBC2AFE37D500F2FC9A /* ShotCountPicker.swift */; };
 		291F27B329DAD79F0004960C /* TrackedActivationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B229DAD79F0004960C /* TrackedActivationTests.swift */; };
 		291F27B529DB0CB50004960C /* IllustratedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F27B429DB0CB50004960C /* IllustratedTextView.swift */; };
 		291F7C2B29CDFA9A007DA116 /* MainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291F7C2A29CDFA9A007DA116 /* MainTests.swift */; };
@@ -159,6 +160,7 @@
 		2900CEB52AFBBC3400F2FC9A /* SessionSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupView.swift; sourceTree = "<group>"; };
 		2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupButtonView.swift; sourceTree = "<group>"; };
 		2900CEBA2AFD850100F2FC9A /* SessionSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSetupTests.swift; sourceTree = "<group>"; };
+		2900CEBC2AFE37D500F2FC9A /* ShotCountPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotCountPicker.swift; sourceTree = "<group>"; };
 		291F27B229DAD79F0004960C /* TrackedActivationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedActivationTests.swift; sourceTree = "<group>"; };
 		291F27B429DB0CB50004960C /* IllustratedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IllustratedTextView.swift; sourceTree = "<group>"; };
 		291F7C2A29CDFA9A007DA116 /* MainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTests.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */,
+				2900CEBC2AFE37D500F2FC9A /* ShotCountPicker.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -1077,6 +1080,7 @@
 				2900CEB92AFD811400F2FC9A /* SetupButtonView.swift in Sources */,
 				29DB1464299ADE8B004029D1 /* Main.swift in Sources */,
 				292002D92682572C00DCA308 /* MarqueeText.swift in Sources */,
+				2900CEBD2AFE37D500F2FC9A /* ShotCountPicker.swift in Sources */,
 				29D8892E29DA10490066041B /* TrackedActivation.swift in Sources */,
 				2926E12D26150FE600E95DBB /* BilliardsTrackerApp.swift in Sources */,
 				29A0F39E299ED5D1000302AF /* SessionControlView.swift in Sources */,
