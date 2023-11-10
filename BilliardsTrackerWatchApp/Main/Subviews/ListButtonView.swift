@@ -45,6 +45,8 @@ struct ListButtonView: View {
                     Text(subtitle)
                         .font(.caption2)
                         .opacity(subtitle.isEmpty ? 0 : 1)
+                        .lineLimit(1)
+                        .minimumScaleFactor(Self.scaleFactor)
                 }
                 .padding(.horizontal, Self.horizontalPadding)
                 .padding(.vertical)
@@ -133,6 +135,7 @@ private extension ListButtonView {
     static let imageWidth: CGFloat = 40
     static let horizontalPadding: CGFloat = 16
     static let rowInsets: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+    static let scaleFactor: CGFloat = 0.7
     static let tintOpacity: CGFloat = 0.15
 }
 
