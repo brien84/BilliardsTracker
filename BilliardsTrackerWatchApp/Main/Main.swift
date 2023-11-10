@@ -77,7 +77,7 @@ struct Main: ReducerProtocol {
                 state.standalone = Session.State(
                     title: "Standalone",
                     shotCount: state.standaloneSetup.shotCount,
-                    isContinuous: true
+                    isContinuous: state.standaloneSetup.isContinuous
                 )
                 state.isNavigationToStandaloneActive = true
                 return .none

@@ -63,6 +63,8 @@ struct MainView: View {
                     )
 
                     List {
+                        let shots = String(viewStore.standaloneSetup.shotCount) + " shots"
+                        let isContinuous = viewStore.standaloneSetup.isContinuous ? " | continuous" : ""
                         ListButtonView(
                             title: "Standalone",
                             action: {
@@ -74,7 +76,7 @@ struct MainView: View {
                         )
                         .color(.customBlue)
                         .imageName("applewatch")
-                        .subtitle("\(viewStore.standaloneSetup.shotCount) shots")
+                        .subtitle(shots + isContinuous)
 
                         ListButtonView(
                             title: "Tracked",

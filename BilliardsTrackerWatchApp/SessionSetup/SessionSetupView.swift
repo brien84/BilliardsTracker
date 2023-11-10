@@ -26,12 +26,31 @@ struct SessionSetupView: View {
                     }
                 )
 
+                PassiveNavigationLink(
+                    isActive: viewStore.binding(
+                        get: \.isNavigationToContinuousToggleActive,
+                        send: SessionSetup.Action.setNavigationToContinuousToggle(isActive:)
+                    ),
+                    destination: {
+                        ContinuousToggle(store: store)
+                            .tint(Color.customBlue)
+                    }
+                )
+
                 List {
                     SetupButtonView(
                         action: { viewStore.send(.setNavigationToShotCountPicker(isActive: true)) },
                         imageName: "checklist",
                         title: "Shot Count",
                         subtitle: "\(viewStore.shotCount)"
+                    )
+                    .color(.customBlue)
+
+                    SetupButtonView(
+                        action: { viewStore.send(.setNavigationToContinuousToggle(isActive: true)) },
+                        imageName: "repeat",
+                        title: "Continuous",
+                        subtitle: viewStore.isContinuous ? "Yes" : "No"
                     )
                     .color(.customBlue)
                 }

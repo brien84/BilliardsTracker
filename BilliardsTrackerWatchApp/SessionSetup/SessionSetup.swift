@@ -8,6 +8,7 @@
 import ComposableArchitecture
 
 struct SessionOptions: Codable, Equatable {
+    var isContinuous: Bool?
     var shotCount: Int?
 }
 
@@ -16,7 +17,12 @@ struct SessionSetup: ReducerProtocol {
         var mode: Mode
         var options = SessionOptions()
 
+        var isNavigationToContinuousToggleActive = false
         var isNavigationToShotCountPickerActive = false
+
+        var isContinuous: Bool {
+            options.isContinuous ?? true
+        }
 
         var shotCount: Int {
             options.shotCount ?? 9
@@ -24,6 +30,7 @@ struct SessionSetup: ReducerProtocol {
     }
 
     enum Action: Equatable {
+        case setNavigationToContinuousToggle(isActive: Bool)
         case setNavigationToShotCountPicker(isActive: Bool)
 
         case isContinuousDidChange(Bool)
@@ -35,6 +42,9 @@ struct SessionSetup: ReducerProtocol {
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
+            case .setNavigationToContinuousToggle(isActive: let isActive):
+                state.isNavigationToContinuousToggleActive = isActive
+                return .none
 
             case .setNavigationToShotCountPicker(isActive: let isActive):
                 state.isNavigationToShotCountPickerActive = isActive
