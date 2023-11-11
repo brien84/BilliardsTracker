@@ -49,7 +49,7 @@ struct NewDrillView: View {
 
                             if isShowingPicker {
                                 Picker("Set Shot Count", selection: viewStore.binding(\.$shotCount)) {
-                                    ForEach(1..<101) { i in
+                                    ForEach(2..<151) { i in
                                         Text("\(i)")
                                             .tag(i)
                                     }
