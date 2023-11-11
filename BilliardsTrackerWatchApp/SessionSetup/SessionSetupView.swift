@@ -13,6 +13,8 @@ struct SessionSetupView: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
+            let color = viewStore.mode == .standalone ? Color.customBlue : Color.customRed
+
             ZStack {
                 PassiveNavigationLink(
                     isActive: viewStore.binding(
@@ -21,7 +23,7 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         ContinuousToggle(store: store)
-                            .tint(Color.customBlue)
+                            .tint(color)
                     }
                 )
 
@@ -32,7 +34,7 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         RestartingToggle(store: store)
-                            .tint(Color.customBlue)
+                            .tint(color)
                     }
                 )
 
@@ -43,27 +45,29 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         ShotCountPicker(store: store)
-                            .foregroundStyle(Color.customBlue)
-                            .tint(Color.customBlue)
+                            .foregroundStyle(color)
+                            .tint(color)
                     }
                 )
 
                 List {
-                    SetupButtonView(
-                        action: { viewStore.send(.setNavigationToShotCountPicker(isActive: true)) },
-                        imageName: "checklist",
-                        title: "Shot Count",
-                        subtitle: "\(viewStore.shotCount)"
-                    )
-                    .color(.customBlue)
+                    if viewStore.mode == .standalone {
+                        SetupButtonView(
+                            action: { viewStore.send(.setNavigationToShotCountPicker(isActive: true)) },
+                            imageName: "checklist",
+                            title: "Shot Count",
+                            subtitle: "\(viewStore.shotCount)"
+                        )
+                        .color(color)
 
-                    SetupButtonView(
-                        action: { viewStore.send(.setNavigationToContinuousToggle(isActive: true)) },
-                        imageName: "repeat",
-                        title: "Continuous",
-                        subtitle: viewStore.isContinuous ? "Yes" : "No"
-                    )
-                    .color(.customBlue)
+                        SetupButtonView(
+                            action: { viewStore.send(.setNavigationToContinuousToggle(isActive: true)) },
+                            imageName: "repeat",
+                            title: "Continuous",
+                            subtitle: viewStore.isContinuous ? "Yes" : "No"
+                        )
+                        .color(color)
+                    }
 
                     SetupButtonView(
                         action: { viewStore.send(.setNavigationToRestartingToggle(isActive: true)) },
@@ -71,13 +75,13 @@ struct SessionSetupView: View {
                         title: "Restarting",
                         subtitle: viewStore.isRestarting ? "Yes" : "No"
                     )
-                    .color(.customBlue)
-                    .disabled(viewStore.isContinuous)
+                    .color(color)
+                    .disabled(viewStore.mode == .standalone && viewStore.isContinuous)
                 }
             }
             .navigationTitle {
-                Text("Standalone")
-                    .foregroundStyle(Color.customBlue)
+                Text(viewStore.mode == .standalone ? "Standalone" : "Tracked")
+                    .foregroundStyle(color)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }

@@ -23,12 +23,21 @@ final class MainTests: XCTestCase {
     }
 
     func testGettingStandaloneSetupOptionsOnAppear() async throws {
-        let options = SessionOptions(isContinuous: Bool.random(), shotCount: 15)
+        let standaloneOptions = SessionOptions(isContinuous: Bool.random(), isRestarting: Bool.random(), shotCount: 15)
+        let trackedOptions = SessionOptions(isRestarting: Bool.random())
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
-        store.dependencies.userDefaults.getOptionsFor = { @Sendable _ in options }
+        store.dependencies.userDefaults.getOptionsFor = { @Sendable mode in
+            switch mode {
+            case .standalone:
+                return standaloneOptions
+            case .tracked:
+                return trackedOptions
+            }
+        }
 
         await store.send(.onAppear) {
-            $0.standaloneSetup.options = options
+            $0.standaloneSetup.options = standaloneOptions
+            $0.trackedSetup.options = trackedOptions
         }
     }
 
@@ -49,16 +58,6 @@ final class MainTests: XCTestCase {
 
         await store.send(.setNavigationToOnboard(isActive: false)) {
             $0.isNavigationToOnboardActive = false
-        }
-    }
-
-    func testNavigatingToStandaloneSetup() async throws {
-        await store.send(.setNavigationToStandaloneSetup(isActive: true)) {
-            $0.isNavigationToStandaloneSetupActive = true
-        }
-
-        await store.send(.setNavigationToStandaloneSetup(isActive: false)) {
-            $0.isNavigationToStandaloneSetupActive = false
         }
     }
 
@@ -118,14 +117,38 @@ final class MainTests: XCTestCase {
         }
     }
 
+    func testNavigatingToStandaloneSetup() async throws {
+        await store.send(.setNavigationToStandaloneSetup(isActive: true)) {
+            $0.isNavigationToStandaloneSetupActive = true
+        }
+
+        await store.send(.setNavigationToStandaloneSetup(isActive: false)) {
+            $0.isNavigationToStandaloneSetupActive = false
+        }
+    }
+
     func testNavigationToTracked() async throws {
+        let isRestarting = true
+        let trackedSetup = SessionSetup.State(mode: .tracked, options: SessionOptions(isRestarting: isRestarting))
+        let store = TestStore(initialState: Main.State(trackedSetup: trackedSetup), reducer: Main())
+
         await store.send(.setNavigationToTracked(isActive: true)) {
-            $0.tracked = TrackedActivation.State()
+            $0.tracked = TrackedActivation.State(isRestarting: isRestarting)
             $0.isNavigationToTrackedActive = true
         }
 
         await store.send(.setNavigationToTracked(isActive: false)) {
             $0.isNavigationToTrackedActive = false
+        }
+    }
+
+    func testNavigatingToTrackedSetup() async throws {
+        await store.send(.setNavigationToTrackedSetup(isActive: true)) {
+            $0.isNavigationToTrackedSetupActive = true
+        }
+
+        await store.send(.setNavigationToTrackedSetup(isActive: false)) {
+            $0.isNavigationToTrackedSetupActive = false
         }
     }
 

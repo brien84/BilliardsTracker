@@ -16,9 +16,10 @@ enum Mode: Int {
 struct Main: ReducerProtocol {
     struct State: Equatable {
         var isNavigationToOnboardActive = false
-        var isNavigationToStandaloneSetupActive = false
         var isNavigationToStandaloneActive = false
+        var isNavigationToStandaloneSetupActive = false
         var isNavigationToTrackedActive = false
+        var isNavigationToTrackedSetupActive = false
 
         var standalone = Session.State(
             title: "Standalone",
@@ -28,6 +29,7 @@ struct Main: ReducerProtocol {
         )
         var standaloneSetup = SessionSetup.State(mode: .standalone)
         var tracked = TrackedActivation.State()
+        var trackedSetup = SessionSetup.State(mode: .tracked)
     }
 
     enum Action: Equatable {
@@ -37,10 +39,12 @@ struct Main: ReducerProtocol {
         case setNavigationToStandalone(isActive: Bool)
         case setNavigationToStandaloneSetup(isActive: Bool)
         case setNavigationToTracked(isActive: Bool)
+        case setNavigationToTrackedSetup(isActive: Bool)
 
         case standalone(Session.Action)
         case standaloneSetup(SessionSetup.Action)
         case tracked(TrackedActivation.Action)
+        case trackedSetup(SessionSetup.Action)
     }
 
     @Dependency(\.userDefaults) var userDefaults
@@ -58,11 +62,16 @@ struct Main: ReducerProtocol {
             TrackedActivation()
         }
 
+        Scope(state: \.trackedSetup, action: /Action.trackedSetup) {
+            SessionSetup()
+        }
+
         Reduce { state, action in
             switch action {
 
             case .onAppear:
                 state.standaloneSetup.options = userDefaults.getOptionsFor(.standalone)
+                state.trackedSetup.options = userDefaults.getOptionsFor(.tracked)
                 guard !userDefaults.getHasOnboardBeenShown() else { return .none }
                 state.isNavigationToOnboardActive = true
                 return .fireAndForget {
@@ -71,10 +80,6 @@ struct Main: ReducerProtocol {
 
             case .setNavigationToOnboard(isActive: let isActive):
                 state.isNavigationToOnboardActive = isActive
-                return .none
-
-            case .setNavigationToStandaloneSetup(let isActive):
-                state.isNavigationToStandaloneSetupActive = isActive
                 return .none
 
             case .setNavigationToStandalone(let isActive):
@@ -88,8 +93,17 @@ struct Main: ReducerProtocol {
                 state.isNavigationToStandaloneActive = true
                 return .none
 
+            case .setNavigationToStandaloneSetup(let isActive):
+                state.isNavigationToStandaloneSetupActive = isActive
+                return .none
+
             case .setNavigationToTracked(isActive: let isActive):
+                state.tracked.isRestarting = state.trackedSetup.isRestarting
                 state.isNavigationToTrackedActive = isActive
+                return .none
+
+            case .setNavigationToTrackedSetup(let isActive):
+                state.isNavigationToTrackedSetupActive = isActive
                 return .none
 
             case .standalone(.stopButtonDidTap), .standalone(.result(.doneButtonDidTap)):
@@ -103,6 +117,9 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .tracked:
+                return .none
+
+            case .trackedSetup:
                 return .none
 
             }

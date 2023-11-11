@@ -25,19 +25,6 @@ struct MainView: View {
 
                     PassiveNavigationLink(
                         isActive: viewStore.binding(
-                            get: \.isNavigationToStandaloneSetupActive,
-                            send: Main.Action.setNavigationToStandaloneSetup(isActive:)
-                        ),
-                        destination: {
-                            SessionSetupView(store: store.scope(
-                                state: \.standaloneSetup,
-                                action: Main.Action.standaloneSetup
-                            ))
-                        }
-                    )
-
-                    PassiveNavigationLink(
-                        isActive: viewStore.binding(
                             get: \.isNavigationToStandaloneActive,
                             send: Main.Action.setNavigationToStandalone(isActive:)
                         ),
@@ -51,6 +38,19 @@ struct MainView: View {
 
                     PassiveNavigationLink(
                         isActive: viewStore.binding(
+                            get: \.isNavigationToStandaloneSetupActive,
+                            send: Main.Action.setNavigationToStandaloneSetup(isActive:)
+                        ),
+                        destination: {
+                            SessionSetupView(store: store.scope(
+                                state: \.standaloneSetup,
+                                action: Main.Action.standaloneSetup
+                            ))
+                        }
+                    )
+
+                    PassiveNavigationLink(
+                        isActive: viewStore.binding(
                             get: \.isNavigationToTrackedActive,
                             send: Main.Action.setNavigationToTracked(isActive:)
                         ),
@@ -58,6 +58,19 @@ struct MainView: View {
                             TrackedActivationView(store: store.scope(
                                 state: \.tracked,
                                 action: Main.Action.tracked
+                            ))
+                        }
+                    )
+
+                    PassiveNavigationLink(
+                        isActive: viewStore.binding(
+                            get: \.isNavigationToTrackedSetupActive,
+                            send: Main.Action.setNavigationToTrackedSetup(isActive:)
+                        ),
+                        destination: {
+                            SessionSetupView(store: store.scope(
+                                state: \.trackedSetup,
+                                action: Main.Action.trackedSetup
                             ))
                         }
                     )
@@ -84,7 +97,7 @@ struct MainView: View {
                                 viewStore.send(.setNavigationToTracked(isActive: true))
                             },
                             secondaryAction: {
-
+                                viewStore.send(.setNavigationToTrackedSetup(isActive: true))
                             }
                         )
                         .color(.customRed)
