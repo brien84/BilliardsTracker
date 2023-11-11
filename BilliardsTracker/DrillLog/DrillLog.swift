@@ -13,7 +13,7 @@ struct DrillLog: ReducerProtocol {
         let statistics: Statistics
         var alert: AlertState<Action>?
 
-        @BindableState var isNavigationToFullHistoryActive = false
+        @BindingState var isNavigationToFullHistoryActive = false
 
         init(drill: Drill) {
             self.drill = drill
