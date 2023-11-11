@@ -41,6 +41,7 @@
 		294AD360261F74340086E808 /* DrillResult+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35C261F74340086E808 /* DrillResult+CoreDataProperties.swift */; };
 		29642E4B262E058C00A967D6 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29642E4A262E058C00A967D6 /* SessionView.swift */; };
 		296A934D29EDE69800D4C89B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296A934C29EDE69800D4C89B /* LoadingView.swift */; };
+		2972015B2AFF891E008548EC /* RestartingToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2972015A2AFF891E008548EC /* RestartingToggle.swift */; };
 		297BF3AC29F46ED70034A250 /* Extension+CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297BF3AB29F46ED70034A250 /* Extension+CommandLine.swift */; };
 		297BF3AD29F46ED70034A250 /* Extension+CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297BF3AB29F46ED70034A250 /* Extension+CommandLine.swift */; };
 		297E8FF9268B649C0091F086 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E8FF8268B649C0091F086 /* OnboardView.swift */; };
@@ -199,6 +200,7 @@
 		2961238F29C636FC00000E2D /* BilliardsTrackerWatchAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BilliardsTrackerWatchAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		29642E4A262E058C00A967D6 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		296A934C29EDE69800D4C89B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		2972015A2AFF891E008548EC /* RestartingToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartingToggle.swift; sourceTree = "<group>"; };
 		297BF3AB29F46ED70034A250 /* Extension+CommandLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+CommandLine.swift"; sourceTree = "<group>"; };
 		297E8FF8268B649C0091F086 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
 		297EDA5129D8B241004F17EB /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				2900CEBE2AFEC88F00F2FC9A /* ContinuousToggle.swift */,
+				2972015A2AFF891E008548EC /* RestartingToggle.swift */,
 				2900CEB82AFD811400F2FC9A /* SetupButtonView.swift */,
 				2900CEBC2AFE37D500F2FC9A /* ShotCountPicker.swift */,
 			);
@@ -1072,6 +1075,7 @@
 				29D8892929D9B11F0066041B /* UserDefaultsClient.swift in Sources */,
 				29A342082AF7C146006B62D6 /* ListButtonView.swift in Sources */,
 				298E3539261A1C4F00CCDDEE /* DrillContext.swift in Sources */,
+				2972015B2AFF891E008548EC /* RestartingToggle.swift in Sources */,
 				2900CEBF2AFEC88F00F2FC9A /* ContinuousToggle.swift in Sources */,
 				2900CEB42AFBBBE900F2FC9A /* SessionSetup.swift in Sources */,
 				297BF3AD29F46ED70034A250 /* Extension+CommandLine.swift in Sources */,

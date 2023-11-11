@@ -83,7 +83,7 @@ struct Main: ReducerProtocol {
                     title: "Standalone",
                     shotCount: state.standaloneSetup.shotCount,
                     isContinuous: state.standaloneSetup.isContinuous,
-                    isRestarting: false
+                    isRestarting: state.standaloneSetup.isRestarting
                 )
                 state.isNavigationToStandaloneActive = true
                 return .none

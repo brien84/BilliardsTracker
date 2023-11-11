@@ -63,7 +63,7 @@ final class MainTests: XCTestCase {
     }
 
     func testNavigatingToStandaloneSession() async throws {
-        let options = SessionOptions(isContinuous: Bool.random(), shotCount: 64)
+        let options = SessionOptions(isContinuous: Bool.random(), isRestarting: Bool.random(), shotCount: 64)
 
         let store = TestStore(
             initialState: Main.State(standaloneSetup: SessionSetup.State(mode: .standalone, options: options)),

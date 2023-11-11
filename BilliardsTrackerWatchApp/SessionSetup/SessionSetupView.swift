@@ -16,23 +16,34 @@ struct SessionSetupView: View {
             ZStack {
                 PassiveNavigationLink(
                     isActive: viewStore.binding(
-                        get: \.isNavigationToShotCountPickerActive,
-                        send: SessionSetup.Action.setNavigationToShotCountPicker(isActive:)
+                        get: \.isNavigationToContinuousToggleActive,
+                        send: SessionSetup.Action.setNavigationToContinuousToggle(isActive:)
                     ),
                     destination: {
-                        ShotCountPicker(store: store)
-                            .foregroundStyle(Color.customBlue)
+                        ContinuousToggle(store: store)
                             .tint(Color.customBlue)
                     }
                 )
 
                 PassiveNavigationLink(
                     isActive: viewStore.binding(
-                        get: \.isNavigationToContinuousToggleActive,
-                        send: SessionSetup.Action.setNavigationToContinuousToggle(isActive:)
+                        get: \.isNavigationToRestartingToggleActive,
+                        send: SessionSetup.Action.setNavigationToRestartingToggle(isActive:)
                     ),
                     destination: {
-                        ContinuousToggle(store: store)
+                        RestartingToggle(store: store)
+                            .tint(Color.customBlue)
+                    }
+                )
+
+                PassiveNavigationLink(
+                    isActive: viewStore.binding(
+                        get: \.isNavigationToShotCountPickerActive,
+                        send: SessionSetup.Action.setNavigationToShotCountPicker(isActive:)
+                    ),
+                    destination: {
+                        ShotCountPicker(store: store)
+                            .foregroundStyle(Color.customBlue)
                             .tint(Color.customBlue)
                     }
                 )
@@ -53,6 +64,15 @@ struct SessionSetupView: View {
                         subtitle: viewStore.isContinuous ? "Yes" : "No"
                     )
                     .color(.customBlue)
+
+                    SetupButtonView(
+                        action: { viewStore.send(.setNavigationToRestartingToggle(isActive: true)) },
+                        imageName: "restart",
+                        title: "Restarting",
+                        subtitle: viewStore.isRestarting ? "Yes" : "No"
+                    )
+                    .color(.customBlue)
+                    .disabled(viewStore.isContinuous)
                 }
             }
             .navigationTitle {

@@ -34,6 +34,16 @@ final class SessionSetupTests: XCTestCase {
         }
     }
 
+    func testNavigatingToRestartingToggle() async throws {
+        await store.send(.setNavigationToRestartingToggle(isActive: true)) {
+            $0.isNavigationToRestartingToggleActive = true
+        }
+
+        await store.send(.setNavigationToRestartingToggle(isActive: false)) {
+            $0.isNavigationToRestartingToggleActive = false
+        }
+    }
+
     func testNavigatingToShotCountPicker() async throws {
         await store.send(.setNavigationToShotCountPicker(isActive: true)) {
             $0.isNavigationToShotCountPickerActive = true
@@ -53,6 +63,18 @@ final class SessionSetupTests: XCTestCase {
 
         await store.send(.isContinuousDidChange(!isContinuous)) {
             $0.options.isContinuous = !isContinuous
+        }
+    }
+
+    func testTogglingIsRestarting() async throws {
+        let isRestarting = store.state.options.isRestarting ?? true
+
+        store.dependencies.userDefaults.setOptionsFor = { @Sendable _, options in
+            XCTAssertEqual(options.isRestarting, !isRestarting)
+        }
+
+        await store.send(.isRestartingDidChange(!isRestarting)) {
+            $0.options.isRestarting = !isRestarting
         }
     }
 
