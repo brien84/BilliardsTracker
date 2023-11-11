@@ -45,7 +45,7 @@ struct ContinuousToggle: View {
                 ))
                 .foregroundStyle(Color.primaryElement)
 
-                Text("Deselecting this option will end the drill once a shot is missed.")
+                Text("When this option is disabled, the drill session will end after the first missed shot.")
                     .foregroundStyle(Color.primaryElement)
                     .listRowBackground(Color.clear)
             }
