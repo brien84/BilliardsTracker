@@ -74,7 +74,8 @@ final class MainTests: XCTestCase {
             $0.standalone = Session.State(
                 title: "Standalone",
                 shotCount: options.shotCount!,
-                isContinuous: options.isContinuous!
+                isContinuous: options.isContinuous!,
+                isRestarting: options.isRestarting!
             )
             $0.isNavigationToStandaloneActive = true
         }
@@ -93,7 +94,13 @@ final class MainTests: XCTestCase {
 
     func testStoppingStandaloneSessionWithResultDoneButton() async throws {
         let result = Result.State(potCount: 6, missCount: 3)
-        let session = Session.State(result: result, title: "", shotCount: 9, isContinuous: true)
+        let session = Session.State(
+            result: result,
+            title: "",
+            shotCount: 9,
+            isContinuous: true,
+            isRestarting: false
+        )
 
         let store = TestStore(
             initialState: Main.State(

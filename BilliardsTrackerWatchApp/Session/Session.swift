@@ -17,10 +17,15 @@ struct Session: ReducerProtocol {
         let title: String
         let shotCount: Int
         let isContinuous: Bool
+        let isRestarting: Bool
         var potCount = 0
         var missCount = 0
         var didPotLastShot: Bool?
         var isPaused = false
+
+        var shouldRestart: Bool {
+            !isContinuous && isRestarting && missCount > 0
+        }
 
         var isCompleted: Bool {
             if isContinuous {
@@ -99,6 +104,20 @@ struct Session: ReducerProtocol {
         .cancellable(id: RuntimeID.self, cancelInFlight: true)
     }
 
+    private func restartSession(state: inout State) -> EffectTask<Action> {
+        let sendResultContext = sendResultContext(state: &state)
+        state.potCount = 0
+        state.missCount = 0
+        state.didPotLastShot = nil
+        state.result = nil
+        WKInterfaceDevice().play(.start)
+        return .merge(
+            startMotionClient(state: &state),
+            startRuntimeClient(state: &state),
+            sendResultContext
+        )
+    }
+
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
@@ -109,17 +128,7 @@ struct Session: ReducerProtocol {
                 return sendResultContext(state: &state)
 
             case .result(.restartButtonDidTap):
-                let sendResultContext = sendResultContext(state: &state)
-                state.potCount = 0
-                state.missCount = 0
-                state.didPotLastShot = nil
-                state.result = nil
-                WKInterfaceDevice().play(.start)
-                return .merge(
-                    startMotionClient(state: &state),
-                    startRuntimeClient(state: &state),
-                    sendResultContext
-                )
+                return restartSession(state: &state)
 
             case .didRegisterShot(let isSuccess):
                 guard state.remainingShots > 0 else { return .none }
@@ -135,9 +144,13 @@ struct Session: ReducerProtocol {
                 state.didPotLastShot = isSuccess
 
                 if state.isCompleted {
-                    state.result = Result.State(potCount: state.potCount, missCount: state.missCount)
                     WKInterfaceDevice().play(.success)
-                    return .cancel(ids: [MotionID.self, RuntimeID.self])
+                    if state.shouldRestart {
+                        return restartSession(state: &state)
+                    } else {
+                        state.result = Result.State(potCount: state.potCount, missCount: state.missCount)
+                        return .cancel(ids: [MotionID.self, RuntimeID.self])
+                    }
                 }
 
                 return .task {

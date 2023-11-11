@@ -16,7 +16,7 @@ final class SessionTests: XCTestCase {
     var store: TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>!
 
     override func setUp() async throws {
-        session = Session.State(title: "TEST", shotCount: 9, isContinuous: true)
+        session = Session.State(title: "TEST", shotCount: 9, isContinuous: true, isRestarting: false)
         store = TestStore(initialState: session, reducer: Session())
 
         store.dependencies.motionClient.start = { @Sendable in
@@ -37,7 +37,7 @@ final class SessionTests: XCTestCase {
         store = nil
     }
 
-    func testTappingDoneButton() async throws {
+    func testTappingResultDoneButton() async throws {
         let result = Result.State(potCount: 5, missCount: 4)
 
         var localSession = session!
@@ -58,7 +58,7 @@ final class SessionTests: XCTestCase {
         }
     }
 
-    func testTappingRestartButton() async throws {
+    func testTappingResultRestartButton() async throws {
         let result = Result.State(potCount: 5, missCount: 4)
 
         var localSession = session!
@@ -105,7 +105,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testCompletingContinuousDrill() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 2, isContinuous: true)
+        let localSession = Session.State(title: "TEST", shotCount: 2, isContinuous: true, isRestarting: false)
         let localStore = TestStore(initialState: localSession, reducer: Session() )
 
         localStore.dependencies.motionClient = store.dependencies.motionClient
@@ -128,7 +128,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testFailingNonContinuousDrill() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: false)
+        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: false, isRestarting: false)
         let localStore = TestStore(initialState: localSession, reducer: Session() )
 
         localStore.dependencies.motionClient = store.dependencies.motionClient
@@ -141,6 +141,77 @@ final class SessionTests: XCTestCase {
             $0.missCount = 1
             $0.result = Result.State(potCount: $0.potCount, missCount: $0.missCount)
         }
+    }
+
+    func testRestartingNonContinuousDrillOnMissedShot() async throws {
+        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: false, isRestarting: true)
+        let localStore = TestStore(initialState: localSession, reducer: Session() )
+
+        localStore.dependencies.motionClient = store.dependencies.motionClient
+        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+        localStore.dependencies.connectivityClient.sendResultContext = { context in
+            XCTAssertEqual(context.potCount, 1)
+            XCTAssertEqual(context.missCount, 1)
+            return
+        }
+
+        await localStore.send(.onAppear)
+
+        await localStore.send(.didRegisterShot(isSuccess: true)) {
+            $0.didPotLastShot = true
+            $0.potCount = 1
+        }
+
+        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+
+        await localStore.send(.didRegisterShot(isSuccess: false)) {
+            $0.didPotLastShot = nil
+            $0.potCount = 0
+        }
+
+        await localStore.skipInFlightEffects()
+    }
+
+    func testNonContinuousDrillDoesNotRestartWhenCompleted() async throws {
+        let localSession = Session.State(title: "TEST", shotCount: 2, isContinuous: true, isRestarting: true)
+        let localStore = TestStore(initialState: localSession, reducer: Session() )
+
+        localStore.dependencies.motionClient = store.dependencies.motionClient
+        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+
+        await localStore.send(.onAppear)
+
+        await localStore.send(.didRegisterShot(isSuccess: true)) {
+            $0.didPotLastShot = true
+            $0.potCount = 1
+        }
+
+        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+
+        await localStore.send(.didRegisterShot(isSuccess: true)) {
+            $0.didPotLastShot = true
+            $0.potCount = 2
+            $0.result = Result.State(potCount: $0.potCount, missCount: $0.missCount)
+        }
+    }
+
+    func testFailingContinuousDrillDoesNotRestartSessionOnMissedShot() async throws {
+        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: true, isRestarting: true)
+        let localStore = TestStore(initialState: localSession, reducer: Session() )
+
+        localStore.dependencies.motionClient = store.dependencies.motionClient
+        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+
+        await localStore.send(.onAppear)
+
+        await localStore.send(.didRegisterShot(isSuccess: false)) {
+            $0.didPotLastShot = false
+            $0.missCount = 1
+        }
+
+        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+
+        await localStore.skipInFlightEffects()
     }
 
     func testResumingAndPausingSession() async throws {

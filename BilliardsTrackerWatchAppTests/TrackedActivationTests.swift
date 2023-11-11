@@ -33,7 +33,8 @@ final class TrackedActivationTests: XCTestCase {
             $0.session = Session.State(
                 title: startContext.title,
                 shotCount: startContext.shotCount,
-                isContinuous: startContext.isContinuous
+                isContinuous: startContext.isContinuous, 
+                isRestarting: false
             )
         }
 
@@ -67,7 +68,13 @@ final class TrackedActivationTests: XCTestCase {
 
     func testStoppingSessionByTappingResultDoneButton() async throws {
         let result = Result.State(potCount: 6, missCount: 3)
-        let session = Session.State(result: result, title: "", shotCount: 9, isContinuous: true)
+        let session = Session.State(
+            result: result,
+            title: "",
+            shotCount: 9, 
+            isContinuous: true,
+            isRestarting: false
+        )
 
         let store = TestStore(
             initialState: TrackedActivation.State(
