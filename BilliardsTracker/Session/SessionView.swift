@@ -37,7 +37,7 @@ struct SessionView: View {
                     IllustratedTextView(
                         imageName: "rebound",
                         title: "Waiting for results",
-                        subtitle: "Results will appear once you complete a drill"
+                        subtitle: "Results will appear once the drill is completed"
                     )
                     .roundedBackground()
                     .padding(.bottom)
