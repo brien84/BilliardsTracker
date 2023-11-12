@@ -57,20 +57,33 @@ struct ListButtonView: View {
             }
             .buttonStyle(.plain)
 
-            Button {
+            SecondaryActionButton {
                 secondaryAction()
-            } label: {
-                Image(systemName: "ellipsis.circle.fill")
-                    .imageScale(.large)
-                    .foregroundStyle(color, Color.black)
-                    .padding(.horizontal, Self.horizontalPadding)
-                    .padding(.vertical)
             }
-            .buttonStyle(.plain)
-            .frame(maxWidth: .infinity, alignment: .trailing)
+            .foregroundStyle(color, Color.black)
         }
         .listItemTint(.clear)
         .listRowInsets(Self.rowInsets)
+    }
+}
+
+private struct SecondaryActionButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Image(systemName: "ellipsis.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: Self.imageWidth, height: Self.imageHeight, alignment: .trailing)
+                .padding([.bottom, .horizontal], Self.padding)
+                .padding(.top)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
 
@@ -131,12 +144,18 @@ private extension ListButtonView {
 
 private extension ListButtonView {
     static let cornerRadius: CGFloat = 15
-    static let imageHeight: CGFloat = 40
-    static let imageWidth: CGFloat = 40
+    static let imageHeight: CGFloat = 48
+    static let imageWidth: CGFloat = 48
     static let horizontalPadding: CGFloat = 16
     static let rowInsets: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
     static let scaleFactor: CGFloat = 0.7
     static let tintOpacity: CGFloat = 0.15
+}
+
+private extension SecondaryActionButton {
+    static let imageHeight: CGFloat = 28
+    static let imageWidth: CGFloat = 28
+    static let padding: CGFloat = 16
 }
 
 // MARK: - Previews
