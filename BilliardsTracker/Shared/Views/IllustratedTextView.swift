@@ -22,12 +22,12 @@ struct IllustratedTextView: View {
 
             VStack(spacing: Self.textSpacing) {
                 Text(title)
-                    .font(.title3.weight(.medium))
+                    .font(.title3.weight(.semibold))
                     .foregroundColor(.primaryElement)
                     .multilineTextAlignment(.center)
 
                 Text(subtitle)
-                    .font(.subheadline)
+                    .font(.body.weight(.light))
                     .foregroundColor(.secondaryElement)
                     .multilineTextAlignment(.center)
             }
