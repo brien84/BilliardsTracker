@@ -105,6 +105,11 @@ struct MainView: View {
                     }
                     .listStyle(.carousel)
                 }
+                .navigationTitle {
+                    Text("Modes")
+                        .foregroundStyle(Color.primaryElement)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 .task {
                     viewStore.send(.onAppear)
                 }
