@@ -12,12 +12,10 @@ import WatchKit
 
 @MainActor
 final class SessionTests: XCTestCase {
-    var session: Session.State!
-    var store: TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>!
+    typealias TestSessionStore = TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>
 
-    override func setUp() async throws {
-        session = Session.State(title: "TEST", shotCount: 9, isContinuous: true, isRestarting: false)
-        store = TestStore(initialState: session, reducer: Session())
+    func makeTestStore(with session: Session.State) -> TestSessionStore {
+        let store = TestStore(initialState: session, reducer: Session())
 
         store.dependencies.motionClient.start = { @Sendable in
             AsyncThrowingStream { _ in }
@@ -30,65 +28,82 @@ final class SessionTests: XCTestCase {
         store.dependencies.runtimeClient.start = { @Sendable in
             await AsyncStream { _ in }.first { _ in true } ?? .none
         }
+
+        return store
     }
 
-    override func tearDown() async throws {
-        session = nil
-        store = nil
+    func makeTestStore(shotCount: Int, isContinuous: Bool, isRestarting: Bool) -> TestSessionStore {
+        let session = Session.State(
+            title: "Test Session",
+            shotCount: shotCount,
+            isContinuous: isContinuous,
+            isRestarting: isRestarting
+        )
+
+        return makeTestStore(with: session)
     }
 
-    func testTappingResultDoneButton() async throws {
+    func testFinishingCompletedSessionByTappingResultDoneButton() async throws {
         let result = Result.State(potCount: 5, missCount: 4)
 
-        var localSession = session!
-        localSession.result = result
-        localSession.potCount = result.potCount
-        localSession.missCount = result.missCount
+        let session = Session.State(
+            result: result,
+            title: "Test Session",
+            shotCount: result.potCount + result.missCount,
+            isContinuous: true,
+            isRestarting: false,
+            potCount: result.potCount,
+            missCount: result.missCount
+        )
 
-        let localStore = TestStore(initialState: localSession, reducer: Session())
+        let store = makeTestStore(with: session)
 
-        localStore.dependencies.connectivityClient.sendResultContext = { context in
+        store.dependencies.connectivityClient.sendResultContext = { context in
             XCTAssertEqual(context.potCount, result.potCount)
             XCTAssertEqual(context.missCount, result.missCount)
             return
         }
 
-        await localStore.send(.result(.doneButtonDidTap)) {
+        await store.send(.result(.doneButtonDidTap)) {
             $0.result = nil
         }
     }
 
-    func testTappingResultRestartButton() async throws {
+    func testRestartingCompletedSessionByTappingResultButton() async throws {
         let result = Result.State(potCount: 5, missCount: 4)
 
-        var localSession = session!
-        localSession.result = result
-        localSession.potCount = result.potCount
-        localSession.missCount = result.missCount
-        localSession.didPotLastShot = false
+        let session = Session.State(
+            result: result,
+            title: "Test Session",
+            shotCount: result.potCount + result.missCount,
+            isContinuous: true,
+            isRestarting: false,
+            potCount: result.potCount,
+            missCount: result.missCount,
+            didPotLastShot: false
+        )
 
-        let localStore = TestStore(initialState: localSession, reducer: Session())
+        let store = makeTestStore(with: session)
 
-        localStore.dependencies.connectivityClient.sendResultContext = { context in
+        store.dependencies.connectivityClient.sendResultContext = { context in
             XCTAssertEqual(context.potCount, result.potCount)
             XCTAssertEqual(context.missCount, result.missCount)
             return
         }
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
-
-        await localStore.send(.result(.restartButtonDidTap)) {
+        await store.send(.result(.restartButtonDidTap)) {
             $0.potCount = 0
             $0.missCount = 0
             $0.didPotLastShot = nil
             $0.result = nil
         }
 
-        await localStore.skipInFlightEffects()
+        await store.skipInFlightEffects()
     }
 
     func testRegisteringShots() async throws {
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
@@ -105,38 +120,30 @@ final class SessionTests: XCTestCase {
     }
 
     func testCompletingContinuousDrill() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 2, isContinuous: true, isRestarting: false)
-        let localStore = TestStore(initialState: localSession, reducer: Session() )
+        let store = makeTestStore(shotCount: 2, isContinuous: true, isRestarting: false)
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+        await store.send(.onAppear)
 
-        await localStore.send(.onAppear)
-
-        await localStore.send(.didRegisterShot(isSuccess: true)) {
-            $0.didPotLastShot = true
-            $0.potCount = 1
+        await store.send(.didRegisterShot(isSuccess: false)) {
+            $0.didPotLastShot = false
+            $0.missCount = 1
         }
 
-        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
-        await localStore.send(.didRegisterShot(isSuccess: true)) {
-            $0.didPotLastShot = true
-            $0.potCount = 2
+        await store.send(.didRegisterShot(isSuccess: false)) {
+            $0.didPotLastShot = false
+            $0.missCount = 2
             $0.result = Result.State(potCount: $0.potCount, missCount: $0.missCount)
         }
     }
 
     func testFailingNonContinuousDrill() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: false, isRestarting: false)
-        let localStore = TestStore(initialState: localSession, reducer: Session() )
+        let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: false)
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+        await store.send(.onAppear)
 
-        await localStore.send(.onAppear)
-
-        await localStore.send(.didRegisterShot(isSuccess: false)) {
+        await store.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = false
             $0.missCount = 1
             $0.result = Result.State(potCount: $0.potCount, missCount: $0.missCount)
@@ -144,51 +151,44 @@ final class SessionTests: XCTestCase {
     }
 
     func testRestartingNonContinuousDrillOnMissedShot() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: false, isRestarting: true)
-        let localStore = TestStore(initialState: localSession, reducer: Session() )
+        let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: true)
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
-        localStore.dependencies.connectivityClient.sendResultContext = { context in
+        store.dependencies.connectivityClient.sendResultContext = { context in
             XCTAssertEqual(context.potCount, 1)
             XCTAssertEqual(context.missCount, 1)
             return
         }
 
-        await localStore.send(.onAppear)
+        await store.send(.onAppear)
 
-        await localStore.send(.didRegisterShot(isSuccess: true)) {
+        await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
 
-        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
-        await localStore.send(.didRegisterShot(isSuccess: false)) {
+        await store.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = nil
             $0.potCount = 0
         }
 
-        await localStore.skipInFlightEffects()
+        await store.skipInFlightEffects()
     }
 
     func testNonContinuousDrillDoesNotRestartWhenCompleted() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 2, isContinuous: true, isRestarting: true)
-        let localStore = TestStore(initialState: localSession, reducer: Session() )
+        let store = makeTestStore(shotCount: 2, isContinuous: true, isRestarting: true)
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+        await store.send(.onAppear)
 
-        await localStore.send(.onAppear)
-
-        await localStore.send(.didRegisterShot(isSuccess: true)) {
+        await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
 
-        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
-        await localStore.send(.didRegisterShot(isSuccess: true)) {
+        await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 2
             $0.result = Result.State(potCount: $0.potCount, missCount: $0.missCount)
@@ -196,43 +196,37 @@ final class SessionTests: XCTestCase {
     }
 
     func testFailingContinuousDrillDoesNotRestartSessionOnMissedShot() async throws {
-        let localSession = Session.State(title: "TEST", shotCount: 9, isContinuous: true, isRestarting: true)
-        let localStore = TestStore(initialState: localSession, reducer: Session() )
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: true)
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
+        await store.send(.onAppear)
 
-        await localStore.send(.onAppear)
-
-        await localStore.send(.didRegisterShot(isSuccess: false)) {
+        await store.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = false
             $0.missCount = 1
         }
 
-        await localStore.receive(.didReceiveRuntimeClientExpirationStatus(false))
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
-        await localStore.skipInFlightEffects()
+        await store.skipInFlightEffects()
     }
 
     func testResumingAndPausingSession() async throws {
-        var localSession = session!
-        localSession.isPaused = true
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
 
-        let localStore = TestStore(initialState: localSession, reducer: Session())
+        await store.send(.pauseButtonDidTap) {
+            $0.isPaused = true
+        }
 
-        localStore.dependencies.motionClient = store.dependencies.motionClient
-        localStore.dependencies.runtimeClient = store.dependencies.runtimeClient
-
-        await localStore.send(.resumeButtonDidTap) {
+        await store.send(.resumeButtonDidTap) {
             $0.isPaused = false
         }
 
-        await localStore.send(.pauseButtonDidTap) {
-            $0.isPaused = true
-        }
+        await store.skipInFlightEffects()
     }
 
     func testUndoingShot() async throws {
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
@@ -246,13 +240,15 @@ final class SessionTests: XCTestCase {
         }
     }
 
-    func testonDisappearStopsGestureTracking() async throws {
+    func testNoEffectsAreRunningAfterOnDisappear() async throws {
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
         await store.send(.onAppear)
-
         await store.send(.onDisappear)
     }
 
     func testTrackingGestures() async throws {
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+
         store.dependencies.motionClient.start = { @Sendable in
             AsyncThrowingStream { continuation in
                 continuation.yield(.axisX)
@@ -272,40 +268,22 @@ final class SessionTests: XCTestCase {
     }
 
     func testHandlingGestureTrackingErrorThrownByMotionClient() async throws {
-        enum TestError: Error {
-            case error
-        }
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
 
         store.dependencies.motionClient.start = { @Sendable in
-            AsyncThrowingStream { throw TestError.error }
+            struct MotionError: Error { }
+            return AsyncThrowingStream { throw MotionError() }
         }
 
         await store.send(.onAppear)
 
         await store.receive(.didEncounterGestureTrackingError) {
-            $0.alert = AlertState {
-                TextState("Attention!")
-            } actions: {
-                ButtonState(role: .cancel, action: .didDismissGestureTrackingError) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState(
-                    """
-                    BilliardsTracker could not initiate gesture tracking.
-                    Make sure no other workout apps are not actively running.
-                    If you encounter this error during the session,
-                    try pausing and then resuming the drill.
-                    """
-                )
-            }
+            $0.alert = gestureTrackingError
         }
     }
 
     func testHandlingGestureTrackingErrorThrownByRuntimeClient() async throws {
-        enum TestError: Error {
-            case error
-        }
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
 
         store.dependencies.runtimeClient.start = { @Sendable in
             WKExtendedRuntimeSessionInvalidationReason.error
@@ -314,26 +292,13 @@ final class SessionTests: XCTestCase {
         await store.send(.onAppear)
 
         await store.receive(.didEncounterGestureTrackingError) {
-            $0.alert = AlertState {
-                TextState("Attention!")
-            } actions: {
-                ButtonState(role: .cancel, action: .didDismissGestureTrackingError) {
-                    TextState("OK")
-                }
-            } message: {
-                TextState(
-                    """
-                    BilliardsTracker could not initiate gesture tracking.
-                    Make sure no other workout apps are not actively running.
-                    If you encounter this error during the session,
-                    try pausing and then resuming the drill.
-                    """
-                )
-            }
+            $0.alert = gestureTrackingError
         }
     }
 
     func testExpiringRuntimeClientIsRestarted() async throws {
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+
         store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in
             true
         }
@@ -349,3 +314,22 @@ final class SessionTests: XCTestCase {
     }
 
 }
+
+private let gestureTrackingError: AlertState = {
+    AlertState {
+        TextState("Attention!")
+    } actions: {
+        ButtonState(role: .cancel, action: Session.Action.didDismissGestureTrackingError) {
+            TextState("OK")
+        }
+    } message: {
+        TextState(
+            """
+            BilliardsTracker could not initiate gesture tracking.
+            Make sure no other workout apps are not actively running.
+            If you encounter this error during the session,
+            try pausing and then resuming the drill.
+            """
+        )
+    }
+}()
