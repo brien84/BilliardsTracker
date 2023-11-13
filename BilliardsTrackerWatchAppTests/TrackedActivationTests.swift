@@ -14,10 +14,9 @@ final class TrackedActivationTests: XCTestCase {
 
     func testNavigatingToSession() async throws {
         let startContext = DrillContext(isActive: true, isContinuous: true, shotCount: 9, title: "")
-        let isRestarting = Bool.random()
 
         let store = TestStore(
-            initialState: TrackedActivation.State(isRestarting: isRestarting),
+            initialState: TrackedActivation.State(),
             reducer: TrackedActivation()
         )
 
@@ -35,7 +34,7 @@ final class TrackedActivationTests: XCTestCase {
                 title: startContext.title,
                 shotCount: startContext.shotCount,
                 isContinuous: startContext.isContinuous,
-                isRestarting: isRestarting
+                isRestarting: false
             )
         }
 

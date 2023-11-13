@@ -67,16 +67,16 @@ struct SessionSetupView: View {
                             subtitle: viewStore.isContinuous ? "Yes" : "No"
                         )
                         .color(color)
-                    }
 
-                    SetupButtonView(
-                        action: { viewStore.send(.setNavigationToRestartingToggle(isActive: true)) },
-                        imageName: "restart",
-                        title: "Restarting",
-                        subtitle: viewStore.isRestarting ? "Yes" : "No"
-                    )
-                    .color(color)
-                    .disabled(viewStore.mode == .standalone && viewStore.isContinuous)
+                        SetupButtonView(
+                            action: { viewStore.send(.setNavigationToRestartingToggle(isActive: true)) },
+                            imageName: "restart",
+                            title: "Restarting",
+                            subtitle: viewStore.isRestarting ? "Yes" : "No"
+                        )
+                        .color(color)
+                        .disabled(viewStore.isContinuous)
+                    }
                 }
             }
             .navigationTitle {

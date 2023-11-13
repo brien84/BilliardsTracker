@@ -98,7 +98,6 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .setNavigationToTracked(isActive: let isActive):
-                state.tracked.isRestarting = state.trackedSetup.isRestarting
                 state.isNavigationToTrackedActive = isActive
                 return .none
 

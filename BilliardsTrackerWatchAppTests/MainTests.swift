@@ -22,7 +22,7 @@ final class MainTests: XCTestCase {
         store = nil
     }
 
-    func testGettingStandaloneSetupOptionsOnAppear() async throws {
+    func testGettingSessionSetupOptionsOnAppear() async throws {
         let standaloneOptions = SessionOptions(isContinuous: Bool.random(), isRestarting: Bool.random(), shotCount: 15)
         let trackedOptions = SessionOptions(isRestarting: Bool.random())
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
@@ -41,7 +41,7 @@ final class MainTests: XCTestCase {
         }
     }
 
-    func testNavigatingtoOnboardOnAppear() async throws {
+    func testNavigatingToOnboardOnAppear() async throws {
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in false }
         store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
         store.dependencies.userDefaults.getOptionsFor = { @Sendable _ in SessionOptions() }
@@ -80,7 +80,7 @@ final class MainTests: XCTestCase {
         }
     }
 
-    func testStoppingSessionByWithSessionStopButton() async throws {
+    func testStoppingSessionWithSessionStopButton() async throws {
         let store = TestStore(
             initialState: Main.State(isNavigationToStandaloneActive: true),
             reducer: Main()
@@ -128,12 +128,9 @@ final class MainTests: XCTestCase {
     }
 
     func testNavigationToTracked() async throws {
-        let isRestarting = true
-        let trackedSetup = SessionSetup.State(mode: .tracked, options: SessionOptions(isRestarting: isRestarting))
-        let store = TestStore(initialState: Main.State(trackedSetup: trackedSetup), reducer: Main())
+        let store = TestStore(initialState: Main.State(), reducer: Main())
 
         await store.send(.setNavigationToTracked(isActive: true)) {
-            $0.tracked = TrackedActivation.State(isRestarting: isRestarting)
             $0.isNavigationToTrackedActive = true
         }
 

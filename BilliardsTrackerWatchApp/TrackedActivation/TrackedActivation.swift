@@ -10,7 +10,6 @@ import ComposableArchitecture
 struct TrackedActivation: ReducerProtocol {
     struct State: Equatable {
         var isNavigationToSessionActive = false
-        var isRestarting = false
         var session = Session.State(title: "", shotCount: 1, isContinuous: true, isRestarting: false)
     }
 
@@ -69,7 +68,7 @@ struct TrackedActivation: ReducerProtocol {
                         title: context.title,
                         shotCount: context.shotCount,
                         isContinuous: context.isContinuous,
-                        isRestarting: state.isRestarting
+                        isRestarting: false
                     )
                     state.isNavigationToSessionActive = true
                 } else {
