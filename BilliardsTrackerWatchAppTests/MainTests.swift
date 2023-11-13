@@ -24,7 +24,7 @@ final class MainTests: XCTestCase {
 
     func testGettingSessionSetupOptionsOnAppear() async throws {
         let standaloneOptions = SessionOptions(isContinuous: Bool.random(), isRestarting: Bool.random(), shotCount: 15)
-        let trackedOptions = SessionOptions(isRestarting: Bool.random())
+        let trackedOptions = SessionOptions()
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.getOptionsFor = { @Sendable mode in
             switch mode {
@@ -62,7 +62,11 @@ final class MainTests: XCTestCase {
     }
 
     func testNavigatingToStandaloneSession() async throws {
-        let options = SessionOptions(isContinuous: Bool.random(), isRestarting: Bool.random(), shotCount: 64)
+        let options = SessionOptions(
+            isContinuous: Bool.random(),
+            isRestarting: Bool.random(),
+            shotCount: Int.random(in: 2...150)
+        )
 
         let store = TestStore(
             initialState: Main.State(standaloneSetup: SessionSetup.State(mode: .standalone, options: options)),
@@ -80,7 +84,7 @@ final class MainTests: XCTestCase {
         }
     }
 
-    func testStoppingSessionWithSessionStopButton() async throws {
+    func testStoppingStandaloneSessionByTappingSessionStopButton() async throws {
         let store = TestStore(
             initialState: Main.State(isNavigationToStandaloneActive: true),
             reducer: Main()
@@ -91,7 +95,7 @@ final class MainTests: XCTestCase {
         }
     }
 
-    func testStoppingStandaloneSessionWithResultDoneButton() async throws {
+    func testStoppingStandaloneSessionByTappingResultDoneButton() async throws {
         let result = Result.State(potCount: 6, missCount: 3)
         let session = Session.State(
             result: result,
@@ -127,7 +131,7 @@ final class MainTests: XCTestCase {
         }
     }
 
-    func testNavigationToTracked() async throws {
+    func testNavigationToTrackedActivation() async throws {
         let store = TestStore(initialState: Main.State(), reducer: Main())
 
         await store.send(.setNavigationToTracked(isActive: true)) {
