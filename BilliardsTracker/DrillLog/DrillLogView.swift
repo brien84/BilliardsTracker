@@ -53,9 +53,10 @@ struct DrillLogView: View {
                 } else {
                     IllustratedTextView(
                         imageName: "pocket",
-                        title: "Not enough data",
-                        subtitle: "Complete the drill twice to view statistics"
+                        title: "not enough data",
+                        subtitle: "complete the drill twice to view statistics"
                     )
+                    .padding(.horizontal)
                 }
             }
             .background(Color.primaryBackground)

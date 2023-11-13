@@ -36,9 +36,10 @@ struct SessionView: View {
                 if viewStore.statistics.results.isEmpty {
                     IllustratedTextView(
                         imageName: "rebound",
-                        title: "Waiting for results",
-                        subtitle: "Results will appear once the drill is completed"
+                        title: "waiting for results",
+                        subtitle: "results will appear once the drill is completed"
                     )
+                    .padding(.horizontal)
                     .roundedBackground()
                     .padding(.bottom)
                 } else {
