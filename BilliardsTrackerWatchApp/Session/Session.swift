@@ -14,6 +14,7 @@ struct Session: ReducerProtocol {
         var alert: AlertState<Action>?
         var result: Result.State?
 
+        let mode: Mode
         let title: String
         let shotCount: Int
         let isContinuous: Bool

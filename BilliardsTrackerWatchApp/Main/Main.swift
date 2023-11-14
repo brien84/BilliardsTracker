@@ -22,6 +22,7 @@ struct Main: ReducerProtocol {
         var isNavigationToTrackedSetupActive = false
 
         var standalone = Session.State(
+            mode: .standalone,
             title: "Standalone",
             shotCount: 9,
             isContinuous: true,
@@ -85,6 +86,7 @@ struct Main: ReducerProtocol {
             case .setNavigationToStandalone(let isActive):
                 guard isActive else { return .none }
                 state.standalone = Session.State(
+                    mode: .standalone,
                     title: "Standalone",
                     shotCount: state.standaloneSetup.shotCount,
                     isContinuous: state.standaloneSetup.isContinuous,

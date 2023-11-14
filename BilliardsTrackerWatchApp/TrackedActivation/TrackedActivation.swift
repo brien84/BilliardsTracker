@@ -10,7 +10,13 @@ import ComposableArchitecture
 struct TrackedActivation: ReducerProtocol {
     struct State: Equatable {
         var isNavigationToSessionActive = false
-        var session = Session.State(title: "", shotCount: 1, isContinuous: true, isRestarting: false)
+        var session = Session.State(
+            mode: .tracked,
+            title: "",
+            shotCount: 1,
+            isContinuous: true,
+            isRestarting: false
+        )
     }
 
     enum Action: Equatable {
@@ -65,6 +71,7 @@ struct TrackedActivation: ReducerProtocol {
             case .connectivityClientDidReceiveDrillContext(let context):
                 if context.isActive {
                     state.session = Session.State(
+                        mode: .tracked,
                         title: context.title,
                         shotCount: context.shotCount,
                         isContinuous: context.isContinuous,

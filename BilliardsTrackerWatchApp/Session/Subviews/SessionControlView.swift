@@ -135,6 +135,7 @@ private struct SessionControlButton: View {
 struct SessionControlView_Previews: PreviewProvider {
     static let store = Store(
         initialState: Session.State(
+            mode: .standalone,
             title: "Preview",
             shotCount: 9,
             isContinuous: true,

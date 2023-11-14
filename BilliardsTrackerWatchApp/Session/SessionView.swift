@@ -124,6 +124,7 @@ struct SessionView: View {
 struct NewSessionView_Previews: PreviewProvider {
     static let store = Store(
         initialState: Session.State(
+            mode: .standalone,
             title: "Preview",
             shotCount: 9,
             isContinuous: true,
