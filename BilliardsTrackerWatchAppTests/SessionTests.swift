@@ -11,6 +11,7 @@ import WatchKit
 @testable import BilliardsTrackerWatchApp
 
 @MainActor
+// swiftlint:disable type_body_length
 final class SessionTests: XCTestCase {
     typealias TestSessionStore = TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>
     var mainQueue: TestSchedulerOf<DispatchQueue>!
@@ -32,6 +33,7 @@ final class SessionTests: XCTestCase {
 
     func makeTestStore(shotCount: Int, isContinuous: Bool, isRestarting: Bool) -> TestSessionStore {
         let session = Session.State(
+            mode: .standalone,
             title: "Test Session",
             shotCount: shotCount,
             isContinuous: isContinuous,
@@ -41,11 +43,38 @@ final class SessionTests: XCTestCase {
         return makeTestStore(with: session)
     }
 
+    func testCompletedStandaloneSessionDoesNotSendResultContext() async throws {
+        let result = Result.State(potCount: 5, missCount: 4)
+
+        let session = Session.State(
+            result: result,
+            mode: .standalone,
+            title: "Test Session",
+            shotCount: result.potCount + result.missCount,
+            isContinuous: true,
+            isRestarting: false,
+            potCount: result.potCount,
+            missCount: result.missCount
+        )
+
+        let store = makeTestStore(with: session)
+
+        store.dependencies.connectivityClient.sendResultContext = { _ in
+            XCTAssertTrue(false)
+            return
+        }
+
+        await store.send(.result(.doneButtonDidTap)) {
+            $0.result = nil
+        }
+    }
+
     func testFinishingCompletedSessionByTappingResultDoneButton() async throws {
         let result = Result.State(potCount: 5, missCount: 4)
 
         let session = Session.State(
             result: result,
+            mode: .tracked,
             title: "Test Session",
             shotCount: result.potCount + result.missCount,
             isContinuous: true,
@@ -72,6 +101,7 @@ final class SessionTests: XCTestCase {
 
         let session = Session.State(
             result: result,
+            mode: .tracked,
             title: "Test Session",
             shotCount: result.potCount + result.missCount,
             isContinuous: true,
@@ -153,12 +183,6 @@ final class SessionTests: XCTestCase {
 
     func testRestartingNonContinuousDrillOnMissedShot() async throws {
         let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: true)
-
-        store.dependencies.connectivityClient.sendResultContext = { context in
-            XCTAssertEqual(context.potCount, 1)
-            XCTAssertEqual(context.missCount, 1)
-            return
-        }
 
         await store.send(.onAppear)
 

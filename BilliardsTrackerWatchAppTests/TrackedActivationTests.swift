@@ -31,6 +31,7 @@ final class TrackedActivationTests: XCTestCase {
         await store.receive(.connectivityClientDidReceiveDrillContext(startContext)) {
             $0.isNavigationToSessionActive = true
             $0.session = Session.State(
+                mode: .tracked,
                 title: startContext.title,
                 shotCount: startContext.shotCount,
                 isContinuous: startContext.isContinuous,
@@ -70,6 +71,7 @@ final class TrackedActivationTests: XCTestCase {
         let result = Result.State(potCount: 6, missCount: 3)
         let session = Session.State(
             result: result,
+            mode: .tracked,
             title: "",
             shotCount: 9,
             isContinuous: true,

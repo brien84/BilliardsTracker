@@ -75,6 +75,7 @@ final class MainTests: XCTestCase {
 
         await store.send(.setNavigationToStandalone(isActive: true)) {
             $0.standalone = Session.State(
+                mode: .standalone,
                 title: "Standalone",
                 shotCount: options.shotCount!,
                 isContinuous: options.isContinuous!,
@@ -99,6 +100,7 @@ final class MainTests: XCTestCase {
         let result = Result.State(potCount: 6, missCount: 3)
         let session = Session.State(
             result: result,
+            mode: .standalone,
             title: "",
             shotCount: 9,
             isContinuous: true,
