@@ -17,10 +17,10 @@ struct ExtendedRuntimeClient {
 extension ExtendedRuntimeClient: TestDependencyKey {
     static let testValue = Self(
         getActivationStatus: {
-            unimplemented("\(Self.self).isActive")
+            unimplemented("\(Self.self).getActivationStatus")
         },
         getExpirationStatus: {
-            unimplemented("\(Self.self).isExpiring")
+            unimplemented("\(Self.self).getExpirationStatus")
         },
         start: {
             unimplemented("\(Self.self).start")
