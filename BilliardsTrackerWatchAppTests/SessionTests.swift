@@ -13,18 +13,16 @@ import WatchKit
 @MainActor
 final class SessionTests: XCTestCase {
     typealias TestSessionStore = TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>
+    var mainQueue: TestSchedulerOf<DispatchQueue>!
 
     func makeTestStore(with session: Session.State) -> TestSessionStore {
         let store = TestStore(initialState: session, reducer: Session())
 
-        store.dependencies.motionClient.start = { @Sendable in
-            AsyncThrowingStream { _ in }
-        }
-
-        store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in
-            false
-        }
-
+        mainQueue = DispatchQueue.test
+        store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
+        store.dependencies.motionClient.start = { @Sendable in AsyncThrowingStream { _ in } }
+        store.dependencies.runtimeClient.getActivationStatus = { @Sendable in false }
+        store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in false }
         store.dependencies.runtimeClient.start = { @Sendable in
             await AsyncStream { _ in }.first { _ in true } ?? .none
         }
@@ -109,6 +107,7 @@ final class SessionTests: XCTestCase {
             $0.potCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.didRegisterShot(isSuccess: false)) {
@@ -116,6 +115,7 @@ final class SessionTests: XCTestCase {
             $0.missCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
     }
 
@@ -129,6 +129,7 @@ final class SessionTests: XCTestCase {
             $0.missCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.didRegisterShot(isSuccess: false)) {
@@ -166,6 +167,7 @@ final class SessionTests: XCTestCase {
             $0.potCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.didRegisterShot(isSuccess: false)) {
@@ -186,6 +188,7 @@ final class SessionTests: XCTestCase {
             $0.potCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.didRegisterShot(isSuccess: true)) {
@@ -205,6 +208,7 @@ final class SessionTests: XCTestCase {
             $0.missCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.skipInFlightEffects()
@@ -232,6 +236,7 @@ final class SessionTests: XCTestCase {
             $0.potCount = 1
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.undoButtonDidTap) {
@@ -262,6 +267,7 @@ final class SessionTests: XCTestCase {
             $0.didPotLastShot = true
         }
 
+        await mainQueue.advance(by: .seconds(1))
         await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.skipInFlightEffects()
@@ -280,6 +286,10 @@ final class SessionTests: XCTestCase {
         await store.receive(.didEncounterGestureTrackingError) {
             $0.alert = gestureTrackingError
         }
+
+        await store.send(.didDismissGestureTrackingError) {
+            $0.alert = nil
+        }
     }
 
     func testHandlingGestureTrackingErrorThrownByRuntimeClient() async throws {
@@ -294,42 +304,62 @@ final class SessionTests: XCTestCase {
         await store.receive(.didEncounterGestureTrackingError) {
             $0.alert = gestureTrackingError
         }
+
+        await store.send(.didDismissGestureTrackingError) {
+            $0.alert = nil
+        }
     }
 
-    func testExpiringRuntimeClientIsRestarted() async throws {
+    func testDismissingRuntimeClientAlertRestartsRuntimeClient() async throws {
         let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
 
-        store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in
-            true
-        }
+        store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in true }
 
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
 
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(true))
+        await mainQueue.advance(by: .seconds(1))
+        await store.receive(.didReceiveRuntimeClientExpirationStatus(true)) {
+            $0.alert = runtimeClientExpirationAlert
+        }
+
+        await store.send(.didDismissRuntimeClientExpirationAlert) {
+            $0.alert = nil
+        }
 
         await store.skipInFlightEffects()
     }
-
 }
 
-private let gestureTrackingError: AlertState = {
+private let gestureTrackingError: AlertState<Session.Action> = {
     AlertState {
         TextState("Attention!")
     } actions: {
-        ButtonState(role: .cancel, action: Session.Action.didDismissGestureTrackingError) {
+        ButtonState(role: .cancel, action: .didDismissGestureTrackingError) {
             TextState("OK")
         }
     } message: {
         TextState(
             """
-            BilliardsTracker could not initiate gesture tracking.
-            Make sure no other workout apps are not actively running.
-            If you encounter this error during the session,
-            try pausing and then resuming the drill.
+            Application encountered gesture tracking error.
+            Ensure no other workout apps are running.
+            Pausing and then resuming the session may fix the issue.
             """
         )
+    }
+}()
+
+private let runtimeClientExpirationAlert: AlertState<Session.Action> = {
+    AlertState {
+        TextState("Do you want to continue the session?")
+    } actions: {
+        ButtonState(role: .none, action: .didDismissRuntimeClientExpirationAlert) {
+            TextState("Continue")
+        }
+        ButtonState(role: .destructive, action: .stopButtonDidTap) {
+            TextState("Stop")
+        }
     }
 }()
