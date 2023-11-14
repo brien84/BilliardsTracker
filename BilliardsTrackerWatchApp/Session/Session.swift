@@ -69,6 +69,7 @@ struct Session: ReducerProtocol {
     private enum RuntimeID { }
 
     private func sendResultContext(state: inout State) -> EffectTask<Action> {
+        guard state.mode == .tracked else { return .none }
         let context = ResultContext(potCount: state.potCount, missCount: state.missCount, date: .now)
         return .fireAndForget {
             await connectivityClient.sendResultContext(context)
