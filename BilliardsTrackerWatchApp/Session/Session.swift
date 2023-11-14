@@ -54,11 +54,13 @@ struct Session: ReducerProtocol {
         case onAppear
         case onDisappear
         case didDismissGestureTrackingError
+        case didDismissRuntimeClientExpirationAlert
         case didEncounterGestureTrackingError
         case didReceiveRuntimeClientExpirationStatus(Bool)
     }
 
     @Dependency(\.connectivityClient) var connectivityClient
+    @Dependency(\.mainQueue) var mainQueue
     @Dependency(\.motionClient) var motionClient
     @Dependency(\.runtimeClient) var runtimeClient
 
@@ -91,6 +93,7 @@ struct Session: ReducerProtocol {
 
     private func startRuntimeClient(state: inout State) -> EffectTask<Action> {
         .run { send in
+            if await runtimeClient.getActivationStatus() { return }
             let invalidationReason = await runtimeClient.start()
             switch invalidationReason {
             case .none, .expired:
@@ -101,7 +104,7 @@ struct Session: ReducerProtocol {
                 return
             }
         }
-        .cancellable(id: RuntimeID.self, cancelInFlight: true)
+        .cancellable(id: RuntimeID.self)
     }
 
     private func restartSession(state: inout State) -> EffectTask<Action> {
@@ -154,7 +157,8 @@ struct Session: ReducerProtocol {
                 }
 
                 return .task {
-                    .didReceiveRuntimeClientExpirationStatus(
+                    try? await mainQueue.sleep(for: .seconds(1))
+                    return .didReceiveRuntimeClientExpirationStatus(
                         await runtimeClient.getExpirationStatus()
                     )
                 }
@@ -201,7 +205,15 @@ struct Session: ReducerProtocol {
                 return .cancel(ids: [MotionID.self, RuntimeID.self])
 
             case .didDismissGestureTrackingError:
+                state.alert = nil
                 return .none
+
+            case .didDismissRuntimeClientExpirationAlert:
+                state.alert = nil
+                return .concatenate(
+                    .cancel(id: RuntimeID.self),
+                    startRuntimeClient(state: &state)
+                )
 
             case .didEncounterGestureTrackingError:
                 guard state.alert == nil else { return .none }
@@ -210,10 +222,9 @@ struct Session: ReducerProtocol {
 
             case .didReceiveRuntimeClientExpirationStatus(let isExpiring):
                 guard isExpiring else { return .none }
-                return .concatenate(
-                    .cancel(id: RuntimeID.self),
-                    startRuntimeClient(state: &state)
-                )
+                WKInterfaceDevice().play(.failure)
+                state.alert = runtimeClientExpirationAlert
+                return .none
 
             }
         }
@@ -236,12 +247,24 @@ private extension Session {
         } message: {
             TextState(
                 """
-                BilliardsTracker could not initiate gesture tracking.
-                Make sure no other workout apps are not actively running.
-                If you encounter this error during the session,
-                try pausing and then resuming the drill.
+                Application encountered gesture tracking error.
+                Ensure no other workout apps are running.
+                Pausing and then resuming the session may fix the issue.
                 """
             )
+        }
+    }
+
+    var runtimeClientExpirationAlert: AlertState<Session.Action> {
+        AlertState {
+            TextState("Do you want to continue the session?")
+        } actions: {
+            ButtonState(role: .none, action: .didDismissRuntimeClientExpirationAlert) {
+                TextState("Continue")
+            }
+            ButtonState(role: .destructive, action: .stopButtonDidTap) {
+                TextState("Stop")
+            }
         }
     }
 }
