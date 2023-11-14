@@ -13,6 +13,9 @@ extension ExtendedRuntimeClient: DependencyKey {
         let runtime = ExtendedRuntime()
 
         return Self(
+            getActivationStatus: {
+                await runtime.isActive
+            },
             getExpirationStatus: {
                 await runtime.isExpiring
             },
@@ -27,6 +30,10 @@ extension ExtendedRuntimeClient: DependencyKey {
 private actor ExtendedRuntime {
     private var delegate: ExtendedRuntimeSessionDelegate?
     private var session: WKExtendedRuntimeSession?
+
+    var isActive: Bool {
+        session?.state == .running
+    }
 
     /// `session` is considered expiring if it has less than 5 minutes of run time remaining.
     var isExpiring: Bool {
