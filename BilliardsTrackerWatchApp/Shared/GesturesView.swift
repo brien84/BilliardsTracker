@@ -1,5 +1,5 @@
 //
-//  OnboardView.swift
+//  GesturesView.swift
 //  BilliardsTracker WatchKit Extension
 //
 //  Created by Marius on 2021-06-29.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-private enum OnboardAnimation: Int {
+private enum GesturesAnimation: Int {
     case potGesture
     case missGesture
     case bridgeHand
@@ -46,30 +46,30 @@ private enum OnboardAnimation: Int {
     }
 }
 
-struct OnboardView: View {
+struct GesturesView: View {
     @State private var currentTab: Int = 0
 
     var body: some View {
         TabView(selection: $currentTab) {
-            OnboardAnimationView(animation: .potGesture)
-                .tag(OnboardAnimation.potGesture)
+            GesturesAnimationView(animation: .potGesture)
+                .tag(GesturesAnimation.potGesture)
 
-            OnboardAnimationView(animation: .missGesture)
-                .tag(OnboardAnimation.missGesture)
+            GesturesAnimationView(animation: .missGesture)
+                .tag(GesturesAnimation.missGesture)
 
-            OnboardAnimationView(animation: .bridgeHand)
-                .tag(OnboardAnimation.bridgeHand)
+            GesturesAnimationView(animation: .bridgeHand)
+                .tag(GesturesAnimation.bridgeHand)
         }
     }
 }
 
-private struct OnboardAnimationView: View {
-    private let animation: OnboardAnimation
+private struct GesturesAnimationView: View {
+    private let animation: GesturesAnimation
     private let images: [UIImage]
     private let isStatic: Bool
     @State private var isPaused = false
 
-    init(animation: OnboardAnimation) {
+    init(animation: GesturesAnimation) {
         var images = [UIImage]()
         var index = 0
 
@@ -92,13 +92,13 @@ private struct OnboardAnimationView: View {
                 .overlay {
                     Image("\(animation.assetsPath)overlay")
                         .resizable()
-                        .frame(width: OnboardView.imageWidth, height: OnboardView.imageHeight)
+                        .frame(width: GesturesView.imageWidth, height: GesturesView.imageHeight)
                         .opacity(isPaused ? 1 : 0)
                 }
             } else {
                 Image("\(animation.assetsPath)overlay")
                     .resizable()
-                    .frame(width: OnboardView.imageWidth, height: OnboardView.imageHeight)
+                    .frame(width: GesturesView.imageWidth, height: GesturesView.imageHeight)
             }
 
             Text(animation.subtitle)
@@ -131,7 +131,7 @@ private struct AnimationView: View {
     var body: some View {
         Image(uiImage: images[currentIndex])
             .resizable()
-            .frame(width: OnboardView.imageWidth, height: OnboardView.imageHeight)
+            .frame(width: GesturesView.imageWidth, height: GesturesView.imageHeight)
             .onChange(of: date) { _ in
                 if currentIndex == 0 {
                     if isReversing {
@@ -157,15 +157,15 @@ private struct AnimationView: View {
 
 // MARK: - Constants
 
-private extension OnboardView {
+private extension GesturesView {
     static let imageHeight: CGFloat = 96
     static let imageWidth: CGFloat = 96
 }
 
 // MARK: - Previews
 
-struct OnboardView_Previews: PreviewProvider {
+struct GesturesView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardView()
+        GesturesView()
     }
 }

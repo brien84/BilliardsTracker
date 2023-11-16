@@ -20,7 +20,7 @@ struct MainView: View {
                             get: \.isNavigationToOnboardActive,
                             send: Main.Action.setNavigationToOnboard(isActive:)
                         ),
-                        destination: { OnboardView() }
+                        destination: { GesturesView() }
                     )
 
                     PassiveNavigationLink(
