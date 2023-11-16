@@ -44,7 +44,7 @@ struct TrackedActivationView: View {
                         .font(.caption)
                         .foregroundColor(.primaryElement)
                         .multilineTextAlignment(.center)
-                        .minimumScaleFactor(Self.scaleFactor)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 .onAppear {
                     viewStore.send(.establishConnection)
@@ -64,7 +64,6 @@ private extension TrackedActivationView {
     static let iconSize: CGSize = CGSize(width: 36, height: 36)
     static let iphoneFontSize: CGFloat = 72
     static let iphoneOffset: CGSize = CGSize(width: -12, height: 0)
-    static let scaleFactor: CGFloat = 0.9
 }
 
 // MARK: - Previews
