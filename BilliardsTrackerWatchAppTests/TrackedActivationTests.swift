@@ -26,6 +26,11 @@ final class TrackedActivationTests: XCTestCase {
             }
         }
 
+        let trackedOptions = SessionOptions(gesturesEnabled: Bool.random())
+        store.dependencies.userDefaults.getOptionsFor = { @Sendable _ in
+            return trackedOptions
+        }
+
         await store.send(.establishConnection)
 
         await store.receive(.connectivityClientDidReceiveDrillContext(startContext)) {
@@ -35,7 +40,8 @@ final class TrackedActivationTests: XCTestCase {
                 title: startContext.title,
                 shotCount: startContext.shotCount,
                 isContinuous: startContext.isContinuous,
-                isRestarting: false
+                isRestarting: false,
+                gesturesEnabled: trackedOptions.gesturesEnabled!
             )
         }
 
@@ -75,7 +81,8 @@ final class TrackedActivationTests: XCTestCase {
             title: "",
             shotCount: 9,
             isContinuous: true,
-            isRestarting: false
+            isRestarting: false,
+            gesturesEnabled: true
         )
 
         let store = TestStore(

@@ -128,7 +128,8 @@ struct NewSessionView_Previews: PreviewProvider {
             title: "Preview",
             shotCount: 9,
             isContinuous: true,
-            isRestarting: false
+            isRestarting: false,
+            gesturesEnabled: true
         ),
         reducer: Session()
     )

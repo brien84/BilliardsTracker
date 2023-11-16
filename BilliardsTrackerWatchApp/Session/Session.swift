@@ -19,6 +19,7 @@ struct Session: ReducerProtocol {
         let shotCount: Int
         let isContinuous: Bool
         let isRestarting: Bool
+        let gesturesEnabled: Bool
         var potCount = 0
         var missCount = 0
         var didPotLastShot: Bool?
@@ -77,7 +78,8 @@ struct Session: ReducerProtocol {
     }
 
     private func startMotionClient(state: inout State) -> EffectTask<Action> {
-        .run { send in
+        guard state.gesturesEnabled else { return EffectTask.none }
+        return .run { send in
             do {
                 for try await gesture in await motionClient.start() {
                     if gesture == .axisX {
@@ -94,7 +96,8 @@ struct Session: ReducerProtocol {
     }
 
     private func startRuntimeClient(state: inout State) -> EffectTask<Action> {
-        .run { send in
+        guard state.gesturesEnabled else { return EffectTask.none }
+        return .run { send in
             if await runtimeClient.getActivationStatus() { return }
             let invalidationReason = await runtimeClient.start()
             switch invalidationReason {
@@ -158,6 +161,7 @@ struct Session: ReducerProtocol {
                     }
                 }
 
+                guard state.gesturesEnabled else { return .none }
                 return .task {
                     try? await mainQueue.sleep(for: .seconds(1))
                     return .didReceiveRuntimeClientExpirationStatus(

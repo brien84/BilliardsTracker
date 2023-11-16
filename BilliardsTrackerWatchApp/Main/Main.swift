@@ -26,7 +26,8 @@ struct Main: ReducerProtocol {
             title: "Standalone",
             shotCount: 9,
             isContinuous: true,
-            isRestarting: false
+            isRestarting: false,
+            gesturesEnabled: true
         )
         var standaloneSetup = SessionSetup.State(mode: .standalone)
         var tracked = TrackedActivation.State()
@@ -90,7 +91,8 @@ struct Main: ReducerProtocol {
                     title: "Standalone",
                     shotCount: state.standaloneSetup.shotCount,
                     isContinuous: state.standaloneSetup.isContinuous,
-                    isRestarting: state.standaloneSetup.isRestarting
+                    isRestarting: state.standaloneSetup.isRestarting,
+                    gesturesEnabled: state.standaloneSetup.gesturesEnabled
                 )
                 state.isNavigationToStandaloneActive = true
                 return .none

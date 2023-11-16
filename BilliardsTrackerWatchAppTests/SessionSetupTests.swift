@@ -34,6 +34,16 @@ final class SessionSetupTests: XCTestCase {
         }
     }
 
+    func testNavigatingToGesturesToggle() async throws {
+        await store.send(.setNavigationToGesturesToggle(isActive: true)) {
+            $0.isNavigationToGesturesToggleActive = true
+        }
+
+        await store.send(.setNavigationToGesturesToggle(isActive: false)) {
+            $0.isNavigationToGesturesToggleActive = false
+        }
+    }
+
     func testNavigatingToRestartingToggle() async throws {
         await store.send(.setNavigationToRestartingToggle(isActive: true)) {
             $0.isNavigationToRestartingToggleActive = true
@@ -63,6 +73,18 @@ final class SessionSetupTests: XCTestCase {
 
         await store.send(.isContinuousDidChange(!isContinuous)) {
             $0.options.isContinuous = !isContinuous
+        }
+    }
+
+    func testTogglingGestures() async throws {
+        let gesturesEnabled = store.state.options.gesturesEnabled ?? true
+
+        store.dependencies.userDefaults.setOptionsFor = { @Sendable _, options in
+            XCTAssertEqual(options.gesturesEnabled, !gesturesEnabled)
+        }
+
+        await store.send(.didToggleGestures(!gesturesEnabled)) {
+            $0.options.gesturesEnabled = !gesturesEnabled
         }
     }
 

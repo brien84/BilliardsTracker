@@ -11,7 +11,6 @@ import WatchKit
 @testable import BilliardsTrackerWatchApp
 
 @MainActor
-// swiftlint:disable type_body_length
 final class SessionTests: XCTestCase {
     typealias TestSessionStore = TestStore<Session.State, Session.Action, Session.State, Session.Action, ()>
     var mainQueue: TestSchedulerOf<DispatchQueue>!
@@ -31,13 +30,14 @@ final class SessionTests: XCTestCase {
         return store
     }
 
-    func makeTestStore(shotCount: Int, isContinuous: Bool, isRestarting: Bool) -> TestSessionStore {
+    func makeTestStore(shotCount: Int, isContinuous: Bool, isRestarting: Bool, gesturesEnabled: Bool) -> TestSessionStore {
         let session = Session.State(
             mode: .standalone,
             title: "Test Session",
             shotCount: shotCount,
             isContinuous: isContinuous,
-            isRestarting: isRestarting
+            isRestarting: isRestarting,
+            gesturesEnabled: gesturesEnabled
         )
 
         return makeTestStore(with: session)
@@ -53,6 +53,7 @@ final class SessionTests: XCTestCase {
             shotCount: result.potCount + result.missCount,
             isContinuous: true,
             isRestarting: false,
+            gesturesEnabled: false,
             potCount: result.potCount,
             missCount: result.missCount
         )
@@ -79,6 +80,7 @@ final class SessionTests: XCTestCase {
             shotCount: result.potCount + result.missCount,
             isContinuous: true,
             isRestarting: false,
+            gesturesEnabled: false,
             potCount: result.potCount,
             missCount: result.missCount
         )
@@ -106,6 +108,7 @@ final class SessionTests: XCTestCase {
             shotCount: result.potCount + result.missCount,
             isContinuous: true,
             isRestarting: false,
+            gesturesEnabled: false,
             potCount: result.potCount,
             missCount: result.missCount,
             didPotLastShot: false
@@ -125,32 +128,24 @@ final class SessionTests: XCTestCase {
             $0.didPotLastShot = nil
             $0.result = nil
         }
-
-        await store.skipInFlightEffects()
     }
 
     func testRegisteringShots() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: false)
 
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
 
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
-
         await store.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = false
             $0.missCount = 1
         }
-
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
     }
 
     func testCompletingContinuousDrill() async throws {
-        let store = makeTestStore(shotCount: 2, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 2, isContinuous: true, isRestarting: false, gesturesEnabled: false)
 
         await store.send(.onAppear)
 
@@ -170,7 +165,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testFailingNonContinuousDrill() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: false, gesturesEnabled: false)
 
         await store.send(.onAppear)
 
@@ -182,7 +177,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testRestartingNonContinuousDrillOnMissedShot() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: true)
+        let store = makeTestStore(shotCount: 9, isContinuous: false, isRestarting: true, gesturesEnabled: false)
 
         await store.send(.onAppear)
 
@@ -190,20 +185,15 @@ final class SessionTests: XCTestCase {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
-
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = nil
             $0.potCount = 0
         }
-
-        await store.skipInFlightEffects()
     }
 
-    func testNonContinuousDrillDoesNotRestartWhenCompleted() async throws {
-        let store = makeTestStore(shotCount: 2, isContinuous: true, isRestarting: true)
+    func testContinuousDrillDoesNotRestartWhenCompleted() async throws {
+        let store = makeTestStore(shotCount: 2, isContinuous: true, isRestarting: true, gesturesEnabled: false)
 
         await store.send(.onAppear)
 
@@ -211,9 +201,6 @@ final class SessionTests: XCTestCase {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
-
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
@@ -223,7 +210,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testFailingContinuousDrillDoesNotRestartSessionOnMissedShot() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: true)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: true, gesturesEnabled: false)
 
         await store.send(.onAppear)
 
@@ -231,15 +218,10 @@ final class SessionTests: XCTestCase {
             $0.didPotLastShot = false
             $0.missCount = 1
         }
-
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
-
-        await store.skipInFlightEffects()
     }
 
     func testResumingAndPausingSession() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: false)
 
         await store.send(.pauseButtonDidTap) {
             $0.isPaused = true
@@ -248,20 +230,15 @@ final class SessionTests: XCTestCase {
         await store.send(.resumeButtonDidTap) {
             $0.isPaused = false
         }
-
-        await store.skipInFlightEffects()
     }
 
     func testUndoingShot() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: false)
 
         await store.send(.didRegisterShot(isSuccess: true)) {
             $0.didPotLastShot = true
             $0.potCount = 1
         }
-
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
 
         await store.send(.undoButtonDidTap) {
             $0.didPotLastShot = nil
@@ -270,13 +247,13 @@ final class SessionTests: XCTestCase {
     }
 
     func testNoEffectsAreRunningAfterOnDisappear() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: true)
         await store.send(.onAppear)
         await store.send(.onDisappear)
     }
 
     func testTrackingGestures() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: true)
 
         store.dependencies.motionClient.start = { @Sendable in
             AsyncThrowingStream { continuation in
@@ -298,7 +275,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testHandlingGestureTrackingErrorThrownByMotionClient() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: true)
 
         store.dependencies.motionClient.start = { @Sendable in
             struct MotionError: Error { }
@@ -317,7 +294,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testHandlingGestureTrackingErrorThrownByRuntimeClient() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: true)
 
         store.dependencies.runtimeClient.start = { @Sendable in
             WKExtendedRuntimeSessionInvalidationReason.error
@@ -335,7 +312,7 @@ final class SessionTests: XCTestCase {
     }
 
     func testDismissingRuntimeClientAlertRestartsRuntimeClient() async throws {
-        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false)
+        let store = makeTestStore(shotCount: 9, isContinuous: true, isRestarting: false, gesturesEnabled: true)
 
         store.dependencies.runtimeClient.getExpirationStatus = { @Sendable in true }
 

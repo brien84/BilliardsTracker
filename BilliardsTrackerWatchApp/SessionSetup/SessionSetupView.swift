@@ -29,6 +29,17 @@ struct SessionSetupView: View {
 
                 PassiveNavigationLink(
                     isActive: viewStore.binding(
+                        get: \.isNavigationToGesturesToggleActive,
+                        send: SessionSetup.Action.setNavigationToGesturesToggle(isActive:)
+                    ),
+                    destination: {
+                        GesturesToggle(store: store)
+                            .tint(color)
+                    }
+                )
+
+                PassiveNavigationLink(
+                    isActive: viewStore.binding(
                         get: \.isNavigationToRestartingToggleActive,
                         send: SessionSetup.Action.setNavigationToRestartingToggle(isActive:)
                     ),
@@ -77,6 +88,14 @@ struct SessionSetupView: View {
                         .color(color)
                         .disabled(viewStore.isContinuous)
                     }
+
+                    SetupButtonView(
+                        action: { viewStore.send(.setNavigationToGesturesToggle(isActive: true)) },
+                        imageName: "hand.draw",
+                        title: "Gestures",
+                        subtitle: viewStore.gesturesEnabled ? "Enabled" : "Disabled"
+                    )
+                    .color(color)
                 }
             }
             .navigationTitle {
@@ -93,6 +112,15 @@ struct SessionSetupView: View {
 #Preview {
     let store = Store(
         initialState: SessionSetup.State(mode: .standalone),
+        reducer: SessionSetup()
+    )
+
+    return SessionSetupView(store: store)
+}
+
+#Preview {
+    let store = Store(
+        initialState: SessionSetup.State(mode: .tracked),
         reducer: SessionSetup()
     )
 

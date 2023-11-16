@@ -10,6 +10,7 @@ import ComposableArchitecture
 struct SessionOptions: Codable, Equatable {
     var isContinuous: Bool?
     var isRestarting: Bool?
+    var gesturesEnabled: Bool?
     var shotCount: Int?
 }
 
@@ -19,6 +20,7 @@ struct SessionSetup: ReducerProtocol {
         var options = SessionOptions()
 
         var isNavigationToContinuousToggleActive = false
+        var isNavigationToGesturesToggleActive = false
         var isNavigationToRestartingToggleActive = false
         var isNavigationToShotCountPickerActive = false
 
@@ -30,6 +32,10 @@ struct SessionSetup: ReducerProtocol {
             options.isRestarting ?? false
         }
 
+        var gesturesEnabled: Bool {
+            options.gesturesEnabled ?? true
+        }
+
         var shotCount: Int {
             options.shotCount ?? 9
         }
@@ -37,9 +43,11 @@ struct SessionSetup: ReducerProtocol {
 
     enum Action: Equatable {
         case setNavigationToContinuousToggle(isActive: Bool)
+        case setNavigationToGesturesToggle(isActive: Bool)
         case setNavigationToRestartingToggle(isActive: Bool)
         case setNavigationToShotCountPicker(isActive: Bool)
 
+        case didToggleGestures(Bool)
         case isContinuousDidChange(Bool)
         case isRestartingDidChange(Bool)
         case shotCountDidChange(Int)
@@ -54,12 +62,21 @@ struct SessionSetup: ReducerProtocol {
                 state.isNavigationToContinuousToggleActive = isActive
                 return .none
 
+            case .setNavigationToGesturesToggle(isActive: let isActive):
+                state.isNavigationToGesturesToggleActive = isActive
+                return .none
+
             case .setNavigationToRestartingToggle(isActive: let isActive):
                 state.isNavigationToRestartingToggleActive = isActive
                 return .none
 
             case .setNavigationToShotCountPicker(isActive: let isActive):
                 state.isNavigationToShotCountPickerActive = isActive
+                return .none
+
+            case .didToggleGestures(let gesturesEnabled):
+                state.options.gesturesEnabled = gesturesEnabled
+                userDefaults.setOptionsFor(state.mode, state.options)
                 return .none
 
             case .isContinuousDidChange(let isContinuous):

@@ -23,7 +23,12 @@ final class MainTests: XCTestCase {
     }
 
     func testGettingSessionSetupOptionsOnAppear() async throws {
-        let standaloneOptions = SessionOptions(isContinuous: Bool.random(), isRestarting: Bool.random(), shotCount: 15)
+        let standaloneOptions = SessionOptions(
+            isContinuous: Bool.random(),
+            isRestarting: Bool.random(),
+            gesturesEnabled: Bool.random(),
+            shotCount: Int.random(in: 2...150)
+        )
         let trackedOptions = SessionOptions()
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.getOptionsFor = { @Sendable mode in
@@ -65,6 +70,7 @@ final class MainTests: XCTestCase {
         let options = SessionOptions(
             isContinuous: Bool.random(),
             isRestarting: Bool.random(),
+            gesturesEnabled: Bool.random(),
             shotCount: Int.random(in: 2...150)
         )
 
@@ -79,7 +85,8 @@ final class MainTests: XCTestCase {
                 title: "Standalone",
                 shotCount: options.shotCount!,
                 isContinuous: options.isContinuous!,
-                isRestarting: options.isRestarting!
+                isRestarting: options.isRestarting!,
+                gesturesEnabled: options.gesturesEnabled!
             )
             $0.isNavigationToStandaloneActive = true
         }
@@ -104,7 +111,8 @@ final class MainTests: XCTestCase {
             title: "",
             shotCount: 9,
             isContinuous: true,
-            isRestarting: false
+            isRestarting: false,
+            gesturesEnabled: true
         )
 
         let store = TestStore(

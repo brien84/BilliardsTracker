@@ -91,6 +91,7 @@ struct MainView: View {
                         .imageName("applewatch")
                         .subtitle(shots + isContinuous)
 
+                        let gesturesEnabled = viewStore.trackedSetup.gesturesEnabled ? "gestures enabled" : "gestures disabled"
                         ListButtonView(
                             title: "Tracked",
                             action: {
@@ -102,6 +103,7 @@ struct MainView: View {
                         )
                         .color(.customRed)
                         .imageName("iphone")
+                        .subtitle(gesturesEnabled)
                     }
                     .listStyle(.carousel)
                 }
