@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SetupButtonView: View {
+struct SetupButtonView: SessionSetupSubview {
     let action: () -> Void
     let imageName: String
     let title: String
@@ -41,25 +41,12 @@ struct SetupButtonView: View {
     }
 }
 
-extension SetupButtonView {
-    func color(_ color: Color) -> SetupButtonView {
-        .init(
-            action: self.action,
-            imageName: imageName,
-            title: self.title,
-            subtitle: self.subtitle,
-            color: color
-        )
-    }
-}
-
 // MARK: - Constants
 
 private extension SetupButtonView {
     static let imageHeight: CGFloat = 20
     static let imageWidth: CGFloat = 20
     static let spacing: CGFloat = 8
-    static let tintOpacity: CGFloat = 0.15
 }
 
 // MARK: - Previews

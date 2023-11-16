@@ -8,6 +8,10 @@
 import ComposableArchitecture
 import SwiftUI
 
+protocol SessionSetupSubview: View {
+    var color: Color { get set }
+}
+
 struct SessionSetupView: View {
     let store: StoreOf<SessionSetup>
 
@@ -23,7 +27,7 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         ContinuousToggle(store: store)
-                            .tint(color)
+                            .color(color)
                     }
                 )
 
@@ -34,7 +38,7 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         GesturesToggle(store: store)
-                            .tint(color)
+                            .color(color)
                     }
                 )
 
@@ -45,7 +49,7 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         RestartingToggle(store: store)
-                            .tint(color)
+                            .color(color)
                     }
                 )
 
@@ -56,8 +60,7 @@ struct SessionSetupView: View {
                     ),
                     destination: {
                         ShotCountPicker(store: store)
-                            .foregroundStyle(color)
-                            .tint(color)
+                            .color(color)
                     }
                 )
 
@@ -104,6 +107,16 @@ struct SessionSetupView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
+    }
+}
+
+extension SessionSetupSubview {
+    static var tintOpacity: CGFloat { 0.15 }
+
+    func color(_ color: Color) -> some View {
+        var copy = self
+        copy.color = color
+        return copy
     }
 }
 

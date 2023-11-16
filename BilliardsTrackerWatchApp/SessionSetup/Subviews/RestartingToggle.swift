@@ -33,8 +33,10 @@ private extension RestartingToggle.Action {
     }
 }
 
-struct RestartingToggle: View {
+struct RestartingToggle: SessionSetupSubview {
     let store: StoreOf<SessionSetup>
+
+    var color: Color = .clear
 
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
@@ -44,6 +46,8 @@ struct RestartingToggle: View {
                     send: Self.Action.isRestartingDidChange
                 ))
                 .foregroundStyle(Color.primaryElement)
+                .listItemTint(color.opacity(Self.tintOpacity))
+                .tint(color)
 
                 Text(
                     """
@@ -52,7 +56,7 @@ struct RestartingToggle: View {
                     """
                 )
                 .foregroundStyle(Color.primaryElement)
-                .listRowBackground(Color.clear)
+                .listItemTint(Color.clear)
             }
         }
     }
@@ -65,6 +69,5 @@ struct RestartingToggle: View {
     )
 
     return RestartingToggle(store: store)
-        .foregroundStyle(Color.orange)
-        .tint(Color.orange)
+        .color(.orange)
 }

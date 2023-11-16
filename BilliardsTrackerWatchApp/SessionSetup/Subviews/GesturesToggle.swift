@@ -33,12 +33,14 @@ private extension GesturesToggle.Action {
     }
 }
 
-struct GesturesToggle: View {
+struct GesturesToggle: SessionSetupSubview {
     let store: StoreOf<SessionSetup>
 
-    private var listRowBackground: Color? {
+    var color: Color = .clear
+
+    private var gesturesBackground: Color? {
         if #available(watchOS 10, *) {
-            return nil
+            return color.opacity(Self.tintOpacity)
         } else {
             return Color.black
         }
@@ -53,11 +55,13 @@ struct GesturesToggle: View {
                         send: Self.Action.didToggleGestures
                     ))
                     .foregroundStyle(Color.primaryElement)
+                    .listItemTint(color.opacity(Self.tintOpacity))
+                    .tint(color)
 
                     GesturesView()
                         .frame(height: proxy.size.height + proxy.safeAreaInsets.top)
+                        .listItemTint(gesturesBackground)
                         .padding(.bottom)
-                        .listRowBackground(listRowBackground)
                 }
             }
         }
@@ -71,4 +75,5 @@ struct GesturesToggle: View {
     )
 
     return GesturesToggle(store: store)
+        .color(.orange)
 }

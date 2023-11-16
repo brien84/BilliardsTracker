@@ -36,8 +36,10 @@ private extension ShotCountPicker.Action {
     }
 }
 
-struct ShotCountPicker: View {
+struct ShotCountPicker: SessionSetupSubview {
     let store: StoreOf<SessionSetup>
+
+    var color: Color = .clear
 
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
@@ -60,6 +62,8 @@ struct ShotCountPicker: View {
                     viewStore.send(.setNavigationToShotCountPicker(isActive: false))
                 }
             }
+            .foregroundStyle(color)
+            .tint(color)
         }
     }
 }
@@ -73,6 +77,5 @@ struct ShotCountPicker: View {
     )
 
     return ShotCountPicker(store: store)
-        .foregroundStyle(Color.orange)
-        .tint(Color.orange)
+        .color(.orange)
 }

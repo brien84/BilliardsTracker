@@ -33,8 +33,10 @@ private extension ContinuousToggle.Action {
     }
 }
 
-struct ContinuousToggle: View {
+struct ContinuousToggle: SessionSetupSubview {
     let store: StoreOf<SessionSetup>
+
+    var color: Color = .clear
 
     var body: some View {
         WithViewStore(store, observe: \.state, send: \Action.action) { viewStore in
@@ -44,10 +46,12 @@ struct ContinuousToggle: View {
                     send: Self.Action.isContinuousDidChange
                 ))
                 .foregroundStyle(Color.primaryElement)
+                .listItemTint(color.opacity(Self.tintOpacity))
+                .tint(color)
 
                 Text("When this option is disabled, the drill session will end after the first missed shot.")
                     .foregroundStyle(Color.primaryElement)
-                    .listRowBackground(Color.clear)
+                    .listItemTint(Color.clear)
             }
         }
     }
@@ -62,6 +66,5 @@ struct ContinuousToggle: View {
     )
 
     return ContinuousToggle(store: store)
-        .foregroundStyle(Color.orange)
-        .tint(Color.orange)
+        .color(.orange)
 }
