@@ -7,34 +7,41 @@
 
 import SwiftUI
 
-private enum OnboardAnimation {
-    case missGesture
+private enum OnboardAnimation: Int {
     case potGesture
+    case missGesture
+    case bridgeHand
 
     var assetsPath: String {
         switch self {
-        case .missGesture:
-            return "Animations/MissGesture/"
         case .potGesture:
             return "Animations/PotGesture/"
+        case .missGesture:
+            return "Animations/MissGesture/"
+        case .bridgeHand:
+            return "Animations/BridgeHand/"
         }
     }
 
     var interval: TimeInterval {
         switch self {
-        case .missGesture:
-            return 0.02
         case .potGesture:
             return 0.025
+        case .missGesture:
+            return 0.02
+        case .bridgeHand:
+            return 1
         }
     }
 
     var subtitle: String {
         switch self {
-        case .missGesture:
-            return "Flick your arm up and down to register missed ball"
         case .potGesture:
-            return "Flick your wrist back and forth to register potted ball"
+            return "Register a potted ball by flicking your wrist back and forth"
+        case .missGesture:
+            return "Register a missed ball by flicking your arm up and down"
+        case .bridgeHand:
+            return "For the best accuracy, wear the watch on your bridge hand"
         }
     }
 }
@@ -45,10 +52,13 @@ struct OnboardView: View {
     var body: some View {
         TabView(selection: $currentTab) {
             OnboardAnimationView(animation: .potGesture)
-                .tag(0)
+                .tag(OnboardAnimation.potGesture)
 
             OnboardAnimationView(animation: .missGesture)
-                .tag(1)
+                .tag(OnboardAnimation.missGesture)
+
+            OnboardAnimationView(animation: .bridgeHand)
+                .tag(OnboardAnimation.bridgeHand)
         }
     }
 }
@@ -56,7 +66,7 @@ struct OnboardView: View {
 private struct OnboardAnimationView: View {
     private let animation: OnboardAnimation
     private let images: [UIImage]
-
+    private let isStatic: Bool
     @State private var isPaused = false
 
     init(animation: OnboardAnimation) {
@@ -70,25 +80,34 @@ private struct OnboardAnimationView: View {
 
         self.animation = animation
         self.images = images
+        self.isStatic = images.isEmpty
     }
 
     var body: some View {
         VStack {
-            TimelineView(.animation(minimumInterval: animation.interval, paused: isPaused)) { context in
-                AnimationView(date: context.date, images: images, isPaused: $isPaused)
-            }
-            .overlay {
+            if !isStatic {
+                TimelineView(.animation(minimumInterval: animation.interval, paused: isPaused)) { context in
+                    AnimationView(date: context.date, images: images, isPaused: $isPaused)
+                }
+                .overlay {
+                    Image("\(animation.assetsPath)overlay")
+                        .resizable()
+                        .frame(width: OnboardView.imageWidth, height: OnboardView.imageHeight)
+                        .opacity(isPaused ? 1 : 0)
+                }
+            } else {
                 Image("\(animation.assetsPath)overlay")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .opacity(isPaused ? 1 : 0)
+                    .frame(width: OnboardView.imageWidth, height: OnboardView.imageHeight)
             }
 
             Text(animation.subtitle)
                 .font(.footnote)
                 .foregroundColor(.primaryElement)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .padding(.bottom)
         .onChange(of: isPaused) { isPaused in
             if isPaused {
                 Task {
@@ -112,7 +131,7 @@ private struct AnimationView: View {
     var body: some View {
         Image(uiImage: images[currentIndex])
             .resizable()
-            .aspectRatio(contentMode: .fit)
+            .frame(width: OnboardView.imageWidth, height: OnboardView.imageHeight)
             .onChange(of: date) { _ in
                 if currentIndex == 0 {
                     if isReversing {
@@ -134,6 +153,13 @@ private struct AnimationView: View {
                 currentIndex += isReversing ? -1 : 1
             }
     }
+}
+
+// MARK: - Constants
+
+private extension OnboardView {
+    static let imageHeight: CGFloat = 96
+    static let imageWidth: CGFloat = 96
 }
 
 // MARK: - Previews
