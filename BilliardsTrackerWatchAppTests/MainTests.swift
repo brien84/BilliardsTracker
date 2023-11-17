@@ -73,9 +73,9 @@ final class MainTests: XCTestCase {
             gesturesEnabled: Bool.random(),
             shotCount: Int.random(in: 2...150)
         )
-
+        let standaloneSetup = SessionSetup.State(mode: .standalone, options: options)
         let store = TestStore(
-            initialState: Main.State(standaloneSetup: SessionSetup.State(mode: .standalone, options: options)),
+            initialState: Main.State(standaloneSetup: standaloneSetup),
             reducer: Main()
         )
 
@@ -142,9 +142,15 @@ final class MainTests: XCTestCase {
     }
 
     func testNavigationToTrackedActivation() async throws {
-        let store = TestStore(initialState: Main.State(), reducer: Main())
+        let options = SessionOptions(gesturesEnabled: Bool.random())
+        let trackedOptions = SessionSetup.State(mode: .tracked, options: options)
+        let store = TestStore(
+            initialState: Main.State(trackedSetup: trackedOptions),
+            reducer: Main()
+        )
 
         await store.send(.setNavigationToTracked(isActive: true)) {
+            $0.tracked.gesturesEnabled = options.gesturesEnabled!
             $0.isNavigationToTrackedActive = true
         }
 

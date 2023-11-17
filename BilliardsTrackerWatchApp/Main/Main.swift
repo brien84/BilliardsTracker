@@ -102,6 +102,9 @@ struct Main: ReducerProtocol {
                 return .none
 
             case .setNavigationToTracked(isActive: let isActive):
+                if isActive {
+                    state.tracked.gesturesEnabled = state.trackedSetup.gesturesEnabled
+                }
                 state.isNavigationToTrackedActive = isActive
                 return .none
 

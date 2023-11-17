@@ -10,6 +10,7 @@ import ComposableArchitecture
 struct TrackedActivation: ReducerProtocol {
     struct State: Equatable {
         var isNavigationToSessionActive = false
+        var gesturesEnabled = true
         var session = Session.State(
             mode: .tracked,
             title: "",
@@ -30,7 +31,6 @@ struct TrackedActivation: ReducerProtocol {
     }
 
     @Dependency(\.connectivityClient) var connectivityClient
-    @Dependency(\.userDefaults) var userDefaults
 
     private enum ConnectivityID { }
 
@@ -71,14 +71,13 @@ struct TrackedActivation: ReducerProtocol {
 
             case .connectivityClientDidReceiveDrillContext(let context):
                 if context.isActive {
-                    let gesturesEnabled = userDefaults.getOptionsFor(.tracked).gesturesEnabled ?? true
                     state.session = Session.State(
                         mode: .tracked,
                         title: context.title,
                         shotCount: context.shotCount,
                         isContinuous: context.isContinuous,
                         isRestarting: false,
-                        gesturesEnabled: gesturesEnabled
+                        gesturesEnabled: state.gesturesEnabled
                     )
                     state.isNavigationToSessionActive = true
                 } else {

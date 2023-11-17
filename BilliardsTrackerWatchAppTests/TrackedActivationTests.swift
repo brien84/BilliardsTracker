@@ -14,9 +14,10 @@ final class TrackedActivationTests: XCTestCase {
 
     func testNavigatingToSession() async throws {
         let startContext = DrillContext(isActive: true, isContinuous: true, shotCount: 9, title: "")
+        let gesturesEnabled = Bool.random()
 
         let store = TestStore(
-            initialState: TrackedActivation.State(),
+            initialState: TrackedActivation.State(gesturesEnabled: gesturesEnabled),
             reducer: TrackedActivation()
         )
 
@@ -24,11 +25,6 @@ final class TrackedActivationTests: XCTestCase {
             AsyncStream { continuation in
                 continuation.yield(startContext)
             }
-        }
-
-        let trackedOptions = SessionOptions(gesturesEnabled: Bool.random())
-        store.dependencies.userDefaults.getOptionsFor = { @Sendable _ in
-            return trackedOptions
         }
 
         await store.send(.establishConnection)
@@ -41,7 +37,7 @@ final class TrackedActivationTests: XCTestCase {
                 shotCount: startContext.shotCount,
                 isContinuous: startContext.isContinuous,
                 isRestarting: false,
-                gesturesEnabled: trackedOptions.gesturesEnabled!
+                gesturesEnabled: gesturesEnabled
             )
         }
 
