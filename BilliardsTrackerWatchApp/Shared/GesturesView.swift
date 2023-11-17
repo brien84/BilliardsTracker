@@ -41,7 +41,7 @@ private enum GesturesAnimation: Int {
         case .missGesture:
             return "Register a missed ball by flicking your arm up and down"
         case .bridgeHand:
-            return "For the best accuracy, wear the watch on your bridge hand"
+            return "TIP: Consider wearing the watch on your bridge hand"
         }
     }
 }
