@@ -175,6 +175,9 @@ struct Main: ReducerProtocol {
                 )
                 setAlertAppearance(state.settings.appearance)
                 return .merge(
+                    .fireAndForget {
+                        await userDefaults.setAppVersion()
+                    },
                     .task {
                         try await mainQueue.sleep(for: .milliseconds(250))
                         return .persistenceClient(await persistenceClient.loadDrills())

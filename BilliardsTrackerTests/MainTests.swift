@@ -25,6 +25,7 @@ final class MainTests: XCTestCase {
         store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
         store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
         store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
+        store.dependencies.userDefaults.setAppVersion = { @Sendable in }
     }
 
     override func tearDown() async throws {

@@ -36,6 +36,7 @@
 		292E6F69266C0A0E0078C033 /* ResultListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292E6F68266C0A0E0078C033 /* ResultListView.swift */; };
 		293433C8267676C100FA4768 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433C7267676C000FA4768 /* SettingsView.swift */; };
 		293433CF267764FD00FA4768 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293433CE267764FD00FA4768 /* MainView.swift */; };
+		2946C3692B07EFCE00139737 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2946C3682B07EFCE00139737 /* Settings.bundle */; };
 		294AD35D261F74340086E808 /* Drill+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD359261F74340086E808 /* Drill+CoreDataClass.swift */; };
 		294AD35E261F74340086E808 /* Drill+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35A261F74340086E808 /* Drill+CoreDataProperties.swift */; };
 		294AD35F261F74340086E808 /* DrillResult+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */; };
@@ -195,6 +196,7 @@
 		292E6F68266C0A0E0078C033 /* ResultListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListView.swift; sourceTree = "<group>"; };
 		293433C7267676C000FA4768 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		293433CE267764FD00FA4768 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		2946C3682B07EFCE00139737 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		294AD359261F74340086E808 /* Drill+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drill+CoreDataClass.swift"; sourceTree = "<group>"; };
 		294AD35A261F74340086E808 /* Drill+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Drill+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		294AD35B261F74340086E808 /* DrillResult+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrillResult+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 				2926E10026150FE500E95DBB /* Info.plist */,
 				297FD9C1268522EB00DFBFFC /* LaunchScreen.storyboard */,
 				2926E0FD26150FE500E95DBB /* Preview Content */,
+				2946C3682B07EFCE00139737 /* Settings.bundle */,
 			);
 			path = BilliardsTracker;
 			sourceTree = "<group>";
@@ -926,6 +929,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2946C3692B07EFCE00139737 /* Settings.bundle in Resources */,
 				297FD9C2268522EB00DFBFFC /* LaunchScreen.storyboard in Resources */,
 				2926E0FF26150FE500E95DBB /* Preview Assets.xcassets in Resources */,
 				2926E0FC26150FE500E95DBB /* Assets.xcassets in Resources */,
@@ -1279,7 +1283,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = LZTF7R47SK;
 				INFOPLIST_FILE = BilliardsTrackerWatchApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1304,7 +1308,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = LZTF7R47SK;
 				INFOPLIST_FILE = BilliardsTrackerWatchApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1330,7 +1334,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"BilliardsTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = LZTF7R47SK;
 				ENABLE_PREVIEWS = YES;
@@ -1357,7 +1361,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"BilliardsTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = LZTF7R47SK;
 				ENABLE_PREVIEWS = YES;

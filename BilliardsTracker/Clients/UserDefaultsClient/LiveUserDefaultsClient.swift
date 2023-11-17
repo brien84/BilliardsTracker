@@ -17,6 +17,15 @@ extension UserDefaultsClient: DependencyKey {
         setAppearance: { appearance in
             UserDefaults.standard.set(appearance.rawValue, forKey: Self.appearanceKey)
         },
+        setAppVersion: {
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+            if let version, let build {
+                UserDefaults.standard.set(version + " (\(build))", forKey: Self.versionKey)
+            } else {
+                UserDefaults.standard.set("1.0", forKey: Self.versionKey)
+            }
+        },
         getHasOnboardBeenShown: {
             if CommandLine.isUITesting { return false }
             return UserDefaults.standard.bool(forKey: Self.hasOnboardBeenShownKey)
@@ -39,11 +48,4 @@ extension UserDefaultsClient: DependencyKey {
             UserDefaults.standard.set(order == .forward, forKey: Self.sortOrderKey)
         }
     )
-}
-
-private extension UserDefaultsClient {
-    static let appearanceKey = "appearanceKey"
-    static let hasOnboardBeenShownKey = "hasOnboardBeenShownKey"
-    static let sortOptionKey = "sortOptionKey"
-    static let sortOrderKey = "sortOrderKey"
 }
