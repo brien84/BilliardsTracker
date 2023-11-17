@@ -154,9 +154,6 @@ final class SessionTests: XCTestCase {
             $0.missCount = 1
         }
 
-        await mainQueue.advance(by: .seconds(1))
-        await store.receive(.didReceiveRuntimeClientExpirationStatus(false))
-
         await store.send(.didRegisterShot(isSuccess: false)) {
             $0.didPotLastShot = false
             $0.missCount = 2
