@@ -28,24 +28,32 @@ struct SessionView: View {
                 }
                 .padding()
 
-                StatisticsView(mode: .compact, statistics: viewStore.statistics)
-                    .animation(.none, value: viewStore.statistics)
+                ScrollView {
+                    VStack(spacing: .zero) {
+                        SectionLabelView(title: "Statistics")
 
-                SectionLabelView(title: "Results")
+                        StatisticsView(mode: .full, statistics: viewStore.statistics)
+                            .animation(.none, value: viewStore.statistics)
+                            .roundedBackground()
 
-                if viewStore.statistics.results.isEmpty {
-                    IllustratedTextView(
-                        imageName: "rebound",
-                        title: "waiting for results",
-                        subtitle: "results will appear once the drill is completed"
-                    )
-                    .padding(.horizontal)
-                    .roundedBackground()
-                    .padding(.bottom)
-                } else {
-                    ResultListView(results: viewStore.statistics.results)
+                        SectionLabelView(title: "Results")
+
+                        Group {
+                            if viewStore.statistics.results.isEmpty {
+                                IllustratedTextView(
+                                    imageName: "rebound",
+                                    title: "waiting for results",
+                                    subtitle: "results will appear once the drill is completed"
+                                )
+                                .padding(.horizontal)
+                            } else {
+                                ResultListView(results: viewStore.statistics.results)
+                            }
+                        }
                         .roundedBackground()
                         .padding(.bottom)
+                        .aspectRatio(Self.aspectRatio, contentMode: .fit)
+                    }
                 }
             }
             .background(Color.primaryBackground)
@@ -55,6 +63,12 @@ struct SessionView: View {
             )
         }
     }
+}
+
+// MARK: - Constants
+
+private extension SessionView {
+    static let aspectRatio: CGFloat = 0.75
 }
 
 // MARK: - Previews
