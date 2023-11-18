@@ -19,7 +19,7 @@ struct DrillLogView: View {
                         VStack(spacing: .zero) {
                             SectionLabelView(title: "Statistics")
 
-                            StatisticsView(mode: .full, statistics: viewStore.statistics)
+                            StatisticsView(statistics: viewStore.statistics)
                                 .roundedBackground()
 
                             SectionLabelView(title: "Performance")

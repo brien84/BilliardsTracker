@@ -8,107 +8,77 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    let mode: StatisticsView.Mode
-    let statistics: Statistics
-
-    enum Mode {
-        case compact
-        case full
-    }
-
-    var body: some View {
-        if mode == .compact {
-            CompactView(statistics: statistics)
-        } else {
-            FullView(statistics: statistics)
-        }
-    }
-}
-
-private struct CompactView: View {
-    let statistics: Statistics
-
-    var body: some View {
-        if statistics.drill.isContinuous {
-            HStack {
-                StatisticsLabel(title: "Potted", value: statistics.potCount, mode: .compact)
-                    .foregroundColor(.customGreen)
-
-                StatisticsLabel(title: "Potted %", value: statistics.potPercentage, isPercentage: true, mode: .compact)
-                    .foregroundColor(.getColorFor(percentage: statistics.potPercentage))
-
-                StatisticsLabel(title: "Missed", value: statistics.missCount, mode: .compact)
-                    .foregroundColor(.customRed)
-            }
-            .padding()
-        } else {
-            HStack {
-                StatisticsLabel(title: "Completed", value: statistics.completionCount, mode: .compact)
-                    .foregroundColor(.customGreen)
-
-                StatisticsLabel(title: "Completion", value: statistics.completionPercentage, isPercentage: true, mode: .compact)
-                    .foregroundColor(.getColorFor(percentage: statistics.completionPercentage))
-
-                StatisticsLabel(title: "Avg. Potted", value: statistics.potAverage, mode: .compact)
-                    .foregroundColor(.customGreen)
-            }
-            .padding()
-        }
-    }
-}
-
-private struct FullView: View {
     let statistics: Statistics
 
     var body: some View {
         VStack(spacing: Self.verticalSpacing) {
             HStack {
-                StatisticsLabel(title: "Attempts", value: statistics.attemptsCount)
-                    .foregroundColor(.primaryElement)
+                StatisticsLabel(
+                    title: "Attempts",
+                    value: statistics.attemptsCount
+                )
 
-                StatisticsLabel(title: "Total Shots", value: statistics.shotCount)
-                    .foregroundColor(.primaryElement)
+                StatisticsLabel(
+                    title: "Total Shots",
+                    value: statistics.shotCount
+                )
             }
 
             Divider()
 
             HStack {
-                StatisticsLabel(title: "Shots Potted", value: statistics.potCount)
-                    .foregroundColor(.customGreen)
+                StatisticsLabel(
+                    title: "Shots Potted",
+                    value: statistics.potCount
+                ).color(.customGreen)
 
-                StatisticsLabel(title: "Shots Missed", value: statistics.missCount)
-                    .foregroundColor(.customRed)
+                StatisticsLabel(
+                    title: "Shots Missed",
+                    value: statistics.missCount
+                ).color(.customRed)
             }
 
             Divider()
 
             HStack {
-                StatisticsLabel(title: "Average Potted", value: statistics.potAverage)
-                    .foregroundColor(.customGreen)
+                StatisticsLabel(
+                    title: "Average Potted",
+                    value: statistics.potAverage
+                ).color(.customGreen)
 
-                StatisticsLabel(title: "Average Missed", value: statistics.missAverage)
-                    .foregroundColor(.customRed)
+                StatisticsLabel(
+                    title: "Potted %",
+                    value: statistics.potPercentage,
+                    isPercentage: true
+                )
             }
 
             Divider()
 
             HStack {
-                StatisticsLabel(title: "Potted %", value: statistics.potPercentage, isPercentage: true)
-                    .foregroundColor(.customGreen)
+                if statistics.drill.isContinuous {
+                    StatisticsLabel(
+                        title: "Highest Potted %",
+                        value: statistics.highestPotPercentage,
+                        isPercentage: true
+                    )
 
-                StatisticsLabel(title: "Missed %", value: statistics.missPercentage, isPercentage: true)
-                    .foregroundColor(.customRed)
-            }
+                    StatisticsLabel(
+                        title: "Lowest Potted %",
+                        value: statistics.lowestPotPercentage,
+                        isPercentage: true
+                    )
+                } else {
+                    StatisticsLabel(
+                        title: "Completed",
+                        value: statistics.completionCount
+                    ).color(.customGreen)
 
-            if !statistics.drill.isContinuous {
-                Divider()
-
-                HStack {
-                    StatisticsLabel(title: "Completed", value: statistics.completionCount)
-                        .foregroundColor(.customGreen)
-
-                    StatisticsLabel(title: "Completion %", value: statistics.completionPercentage, isPercentage: true)
-                        .foregroundColor(.getColorFor(percentage: statistics.completionPercentage))
+                    StatisticsLabel(
+                        title: "Completion %",
+                        value: statistics.completionPercentage,
+                        isPercentage: true
+                    )
                 }
             }
         }
@@ -119,70 +89,54 @@ private struct FullView: View {
 private struct StatisticsLabel: View {
     let title: String
     let value: String
-    let mode: StatisticsView.Mode
+    var color: Color = .primaryElement
 
-    init(title: String, value: Int, mode: StatisticsView.Mode = .full) {
+    init(title: String, value: Int) {
         self.title = title
         self.value = String(value)
-        self.mode = mode
     }
 
-    init(title: String, value: Double, isPercentage: Bool = false, mode: StatisticsView.Mode = .full) {
+    init(title: String, value: Double, isPercentage: Bool = false) {
         self.title = title
-        self.mode = mode
 
         if floor(value) == value {
             self.value = String(format: "%.0f", value) + (isPercentage ? "%" : "")
         } else {
             self.value = String(format: "%.1f", value) + (isPercentage ? "%" : "")
         }
+
+        if isPercentage {
+            if value > 50 { self.color = .customGreen }
+            if value < 50 { self.color = .customRed }
+        }
     }
 
     var body: some View {
-        if mode == .compact {
-            VStack(spacing: Self.verticalSpacing) {
-                Text(value)
-                    .font(.title3.weight(.medium))
+        VStack(spacing: Self.verticalSpacing) {
+            Text(title)
+                .font(.body.bold())
+                .foregroundStyle(Color.secondaryElement)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text(title)
-                    .font(.subheadline.bold())
-                    .foregroundColor(.secondaryElement)
-            }
-            .frame(maxWidth: .infinity)
+            Text(value)
+                .font(.title3.weight(.medium))
+                .foregroundStyle(color)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+}
 
-        if mode == .full {
-            VStack(spacing: Self.verticalSpacing) {
-                Text(title)
-                    .font(.body.bold())
-                    .foregroundColor(.secondaryElement)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                Text(value)
-                    .font(.title3.weight(.medium))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
+private extension StatisticsLabel {
+    func color(_ color: Color) -> StatisticsLabel {
+        var copy = self
+        copy.color = color
+        return copy
     }
 }
 
 // MARK: - Constants
 
-private extension Color {
-    static func getColorFor(percentage: Double) -> Color {
-        if percentage == 50 {
-            return .primaryElement
-        }
-
-        if percentage > 50 {
-            return .customGreen
-        } else {
-            return .customRed
-        }
-    }
-}
-
-private extension FullView {
+private extension StatisticsView {
     static let verticalSpacing: CGFloat = 8
 }
 
@@ -192,18 +146,14 @@ private extension StatisticsLabel {
 
 // MARK: - Previews
 
-struct CompactStatisticsView_Previews: PreviewProvider {
-    static let statistics = Statistics(drill: PersistenceClient.mockDrill)
+#Preview {
+    let statistics = Statistics(drill: PersistenceClient.mockDrill)
 
-    static var previews: some View {
-        StatisticsView(mode: .compact, statistics: statistics)
-    }
-}
+    return ZStack {
+        Color.primaryBackground
+            .ignoresSafeArea()
 
-struct FullStatisticsView_Previews: PreviewProvider {
-    static let statistics = Statistics(drill: PersistenceClient.mockDrill)
-
-    static var previews: some View {
-        StatisticsView(mode: .full, statistics: statistics)
+        StatisticsView(statistics: statistics)
+            .roundedBackground()
     }
 }

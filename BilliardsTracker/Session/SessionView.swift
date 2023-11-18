@@ -32,7 +32,7 @@ struct SessionView: View {
                     VStack(spacing: .zero) {
                         SectionLabelView(title: "Statistics")
 
-                        StatisticsView(mode: .full, statistics: viewStore.statistics)
+                        StatisticsView(statistics: viewStore.statistics)
                             .animation(.none, value: viewStore.statistics)
                             .roundedBackground()
 
