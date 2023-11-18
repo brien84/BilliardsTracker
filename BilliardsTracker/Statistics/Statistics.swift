@@ -52,6 +52,16 @@ struct Statistics {
         return results.reduce(0, { $0 + $1.potPercentage }) / Double(results.count)
     }
 
+    var highestPotPercentage: Double {
+        let result = results.max { $0.potPercentage < $1.potPercentage }
+        return result?.potPercentage ?? 0
+    }
+
+    var lowestPotPercentage: Double {
+        let result = results.max { $0.potPercentage > $1.potPercentage }
+        return result?.potPercentage ?? 0
+    }
+
     var missPercentage: Double {
         guard results.count > 0 else { return 0 }
         return results.reduce(0, { $0 + $1.missPercentage }) / Double(results.count)
