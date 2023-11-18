@@ -100,11 +100,11 @@ extension Statistics: Equatable {
 private extension DrillResult {
     var potPercentage: Double {
         guard let drill = drill else { return 0 }
-        return Double(potCount) / Double(drill.shotCount) * 100
+        return Double(potCount * drill.shotCount) / 100
     }
 
     var missPercentage: Double {
         guard let drill = drill else { return 0 }
-        return Double(missCount) / Double(drill.shotCount) * 100
+        return Double(missCount * drill.shotCount) / 100
     }
 }
