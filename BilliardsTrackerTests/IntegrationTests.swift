@@ -24,6 +24,7 @@ final class IntegrationTests: XCTestCase {
         store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
         store.dependencies.userDefaults.getAppearance = { @Sendable in .system }
         store.dependencies.userDefaults.setAppearance = { @Sendable _ in }
+        store.dependencies.userDefaults.setAppVersion = { @Sendable in }
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
         store.dependencies.userDefaults.setSortOption = { @Sendable _ in }

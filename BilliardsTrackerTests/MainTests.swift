@@ -21,11 +21,11 @@ final class MainTests: XCTestCase {
         mainQueue = DispatchQueue.test
         store.dependencies.mainQueue = mainQueue.eraseToAnyScheduler()
         store.dependencies.userDefaults.getAppearance = { @Sendable in .system }
+        store.dependencies.userDefaults.setAppVersion = { @Sendable in }
         store.dependencies.userDefaults.getHasOnboardBeenShown = { @Sendable in true }
         store.dependencies.userDefaults.setHasOnboardBeenShown = { @Sendable _ in }
         store.dependencies.userDefaults.getSortOption = { @Sendable in .title }
         store.dependencies.userDefaults.getSortOrder = { @Sendable in .forward }
-        store.dependencies.userDefaults.setAppVersion = { @Sendable in }
     }
 
     override func tearDown() async throws {
