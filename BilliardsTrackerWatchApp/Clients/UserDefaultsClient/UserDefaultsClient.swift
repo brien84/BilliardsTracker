@@ -31,7 +31,11 @@ extension UserDefaultsClient: TestDependencyKey {
         }
     )
 
-    static let previewValue: Self = {
+    static var previewValue: Self {
+        inMemoryClient
+    }
+
+    static var inMemoryClient: Self {
         let name = "UserDefaultsClient.preview"
         let userDefaults = { UserDefaults(suiteName: name)! }
         userDefaults().removePersistentDomain(forName: name)
@@ -50,7 +54,7 @@ extension UserDefaultsClient: TestDependencyKey {
                 Self.setOptionsFor(mode, options: options, in: userDefaults())
             }
         )
-    }()
+    }
 }
 
 extension DependencyValues {
