@@ -24,22 +24,23 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
     func testUI() throws {
         closeOnboardView()
         configureStandaloneSession()
-        closeOnboardView()
         startStandaloneSession()
         registerShots()
         pauseAndResumeSession()
         stopSession()
 
-        closeOnboardView()
+        configureTrackedSession()
         openTrackedActivationView()
         completeAndRestartSession()
         completeAndFinishSession()
     }
 
     func closeOnboardView() {
-        XCTAssertTrue(app.staticTexts["Flick your wrist back and forth to register potted ball"].exists)
+        XCTAssertTrue(app.images["Animations/PotGesture/overlay"].exists)
         app.swipeLeft()
-        XCTAssertTrue(app.staticTexts["Flick your arm up and down to register missed ball"].exists)
+        XCTAssertTrue(app.images["Animations/MissGesture/overlay"].exists)
+        app.swipeLeft()
+        XCTAssertTrue(app.images["Animations/BridgeHand/overlay"].exists)
 
         let element = app.buttons["BackButton"]
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
@@ -63,9 +64,34 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
         XCTAssertTrue(element.waitForExistence(timeout: 1.0))
         element.tap()
 
-        let menuItem = app.cells.allElementsBoundByIndex.first { $0.label.contains("Shot Count") }!
-        XCTAssertTrue(menuItem.waitForExistence(timeout: 1.0))
-        menuItem.tap()
+        changeShotCount()
+        toggleContinuous()
+        toggleRestarting()
+        toggleContinuous()
+        toggleGestures()
+
+        let backButton = app.buttons["BackButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 1.0))
+        backButton.tap()
+    }
+
+    func configureTrackedSession() {
+        let parent = app.cells.allElementsBoundByIndex.first { $0.label.contains("Tracked") }!
+        let element = parent.buttons["More"]
+        XCTAssertTrue(element.waitForExistence(timeout: 1.0))
+        element.tap()
+
+        toggleGestures()
+
+        let backButton = app.buttons["BackButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 1.0))
+        backButton.tap()
+    }
+
+    func changeShotCount() {
+        let shotCountButton = app.cells.allElementsBoundByIndex.first { $0.label.contains("Shot Count") }!
+        XCTAssertTrue(shotCountButton.waitForExistence(timeout: 1.0))
+        shotCountButton.tap()
 
         let picker = app.otherElements["Shot Count"]
         XCTAssertTrue(picker.waitForExistence(timeout: 1.0))
@@ -74,6 +100,46 @@ final class BilliardsTrackerWatchAppUITests: XCTestCase {
         let doneButton = app.buttons["Done"]
         XCTAssertTrue(doneButton.waitForExistence(timeout: 1.0))
         doneButton.tap()
+    }
+
+    func toggleContinuous() {
+        let continuousButton = app.cells.allElementsBoundByIndex.first { $0.label.contains("Continuous") }!
+        XCTAssertTrue(continuousButton.waitForExistence(timeout: 1.0))
+        continuousButton.tap()
+
+        let toggle = app.switches["Continuous"]
+        XCTAssertTrue(toggle.waitForExistence(timeout: 1.0))
+        toggle.tap()
+
+        let backButton = app.buttons["BackButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 1.0))
+        backButton.tap()
+    }
+
+    func toggleRestarting() {
+        let continuousButton = app.cells.allElementsBoundByIndex.first { $0.label.contains("Restarting") }!
+        XCTAssertTrue(continuousButton.waitForExistence(timeout: 1.0))
+        continuousButton.tap()
+
+        let toggle = app.switches["Restarting"]
+        XCTAssertTrue(toggle.waitForExistence(timeout: 1.0))
+        toggle.tap()
+
+        let backButton = app.buttons["BackButton"]
+        XCTAssertTrue(backButton.waitForExistence(timeout: 1.0))
+        backButton.tap()
+    }
+
+    func toggleGestures() {
+        app.swipeUp()
+
+        let restartingButton = app.cells.allElementsBoundByIndex.first { $0.label.contains("Gestures") }!
+        XCTAssertTrue(restartingButton.waitForExistence(timeout: 1.0))
+        restartingButton.tap()
+
+        let toggle = app.switches["Gesture Recognition"]
+        XCTAssertTrue(toggle.waitForExistence(timeout: 1.0))
+        toggle.tap()
 
         let backButton = app.buttons["BackButton"]
         XCTAssertTrue(backButton.waitForExistence(timeout: 1.0))
