@@ -37,43 +37,43 @@ struct Statistics {
         results.reduce(0, { $0 + $1.missCount })
     }
 
-    var potAverage: Double {
+    var potAverage: Float {
         guard results.count > 0 else { return 0 }
-        return Double(potCount) / Double(results.count)
+        return Float(potCount) / Float(results.count)
     }
 
-    var missAverage: Double {
+    var missAverage: Float {
         guard results.count > 0 else { return 0 }
-        return Double(missCount) / Double(results.count)
+        return Float(missCount) / Float(results.count)
     }
 
-    var potPercentage: Double {
+    var potPercentage: Float {
         guard results.count > 0 else { return 0 }
-        return results.reduce(0, { $0 + $1.potPercentage }) / Double(results.count)
+        return results.reduce(0, { $0 + $1.potPercentage }) / Float(results.count)
     }
 
-    var highestPotPercentage: Double {
+    var highestPotPercentage: Float {
         let result = results.max { $0.potPercentage < $1.potPercentage }
         return result?.potPercentage ?? 0
     }
 
-    var lowestPotPercentage: Double {
+    var lowestPotPercentage: Float {
         let result = results.max { $0.potPercentage > $1.potPercentage }
         return result?.potPercentage ?? 0
     }
 
-    var missPercentage: Double {
+    var missPercentage: Float {
         guard results.count > 0 else { return 0 }
-        return results.reduce(0, { $0 + $1.missPercentage }) / Double(results.count)
+        return results.reduce(0, { $0 + $1.missPercentage }) / Float(results.count)
     }
 
     var completionCount: Int {
         results.filter { $0.missCount == 0 }.count
     }
 
-    var completionPercentage: Double {
+    var completionPercentage: Float {
         guard results.count > 0 else { return 0 }
-        return Double(completionCount * 100) / Double(results.count)
+        return Float(completionCount * 100) / Float(results.count)
     }
 
     var chartDataPoints: [CGFloat] {
@@ -98,13 +98,13 @@ extension Statistics: Equatable {
 }
 
 private extension DrillResult {
-    var potPercentage: Double {
+    var potPercentage: Float {
         guard let drill = drill else { return 0 }
-        return Double(potCount * drill.shotCount) / 100
+        return Float(potCount) / Float(drill.shotCount) * 100
     }
 
-    var missPercentage: Double {
+    var missPercentage: Float {
         guard let drill = drill else { return 0 }
-        return Double(missCount * drill.shotCount) / 100
+        return Float(missCount) / Float(drill.shotCount) * 100
     }
 }

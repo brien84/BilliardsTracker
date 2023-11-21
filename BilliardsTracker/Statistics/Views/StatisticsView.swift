@@ -96,7 +96,7 @@ private struct StatisticsLabel: View {
         self.value = String(value)
     }
 
-    init(title: String, value: Double, isPercentage: Bool = false) {
+    init(title: String, value: Float, isPercentage: Bool = false) {
         self.title = title
 
         if floor(value) == value {
